@@ -1,0 +1,53 @@
+table{
+  
+
+  height:500px;
+  width:600px;
+   margin-left: auto;
+  margin-right:auto;
+}
+
+table, td{
+
+ border-collapse:collapse;
+  border: 1px solid;
+  
+
+  
+}
+
+td{
+  
+  height:80px;
+  width:100px;
+  
+}
+
+
+
+.wall{
+  background-color: grey;
+}
+
+.target{
+  font-size:22px;
+  text-align:center;
+  background-color: blue;
+  
+}
+
+.ground,player{
+ text-align:center;
+  height: 80px;
+  width:100px;
+  
+}
+
+
+
+.ground,crate{
+  text-align:center;
+  height: 80px;
+  width:100px;
+  
+}
