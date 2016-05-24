@@ -2,6 +2,9 @@ import 'dart:html';
 
 class KistenschiebenView{
 
+String crate = "<img src=\"../web/pictures/crate.jpg\" height = \"80px\" weight=\"100px\" backgroundcolor=\"blue\">";
+String player = "<img src=\"../web/pictures/player.png\" height = \"80px\" weight=\"100px\" backgroundcolor=\"blue\">";
+
 KistenschiebenView(){
 print("running view...");  
 }
@@ -22,7 +25,7 @@ loadLevel(){
           "<td id=\"pos0_1 \" class=\"wall\"></td>"
           "<td id=\"pos1_1\" class=\"ground\"></td>"
          " <td id=\"pos2_1\" class=\"ground\"></td>"
-          "<td id=\"pos3_1\" class=\"ground\">crate</td>"
+          "<td id=\"pos3_1\" class=\"ground\">$crate</td>"
           "<td id=\"pos4_1\" class=\"target\"></td>"
           "<td id=\"pos5_1\" class=\"wall\"></td>"
        "</tr>" 
@@ -40,8 +43,8 @@ loadLevel(){
       "<td id=\"pos0_3 \" class=\"wall\"></td>"
       "<td id=\"pos1_3\" class=\"ground\"></td>"
      " <td id=\"pos2_3\" class=\"ground\"></td>"
-      "<td id=\"pos3_3\" class=\"ground\">crate</td>"
-      "<td id=\"pos4_3\" class=\"ground\">player</td>"
+      "<td id=\"pos3_3\" class=\"ground\">$crate</td>"
+      "<td id=\"pos4_3\" class=\"ground\">$player</td>"
       "<td id=\"pos5_3\" class=\"wall\"></td>"
    "</tr>" 
    "<tr>" 
@@ -72,22 +75,15 @@ loadLevel(){
 }
 
 void updateView(String playerPosition_old, List<String>cratePosition_old, String playerPosition_new, List<String>cratePosition_new){
- 
+
   querySelector(playerPosition_old).innerHtml= "";
-  querySelector(playerPosition_new).innerHtml= "player";
+  querySelector(playerPosition_new).innerHtml= player;
+
+  querySelectorAll("td").remove(crate);
+  querySelector(cratePosition_new.removeLast()).innerHtml= crate;
+  querySelector(cratePosition_new.removeLast()).innerHtml= crate;
   
-  querySelector(cratePosition_old.removeLast()).innerHtml= "";
-  querySelector(cratePosition_old.removeLast()).innerHtml= "";
-  querySelector(cratePosition_new.removeLast()).innerHtml= "crate";
-  querySelector(cratePosition_new.removeLast()).innerHtml= "crate";  
-  
-//  for(int i=0; i<cratePosition_old.length-1;i++){
-//  querySelector(cratePosition_old.removeAt(i)).innerHtml= "";
-//  
-//}
-//  for(int j=0;j<cratePosition_new.length-1;j++){
-//    querySelector(cratePosition_new.removeAt(j)).innerHtml= "crate";
-//  }
+
 
 }
 
