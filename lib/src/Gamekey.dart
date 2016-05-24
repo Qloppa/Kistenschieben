@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
+
 /**
  * Provides parts of the GameKey REST API necessary for the SnakeGame.
  */
@@ -39,7 +40,8 @@ class GameKey {
   /**
    * Helper method to generate parameter body for REST requests.
    */
-  static String parameter(Map<String, String> p) => (new Uri(queryParameters: p)).query;
+  static String parameter(Map<String, String> p) =>
+      (new Uri(queryParameters: p)).query;
 
   /**
    * Registers a non existing user with the gamekey service.
@@ -53,7 +55,7 @@ class GameKey {
           "${this._uri.resolve("/user")}",
           method: 'POST',
           sendData: parameter({
-            'name'   : "$name",
+            'name' : "$name",
             'pwd' : "$pwd",
           }),
           requestHeaders: {
@@ -61,10 +63,12 @@ class GameKey {
             'charset': 'UTF-8'
           }
       );
-      return answer.status == 200 ? JSON.decode(answer.responseText) : throw answer.responseText;
+      return answer.status == 200
+          ? JSON.decode(answer.responseText)
+          : throw answer.responseText;
     } catch (error, stacktrace) {
-      print ("GameKey.registerUser() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.registerUser() caused following error: '$error'");
+      print("$stacktrace");
       return null;
     }
   }
@@ -77,12 +81,15 @@ class GameKey {
   Future<Map> getUser(String id, String pwd) async {
     if (!_available) return new Future.value(null);
     try {
-      final uri = this._uri.resolve("/user/$id").resolveUri(new Uri(queryParameters: { 'pwd' : "$pwd" }));
+      final uri = this._uri.resolve("/user/$id").resolveUri(
+          new Uri(queryParameters: { 'pwd' : "$pwd"}));
       final answer = await HttpRequest.request("$uri", method: 'GET');
-      return answer.status == 200 ? JSON.decode(answer.responseText) : throw answer.responseText;
+      return answer.status == 200
+          ? JSON.decode(answer.responseText)
+          : throw answer.responseText;
     } catch (error, stacktrace) {
-      print ("GameKey.getUser() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.getUser() caused following error: '$error'");
+      print("$stacktrace");
       return null;
     }
   }
@@ -95,13 +102,16 @@ class GameKey {
    */
   Future<bool> authenticate() async {
     try {
-      final uri = this._uri.resolve("/game/$_gid").resolveUri(new Uri(queryParameters: { 'secret' : "$_secret" }));
+      final uri = this._uri.resolve("/game/$_gid").resolveUri(
+          new Uri(queryParameters: { 'secret' : "$_secret"}));
       final answer = await HttpRequest.request("$uri", method: 'GET');
-      if (answer.status == 200) { this._available = true; }
+      if (answer.status == 200) {
+        this._available = true;
+      }
       return answer.status == 200 ? true : throw answer.responseText;
     } catch (error, stacktrace) {
-      print ("GameKey.getGame() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.getGame() caused following error: '$error'");
+      print("$stacktrace");
       this._available = false;
       return false;
     }
@@ -116,11 +126,12 @@ class GameKey {
     try {
       final users = await listUsers();
       if (users == null) return null;
-      final user = users.firstWhere((user) => user['name'] == name, orElse: null);
+      final user = users.firstWhere((user) => user['name'] == name,
+          orElse: null);
       return user == null ? null : user['id'];
     } catch (error, stacktrace) {
-      print ("GameKey.getUserId() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.getUserId() caused following error: '$error'");
+      print("$stacktrace");
       return null;
     }
   }
@@ -131,11 +142,12 @@ class GameKey {
   Future<List<Map>> listUsers() async {
     if (!_available) return new Future.value([]);
     try {
-      final answer = await HttpRequest.request("${this._uri.resolve("/users")}", method: 'GET');
+      final answer = await HttpRequest.request(
+          "${this._uri.resolve("/users")}", method: 'GET');
       return JSON.decode(answer.responseText);
     } catch (error, stacktrace) {
-      print ("GameKey.listUsers() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.listUsers() caused following error: '$error'");
+      print("$stacktrace");
       return null;
     }
   }
@@ -146,12 +158,13 @@ class GameKey {
   Future<List<Map>> getStates() async {
     if (!_available) return new Future.value([]);
     try {
-      final uri = this._uri.resolve("/gamestate/$_gid").resolveUri(new Uri(queryParameters: { 'secret' : "$_secret" }));
+      final uri = this._uri.resolve("/gamestate/$_gid").resolveUri(
+          new Uri(queryParameters: { 'secret' : "$_secret"}));
       final answer = await HttpRequest.request("$uri", method: 'GET');
       return JSON.decode(answer.responseText);
     } catch (error, stacktrace) {
-      print ("GameKey.getStates() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.getStates() caused following error: '$error'");
+      print("$stacktrace");
       return null;
     }
   }
@@ -177,8 +190,8 @@ class GameKey {
       );
       return answer.status == 200 ? true : throw answer.responseText;
     } catch (error, stacktrace) {
-      print ("GameKey.storeState() caused following error: '$error'");
-      print ("$stacktrace");
+      print("GameKey.storeState() caused following error: '$error'");
+      print("$stacktrace");
       return false;
     }
   }

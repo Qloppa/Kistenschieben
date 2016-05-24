@@ -2,7 +2,7 @@ import 'dart:html';
 
 class KistenschiebenView{
 
-String crate = "<img src=\"../web/pictures/crate.jpg\" height = \"80px\" weight=\"100px\" backgroundcolor=\"blue\">";
+String crate = "<img src=\"../web/pictures/crate.png\" height = \"80px\" weight=\"100px\" backgroundcolor=\"blue\">";
 String player = "<img src=\"../web/pictures/player.png\" height = \"80px\" weight=\"100px\" backgroundcolor=\"blue\">";
 
 KistenschiebenView(){
