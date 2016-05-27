@@ -1,0 +1,28 @@
+{
+"levels": [
+    {
+    "level" :"1",
+	"row": 6,
+	"column": 6,
+    "format":[{"r":"wwwwww"},
+			  {"r":"wggctw"},
+			  {"r":"wggggw"},
+			  {"r":"wwwcpw"},
+			  {"r":"wgggtw"},
+			  {"r":"wwwwww"}
+			 ]
+    },
+    { "level" :"2",
+	  "row": 6,
+	  "column": 6,
+      "format": [	{"r":"wwwwwwww"},
+					{"r":"wggctgw"},
+					{"r":"wgggggw"},
+					{"r":"wwwcpgw"},
+					{"r":"wgggtgw"},
+					{"r":"wggctgw"},
+					{"r":"wwwwww"}
+			 ]
+    }
+]
+}
