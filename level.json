@@ -13,15 +13,15 @@
 			 ]
     },
     { "level" :"2",
-	  "row": 6,
-	  "column": 6,
-      "format": [	{"r":"wwwwwwww"},
+	  "row": 7,
+	  "column": 7,
+      "format": [	{"r":"wwwwwww"},
 					{"r":"wggctgw"},
 					{"r":"wgggggw"},
 					{"r":"wwwcpgw"},
 					{"r":"wgggtgw"},
 					{"r":"wggctgw"},
-					{"r":"wwwwww"}
+					{"r":"wwwwwww"}
 			 ]
     }
 ]
