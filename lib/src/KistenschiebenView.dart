@@ -9,64 +9,40 @@ KistenschiebenView(){
 print("running view...");  
 }
 
-loadLevel(){
-  
-  String level = "<table>"
-  "<tr>"
-     "<td id=\"pos0_0 \" class=\"wall\"></td>"
-     "<td id=\"pos1_0\" class=\"wall\"></td>"
-    " <td id=\"pos2_0\" class=\"wall\"></td>"
-     "<td id=\"pos3_0\" class=\"wall\"></td>"
-     "<td id=\"pos4_0\" class=\"wall\"></td>"
-     "<td id=\"pos5_0\" class=\"wall\"></td>"
-  "</tr>" 
-  "<tr>"
-      "<tr>"
-          "<td id=\"pos0_1 \" class=\"wall\"></td>"
-          "<td id=\"pos1_1\" class=\"ground\"></td>"
-         " <td id=\"pos2_1\" class=\"ground\"></td>"
-          "<td id=\"pos3_1\" class=\"ground\">$crate</td>"
-          "<td id=\"pos4_1\" class=\"target\"></td>"
-          "<td id=\"pos5_1\" class=\"wall\"></td>"
-       "</tr>" 
-       "<tr>"
-      "<tr>"
-          "<td id=\"pos0_2 \" class=\"wall\"></td>"
-          "<td id=\"pos1_2\" class=\"ground\"></td>"
-         " <td id=\"pos2_2\" class=\"ground\"></td>"
-          "<td id=\"pos3_2\" class=\"ground\"></td>"
-          "<td id=\"pos4_2\" class=\"ground\"></td>"
-          "<td id=\"pos5_2\" class=\"wall\"></td>"
-       "</tr>" 
-       "<tr>" 
-      "<tr>"
-      "<td id=\"pos0_3 \" class=\"wall\"></td>"
-      "<td id=\"pos1_3\" class=\"ground\"></td>"
-     " <td id=\"pos2_3\" class=\"ground\"></td>"
-      "<td id=\"pos3_3\" class=\"ground\">$crate</td>"
-      "<td id=\"pos4_3\" class=\"ground\">$player</td>"
-      "<td id=\"pos5_3\" class=\"wall\"></td>"
-   "</tr>" 
-   "<tr>" 
-      "<tr>"
-      "<td id=\"pos0_4 \" class=\"wall\"></td>"
-      "<td id=\"pos1_4\" class=\"ground\"></td>"
-     " <td id=\"pos2_4\" class=\"ground\"></td>"
-      "<td id=\"pos3_4\" class=\"ground\"></td>"
-      "<td id=\"pos4_4\" class=\"target\"></td>"
-      "<td id=\"pos5_4\" class=\"wall\"></td>"
-   "</tr>" 
-   "<tr>" 
-      "<tr>"
-      "<td id=\"pos0_5 \" class=\"wall\"></td>"
-      "<td id=\"pos1_5\" class=\"wall\"></td>"
-     " <td id=\"pos2_5\" class=\"wall\"></td>"
-      "<td id=\"pos3_5\" class=\"wall\"></td>"
-      "<td id=\"pos4_5\" class=\"wall\"></td>"
-      "<td id=\"pos5_5\" class=\"wall\"></td>"
-   "</tr>" 
- "</table>";
-  
+void levelrequest(){
+
+}
+
+String generateLevelFromString(List<List> levelString) {
+  int x=-1;
+  int y=-1;
+  String type = "";
+  String initObj ="";
+
+  String table = levelString.map((row) {
+    y++;
+    x=-1;
+    String zeile = row.map((col) {
+      x++;
+      switch(col){
+        case "W": type="wall";initObj="";break;
+        case "T": type="target";initObj="";break;
+        case "G": type= "ground";initObj="";break;
+        case "C": type= "ground";initObj=this.crate;break;
+        case "P": type="ground";initObj=this.player; break;
+      }
+      return "<td id=\"pos$x\_$y\" class=\"$type\">$initObj</td>";
+    }).join();
+    return "<tr>$zeile</tr>\n";
+  }).join();
+  return "<table>\n $table</table>";
+
+
+}
+
+loadLevel(List<List> levelList){
+  String level = generateLevelFromString(levelList);
+
   
   querySelector("level").innerHtml = level;
   
