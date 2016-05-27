@@ -11,16 +11,16 @@ table, td{
 
  border-collapse:collapse;
   border: 1px solid;
-  
+
 
   
 }
 
-td{
-  
+td.ground{
+
   height:80px;
   width:100px;
-  
+
 }
 
 
@@ -50,4 +50,10 @@ td{
   height: 80px;
   width:100px;
   
+}
+
+h1{
+    text-align: center;
+    border-collapse:collapse;
+
 }
