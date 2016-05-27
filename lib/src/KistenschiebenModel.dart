@@ -5,7 +5,6 @@ import 'QuattroLinkedList.dart';
 import 'Player.dart';
 import 'Crate.dart';
 
-
 class KistenschiebenModel {
 
   QuattroLinkedList qlList = null;
@@ -27,8 +26,9 @@ class KistenschiebenModel {
   loads the level from a String with the size m x n
    */
   loadLvl(List<List> levelList, int m, int n) {
-
-    String level = levelList.join(",").replaceAll(",","").replaceAll("[","").replaceAll("]","").replaceAll(" ","").substring(1);
+    String level = levelList.join(",").replaceAll(",", "").replaceAll("[", "")
+        .replaceAll("]", "").replaceAll(" ", "")
+        .substring(1);
 
 
     qlList = null;

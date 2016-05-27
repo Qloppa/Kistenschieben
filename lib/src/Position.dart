@@ -1,18 +1,17 @@
-class Position{
-int x;
-int y;
+class Position {
+  int x;
+  int y;
 
-Position(x, y) {
-  this.x = x;
-  this.y = y;
-}
+  Position(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
-  int getX(){
+  int getX() {
     return this.x;
   }
 
-  int getY(){
+  int getY() {
     return this.y;
   }
-
 }

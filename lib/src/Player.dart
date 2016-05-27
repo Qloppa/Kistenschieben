@@ -1,10 +1,11 @@
-import 'FieldObject.dart';
 import 'dart:core';
-
+import 'FieldObject.dart';
 
 class Player {
   FieldObject staysOn;
-  int pushPower = 1; //parametrisierung für die Endabgabe funktioniert noch nicht!
+  int pushPower = 1;
+
+  //parametrisierung für die Endabgabe funktioniert noch nicht!
 
   Player(FieldObject staysOn) {
     this.staysOn = staysOn;
@@ -20,7 +21,7 @@ class Player {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return false;
@@ -37,7 +38,7 @@ class Player {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return false;
@@ -54,12 +55,11 @@ class Player {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return false;
     }
-
   }
 
   /*
@@ -72,7 +72,7 @@ class Player {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
       print(staysOn.runtimeType);
       return false;
@@ -88,8 +88,9 @@ class Player {
   /*
   Returns the position of the field as a String for the view
    */
-  String getPositionAsString(){
-    String str = "#pos" + this.staysOn.position.x.toString() + "_" + this.staysOn.position.y.toString();
+  String getPositionAsString() {
+    String str = "#pos" + this.staysOn.position.x.toString() + "_" +
+        this.staysOn.position.y.toString();
     return str;
   }
 }

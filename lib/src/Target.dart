@@ -36,5 +36,4 @@ class Target extends FieldObject {
     }
     return false;
   }
-
 }

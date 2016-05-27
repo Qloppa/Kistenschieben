@@ -1,29 +1,50 @@
 import 'dart:html';
+import 'dart:convert';
+import 'dart:async';
+import 'Gamekey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
-//import 'dart:async';
-import 'dart:convert';
 
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+const gamekeyCheck = const Duration(seconds: 30);
+
+const gameSecret = '2819b92f78114417';
+
+const gamekeySettings = 'gamekey.json';
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 class KistenschiebenController {
 
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
+
+  var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
+
+  /**
+   * Periodic trigger controlling availability of gamekey service.
+   */
+  Timer gamekeyTrigger;
+
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
-  List<List> level =[
-    ["W", "W", "W", "W", "W", "W"],
+  List<List> level = [
+    ['W', 'W', 'W', 'W', 'W', 'W'],
     ['W', 'G', 'G', 'C', 'T', 'W'],
     ['W', 'G', 'G', 'G', 'G', 'W'],
     ['W', 'G', 'G', 'C', 'P', 'W'],
     ['W', 'G', 'G', 'G', 'T', 'W'],
     ['W', 'W', 'W', 'W', 'W', 'W']
-
-
   ];
+
   /*
   CONSTRUCTOR
    */
   KistenschiebenController() {
-
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    startGameKey();
+    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //    ksModel.playerPos_old = ksModel.playerPositionAsString();
 //    ksModel.crates_old = ksModel.crateList();
     window.onKeyDown.listen((KeyboardEvent ev) {
@@ -45,6 +66,62 @@ class KistenschiebenController {
     });
   }
 
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  startGameKey() {
+    print("startGameKey");
+    try {
+      HttpRequest.getString(gamekeySettings).then((json) {
+        final settings = JSON.decode(json);
+
+        //GameKey connection parameters
+        this.gamekey = new GameKey(
+            settings['host'],
+            settings['port'],
+            settings['gameid'],
+            gameSecret
+        );
+        print("Datei gelesen" + " " + settings['host']);
+      });
+
+      this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
+        if (await this.gamekey.authenticate()) {} else {
+
+        }
+      });
+    } catch (error, stacktrace) {
+      print("startGameKey() caused following error: '$error'");
+      print("$stacktrace");
+    }
+  }
+
+  /**
+   * Retrieves TOP 10 highscore from Gamekey service.
+   * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
+   * - Returns [] if gamekey service is not available.
+   * - Returns [] if no highscores are present.
+   */
+  Future<List<Map>> getHighscores() async {
+    var scores = [];
+    try {
+      final states = await gamekey.getStates();
+      scores = states.map((entry) => {
+        'name' : "${entry['username']}",
+        'score' : entry['state']['points']
+      }).toList();
+      scores.sort((a, b) => b['score'] - a['score']);
+    } catch (error, stacktrace) {
+      print(error);
+      print(stacktrace);
+    }
+    return scores.take(10);
+  }
+
+  registerUser(String name, String password) {
+    gamekey.registerUser(name, password);
+  }
+
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
   /*
   tells the Player to move up. updates the view if the model returns true
    */
@@ -59,8 +136,7 @@ class KistenschiebenController {
       print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       print(playerPos_new);
-      updateView(playerPos_old,crates_old,playerPos_new,crates_new);
-      
+      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
     }
   }
 
@@ -69,17 +145,16 @@ class KistenschiebenController {
    */
   void moveRight() {
     List<String> crates_old = ksModel.crateList();
-        print(crates_old);
-        String playerPos_old = ksModel.playerPositionAsString();
-        print(playerPos_old);
-        //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
-        if (ksModel.moveRight() == true) {
-          List<String> crates_new = ksModel.crateList();
-          print(crates_new);
-          String playerPos_new = ksModel.playerPositionAsString();
-          print(playerPos_new);
-          updateView(playerPos_old,crates_old,playerPos_new,crates_new);
-          
+    print(crates_old);
+    String playerPos_old = ksModel.playerPositionAsString();
+    print(playerPos_old);
+    //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
+    if (ksModel.moveRight() == true) {
+      List<String> crates_new = ksModel.crateList();
+      print(crates_new);
+      String playerPos_new = ksModel.playerPositionAsString();
+      print(playerPos_new);
+      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
     }
   }
 
@@ -88,17 +163,16 @@ class KistenschiebenController {
    */
   void moveDown() {
     List<String> crates_old = ksModel.crateList();
-        print(crates_old);
-        String playerPos_old = ksModel.playerPositionAsString();
-        print(playerPos_old);
-        //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
-        if (ksModel.moveDown() == true) {
-          List<String> crates_new = ksModel.crateList();
-          print(crates_new);
-          String playerPos_new = ksModel.playerPositionAsString();
-          print(playerPos_new);
-          updateView(playerPos_old,crates_old,playerPos_new,crates_new);
-          
+    print(crates_old);
+    String playerPos_old = ksModel.playerPositionAsString();
+    print(playerPos_old);
+    //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
+    if (ksModel.moveDown() == true) {
+      List<String> crates_new = ksModel.crateList();
+      print(crates_new);
+      String playerPos_new = ksModel.playerPositionAsString();
+      print(playerPos_new);
+      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
     }
   }
 
@@ -107,18 +181,16 @@ class KistenschiebenController {
    */
   void moveLeft() {
     List<String> crates_old = ksModel.crateList();
-        print(crates_old);
-        String playerPos_old = ksModel.playerPositionAsString();
-        print(playerPos_old);
-       // ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
-        if (ksModel.moveLeft() == true) {
-          
-          List<String> crates_new = ksModel.crateList();
-          print(crates_new);
-          String playerPos_new = ksModel.playerPositionAsString();
-          print(playerPos_new);
-          updateView(playerPos_old,crates_old,playerPos_new,crates_new);
-          
+    print(crates_old);
+    String playerPos_old = ksModel.playerPositionAsString();
+    print(playerPos_old);
+    // ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
+    if (ksModel.moveLeft() == true) {
+      List<String> crates_new = ksModel.crateList();
+      print(crates_new);
+      String playerPos_new = ksModel.playerPositionAsString();
+      print(playerPos_new);
+      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
     }
   }
 
@@ -132,12 +204,13 @@ class KistenschiebenController {
   /*
   takes the positions of the player and the crates
    */
-  void updateView(String playerPos_old, List<String>crates_old, String playerPos_new, List<String> crates_new) {
+  void updateView(String playerPos_old, List<String>crates_old,
+      String playerPos_new, List<String> crates_new) {
 //    List<String> cratePositions_new = ksModel.crateList(); //Liste von Positionen von Kisten;
 //    String playerposition_new = ksModel.playerPositionAsString();
-    
-    ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
-   // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
+
+    ksView.updateView(playerPos_old, crates_old, playerPos_new, crates_new);
+    // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
 
   }
 
@@ -158,56 +231,4 @@ class KistenschiebenController {
     int n = 6;
     ksModel.reset(level, m, n);
   }
-
-
-
 }
-
-
-void main(){
-  
-  KistenschiebenController control = new KistenschiebenController();
-
-
-
-
-
-
-  querySelector("button").onMouseDown.listen((MouseEvent e){
-
-    control.newGame();
-
-
-  }
-
-
-
-
-  );
-
-
-
-
-
-
-
-
-
-
-
-//HttpRequest request = new HttpRequest();
-
-
-
-
-
-//print(decoded);
-//  String player = "#pos2_4";
-//  List<String> crates = ["#pos2_3","#pos3_4"];
-//  view.updateView(player,crates);
- 
-}
-
-
-
-

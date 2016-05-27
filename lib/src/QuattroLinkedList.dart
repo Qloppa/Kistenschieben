@@ -1,8 +1,6 @@
 import 'FieldObject.dart';
 import 'Wall.dart';
 
-
-
 class QuattroLinkedList {
   FieldObject root;
   FieldObject lastAdded;
@@ -93,23 +91,21 @@ class QuattroLinkedList {
 
   searchRight() {
     if (nextPrint.rightPointer != null) {
-      if(nextPrint.crate != null) {
+      if (nextPrint.crate != null) {
         crateList.add(nextPrint.crate.getPositionAsString());
       }
       nextPrint = nextPrint.rightPointer;
     }
-
   }
 
   searchDown() {
     if (firstInRowPrint.downPointer != null) {
-      if(firstInRowPrint.crate != null) {
+      if (firstInRowPrint.crate != null) {
         crateList.add(nextPrint.crate.getPositionAsString());
       }
       firstInRowPrint = firstInRowPrint.downPointer;
     }
     nextPrint = firstInRowPrint;
-
   }
 
   createCrateList(m, n) {
@@ -124,5 +120,4 @@ class QuattroLinkedList {
     }
     return crateList;
   }
-
 }

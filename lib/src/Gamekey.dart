@@ -17,7 +17,7 @@ class GameKey {
   String _secret;
 
   // Service reachable?
-  bool _available = false;
+  bool _available = true;
 
   /**
    * Constructor
