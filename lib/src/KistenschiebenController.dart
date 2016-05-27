@@ -1,19 +1,29 @@
 import 'dart:html';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
+//import 'dart:async';
+import 'dart:convert';
 
 
 class KistenschiebenController {
 
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
-  String LEVELONE = "WWWWWWGGCTWWGGGGWWGGCPWWGGGTWWWWWWW";
+  List<List> level =[
+    ["W", "W", "W", "W", "W", "W"],
+    ['W', 'G', 'G', 'C', 'T', 'W'],
+    ['W', 'G', 'G', 'G', 'G', 'W'],
+    ['W', 'G', 'G', 'C', 'P', 'W'],
+    ['W', 'G', 'G', 'G', 'T', 'W'],
+    ['W', 'W', 'W', 'W', 'W', 'W']
 
+
+  ];
   /*
   CONSTRUCTOR
    */
   KistenschiebenController() {
-    newGame();
+
 //    ksModel.playerPos_old = ksModel.playerPositionAsString();
 //    ksModel.crates_old = ksModel.crateList();
     window.onKeyDown.listen((KeyboardEvent ev) {
@@ -139,32 +149,59 @@ class KistenschiebenController {
     ksView = new KistenschiebenView();
     int m = 6;
     int n = 6;
-    ksModel.loadLvl(LEVELONE, m, n);
-    ksView.loadLevel();
+    ksModel.loadLvl(level, m, n);
+    ksView.loadLevel(level);
   }
 
   void resetGame() {
     int m = 6;
     int n = 6;
-    ksModel.reset(LEVELONE, m, n);
+    ksModel.reset(level, m, n);
   }
 
-/*
-  void moveRights(String pposnew, List<String>cpos_old) {
-    String playerpos = "#pos3_4";
-    String targetposition = "#pos4_4";
-    var player = querySelector(playerpos).clone(true);
-    querySelector("player").remove();
-    querySelector(targetposition).append(player);
-  }
-*/
+
 
 }
+
 
 void main(){
   
   KistenschiebenController control = new KistenschiebenController();
-  
+
+
+
+
+
+
+  querySelector("button").onMouseDown.listen((MouseEvent e){
+
+    control.newGame();
+
+
+  }
+
+
+
+
+  );
+
+
+
+
+
+
+
+
+
+
+
+//HttpRequest request = new HttpRequest();
+
+
+
+
+
+//print(decoded);
 //  String player = "#pos2_4";
 //  List<String> crates = ["#pos2_3","#pos3_4"];
 //  view.updateView(player,crates);
