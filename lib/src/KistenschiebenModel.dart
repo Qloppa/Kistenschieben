@@ -25,7 +25,7 @@ class KistenschiebenModel {
   /*
   loads the level from a String with the size m x n
    */
-  loadLvl(List<List> levelList, int m, int n) {
+  loadLvl(List<List> levelList, int column, int row) {
     String level = levelList.join(",").replaceAll(",", "").replaceAll("[", "")
         .replaceAll("]", "").replaceAll(" ", "")
         .substring(1);
@@ -34,9 +34,9 @@ class KistenschiebenModel {
     qlList = null;
     qlList = new QuattroLinkedList();
     level = level.toUpperCase();
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < row; i++) {
       //Spalten
-      for (int j = 1; j < n; j++) {
+      for (int j = 1; j < column; j++) {
         //Zeilen
         String firstChar = level.substring(0, 1);
         level = level.substring(1);
