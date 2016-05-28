@@ -3,7 +3,7 @@ import 'FieldObject.dart';
 
 class Player {
   FieldObject staysOn;
-  int pushPower = 2;
+  int pushPower = 1;
 
   //parametrisierung für die Endabgabe funktioniert noch nicht!
 
