@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'dart:convert';
 import 'dart:async';
-import 'Gamekey.dart';
+import 'GameKey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 
@@ -16,9 +16,9 @@ const gamekeySettings = 'gamekey.json';
 class KistenschiebenController {
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
+  var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
 
-  var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
+  //var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
   /**
    * Periodic trigger controlling availability of gamekey service.
@@ -46,7 +46,33 @@ class KistenschiebenController {
    */
   KistenschiebenController() {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    startGameKey();
+    print("startGameKey");
+    try {
+      // Download gamekey settings. Display warning on problems.
+      HttpRequest.getString(gamekeySettings).then((json) {
+        final settings = JSON.decode(json);
+
+        // Create gamekey client using connection parameters
+        this.gamekey = new GameKey(
+            settings['host'],
+            settings['port'],
+            settings['gameid'],
+            gameSecret
+        );
+
+        // Check periodically if gamekey service is reachable. Display warning if not.
+        this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
+          if (await this.gamekey.authenticate()) {
+            print("Authentifizierung Erfolgreich!");
+          } else {
+            print("Authentifizierung Fehlgeschlagen!");
+          }
+        });
+      });
+    } catch (error, stacktrace) {
+      print("KistenschiebenKontroller() caused following error: '$error'");
+      print("$stacktrace");
+    }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //    ksModel.playerPos_old = ksModel.playerPositionAsString();
 //    ksModel.crates_old = ksModel.crateList();
@@ -70,33 +96,6 @@ class KistenschiebenController {
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  startGameKey() {
-    print("startGameKey");
-    try {
-      HttpRequest.getString(gamekeySettings).then((json) {
-        final settings = JSON.decode(json);
-
-        //GameKey connection parameters
-        this.gamekey = new GameKey(
-            settings['host'],
-            settings['port'],
-            settings['gameid'],
-            gameSecret
-        );
-        print("Datei gelesen" + " " + settings['host']);
-      });
-
-      this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
-        if (await this.gamekey.authenticate()) {} else {
-
-        }
-      });
-    } catch (error, stacktrace) {
-      print("startGameKey() caused following error: '$error'");
-      print("$stacktrace");
-    }
-  }
-
   /**
    * Retrieves TOP 10 highscore from Gamekey service.
    * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
@@ -121,6 +120,11 @@ class KistenschiebenController {
 
   registerUser(String name, String password) {
     gamekey.registerUser(name, password);
+  }
+
+  Future<String> printUserId(String name) async {
+    String userID = await gamekey.getUserId(name);
+    print(userID);
   }
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

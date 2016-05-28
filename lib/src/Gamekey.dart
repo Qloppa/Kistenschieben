@@ -17,12 +17,13 @@ class GameKey {
   String _secret;
 
   // Service reachable?
-  bool _available = true;
+  bool _available = false;
 
   /**
    * Constructor
    */
   GameKey(String host, int port, this._gid, this._secret) {
+    //print(host + " " + port.toString() + " " + this._gid + " " + this._secret);
     this._uri = new Uri.http("$host:$port", "/");
   }
 
