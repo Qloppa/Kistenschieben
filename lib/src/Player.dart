@@ -3,7 +3,7 @@ import 'FieldObject.dart';
 
 class Player {
   FieldObject staysOn;
-  int pushPower = 1;
+  int pushPower = 2;
 
   //parametrisierung für die Endabgabe funktioniert noch nicht!
 
@@ -19,11 +19,9 @@ class Player {
     if (staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.upPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -36,11 +34,9 @@ class Player {
     if (staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.rightPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -53,11 +49,9 @@ class Player {
     if (staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.downPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -70,11 +64,9 @@ class Player {
     if (staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.leftPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }

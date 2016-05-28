@@ -23,7 +23,8 @@ class Crate {
   moveUp(int pushPower) {
     pushPower--;
     if (staysOn.upPointer != null &&
-        staysOn.upPointer.isPassable(staysOn.upPointer, pushPower) == true) {
+        staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
+      //upPointer gelöscht
       staysOn = staysOn.upPointer;
       staysOn.downPointer.crate = null;
       staysOn.crate = this;
@@ -33,11 +34,9 @@ class Crate {
         }
       }
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -45,7 +44,7 @@ class Crate {
   moveRight(int pushPower) {
     pushPower--;
     if (staysOn.rightPointer != null &&
-        staysOn.rightPointer.isPassable(staysOn.upPointer, pushPower) == true) {
+        staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.rightPointer;
       staysOn.leftPointer.crate = null;
       staysOn.crate = this;
@@ -55,11 +54,9 @@ class Crate {
         }
       }
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -67,7 +64,7 @@ class Crate {
   moveDown(int pushPower) {
     pushPower--;
     if (staysOn.downPointer != null &&
-        staysOn.downPointer.isPassable(staysOn.upPointer, pushPower) == true) {
+        staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.downPointer;
       staysOn.upPointer.crate = null;
       staysOn.crate = this;
@@ -77,11 +74,9 @@ class Crate {
         }
       }
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -89,7 +84,7 @@ class Crate {
   moveLeft(int pushPower) {
     pushPower--;
     if (staysOn.leftPointer != null &&
-        staysOn.leftPointer.isPassable(staysOn.upPointer, pushPower) == true) {
+        staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.leftPointer;
       staysOn.rightPointer.crate = null;
       staysOn.crate = this;
@@ -99,11 +94,9 @@ class Crate {
         }
       }
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
     } else {
       print("CratePosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -116,8 +109,9 @@ class Crate {
   /*
   Returns the position of the field as a String for the view
    */
-  String getPositionAsString(){
-    String str = "#pos" + this.staysOn.position.x.toString() + "_" + this.staysOn.position.y.toString();
+  String getPositionAsString() {
+    String str = "#pos" + this.staysOn.position.x.toString() + "_" +
+        this.staysOn.position.y.toString();
     return str;
   }
 

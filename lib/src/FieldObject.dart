@@ -33,11 +33,9 @@ class FieldObject {
     } else if (pushPower > 0) {
       return crate.move(wherePlayerStaysOn, pushPower);
     } else {
-      return true;
+      return false;
     }
   }
-
-
 
   setCrate(Crate crate) {
     this.crate = crate;

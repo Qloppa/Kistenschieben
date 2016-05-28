@@ -126,20 +126,23 @@ class KistenschiebenModel {
     }
   }
 
-//  show(m, n) {
+  show(m, n) {
 //    int x = 3;
 //    int y = 4;
 //    String id;
 //    id = "#pos" + x.toString() + "_" + y.toString();
-//    print("PlayerPosition: " + player.getPosition());
-//    print("CratePosition: " + crate.getPosition());
-//    qlList.printField(m, n);
-//  }
+    print("PlayerPosition: " + player.getPosition());
+    print("CratePosition: " + crate.getPosition());
+    qlList.printField(m, n);
+  }
 
   List<String> crateList() {
     return qlList.createCrateList(6, 6);
   }
 
+  String playerPositionAsString() {
+    return player.getPositionAsString();
+  }
   /*
   Creates and returns a list with the positions of all crates for the view
    */
@@ -154,9 +157,7 @@ class KistenschiebenModel {
   /*
   returns the position of the player as a string for the view
    */
-  String playerPositionAsString() {
-    return player.getPositionAsString();
-  }
+
 
 //  createPosString() {
 //    int x = 3;
