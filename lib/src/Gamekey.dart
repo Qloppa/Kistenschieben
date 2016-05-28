@@ -17,7 +17,7 @@ class GameKey {
   String _secret;
 
   // Service reachable?
-  bool _available = false;
+  bool _available = true;
 
   /**
    * Constructor
@@ -73,6 +73,32 @@ class GameKey {
       return null;
     }
   }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  Future<bool> deleteUser(String name) async {
+    if (!_available) return new Future.value(false);
+    try {
+      final userID = await getUserId(name);
+      print(userID.toString());
+      if (userID == null){
+        return false;
+      }
+      //>>>>>>>>>>>>>>>>>>>>>
+      final answer = await HttpRequest.request(
+          "${this._uri.resolve("/user/$userID")}",
+          method: 'DELETE'
+      );
+      return answer.status == 200
+          ? true
+          : throw answer.responseText;
+      //<<<<<<<<<<<<<<<<<<<<<
+    } catch (error, stacktrace) {
+      print("GameKey.deleteUser() caused following error: '$error'");
+      print("$stacktrace");
+      return false;
+    }
+  }
+  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   /**
    * Returns detailed user information as Map.

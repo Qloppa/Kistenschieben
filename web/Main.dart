@@ -3,8 +3,8 @@ import '../lib/src/KistenschiebenController.dart';
 
   void main() {
     KistenschiebenController control = new KistenschiebenController();
-    //control.registerUser("Hallo Welt", "passwort");
-    //control.printUserId("Nane");
+    //control.gamekey.registerUser("ProfessorY", "passwort");
+    //control.gamekey.deleteUser("ProfessorX");
     querySelector("button").onMouseDown.listen((MouseEvent e) {
       control.newGame();
     });
