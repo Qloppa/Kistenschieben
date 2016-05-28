@@ -30,12 +30,15 @@ class KistenschiebenController {
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
   List<List> level = [
-    ['W', 'W', 'W', 'W', 'W', 'W'],
-    ['W', 'G', 'G', 'C', 'T', 'W'],
-    ['W', 'G', 'G', 'G', 'G', 'W'],
-    ['W', 'G', 'G', 'C', 'P', 'W'],
-    ['W', 'G', 'G', 'G', 'T', 'W'],
-    ['W', 'W', 'W', 'W', 'W', 'W']
+    ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+    ['W', 'G', 'G', 'C', 'T', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'G', 'G', 'C', 'P', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'G', 'G', 'G', 'T', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'G', 'G', 'G', 'T', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'G', 'G', 'G', 'T', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'G', 'G', 'G', 'T', 'G', 'G', 'G', 'C', 'T'],
+    ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']
   ];
 
   /*
@@ -220,15 +223,15 @@ class KistenschiebenController {
   void newGame() {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
-    int m = 6;
-    int n = 6;
-    ksModel.loadLvl(level, m, n);
+    int column = 10;
+    int row = 9;
+    ksModel.loadLvl(level, column,row);
     ksView.loadLevel(level);
   }
 
   void resetGame() {
-    int m = 6;
-    int n = 6;
-    ksModel.reset(level, m, n);
+    int row = 6;
+    int colum = 6;
+    ksModel.reset(level, row, colum);
   }
 }
