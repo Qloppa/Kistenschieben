@@ -3,7 +3,7 @@ class Statistics {
   var globalMoves;
   var localPushes;
   var globalPushes;
-  DateTime startTime;
+  DateTime startTime; //not used yet
   var localTime;
   var globalTime;
 
@@ -40,13 +40,29 @@ class Statistics {
     return this.globalTime;
   }
 
+  loadStats(int lm, int gm, int lp, int gp, int lt, int gt){
+    this.localMoves = lm;
+    this.globalMoves = gm;
+    this.localPushes = lp;
+    this.globalPushes = gp;
+    this.localTime = lt;
+    this.globalTime = gt;
+  }
+
+  List<int> getStats(){
+    List<int> output = new List(5);
+    output[0] = localMoves;
+    output[1] = globalMoves;
+    output[2] = localPushes;
+    output[3] = globalPushes;
+    output[4] = localTime;
+    output[5] = globalTime;
+    return output;
+  }
+
   resetAll() {
-    this.localMoves = 0;
-    this.globalMoves = 0;
-    this.localPushes = 0;
-    this.globalPushes = 0;
-    this.localTime = 0;
-    this.globalTime = 0;
+    resetLocal();
+    resetGlobal();
     this.startTime = new DateTime.now(); //Aendern
   }
 
