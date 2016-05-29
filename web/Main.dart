@@ -1,10 +1,12 @@
 import 'dart:html';
 import '../lib/src/KistenschiebenController.dart';
 
-  void main() {
+  main() async {
     KistenschiebenController control = new KistenschiebenController();
-    //control.gamekey.registerUser("ProfessorY", "passwort");
-    //control.gamekey.deleteUser("ProfessorX");
+    //control.gamekey.registerUser("dummy", "1234");
+    //control.gamekey.deleteUser("1b690dfa-3c80-4960-ba18-6d2823530635", "1234");
+    //print(await control.gamekey.changeUserName("dummy", "1234", "BaNane"));
+    //print(await control.gamekey.changeUserPassword("BaNane", "1234", "123456seven"));
     querySelector("button").onMouseDown.listen((MouseEvent e) {
       control.newGame();
     });

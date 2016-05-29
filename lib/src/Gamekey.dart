@@ -75,29 +75,99 @@ class GameKey {
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  Future<bool> deleteUser(String name) async {
+  Future<bool> changeUserName(String oldName, String pwd,
+      String newName) async {
+    if (!_available) return new Future.value(false);
+    try {
+      final userID = await getUserId(oldName);
+      if (userID == null) {
+        return null;
+      }
+      final answer = await HttpRequest.request(
+          "${this._uri.resolve("/user/$userID")}",
+          method: 'PUT',
+          sendData: parameter({
+            'id' : "$userID",
+            'pwd' : "$pwd",
+            'name' : "$newName"
+          }),
+          requestHeaders: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'charset': 'UTF-8'
+          }
+      );
+
+      return answer.status == 200
+          ? true
+          : throw answer.responseText;
+    } catch (error, stacktrace) {
+      print("GameKey.changeUserName() caused following error: '$error'");
+      print("$stacktrace");
+      return false;
+    }
+  }
+
+  Future<bool> changeUserPassword(String name, String oldPW,
+      String newPW) async {
     if (!_available) return new Future.value(false);
     try {
       final userID = await getUserId(name);
-      print(userID.toString());
-      if (userID == null){
-        return false;
+      if (userID == null) {
+        return null;
       }
-      //>>>>>>>>>>>>>>>>>>>>>
       final answer = await HttpRequest.request(
           "${this._uri.resolve("/user/$userID")}",
-          method: 'DELETE'
+          method: 'PUT',
+          sendData: parameter({
+            'id' : "$userID",
+            'pwd' : "$oldPW",
+            'newpwd' : "$newPW"
+          }),
+          requestHeaders: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'charset': 'UTF-8'
+          }
+      );
+
+      return answer.status == 200
+          ? true
+          : throw answer.responseText;
+    } catch (error, stacktrace) {
+      print("GameKey.changeUserPassword() caused following error: '$error'");
+      print("$stacktrace");
+      return false;
+    }
+  }
+
+  Future<bool> deleteUser(String name, String pwd) async {
+    if (!_available) return new Future.value(false);
+    try {
+      final userID = await getUserId(name);
+      if (userID == null) {
+        return null;
+      }
+      final answer = await HttpRequest.request(
+          "${this._uri.resolve("/user/$userID")}",
+          method: 'DELETE',
+          sendData: parameter({
+            'id' : "$userID",
+            'pwd' : "$pwd",
+          }),
+          requestHeaders: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'charset': 'UTF-8'
+          }
       );
       return answer.status == 200
           ? true
           : throw answer.responseText;
-      //<<<<<<<<<<<<<<<<<<<<<
     } catch (error, stacktrace) {
       print("GameKey.deleteUser() caused following error: '$error'");
       print("$stacktrace");
       return false;
     }
   }
+
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   /**
