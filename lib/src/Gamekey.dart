@@ -17,7 +17,7 @@ class GameKey {
   String _secret;
 
   // Service reachable?
-  bool _available = true;
+  bool _available = false;
 
   /**
    * Constructor
@@ -204,6 +204,7 @@ class GameKey {
       final answer = await HttpRequest.request("$uri", method: 'GET');
       if (answer.status == 200) {
         this._available = true;
+        print("WIR SIND JETZT IM AUTHENTICATE!!!");
       }
       return answer.status == 200 ? true : throw answer.responseText;
     } catch (error, stacktrace) {

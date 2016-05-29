@@ -137,7 +137,7 @@ class KistenschiebenModel {
   }
 
   List<String> crateList() {
-    return qlList.createCrateList(6, 6);
+    return qlList.createCrateList(6, 5);
   }
 
   String playerPositionAsString() {

@@ -16,9 +16,8 @@ const gamekeySettings = 'gamekey.json';
 class KistenschiebenController {
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
-
-  //var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
+  //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
+  var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
   /**
    * Periodic trigger controlling availability of gamekey service.
@@ -27,15 +26,14 @@ class KistenschiebenController {
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   int column = 6;
-  int row = 6;
+  int row = 5;
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
   List<List> level = [
     ['W', 'W', 'W', 'W', 'W', 'W'],
-    ['W', 'G', 'G', 'C', 'T', 'W'],
-    ['W', 'G', 'G', 'G', 'G', 'W'],
-    ['W', 'G', 'G', 'C', 'P', 'W'],
-    ['W', 'G', 'G', 'G', 'T', 'W'],
+    ['W', 'G', 'G', 'T', 'T', 'W'],
+    ['W', 'C', 'C', 'C', 'G', 'W'],
+    ['W', 'T', 'G', 'G', 'P', 'W'],
     ['W', 'W', 'W', 'W', 'W', 'W']
   ];
 
@@ -60,7 +58,7 @@ class KistenschiebenController {
 
         // Check periodically if gamekey service is reachable. Display warning if not.
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
-          if (await this.gamekey.authenticate()) {
+          if (await this.gamekey.authenticate() == true) {
             print("Authentifizierung Erfolgreich!");
           } else {
             print("Authentifizierung Fehlgeschlagen!");
@@ -114,15 +112,6 @@ class KistenschiebenController {
       print(stacktrace);
     }
     return scores.take(10);
-  }
-
-  registerUser(String name, String password) {
-    gamekey.registerUser(name, password);
-  }
-
-  Future<String> printUserId(String name) async {
-    String userID = await gamekey.getUserId(name);
-    print(userID);
   }
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
