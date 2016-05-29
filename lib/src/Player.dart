@@ -2,6 +2,7 @@ import 'dart:core';
 import 'FieldObject.dart';
 
 class Player {
+  bool won = false;
   FieldObject staysOn;
   int pushPower = 1;
 
@@ -18,6 +19,7 @@ class Player {
   bool moveUp() {
     if (staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.upPointer;
+      if(staysOn.upPointer.crate.won == true){this.won = true;}
       print("PlayerPosition: " + getPosition());
       return true;
     } else {
@@ -33,6 +35,7 @@ class Player {
   bool moveRight() {
     if (staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.rightPointer;
+      if(staysOn.rightPointer.crate.won == true){this.won = true;}
       print("PlayerPosition: " + getPosition());
       return true;
     } else {
@@ -48,6 +51,7 @@ class Player {
   bool moveDown() {
     if (staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.downPointer;
+      if(staysOn.downPointer.crate.won == true){this.won = true;}
       print("PlayerPosition: " + getPosition());
       return true;
     } else {
@@ -63,6 +67,7 @@ class Player {
   bool moveLeft() {
     if (staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.leftPointer;
+      if(staysOn.leftPointer.crate.won == true){this.won = true;}
       print("PlayerPosition: " + getPosition());
       return true;
     } else {

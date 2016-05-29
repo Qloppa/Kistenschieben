@@ -2,6 +2,7 @@ import 'FieldObject.dart';
 
 class Crate {
   var staysOn;
+  bool won = false;
 
   Crate(FieldObject staysOn) {
     this.staysOn = staysOn;
@@ -30,6 +31,7 @@ class Crate {
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
         if (staysOn.checkOutNeighbours() == true) {
+          won = true;
           print("You won!!!");
         }
       }
@@ -50,6 +52,7 @@ class Crate {
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
         if (staysOn.checkOutNeighbours() == true) {
+          won = true;
           print("You won!!!");
         }
       }
@@ -70,6 +73,7 @@ class Crate {
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
         if (staysOn.checkOutNeighbours() == true) {
+          won = true;
           print("You won!!!");
         }
       }
@@ -90,6 +94,7 @@ class Crate {
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
         if (staysOn.checkOutNeighbours() == true) {
+          won = true;
           print("You won!!!");
         }
       }

@@ -11,6 +11,10 @@ class KistenschiebenView {
 
   }
 
+  showWin(){
+    //Anzeigen, dass gewonnen
+  }
+
   void levelrequest() {
 
   }

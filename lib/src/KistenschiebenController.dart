@@ -89,7 +89,34 @@ class KistenschiebenController {
       }
       return "";
     });
+
+    //Falls Buttons genutzt werden, nicht entfernen!
+    querySelectorAll("Left").onMouseDown.listen((MouseEvent me){
+      moveLeft();
+    });
+
+    querySelectorAll("Right").onMouseDown.listen((MouseEvent me){
+      moveRight();
+    });
+
+    querySelectorAll("Up").onMouseDown.listen((MouseEvent me){
+      moveUp();
+    });
+
+    querySelectorAll("Down").onMouseDown.listen((MouseEvent me){
+      moveDown();
+    });
+
+    querySelectorAll("Reset").onMouseDown.listen((MouseEvent me){
+      resetGame();
+    });
+
+    querySelectorAll("Ground").onMouseDown.listen((MouseEvent me){ //Herausfinden wie für Ground, Target und Crate
+      moveTouch(ksModel.player.getPosition(), "");//Position noch aendern
+
+    });
   }
+
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   /**
@@ -191,8 +218,8 @@ class KistenschiebenController {
   /*
   moves the player to a position when the touchscreen is used.
    */
-  void moveTouch() {
-
+  void moveTouch(String posOld, String posNew) {
+    //in x und y splitten, Richtung berechnen und dann weiter solange true;
   }
 
   /*
@@ -200,12 +227,15 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old, List<String>crates_old,
       String playerPos_new, List<String> crates_new) {
-//    List<String> cratePositions_new = ksModel.crateList(); //Liste von Positionen von Kisten;
-//    String playerposition_new = ksModel.playerPositionAsString();
 
     ksView.updateView(playerPos_old, crates_old, playerPos_new, crates_new);
-    // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
+    checkWin();
+  }
 
+  void checkWin(){
+    if(ksModel.player.won == true){
+      ksView.showWin();
+    }
   }
 
   /*
@@ -220,6 +250,6 @@ class KistenschiebenController {
   }
 
   void resetGame() {
-    ksModel.reset(level, column, row);
+    ksModel.reset();
   }
 }
