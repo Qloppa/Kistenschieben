@@ -4,6 +4,7 @@ import 'Target.dart';
 import 'QuattroLinkedList.dart';
 import 'Player.dart';
 import 'Crate.dart';
+import 'Statistics.dart';
 
 class KistenschiebenModel {
 
@@ -14,18 +15,27 @@ class KistenschiebenModel {
   List<String> crates;
   List<String> crates_old;
   String playerPos_old;
+  Statistics stats;
+  //vars to reset the game
+  List<List> actualLevel;
+  int columns;
+  int rows;
+
 
   /*
   constructor
    */
   KistenschiebenModel() {
-
+    stats = new Statistics();
   }
 
   /*
   loads the level from a String with the size m x n
    */
   loadLvl(List<List> levelList, int column, int row) {
+    this.actualLevel = levelList;
+    this.columns = column;
+    this.rows = row;
     String level = levelList.join(",").replaceAll(",", "").replaceAll("[", "")
         .replaceAll("]", "").replaceAll(" ", "")
         .substring(1);
@@ -127,10 +137,6 @@ class KistenschiebenModel {
   }
 
   show(m, n) {
-//    int x = 3;
-//    int y = 4;
-//    String id;
-//    id = "#pos" + x.toString() + "_" + y.toString();
     print("PlayerPosition: " + player.getPosition());
     print("CratePosition: " + crate.getPosition());
     qlList.printField(m, n);
@@ -143,40 +149,23 @@ class KistenschiebenModel {
   String playerPositionAsString() {
     return player.getPositionAsString();
   }
-  /*
-  Creates and returns a list with the positions of all crates for the view
-   */
-//  List<String> cratePositions() {
-//    List<String> dummy = new List();
-//    for (int i = 0; i < crates.length; i++) {
-//      dummy.add(crates.elementAt(i).getPositionAsString());
-//    }
-//    return dummy;
-//  }
 
-  /*
-  returns the position of the player as a string for the view
-   */
-
-
-//  createPosString() {
-//    int x = 3;
-//    int y = 4;
-//    String id;
-//    id += "#pos" + x.toString() + "_" + y.toString();
-//  }
-
-
-  reset(level, m, n) {
-    loadLvl(level, m, n);
+  reset() {
+    loadLvl(actualLevel, columns, rows);
+    stats.resetLocal();
   }
 
-  loadStatistics() {
-
+  resetTotal(){
+    loadLvl(actualLevel, columns, rows);
+    stats.resetAll();
   }
 
-  saveStatistics() {
+  loadStats(int lm, int gm, int lp, int gp, int lt, int gt) {
+    stats.loadStats(lm, gm, lp, gp, lt, gt);
+  }
 
+  List<int> getStatistics() {
+    return stats.getStats();
   }
 
   printErrorMessage() {
