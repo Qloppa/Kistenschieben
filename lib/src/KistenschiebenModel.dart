@@ -17,9 +17,9 @@ class KistenschiebenModel {
   String playerPos_old;
   Statistics stats;
   //vars to reset the game
-  List<List> actualLevel;
-  int columns;
-  int rows;
+  String actualLevel;
+  int column;
+  int row;
 
   /*
   constructor
@@ -31,13 +31,12 @@ class KistenschiebenModel {
   /*
   loads the level from a String with the size m x n
    */
-  loadLvl(List<List> levelList, int column, int row) {
-    this.actualLevel = levelList;
-    this.columns = column;
-    this.rows = row;
-    String level = levelList.join(",").replaceAll(",", "").replaceAll("[", "")
-        .replaceAll("]", "").replaceAll(" ", "")
-        .substring(1);
+  loadLvl(String level, int row,int column) {
+    this.actualLevel = level;
+    this.column = column;
+    this.row = row;
+    level = level.substring(1);
+    level = level.toUpperCase();
 
 
     qlList = null;
@@ -66,6 +65,11 @@ class KistenschiebenModel {
             break;
           case 'T' :
             target = qlList.addRight(new Target(target));
+            break;
+          case 'S' :
+            target = qlList.addRight(new Target(target));
+            crate = new Crate(qlList.addRight(target));
+            crate.staysOn.setCrate(crate);
             break;
         }
       }
@@ -142,7 +146,7 @@ class KistenschiebenModel {
   }
 
   List<String> crateList() {
-    return qlList.createCrateList(columns,rows);
+    return qlList.createCrateList(row,column);
   }
 
   String playerPositionAsString() {
@@ -150,12 +154,12 @@ class KistenschiebenModel {
   }
 
   reset() {
-    loadLvl(actualLevel, columns, rows);
+    loadLvl(actualLevel, row,column);
     stats.resetLocal();
   }
 
   resetTotal(){
-    loadLvl(actualLevel, columns, rows);
+    loadLvl(actualLevel,row, column);
     stats.resetAll();
   }
 

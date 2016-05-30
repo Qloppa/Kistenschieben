@@ -4,6 +4,7 @@ import 'dart:async';
 import 'GameKey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
+import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 30);
@@ -25,11 +26,16 @@ class KistenschiebenController {
   Timer gamekeyTrigger;
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  int column = 11;
-  int row = 8;
+
+  Levelgenerator lvlgen = new Levelgenerator();
+  int column = 3;
+  int row = 3;
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
-  List<List> level = [
+
+ String level = "wwwgcpwww";
+
+  /*List<List> level = [
     ['W', 'W', 'W', 'W', 'W','W','W', 'W', 'W', 'W', 'W'],
     ['W', 'G', 'T', 'T', 'G','G','G', 'G', 'G', 'G', 'W'],
     ['W', 'C', 'C', 'C', 'G','G','G', 'G', 'G', 'G', 'W'],
@@ -39,7 +45,7 @@ class KistenschiebenController {
     ['W', 'G', 'G', 'G', 'G','G','G', 'G', 'G', 'G', 'W'],
     ['W', 'W', 'W', 'W', 'W', 'W','W', 'W', 'W', 'W', 'W']
   ];
-
+*/
   /*
   CONSTRUCTOR
    */
@@ -184,7 +190,7 @@ class KistenschiebenController {
       print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       print(playerPos_new);
-      updateView(playerPos_old,crates_old,playerPos_new,crates_new);;;;;;;;;
+      updateView(playerPos_old,crates_old,playerPos_new,crates_new);
       checkWin();
     }
   }
@@ -205,7 +211,7 @@ class KistenschiebenController {
       print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       print(playerPos_new);
-      updateView(playerPos_old,crates_old,playerPos_new,crates_new);;;;;;;;;;
+      updateView(playerPos_old,crates_old,playerPos_new,crates_new);
       checkWin();
     }
   }
@@ -226,7 +232,7 @@ class KistenschiebenController {
       print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       print(playerPos_new);
-      updateView(playerPos_old,crates_old,playerPos_new,crates_new);;;;;;;;
+      updateView(playerPos_old,crates_old,playerPos_new,crates_new);
       checkWin();
 
     }
@@ -265,8 +271,8 @@ class KistenschiebenController {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
 
-    ksModel.loadLvl(level, column, row);
-    ksView.loadLevel(level);
+    ksModel.loadLvl(lvlgen.getEndFormat(),lvlgen.getColumn(), lvlgen.getRow());
+    ksView.loadLevel(lvlgen.getEndFormat(),lvlgen.getColumn(), lvlgen.getRow());
   }
 
   void resetGame() {

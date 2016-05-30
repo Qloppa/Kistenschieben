@@ -108,12 +108,12 @@ class QuattroLinkedList {
     nextPrint = firstInRowPrint;
   }
 
-  createCrateList(column, row) {
+  createCrateList(row,column) {
     crateList = new List();
     nextPrint = root;
     firstInRowPrint = root;
-    for (int i = 0; i < row; i++) {
-      for (int j = 1; j < column; j++) {
+    for (int i = 0; i < column; i++) {
+      for (int j = 1; j < row; j++) {
         searchRight();
       }
       searchDown();

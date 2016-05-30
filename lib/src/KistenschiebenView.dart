@@ -40,50 +40,57 @@ class KistenschiebenView {
 
   }
 
-  String generateLevelFromString(List<List> levelString) {
-  scaling();
-    int x = -1;
-    int y = -1;
+  String generateLevelFromString(String level,int row,int column) {
+    scaling();
+
+    level = level.toUpperCase();
     String type = "";
     String initObj = "";
-
-    String table = levelString.map((row) {
-      y++;
-      x = -1;
-      String zeile = row.map((col) {
-        x++;
-        switch (col) {
-          case "W":
-            type = "wall";
-            initObj = "";
+    String formatlevel = "";
+    for (int j = 0; j < row; j++) {
+      //
+      formatlevel += "<tr>";
+      for (int i = 0; i < column; i++) {
+        //Zeilen
+        String firstChar = level.substring(0, 1);
+        level = level.substring(1);
+        switch (firstChar) {
+          case 'W' :
+            formatlevel += "<td id=\"pos$i\_$j\" class=\"wall\" ></td>";
             break;
-          case "T":
-            type = "target";
-            initObj = "";
+          case 'G' :
+            formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
             break;
-          case "G":
-            type = "ground";
-            initObj = "";
+          case 'P' :
+            formatlevel +=
+            "<td id=\"pos$i\_$j\" class=\"ground\">$player</td>";
             break;
-          case "C":
-            type = "ground";
-            initObj = this.crate;
+          case 'C' :
+            formatlevel +=
+            "<td id=\"pos$i\_$j\" class=\"ground\">$crate</td>";
             break;
-          case "P":
-            type = "ground";
-            initObj = this.player;
+          case 'T' :
+            formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
+            break;
+          case 'S' :
+            "<td id=\"pos$i\_$j\" class=\"target\">$crate</td>";
             break;
         }
-        return "<td id=\"pos$x\_$y\" class=\"$type\">$initObj</td>";
-      }).join();
-      return "<tr>$zeile</tr>\n";
-    }).join();
-    return "<table>\n $table</table>";
+      }
+
+      formatlevel += "</tr>\n";
+    }
+
+    formatlevel = "<table>\n$formatlevel</table>";
+    print(formatlevel);
+    return formatlevel;
+
+
   }
 
-  loadLevel(List<List> levelList) {
+  loadLevel(String lvl,int row,int column) {
 
-    String level = generateLevelFromString(levelList);
+    String level = generateLevelFromString(lvl,column, row);
     querySelector("level").innerHtml = level;
     scaling();
     querySelector("#win").innerHtml="";
