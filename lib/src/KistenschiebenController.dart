@@ -11,6 +11,10 @@ const gamekeyCheck = const Duration(seconds: 30);
 const gameSecret = '2819b92f78114417';
 
 const gamekeySettings = 'gamekey.json';
+
+const levels = 'game.json';
+
+const statistics = 'stats.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 class KistenschiebenController {
@@ -142,6 +146,27 @@ class KistenschiebenController {
   }
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  /*
+  loads the level with the given number from the game.json. Available: 1, 2, 3
+   */
+  loadLevel(int number){
+    HttpRequest.getString(levels).then((json) {
+      final levelMap = JSON.decode(json);
+      switch(number){
+        case 1 : level = levelMap["levelEins"];
+        break;
+        case 2 : level = levelMap["levelZwei"];
+        break;
+        case 3 : level = levelMap["levelDrei"];
+        break;
+      }
+    });
+  }
+
+  saveProgress(){
+
+  }
 
   /*
   tells the Player to move up. updates the view if the model returns true
