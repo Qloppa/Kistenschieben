@@ -4,22 +4,44 @@ class KistenschiebenView {
 
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
+  String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
+
 
   KistenschiebenView() {
     print("running view...");
+    scaling();
 
 
   }
 
- /* showWin(){
-    //Anzeigen, dass gewonnen
+  void scaling(){
+    querySelectorAll("img").style.height = "40px";
+    querySelectorAll("img").style.width = "50px";
+    querySelectorAll("td").style.height = "40px";
+    querySelectorAll("td").style.width = "50px";
+    querySelectorAll(".target").style.height = "40px";
+    querySelectorAll(".target").style.width = "50px";
+    querySelectorAll(".ground").style.height = "40px";
+    querySelectorAll(".ground").style.width = "50px";
+    querySelectorAll(".wall").style.height = "40px";
+    querySelectorAll(".wall").style.width = "50px";
   }
-*/
+
+
+
+  void showWin(){
+
+  querySelector("level"). innerHtml = "";
+  querySelector("#win").innerHtml = win;
+
+  }
+
   void levelrequest() {
 
   }
 
   String generateLevelFromString(List<List> levelString) {
+  scaling();
     int x = -1;
     int y = -1;
     String type = "";
@@ -60,19 +82,11 @@ class KistenschiebenView {
   }
 
   loadLevel(List<List> levelList) {
+
     String level = generateLevelFromString(levelList);
-
-
     querySelector("level").innerHtml = level;
-    querySelectorAll("td").style.height="70px";
-    querySelectorAll("td").style.width="70px";
-    querySelectorAll(".target").style.height="70px";
-    querySelectorAll(".target").style.width="70px";
-    querySelectorAll(".wall").style.height="70px";
-    querySelectorAll(".wall").style.width="70px";
-    querySelectorAll("img").style.height="70px";
-    querySelectorAll("img").style.width="70px";
-
+    scaling();
+    querySelector("#win").innerHtml="";
 
 
   }
@@ -153,6 +167,7 @@ class KistenschiebenView {
 
     }
 
+    scaling();
 
 
 
@@ -162,13 +177,3 @@ class KistenschiebenView {
 }
 
 
-//void main(){
-// KistenschiebenView view = new KistenschiebenView();
-// String player = "#pos2_4";
-// List<String> crates = ["#pos2_3","#pos3_4"];
-
-//moveRight();
-//view.keyHandler();
-//querySelector("#pos2_4").appendHtml("player");
-
-//}

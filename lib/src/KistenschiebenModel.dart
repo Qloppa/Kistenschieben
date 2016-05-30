@@ -21,7 +21,6 @@ class KistenschiebenModel {
   int columns;
   int rows;
 
-
   /*
   constructor
    */
@@ -143,7 +142,7 @@ class KistenschiebenModel {
   }
 
   List<String> crateList() {
-    return qlList.createCrateList(6, 5);
+    return qlList.createCrateList(columns,rows);
   }
 
   String playerPositionAsString() {
