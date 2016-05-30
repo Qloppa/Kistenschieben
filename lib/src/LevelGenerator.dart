@@ -3,15 +3,9 @@ import 'dart:convert';
 
 class Levelgenerator {
 
-  int levels = 0;
-
-  //Anzahl der Gesamtlevel
-  int aktuelesLevel = 0;
-
-  //Aktuelle Level
-  int levelValue = 0;
-
-  //levelnumber
+  int levels = 0; //Anzahl der Gesamtlevel
+  int aktuelesLevel = 0; //Aktuelle Level
+  int levelValue = 0; //levelnumber
   int column = 0;
   int row = 0;
   String endformat;
