@@ -1,25 +1,35 @@
 table{
   
 
-  height:500px;
+  height:475px;
   width:600px;
    margin-left: auto;
   margin-right:auto;
 }
 
-table, td{
+table,td{
 
  border-collapse:collapse;
   border: 1px solid;
 
 
-  
+
+
+
 }
 
-td.ground{
+#lvl{
 
-  height:80px;
-  width:100px;
+    height:480px;
+    width:600px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td,.ground,.wall,.target,img{
+    text-align: center;
+
 
 }
 
@@ -30,30 +40,38 @@ td.ground{
 }
 
 .target{
-  font-size:22px;
-  text-align:center;
+
   background-color: blue;
-  
-}
+   text-align: center;
 
-.ground,player{
- text-align:center;
-  height: 80px;
-  width:100px;
-  
 }
 
 
-
-.ground,crate{
-  text-align:center;
-  height: 80px;
-  width:100px;
-  
-}
 
 h1{
     text-align: center;
     border-collapse:collapse;
 
+}
+
+#win{
+
+    text-align: center;
+
+
+}
+
+
+#states{
+    text-align: center;
+    margin-left: auto;
+    margin-right:auto ;
+
+
+}
+
+#userstatus{
+
+    font-size: 20px;
+    text-align: right;
 }
