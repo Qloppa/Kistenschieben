@@ -75,6 +75,24 @@ class GameKey {
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  Future<bool> loginUser(String name, String pwd) async{
+    if (!_available) return new Future.value(false);
+    try {
+      final userID = await getUserId(name);
+      if (userID == null) {
+        return null;
+      }
+      final user = await getUser(userID, pwd);
+      if(user != null) {
+        return true;
+      }
+    } catch (error, stacktrace) {
+      print("GameKey.changeUserName() caused following error: '$error'");
+      print("$stacktrace");
+      return false;
+    }
+  }
+
   Future<bool> changeUserName(String oldName, String pwd,
       String newName) async {
     if (!_available) return new Future.value(false);

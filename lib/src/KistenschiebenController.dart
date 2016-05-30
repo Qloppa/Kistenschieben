@@ -26,6 +26,7 @@ class KistenschiebenController {
   Timer gamekeyTrigger;
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  bool gkAvailable = false;
 
   Levelgenerator lvlgen = new Levelgenerator();
   int column = 3;
@@ -67,9 +68,12 @@ class KistenschiebenController {
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
           if (await this.gamekey.authenticate() == true) {
             print("Authentifizierung Erfolgreich!");
+            gkAvailable = true;
           } else {
             print("Authentifizierung Fehlgeschlagen!");
+            gkAvailable = false;
           }
+          ksView.setGameKeyAvailable(gkAvailable);
         });
       });
     } catch (error, stacktrace) {
