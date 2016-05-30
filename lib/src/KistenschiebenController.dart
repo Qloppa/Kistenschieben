@@ -33,8 +33,6 @@ class KistenschiebenController {
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
 
- String level = "wwwgcpwww";
-
   /*List<List> level = [
     ['W', 'W', 'W', 'W', 'W','W','W', 'W', 'W', 'W', 'W'],
     ['W', 'G', 'T', 'T', 'G','G','G', 'G', 'G', 'G', 'W'],
