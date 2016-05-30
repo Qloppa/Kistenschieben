@@ -66,11 +66,13 @@ class KistenschiebenModel {
           case 'T' :
             target = qlList.addRight(new Target(target));
             break;
+          /*
           case 'S' :
             target = qlList.addRight(new Target(target));
             crate = new Crate(qlList.addRight(target));
             crate.staysOn.setCrate(crate);
             break;
+           */
         }
       }
       if (level.length > 0) {

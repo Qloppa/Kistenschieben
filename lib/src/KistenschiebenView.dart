@@ -72,9 +72,9 @@ class KistenschiebenView {
           case 'T' :
             formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
             break;
-          case 'S' :
-            "<td id=\"pos$i\_$j\" class=\"target\">$crate</td>";
-            break;
+          //case 'S' :
+          //"<td id=\"pos$i\_$j\" class=\"target\">$crate</td>";
+          //break;
         }
       }
 
