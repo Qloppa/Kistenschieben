@@ -2,7 +2,6 @@ import 'dart:core';
 import 'FieldObject.dart';
 
 class Player {
-  bool won = false;
   FieldObject staysOn;
   int pushPower = 1;
 
@@ -20,25 +19,24 @@ class Player {
     if (staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.upPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
 
-
+  /*
+  Moves the player to the right position
+  returns true if possible, false if not
+   */
   bool moveRight() {
     if (staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.rightPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }
@@ -51,14 +49,11 @@ class Player {
     if (staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.downPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
-
   }
 
   /*
@@ -69,11 +64,9 @@ class Player {
     if (staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.leftPointer;
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return true;
-    }else{
+    } else {
       print("PlayerPosition: " + getPosition());
-      print(staysOn.runtimeType);
       return false;
     }
   }

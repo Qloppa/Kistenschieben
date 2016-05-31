@@ -15,8 +15,9 @@ class KistenschiebenModel {
   List<String> crates;
   List<String> crates_old;
   String playerPos_old;
+
   Statistics stats;
-  //vars to reset the game
+
   String actualLevel;
   int column;
   int row;
@@ -25,26 +26,28 @@ class KistenschiebenModel {
   constructor
    */
   KistenschiebenModel() {
-    stats = new Statistics();
+
+  }
+  bool checkWin() {
+    return target.checkOutNeighbours();
   }
 
   /*
   loads the level from a String with the size m x n
    */
-  loadLvl(String level, int row,int column) {
-    this.actualLevel = level;
+  loadLvl(String level, int row, int column) {
     this.column = column;
     this.row = row;
-    level = level.substring(1);
-    level = level.toUpperCase();
-
+    this.actualLevel = level;
 
     qlList = null;
     qlList = new QuattroLinkedList();
+    //level = "wwwwwwwwwgggpgggwwcccccccwwtttwtttwwtttttttwwcccgcccwwgggggggwwwwwwwwww"; //TODO hart codiert M&F
+    level = level.substring(1);
     level = level.toUpperCase();
-    for (int i = 0; i < row; i++) {
+    for (int i = 0; i < column; i++) {
       //Spalten
-      for (int j = 1; j < column; j++) {
+      for (int j = 1; j < row; j++) {
         //Zeilen
         String firstChar = level.substring(0, 1);
         level = level.substring(1);
@@ -61,14 +64,13 @@ class KistenschiebenModel {
           case 'C' :
             crate = new Crate(qlList.addRight(new Ground()));
             crate.staysOn.setCrate(crate);
-            //crates.add(crate);
             break;
           case 'T' :
             target = qlList.addRight(new Target(target));
             break;
           /*
           case 'S' :
-            target = qlList.addRight(new Target(target));
+            target = new Target(target);
             crate = new Crate(qlList.addRight(target));
             crate.staysOn.setCrate(crate);
             break;
@@ -77,6 +79,7 @@ class KistenschiebenModel {
       }
       if (level.length > 0) {
         //wollen wir anders abfangen DIRTY
+        //TODO wenn etwas anderes als W an dieser Stelle steht, Fehlermeldung (nicht zulässig) M&F
         String firstChar = level.substring(0, 1);
         level = level.substring(1);
         switch (firstChar) {
@@ -87,7 +90,11 @@ class KistenschiebenModel {
             qlList.addDown(new Ground());
             break;
           case 'P' :
-            qlList.addRight(new Ground());
+            player = new Player(qlList.addRight(new Ground()));
+            break;
+          case 'C' :
+            crate = new Crate(qlList.addRight(new Ground()));
+            crate.staysOn.setCrate(crate);
             break;
           case 'T' :
             target = qlList.addRight(new Target(target));
@@ -142,13 +149,17 @@ class KistenschiebenModel {
   }
 
   show(m, n) {
+//    int x = 3;
+//    int y = 4;
+//    String id;
+//    id = "#pos" + x.toString() + "_" + y.toString();
     print("PlayerPosition: " + player.getPosition());
     print("CratePosition: " + crate.getPosition());
     qlList.printField(m, n);
   }
 
   List<String> crateList() {
-    return qlList.createCrateList(row,column);
+    return qlList.createCrateList(column, row); //TODO möglicherweise umdrehen M&F
   }
 
   String playerPositionAsString() {
@@ -156,12 +167,12 @@ class KistenschiebenModel {
   }
 
   reset() {
-    loadLvl(actualLevel, row,column);
+    loadLvl(actualLevel, row, column);
     stats.resetLocal();
   }
 
-  resetTotal(){
-    loadLvl(actualLevel,row, column);
+  resetTotal() {
+    loadLvl(actualLevel, row, column);
     stats.resetAll();
   }
 

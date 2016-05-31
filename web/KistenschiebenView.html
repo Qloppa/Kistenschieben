@@ -1,28 +1,40 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="scaffolded-by" content="https://github.com/google/stagehand">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="scaffolded-by" content="https://github.com/google/stagehand">
     <title>KistenschiebenView</title>
-   <script type="application/dart" src="Main.dart"></script>
-      <script defer src="packages/browser/dart.js"></script>
-     <link rel="stylesheet" type="text/css" href="KistenschiebenView.css"/>
-  </head>
-  <body>
-  <h1>Kistenschieben</h1>
- <button id="b1_1">Registrieren</button><button id="b1_2">Anmelden</button><button id="b1_3">Ohne Anmeldung spielen</button><div id="userstatus">Userstatus: nicht Angemeldet</div>
-  <div><button id="b4"> Load Level</button>
-      <select name="levels">
-          <option id="id1">Level 1</option>
-      </select>
+    <script type="application/dart" src="Main.dart"></script>
+    <script defer src="packages/browser/dart.js"></script>
+    <link rel="stylesheet" type="text/css" href="KistenschiebenView.css"/>
+</head>
+<body>
+<h1>Kistenschieben</h1>
+<button id="register">Registrieren</button>
+<button id="login">Anmelden</button>
+<button id="wOLogin">Ohne Anmeldung spielen</button>
+<div id="userstatus">Userstatus: nicht Angemeldet</div>
+<div>
+    <button id="loadLvl">Load Level</button>
+    <select name="levels">
+        <option id="id1">Level 1</option>
 
-  </div>
-  <div><button id="b5">Show States</button><div id="win"><win></win></div></div>
-  <div id="lvl"><level></level></div>
-  <div id="states"><states></states></div>
-
-  </body>
+    </select>
+</div>
+<div>
+    <button id="showStates">Show States</button>
+    <div id="win">
+        <win></win>
+    </div>
+</div>
+<div id="lvl">
+    <level></level>
+</div>
+<div id="states">
+    <states></states>
+</div>
+</body>
 </html>

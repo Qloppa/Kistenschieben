@@ -1,26 +1,17 @@
-table{
-  
-
-  height:475px;
-  width:600px;
-   margin-left: auto;
-  margin-right:auto;
+table {
+    height: 475px; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-table,td{
-
- border-collapse:collapse;
-  border: 0px solid;
-
-
-
-
-
+table, td {
+    border-collapse: collapse;
+    border: 1px solid; /*TODO Tableborder bis grafiken eingefügt werden mit linien M&F*/
 }
 
-#lvl{
-
-    height:480px;
+#lvl{ /*TODO haben wir das nicht oben schon festgelegt? (table) M&F*/
+    height:475px; /*stand auf 480px*/
     width:600px;
     text-align: center;
     margin-left: auto;
@@ -29,49 +20,46 @@ table,td{
 
 td,.ground,.wall,.target,img{
     text-align: center;
-
-
 }
 
-
-
-.wall{
-  background-color: grey;
+.wall {
+    background-color: grey;
 }
 
-.target{
-
-  background-color: blue;
-   text-align: center;
-
+.target {
+    /*text-align: center; TODO das sagen wir doch schon bei rd oder? M&F*/
+    background-color: blue;
 }
-
-
-
-h1{
+/*
+TODO was ist denn mit ground, player und crate? und wieso ehemalig zweimal ground? M&F
+.ground, player {
     text-align: center;
-    border-collapse:collapse;
-
+    height: 80px;
+    width: 100px;
 }
 
+.ground, crate {
+    text-align: center;
+    height: 80px;
+    width: 100px;
+}
+*/
+
+h1 {
+    text-align: center;
+    border-collapse: collapse;
+}
 #win{
-
     text-align: center;
-
-
 }
-
 
 #states{
     text-align: center;
     margin-left: auto;
     margin-right:auto ;
-
-
 }
 
 #userstatus{
-
     font-size: 20px;
     text-align: right;
 }

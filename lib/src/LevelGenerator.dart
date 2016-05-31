@@ -1,17 +1,17 @@
 import 'dart:html';
 import 'dart:convert';
 
-class Levelgenerator {
+class LevelGenerator {
 
   int levels = 0; //Anzahl der Gesamtlevel
   int aktuelesLevel = 0; //Aktuelle Level
-  int levelValue = 1; //levelnumber
+  int levelValue = 0; //levelnumber
   int column = 0;
   int row = 0;
   String endformat;
 
   //Reading Level from Json
-  Levelgenerator() {
+  LevelGenerator() {
     loadData();
   }
 
@@ -30,31 +30,26 @@ class Levelgenerator {
     Map str2 = lvl.elementAt(levelValue); // LevelIndex
     Levelformatter(str2);
     this.levels = str.length; //Anzahl der Level
-
-    //  print(levels);
-    // print(str2);
-
   }
 
 
   void setSelectlevel(int lvlValue) {
     this.levelValue = lvlValue;
   }
+  void nextLvl() {
+    this.levelValue++;
+  }
+
 
   Levelformatter(Map level) {
     this.aktuelesLevel = level.values.elementAt(0);
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
     List<Map> levelFormatList = level.values.elementAt(3);
-    // print("aktueles Level: "+"$aktuelesLevel");
-    //print("column: "+ "$column");
-    //print("row: "+"$row");
-    //print(levelFormatList);
     String levelformat = levelFormatList.join(",").replaceAll("{", "")
         .replaceAll("}", "").replaceAll("r: ", "")
         .replaceAll(",", "");
     this.endformat = levelformat;
-    print(levelformat);
   }
 
   int getColumn() {

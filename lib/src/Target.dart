@@ -5,6 +5,7 @@ class Target extends FieldObject {
   Target prevTarget = null;
   Target nextTarget = null;
 
+
   Target(Target prevTarget) : super() {
     this.passable = true;
     this.isTarget = true;

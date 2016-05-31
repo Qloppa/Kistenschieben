@@ -75,7 +75,7 @@ class GameKey {
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  Future<bool> loginUser(String name, String pwd) async{
+  Future<bool> loginUser(String name, String pwd) async {
     if (!_available) return new Future.value(false);
     try {
       final userID = await getUserId(name);
@@ -83,7 +83,7 @@ class GameKey {
         return null;
       }
       final user = await getUser(userID, pwd);
-      if(user != null) {
+      if (user != null) {
         return true;
       }
     } catch (error, stacktrace) {
@@ -222,7 +222,6 @@ class GameKey {
       final answer = await HttpRequest.request("$uri", method: 'GET');
       if (answer.status == 200) {
         this._available = true;
-        print("WIR SIND JETZT IM AUTHENTICATE!!!");
       }
       return answer.status == 200 ? true : throw answer.responseText;
     } catch (error, stacktrace) {

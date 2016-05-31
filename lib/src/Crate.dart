@@ -1,26 +1,12 @@
 import 'FieldObject.dart';
 
-
 class Crate {
   var staysOn;
-  bool won =false;
-
 
   Crate(FieldObject staysOn) {
     this.staysOn = staysOn;
     staysOn.passable = false;
   }
-
-  bool getWinState(){
-    return this.won;
-  }
-
-  void setWinState(bool val){
-    this.won=val;
-
-
-  }
-
 
   move(FieldObject wherePlayerStaysOn, pushPower) {
     if (wherePlayerStaysOn == staysOn.upPointer) {
@@ -43,9 +29,8 @@ class Crate {
       staysOn.downPointer.crate = null;
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() != false) {
-          setWinState(true);
-          print("You won!!!moveUp");
+        if (staysOn.checkOutNeighbours() == true) {
+          print("You won!!!");
         }
       }
       print("CratePosition: " + getPosition());
@@ -64,9 +49,8 @@ class Crate {
       staysOn.leftPointer.crate = null;
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() != false) {
-          setWinState(true);
-          print("You won!!!moveRight");
+        if (staysOn.checkOutNeighbours() == true) {
+          print("You won!!!");
         }
       }
       print("CratePosition: " + getPosition());
@@ -85,9 +69,8 @@ class Crate {
       staysOn.upPointer.crate = null;
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() != false) {
-          setWinState(true);
-          print("You won!!! moveDown");
+        if (staysOn.checkOutNeighbours() == true) {
+          print("You won!!!");
         }
       }
       print("CratePosition: " + getPosition());
@@ -106,9 +89,8 @@ class Crate {
       staysOn.rightPointer.crate = null;
       staysOn.crate = this;
       if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() != false) {
-          setWinState(true);
-          print("You won!!!MoveLeft");
+        if (staysOn.checkOutNeighbours() == true) {
+          print("You won!!!");
         }
       }
       print("CratePosition: " + getPosition());
