@@ -242,9 +242,9 @@ class KistenschiebenController {
 
   checkWin() {
     if (ksModel.checkWin() == true) {
-      //ksView.showWin();
       genLvl.nextLvl();
       genLvl.loadData();
+      //ksView.showWin();
       newGame();
     }
   }
