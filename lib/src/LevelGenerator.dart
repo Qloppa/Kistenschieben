@@ -36,10 +36,10 @@ class LevelGenerator {
   void setSelectlevel(int lvlValue) {
     this.levelValue = lvlValue;
   }
+
   void nextLvl() {
     this.levelValue++;
   }
-
 
   Levelformatter(Map level) {
     this.aktuelesLevel = level.values.elementAt(0);

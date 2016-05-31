@@ -25,6 +25,14 @@ class KistenschiebenView {
     querySelectorAll(".wall").style.width = "50px";
   }
 
+  setGameKeyAvailable(bool value){
+    if(value==true){
+      querySelector("#gamekeystatus").style.color="green";
+      querySelector("#gamekeystatus").innerHtml= "Authentifizierung erfolgreich";
+    }else querySelector("#gamekeystatus").style.color="red";
+    querySelector("#gamekeystatus").innerHtml= "Verbunden";
+  }
+
   void showWin() {
     querySelector("level").innerHtml = "";
     querySelector("#win").innerHtml = win; //TODO 1 M&F

@@ -7,7 +7,7 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const gamekeyCheck = const Duration(seconds: 30);
+const gamekeyCheck = const Duration(seconds: 5);
 
 const gameSecret = '2819b92f78114417';
 
@@ -72,7 +72,7 @@ class KistenschiebenController {
             print("Authentifizierung Fehlgeschlagen!");
             gkAvailable = false;
           }
-          //ksView.setGameKeyAvailable(gkAvailable);
+          ksView.setGameKeyAvailable(gkAvailable);
         });
       });
     } catch (error, stacktrace) {

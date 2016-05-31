@@ -63,3 +63,9 @@ h1 {
     font-size: 20px;
     text-align: right;
 }
+#gamekeystatus{
+    color:red;
+    font-size:20px;
+    text-align:right;
+
+}
