@@ -42,7 +42,6 @@ class KistenschiebenModel {
 
     qlList = null;
     qlList = new QuattroLinkedList();
-    //level = "wwwwwwwwwgggpgggwwcccccccwwtttwtttwwtttttttwwcccgcccwwgggggggwwwwwwwwww"; //TODO hart codiert M&F
     level = level.substring(1);
     level = level.toUpperCase();
     for (int i = 0; i < column; i++) {

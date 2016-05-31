@@ -28,9 +28,12 @@ class KistenschiebenView {
   setGameKeyAvailable(bool value){
     if(value==true){
       querySelector("#gamekeystatus").style.color="green";
-      querySelector("#gamekeystatus").innerHtml= "Authentifizierung erfolgreich";
-    }else querySelector("#gamekeystatus").style.color="red";
-    querySelector("#gamekeystatus").innerHtml= "Verbunden";
+      querySelector("#gamekeystatus").innerHtml= "Gamekeystatus: Verbunden";
+    } else {
+      querySelector("#gamekeystatus").style.color = "red";
+      querySelector("#gamekeystatus").innerHtml =
+      "Gamekeystatus: nicht Verbunden";
+    }
   }
 
   void showWin() {
@@ -40,7 +43,6 @@ class KistenschiebenView {
 
   String generateLevelFromString(String level, int row, int column) {
     scaling();
-    //level = "wwwwwwwwwgggpgggwwcccccccwwtttwtttwwtttttttwwcccgcccwwgggggggwwwwwwwwww"; //TODO hart codiert M&F
     level = level.toUpperCase();
 
     String type = "";

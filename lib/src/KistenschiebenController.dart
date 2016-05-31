@@ -30,17 +30,8 @@ class KistenschiebenController {
 
 
   LevelGenerator genLvl = new LevelGenerator();
-  int column = 9;
-  int row = 8;
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
-  List<List> level = [
-    ['W', 'W', 'W', 'W', 'W', 'W'],
-    ['W', 'G', 'G', 'T', 'T', 'W'],
-    ['W', 'C', 'C', 'C', 'G', 'W'],
-    ['W', 'T', 'G', 'G', 'P', 'W'],
-    ['W', 'W', 'W', 'W', 'W', 'W']
-  ];
 
   /*
   CONSTRUCTOR
