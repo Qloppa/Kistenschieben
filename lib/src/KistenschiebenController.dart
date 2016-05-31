@@ -238,14 +238,16 @@ class KistenschiebenController {
     // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
     checkWin();
   }
+
   //TODO checkWin!!! M&F
 
   checkWin() {
     if (ksModel.checkWin() == true) {
-      genLvl.nextLvl();
-      genLvl.loadData();
+      if(genLvl.getLevelValue()<=genLvl.getLevelAmount()) {
+        genLvl.nextLvl();
+        genLvl.loadData().whenComplete(() => newGame());
+      }
       //ksView.showWin();
-      newGame();
     }
   }
 
@@ -254,8 +256,9 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a xml)
    */
   void newGame() {
-    ksModel.loadLvl(genLvl.getEndFormat(),genLvl.getColumn(), genLvl.getRow());
-    ksView.loadLevel(genLvl.getEndFormat(),genLvl.getColumn(), genLvl.getRow());
+    ksModel.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
+    ksView.loadLevel(
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
   }
 
   void resetGame() {

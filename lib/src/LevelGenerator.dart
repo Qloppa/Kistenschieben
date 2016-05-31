@@ -1,11 +1,18 @@
 import 'dart:html';
+import 'dart:async';
 import 'dart:convert';
 
 class LevelGenerator {
 
-  int levels = 0; //Anzahl der Gesamtlevel
-  int aktuelesLevel = 0; //Aktuelle Level
-  int levelValue = 9; //levelnumber
+  int levels = 0;
+
+  //Anzahl der Gesamtlevel
+  int aktuelesLevel = 0;
+
+  //Aktuelle Level
+  int levelValue = 0;
+
+  //levelnumber
   int column = 0;
   int row = 0;
   String endformat;
@@ -15,9 +22,10 @@ class LevelGenerator {
     loadData();
   }
 
-  void loadData() {
+  Future loadData() async {
     // call the web server asynchronously
-    var request = HttpRequest.getString("../web/level.json").then(onDataLoaded);
+    final request = await HttpRequest.getString("../web/level.json").then(
+        onDataLoaded);
   }
 
 
@@ -39,6 +47,14 @@ class LevelGenerator {
 
   void nextLvl() {
     this.levelValue++;
+  }
+
+  getLevelValue() {
+    return this.levelValue;
+  }
+
+  getLevelAmount() {
+    return this.levels;
   }
 
   Levelformatter(Map level) {

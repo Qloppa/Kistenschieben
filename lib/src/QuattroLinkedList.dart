@@ -31,7 +31,6 @@ class QuattroLinkedList {
     //Position setzen
     fieldObject.position.x = fieldObject.leftPointer.position.x + 1;
     fieldObject.position.y = fieldObject.leftPointer.position.y;
-    print(fieldObject.position.x.toString() + ", " + fieldObject.position.y.toString());
     if (fieldObject.leftPointer.upPointer != null &&
         fieldObject.leftPointer.upPointer.rightPointer != null) {
       fieldObject.upPointer = fieldObject.leftPointer.upPointer.rightPointer;
@@ -53,7 +52,6 @@ class QuattroLinkedList {
     //Position setzen
     fieldObject.position.x = fieldObject.upPointer.position.x;
     fieldObject.position.y = fieldObject.upPointer.position.y + 1;
-    print(fieldObject.position.x.toString() + ", " + fieldObject.position.y.toString());
     firstInRow = fieldObject;
     lastAdded = firstInRow;
 
