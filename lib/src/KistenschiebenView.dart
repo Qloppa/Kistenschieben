@@ -8,7 +8,7 @@ class KistenschiebenView {
 
   KistenschiebenView() {
     print("running view...");
-    scaling(); //TODO warum hier obwohl im scaling nur objekte aus dem Level definiert werden? M&F
+
   }
 
   void scaling() {
@@ -50,7 +50,6 @@ class KistenschiebenView {
 
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
-      //TODO sind culmn und row in der richtigen reihenfolge? M&F
       //Spalten
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
