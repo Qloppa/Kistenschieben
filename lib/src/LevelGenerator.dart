@@ -27,7 +27,6 @@ class LevelGenerator {
         onDataLoaded);
   }
 
-
 // print the raw json response text from the server
   void onDataLoaded(String responseText) {
     var jsonString = JSON.decode(responseText);
@@ -60,7 +59,6 @@ class LevelGenerator {
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
     List<Map> levelFormatList = level.values.elementAt(3);
-    print(levelFormatList);
     String levelformat = levelFormatList.join(",").replaceAll("{", "")
         .replaceAll("}", "").replaceAll("r: ", "")
         .replaceAll(",", "");
