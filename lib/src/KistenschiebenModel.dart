@@ -13,7 +13,6 @@ class KistenschiebenModel {
   Crate crate = null;
   Target target = null;
   List<String> crates;
-  List<String> crates_old;
   String playerPos_old;
 
   Statistics stats;
@@ -42,6 +41,7 @@ class KistenschiebenModel {
 
     qlList = null;
     qlList = new QuattroLinkedList();
+
     level = level.substring(1);
     level = level.toUpperCase();
     for (int i = 0; i < column; i++) {
@@ -67,13 +67,11 @@ class KistenschiebenModel {
           case 'T' :
             target = qlList.addRight(new Target(target));
             break;
-          /*
           case 'S' :
             target = new Target(target);
             crate = new Crate(qlList.addRight(target));
             crate.staysOn.setCrate(crate);
             break;
-           */
         }
       }
       if (level.length > 0) {
@@ -89,14 +87,14 @@ class KistenschiebenModel {
             qlList.addDown(new Ground());
             break;
           case 'P' :
-            player = new Player(qlList.addRight(new Ground()));
+            player = new Player(qlList.addDown(new Ground()));
             break;
           case 'C' :
-            crate = new Crate(qlList.addRight(new Ground()));
+            crate = new Crate(qlList.addDown(new Ground()));
             crate.staysOn.setCrate(crate);
             break;
           case 'T' :
-            target = qlList.addRight(new Target(target));
+            target = qlList.addDown(new Target(target));
             break;
         }
       }
@@ -145,16 +143,6 @@ class KistenschiebenModel {
     } else {
       return false;
     }
-  }
-
-  show(m, n) {
-//    int x = 3;
-//    int y = 4;
-//    String id;
-//    id = "#pos" + x.toString() + "_" + y.toString();
-    print("PlayerPosition: " + player.getPosition());
-    print("CratePosition: " + crate.getPosition());
-    qlList.printField(m, n);
   }
 
   List<String> crateList() {

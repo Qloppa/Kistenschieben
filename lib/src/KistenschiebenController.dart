@@ -7,7 +7,7 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const gamekeyCheck = const Duration(seconds: 5);
+const gamekeyCheck = const Duration(seconds: 10);
 
 const gameSecret = '2819b92f78114417';
 
@@ -231,10 +231,11 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old, List<String>crates_old,
       String playerPos_new, List<String> crates_new) {
+    //print(crates_new);
 //    List<String> cratePositions_new = ksModel.crateList(); //Liste von Positionen von Kisten;
 //    String playerposition_new = ksModel.playerPositionAsString();
 
-    ksView.updateView(playerPos_old, crates_old, playerPos_new, crates_new);
+    ksView.updateView(playerPos_old, playerPos_new, crates_new);
     // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
     checkWin();
   }
@@ -243,14 +244,18 @@ class KistenschiebenController {
 
   checkWin() {
     if (ksModel.checkWin() == true) {
-      if(genLvl.getLevelValue()<=genLvl.getLevelAmount()) {
-        genLvl.nextLvl();
-        genLvl.loadData().whenComplete(() => newGame());
-      }
       //ksView.showWin();
+      //TODO Nutzer muss eigentlich erst auf "nextLvlButton" drücken
+      nextLvl();
     }
   }
 
+  nextLvl() {
+    if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
+      genLvl.nextLvl();
+      genLvl.loadData().whenComplete(() => newGame());
+    }
+  }
 
   /*
   creates the model, starts a new game and creates the map from a String (later from a xml)

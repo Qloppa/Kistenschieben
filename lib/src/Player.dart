@@ -16,7 +16,7 @@ class Player {
   returns true if possible, false if not
    */
   bool moveUp() {
-    if (staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
+    if (staysOn.upPointer != null && staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.upPointer;
       print("PlayerPosition: " + getPosition());
       return true;
@@ -31,7 +31,7 @@ class Player {
   returns true if possible, false if not
    */
   bool moveRight() {
-    if (staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
+    if (staysOn.rightPointer != null && staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.rightPointer;
       print("PlayerPosition: " + getPosition());
       return true;
@@ -46,7 +46,7 @@ class Player {
   returns true if possible, false if not
    */
   bool moveDown() {
-    if (staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
+    if (staysOn.downPointer != null && staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.downPointer;
       print("PlayerPosition: " + getPosition());
       return true;
@@ -61,7 +61,7 @@ class Player {
   returns true if possible, false if not
    */
   bool moveLeft() {
-    if (staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
+    if (staysOn.leftPointer != null && staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
       staysOn = staysOn.leftPointer;
       print("PlayerPosition: " + getPosition());
       return true;

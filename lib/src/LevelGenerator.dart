@@ -3,16 +3,15 @@ import 'dart:async';
 import 'dart:convert';
 
 class LevelGenerator {
-
-  int levels = 0;
-
   //Anzahl der Gesamtlevel
-  int aktuelesLevel = 1;
+  int lvlNumberSum = 0;
 
   //Aktuelle Level
-  int levelValue = 0;
+  int currentLvl = 0;
 
   //levelnumber
+  int lvlNumber = 7;
+
   int column = 0;
   int row = 0;
   String endformat;
@@ -28,37 +27,35 @@ class LevelGenerator {
         onDataLoaded);
   }
 
-
 // print the raw json response text from the server
   void onDataLoaded(String responseText) {
     var jsonString = JSON.decode(responseText);
     var lvl = jsonString.values.toList().elementAt(0);
 
     List str = lvl; //Anzahl der Level
-    Map str2 = lvl.elementAt(levelValue); // LevelIndex
+    Map str2 = lvl.elementAt(lvlNumber); // LevelIndex
     Levelformatter(str2);
-    this.levels = str.length; //Anzahl der Level
+    this.lvlNumberSum = str.length; //Anzahl der Level
   }
 
-
   void setSelectlevel(int lvlValue) {
-    this.levelValue = lvlValue;
+    this.lvlNumber = lvlValue;
   }
 
   void nextLvl() {
-    this.levelValue++;
+    this.lvlNumber++;
   }
 
   getLevelValue() {
-    return this.levelValue;
+    return this.lvlNumber;
   }
 
   getLevelAmount() {
-    return this.levels;
+    return this.lvlNumberSum;
   }
 
   Levelformatter(Map level) {
-    this.aktuelesLevel = level.values.elementAt(0);
+    this.currentLvl = level.values.elementAt(0);
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
     List<Map> levelFormatList = level.values.elementAt(3);
