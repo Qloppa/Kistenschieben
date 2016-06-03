@@ -39,7 +39,6 @@ class LevelGenerator {
     this.lvlNumberSum = str.length; //Anzahl der Level
   }
 
-
   void setSelectlevel(int lvlValue) {
     this.lvlNumber = lvlValue;
   }
