@@ -27,11 +27,11 @@ class FieldObject {
     this.leftPointer = null;
   }
 
-  isPassable(FieldObject wherePlayerStaysOn, int pushPower) {
+  isPassable(FieldObject whereActorStaysOn, int pushPower) {
     if (this.crate == null) {
       return true;
     } else if (pushPower > 0) {
-      return crate.move(wherePlayerStaysOn, pushPower);
+      return crate.move(whereActorStaysOn, pushPower);
     } else {
       return false;
     }

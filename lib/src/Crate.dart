@@ -8,14 +8,14 @@ class Crate {
     staysOn.passable = false;
   }
 
-  move(FieldObject wherePlayerStaysOn, pushPower) {
-    if (wherePlayerStaysOn == staysOn.upPointer) {
+  move(FieldObject whereActorStaysOn, pushPower) {
+    if (whereActorStaysOn == staysOn.upPointer) {
       return moveDown(pushPower);
-    } else if (wherePlayerStaysOn == staysOn.rightPointer) {
+    } else if (whereActorStaysOn == staysOn.rightPointer) {
       return moveLeft(pushPower);
-    } else if (wherePlayerStaysOn == staysOn.downPointer) {
+    } else if (whereActorStaysOn == staysOn.downPointer) {
       return moveUp(pushPower);
-    } else if (wherePlayerStaysOn == staysOn.leftPointer) {
+    } else if (whereActorStaysOn == staysOn.leftPointer) {
       return moveRight(pushPower);
     }
   }

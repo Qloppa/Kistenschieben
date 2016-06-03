@@ -43,7 +43,7 @@
 			"row": 8,
 			"column": 6,
 			"format": 	[{"r":"wwwwww"},
-				{"r":"wttttw"},
+				{"r":"wttstw"},
 				{"r":"wtcggw"},
 				{"r":"wwgcgw"},
 				{"r":"wwcgww"},
@@ -62,7 +62,7 @@
 				{"r":"wgwgwctw"},
 				{"r":"wgggwggw"},
 				{"r":"wwwwwpgw"},
-				{"r":"wwwwwwww"}
+				{"r":"ggggwwww"}
 			]
 		},
 		{ "level" :6,
@@ -72,7 +72,7 @@
 				{"r":"wggggggpw"},
 				{"r":"wgctctcgw"},
 				{"r":"wgtctctgw"},
-				{"r":"wgctttcgw"},
+				{"r":"wgctstcgw"},
 				{"r":"wgtctctgw"},
 				{"r":"wgctctcgw"},
 				{"r":"wgggggggw"},
@@ -104,7 +104,7 @@
 				{"r":"wgggwgwwgwwwwwggttw"},
 				{"r":"wgcggcggggggggggttw"},
 				{"r":"wwwwwgwwwgwpwwggttw"},
-				{"r":"gggwgggggwwwwwwwwww"},
+				{"r":"ggggwgggggwwwwwwwww"},
 				{"r":"ggggwwwwwwwgggggggg"}
 			]
 		},
@@ -136,6 +136,22 @@
 				{"r":"wwtttggggcggcgggw"},
 				{"r":"wttttggwwwwwwwwww"},
 				{"r":"wwwwwwwwggggggggg"}
+			]
+		},
+		{
+			"level" :11,
+			"row": 10,
+			"column": 10,
+			"format":[{"r":"gggggttttt"},
+					{"r":"gggccccggt"},
+					{"r":"ggggccgggt"},
+					{"r":"gcggggggct"},
+					{"r":"gccggggcct"},
+					{"r":"tccggpgccg"},
+					{"r":"tcggggggcg"},
+					{"r":"tgggccgggg"},
+					{"r":"tggccccggg"},
+					{"r":"tttttggggw"}
 			]
 		}
 
