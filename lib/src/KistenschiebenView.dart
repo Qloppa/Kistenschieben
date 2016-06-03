@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 class KistenschiebenView {
@@ -7,13 +8,13 @@ class KistenschiebenView {
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
+
   KistenschiebenView() {
     print("running view...");
-    scaling(); //TODO warum hier obwohl im scaling nur objekte aus dem Level definiert werden? M&F
   }
 
+
   void scaling() {
-    //TODO gehört sowas nicht in die CSS? M&F
     /*querySelectorAll("img").style.height = "10%";
     querySelectorAll("img").style.width = "10%";*/
     querySelectorAll("td").style.height = "1337%";
@@ -51,7 +52,6 @@ class KistenschiebenView {
 
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
-      //TODO sind culmn und row in der richtigen reihenfolge? M&F
       //Spalten
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
@@ -85,14 +85,36 @@ class KistenschiebenView {
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table>\n$formatlevel</table>";
+    print(formatlevel);
     return formatlevel;
   }
 
-  loadLevel(String lvl, int row, int column) {
+  Future<bool> loadLevel(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
-    scaling(); //TODO nochmal?? M&F
+    scaling();
     querySelector("#win").innerHtml = ""; //TODO 2 M&F
+
+  }
+
+  String touchListener() {
+    querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
+      String id = (ev.target as HtmlElement).id;
+      if (id == "") {
+        id = (ev.target as HtmlElement).parent.id;
+      } else {
+
+      }
+      return id;
+    });
+  }
+
+  registerUser() async {
+
+  }
+
+  loginUser() async {
+
   }
 
   void updateView(String playerPosition_old,

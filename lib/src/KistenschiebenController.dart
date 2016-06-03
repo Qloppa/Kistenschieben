@@ -1,6 +1,7 @@
-import 'dart:html';
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
+
 import 'GameKey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
@@ -39,6 +40,17 @@ class KistenschiebenController {
   KistenschiebenController() {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
+    querySelector('#register').onMouseDown.listen((MouseEvent e) {
+      ksView.registerUser();
+      querySelector("form").style.visibility = "visible";
+    });
+    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+      ksView.loginUser();
+    });
+    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
+      newGame();
+    });
+
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     print("startGameKey");
     try {
@@ -71,8 +83,8 @@ class KistenschiebenController {
       print("$stacktrace");
     }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//    ksModel.playerPos_old = ksModel.playerPositionAsString();
-//    ksModel.crates_old = ksModel.crateList();
+    //ksModel.playerPos_old = ksModel.playerPositionAsString();
+    //ksModel.crates_old = ksModel.crateList();
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
@@ -222,7 +234,20 @@ class KistenschiebenController {
   /*
   moves the player to a position when the touchscreen is used.
    */
-  void moveTouch() {
+  moveTouch() {
+    querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
+      String id = (ev.target as HtmlElement).id;
+      if (id == "") {
+        id = (ev.target as HtmlElement).parent.id;
+      } else {
+
+      }
+
+      print(id);
+      //Hier kommt die logik (ausserhalb des Closures funktioniert es nicht -,-)
+
+    });
+
 
   }
 
@@ -262,8 +287,8 @@ class KistenschiebenController {
    */
   void newGame() {
     ksModel.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
-    ksView.loadLevel(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
+    ksView.loadLevel(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        .whenComplete(moveTouch);
   }
 
   void resetGame() {
