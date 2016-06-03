@@ -7,7 +7,7 @@ class LevelGenerator {
   int levels = 0;
 
   //Anzahl der Gesamtlevel
-  int aktuelesLevel = 0;
+  int aktuelesLevel = 1;
 
   //Aktuelle Level
   int levelValue = 0;
