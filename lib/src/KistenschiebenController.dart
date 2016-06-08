@@ -7,7 +7,7 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const gamekeyCheck = const Duration(seconds: 10);
+const gamekeyCheck = const Duration(seconds: 60);
 
 const gameSecret = '2819b92f78114417';
 
@@ -237,21 +237,121 @@ class KistenschiebenController {
     }
   }
 
-  reactTouch() {
+  /*
+  enables movement by clicking on the Field. Takes the coordinates and hands them over to the moveTouch
+   */
+  void reactTouch() {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
       String id = (ev.target as HtmlElement).id;
       if (id == "") {
         id = (ev.target as HtmlElement).parent.id;
       }
-      print(id);
+      id = id.replaceAll("pos", "");
+      List<String> lol = id.split("_");
+      int x = int.parse(lol[0]);
+      int y = int.parse(lol[1]);
+      moveTouch(x, y);
     });
   }
 
   /*
-  moves the player to a position when the touchscreen is used.
+  moves the player to a given position when the touchscreen is used.
    */
-  void moveTouch() {
+  void moveTouch(int targetX, int targetY) {
+    int px = ksModel.getPlayerPosX();
+    int py = ksModel.getPlayerPosY();
+    int dir = checkDirection(targetX, targetY, px, py);
+    switch (dir) {
+      case 0 :
+        break;
+    //stay
+      case 1 :
+      //up
+        touchUp(py - targetY);
+        break;
+      case 2 :
+      //right
+        touchRight(targetX - px);
+        break;
+      case 3 :
+      //down
+        touchDown(targetY - py);
+        break;
+      case 4 :
+      //left
+        touchLeft(px - targetX);
+        break;
+    }
+  }
 
+
+  /*
+  moves the player up for a given number of fields.
+   */
+  void touchUp(int count) {
+    while (count > 0) {
+      moveUp();
+      count--;
+    }
+  }
+
+  /*
+  moves the player to the right for a given number of fields.
+   */
+  void touchRight(int count) {
+    while (count > 0) {
+      moveRight();
+      count--;
+    }
+  }
+
+  /*
+  moves the player down for a given number of fields.
+   */
+  void touchDown(int count) {
+    while (count > 0) {
+      moveDown();
+      count--;
+    }
+  }
+
+  /*
+  moves the player to the left for a given number of fields.
+   */
+  void touchLeft(int count) {
+    while (count > 0) {
+      moveLeft();
+      count--;
+    }
+  }
+
+  /*
+  returns an integer as id for the direction the player has to move
+  0 - stay
+  1 - up
+  2 - right
+  3 - down
+  4 - left
+   */
+  int checkDirection(int targetX, int targetY, int playerX, int playerY) {
+    if (targetX == playerX && targetY == playerY) {
+      return 0;
+    }
+    if (targetX == playerX) {
+      if (targetY < playerY) {
+        return 1;
+      } else {
+        return 3;
+      }
+    }
+    if (targetY == playerY) {
+      if (targetX < playerX) {
+        return 4;
+      } else {
+        return 2;
+      }
+    }
+    return 0;
   }
 
   /*
@@ -282,6 +382,9 @@ class KistenschiebenController {
     }
   }
 
+  /*
+  Starts the next Level
+   */
   nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
@@ -296,11 +399,21 @@ class KistenschiebenController {
   void newGame() {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(reactTouch);
+        .whenComplete(reactTouch); //Hier geaendert
   }
 
+  /*
+  Resets Game and local stats
+   */
   void resetGame() {
     ksModel.reset();
+  }
+
+  /*
+	Resets Game and all stats (local and global)
+	*/
+  void resetTotal() {
+    ksModel.resetTotal();
   }
 
 }
