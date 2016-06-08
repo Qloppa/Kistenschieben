@@ -151,8 +151,6 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   void moveUp() {
-    List<String> crates_old = ksModel.crateList();
-    //print(crates_old);
     String playerPos_old = ksModel.playerPositionAsString();
     //print(playerPos_old);
     //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
@@ -161,7 +159,7 @@ class KistenschiebenController {
       //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       //print(playerPos_new);
-      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
+      updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
 
@@ -169,8 +167,6 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   void moveRight() {
-    List<String> crates_old = ksModel.crateList();
-    //print(crates_old);
     String playerPos_old = ksModel.playerPositionAsString();
     //print(playerPos_old);
     //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
@@ -179,7 +175,7 @@ class KistenschiebenController {
       //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       //print(playerPos_new);
-      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
+      updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
 
@@ -187,8 +183,6 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   void moveDown() {
-    List<String> crates_old = ksModel.crateList();
-    //print(crates_old);
     String playerPos_old = ksModel.playerPositionAsString();
     //print(playerPos_old);
     //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
@@ -197,7 +191,7 @@ class KistenschiebenController {
       //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       //print(playerPos_new);
-      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
+      updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
 
@@ -205,8 +199,6 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   void moveLeft() {
-    List<String> crates_old = ksModel.crateList();
-    //print(crates_old);
     String playerPos_old = ksModel.playerPositionAsString();
     //print(playerPos_old);
     // ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
@@ -215,7 +207,7 @@ class KistenschiebenController {
       //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
       //print(playerPos_new);
-      updateView(playerPos_old, crates_old, playerPos_new, crates_new);
+      updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
 
@@ -229,9 +221,9 @@ class KistenschiebenController {
   /*
   takes the positions of the player and the crates
    */
-  void updateView(String playerPos_old, List<String>crates_old,
-      String playerPos_new, List<String> crates_new) {
-    //print(crates_new);
+  void updateView(String playerPos_old,
+      String playerPos_new, List<String> crates_new) { //TODO das ist zwar absoluter Blödsinn, dass bei jedem move das komplette Spielfeld nach kisten durchsucht wid....aber die View kann zurzeit nur damit umgehen
+      //print(crates_new);
 //    List<String> cratePositions_new = ksModel.crateList(); //Liste von Positionen von Kisten;
 //    String playerposition_new = ksModel.playerPositionAsString();
 
@@ -239,8 +231,6 @@ class KistenschiebenController {
     // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
     checkWin();
   }
-
-  //TODO checkWin!!! M&F
 
   checkWin() {
     if (ksModel.checkWin() == true) {
@@ -261,7 +251,7 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a xml)
    */
   void newGame() {
-    ksModel.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
+    ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLevel(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
   }
@@ -269,4 +259,5 @@ class KistenschiebenController {
   void resetGame() {
     ksModel.reset();
   }
+
 }
