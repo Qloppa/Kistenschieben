@@ -16,6 +16,37 @@ class Target extends FieldObject {
     }
   }
 
+  bool checkOutNeighbours() {
+    return checkOutNeighboursPrev() && checkOutNeighboursNext();
+  }
+
+  bool checkOutNeighboursPrev() {
+    bool ret = false;
+    print("checkOutNeightboursPrev: "+ (this.crate != null).toString());
+    if((this.prevTarget == null || this.prevTarget.checkOutNeighboursPrev()==true) && this.crate != null) {
+      ret = true;
+      print("Prev: true");
+    } else {
+      ret = false;
+      print("Prev: false");
+    }
+    return ret;
+  }
+
+  bool checkOutNeighboursNext() {
+    bool ret = false;
+    if((this.nextTarget == null || this.nextTarget.checkOutNeighboursNext()==true) && this.crate != null) {
+      ret = true;
+      print("Next: true");
+    } else {
+      ret = false;
+      print("Next: false");
+    }
+    return ret;
+  }
+
+
+  /*
   checkOutNeighbours() {
     return checkOutNeighboursL() && checkOutNeighboursR();
   }
@@ -37,4 +68,5 @@ class Target extends FieldObject {
     }
     return false;
   }
+  */
 }
