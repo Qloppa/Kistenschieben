@@ -243,7 +243,7 @@ class KistenschiebenController {
   nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
-      genLvl.loadData().whenComplete(() => newGame());
+      genLvl.loadData().whenComplete(newGame);
     }
   }
 
