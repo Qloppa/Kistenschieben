@@ -3,6 +3,7 @@ import 'dart:html';
 
 class KistenschiebenView {
 
+  //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
@@ -17,8 +18,8 @@ class KistenschiebenView {
   void scaling() {
     /*querySelectorAll("img").style.height = "10%";
     querySelectorAll("img").style.width = "10%";*/
-    querySelectorAll("td").style.height = "1337%";
-    querySelectorAll("td").style.width = "1337%";
+    querySelectorAll("td").style.height = "100%";
+    querySelectorAll("td").style.width = "100%";
     querySelectorAll(".target").style.height = "10%";
     querySelectorAll(".target").style.width = "10%";
     querySelectorAll(".ground").style.height = "10%";
@@ -39,8 +40,8 @@ class KistenschiebenView {
   }
 
   void showWin() {
-    querySelector("level").innerHtml = "";
-    querySelector("#win").innerHtml = win; //TODO Overlay M&F
+    querySelector("#container").innerHtml =
+    "<div id=\"overlay\"><h2>LEVEL ABGESCHLOSSEN!!!</h2><button id=\"next\">Next Level</button></div>";
   }
 
   String generateLevelFromString(String level, int row, int column) {
@@ -89,11 +90,15 @@ class KistenschiebenView {
     return formatlevel;
   }
 
+  bool nextLevel() {
+    querySelector("#next").style.visibility = "visible";
+    return true;
+  }
+
   Future<bool> loadLevel(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
     scaling();
-    querySelector("#win").innerHtml = ""; //TODO 2 M&F
 
   }
 
@@ -109,13 +114,13 @@ class KistenschiebenView {
     });
   }
 
-  registerUser() async {
 
-  }
+  String get username =>
+      (document.querySelector('#username') as InputElement).value;
 
-  loginUser() async {
 
-  }
+  String get userpassword =>
+      (document.querySelector('#userpassword') as InputElement).value;
 
   void updateView(String playerPosition_old,
       String playerPosition_new, List<String>cratePosition_new) {

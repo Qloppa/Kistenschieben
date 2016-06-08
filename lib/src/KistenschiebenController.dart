@@ -41,14 +41,30 @@ class KistenschiebenController {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
     querySelector('#register').onMouseDown.listen((MouseEvent e) {
-      ksView.registerUser();
       querySelector("form").style.visibility = "visible";
+
     });
+
+    document
+        .querySelector('#submit')
+        .onMouseDown
+        .listen((MouseEvent ev) {
+      String username = ksView.username;
+      String password = ksView.userpassword;
+      querySelector("#example").innerHtml = username;
+      gamekey.registerUser(username, password);
+    });
+
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
-      ksView.loginUser();
+
     });
-    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
+    querySelector('#wOLogin').onMouseLeave.listen((MouseEvent e) {
+      querySelector('#register').style.visibility = "hidden";
+      querySelector('#login').style.visibility = "hidden";
+      querySelector('#wOLogin').style.visibility = "hidden";
       newGame();
+      //querySelector('#wOLogin').innerHtml = "Try Again";
+
     });
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -98,6 +114,9 @@ class KistenschiebenController {
           break;
         case KeyCode.LEFT:
           moveLeft();
+          break;
+        case KeyCode.BACKSPACE:
+          newGame();
           break;
       }
       return "";
@@ -234,18 +253,17 @@ class KistenschiebenController {
   /*
   moves the player to a position when the touchscreen is used.
    */
-  moveTouch() {
+  reactTouch() {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
+
       String id = (ev.target as HtmlElement).id;
+
       if (id == "") {
         id = (ev.target as HtmlElement).parent.id;
-      } else {
 
       }
 
       print(id);
-      //Hier kommt die logik (ausserhalb des Closures funktioniert es nicht -,-)
-
     });
 
 
@@ -269,9 +287,14 @@ class KistenschiebenController {
 
   checkWin() {
     if (ksModel.checkWin() == true) {
-      //ksView.showWin();
-      //TODO Nutzer muss eigentlich erst auf "nextLvlButton" drücken
-      nextLvl();
+      ksView.showWin();
+      if (ksView.nextLevel() == true) {
+        print("ja");
+        querySelector("#next").onMouseDown.listen((MouseEvent e) {
+          querySelector("#container").innerHtml = "";
+          nextLvl();
+        });
+      }
     }
   }
 
@@ -279,6 +302,7 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       genLvl.loadData().whenComplete(() => newGame());
+      querySelector("#next").style.visibility = "hidden";
     }
   }
 
@@ -288,7 +312,7 @@ class KistenschiebenController {
   void newGame() {
     ksModel.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLevel(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(moveTouch);
+        .whenComplete(reactTouch);
   }
 
   void resetGame() {

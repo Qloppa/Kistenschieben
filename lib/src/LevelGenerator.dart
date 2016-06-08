@@ -1,6 +1,6 @@
-import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html';
 
 class LevelGenerator {
   //Anzahl der Gesamtlevel
@@ -10,7 +10,7 @@ class LevelGenerator {
   int currentLvl = 0;
 
   //levelnumber
-  int lvlNumber = 7;
+  int lvlNumber = 0;
 
   int column = 0;
   int row = 0;
