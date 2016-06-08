@@ -12,28 +12,32 @@
     <link rel="stylesheet" type="text/css" href="KistenschiebenView.css"/>
 </head>
 <body>
+<span id="welcome">
 <h1>Kistenschieben</h1>
-<button id="register">Registrieren</button>
-<button id="login">Anmelden</button>
-<button id="wOLogin">Ohne Anmeldung spielen</button>
-<div id="userstatus">Userstatus: nicht Angemeldet</div>
-<div id="gamekeystatus">Gamekeystatus: nicht Verbunden</div>
-<div>
-    <button id="loadLvl">Load Level</button>
-    <select name="levels">
-        <option id="id1">Level 1</option>
-
-    </select>
-</div>
-<div>
-    <button id="showStates">Show States</button>
-    <div id="win">
-        <win></win>
+</span>
+<div id="container"></div>
+<div id="start">
+    <div id="b1">
+        <button id="register">Registrieren</button>
+    </div>
+    <div id="b2">
+        <button id="login">Anmelden</button>
+    </div>
+    <div id="b3">
+        <button id="wOLogin">Ohne Anmeldung spielen</button>
     </div>
 </div>
+<div id="userstatus">Userstatus: nicht Angemeldet</div>
+<div id="gamekeystatus">Gamekeystatus: nicht Verbunden</div>
+<form id="inputdates">
+    <input type="text" id="username">
+    <input type="password" id="userpassword">
+    <button id="submit">submit</button>
+</form>
 <div id="lvl">
     <level></level>
 </div>
+<div id="example"></div>
 <div id="states">
     <states></states>
 </div>

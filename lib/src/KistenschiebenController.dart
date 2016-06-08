@@ -39,6 +39,29 @@ class KistenschiebenController {
   KistenschiebenController() {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
+    querySelector('#register').onMouseDown.listen((MouseEvent e) {
+      querySelector("form").style.visibility = "visible";
+    });
+
+    document
+        .querySelector('#submit')
+        .onMouseDown
+        .listen((MouseEvent ev) {
+      String username = ksView.username;
+      String password = ksView.userpassword;
+      querySelector("#example").innerHtml = username;
+      gamekey.registerUser(username, password);
+    });
+
+    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+
+    });
+    querySelector('#wOLogin').onMouseLeave.listen((MouseEvent e) {
+      querySelector('#register').style.visibility = "hidden";
+      querySelector('#login').style.visibility = "hidden";
+      querySelector('#wOLogin').style.visibility = "hidden";
+      newGame();
+    });
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     print("startGameKey");
     try {
@@ -86,6 +109,9 @@ class KistenschiebenController {
           break;
         case KeyCode.LEFT:
           moveLeft();
+          break;
+        case KeyCode.BACKSPACE:
+          newGame();
           break;
       }
       return "";
@@ -211,6 +237,16 @@ class KistenschiebenController {
     }
   }
 
+  reactTouch() {
+    querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
+      String id = (ev.target as HtmlElement).id;
+      if (id == "") {
+        id = (ev.target as HtmlElement).parent.id;
+      }
+      print(id);
+    });
+  }
+
   /*
   moves the player to a position when the touchscreen is used.
    */
@@ -222,8 +258,9 @@ class KistenschiebenController {
   takes the positions of the player and the crates
    */
   void updateView(String playerPos_old,
-      String playerPos_new, List<String> crates_new) { //TODO das ist zwar absoluter Blödsinn, dass bei jedem move das komplette Spielfeld nach kisten durchsucht wid....aber die View kann zurzeit nur damit umgehen
-      //print(crates_new);
+      String playerPos_new, List<String> crates_new) {
+    //TODO das ist zwar absoluter Blödsinn, dass bei jedem move das komplette Spielfeld nach kisten durchsucht wid....aber die View kann zurzeit nur damit umgehen
+    //print(crates_new);
 //    List<String> cratePositions_new = ksModel.crateList(); //Liste von Positionen von Kisten;
 //    String playerposition_new = ksModel.playerPositionAsString();
 
@@ -234,9 +271,14 @@ class KistenschiebenController {
 
   checkWin() {
     if (ksModel.checkWin() == true) {
-      //ksView.showWin();
-      //TODO Nutzer muss eigentlich erst auf "nextLvlButton" drücken
-      nextLvl();
+      ksView.showWin();
+      if (ksView.nextLvl() == true) {
+        print("ja");
+        querySelector("#next").onMouseDown.listen((MouseEvent e) {
+          querySelector("#container").innerHtml = "";
+          nextLvl();
+        });
+      }
     }
   }
 
@@ -244,6 +286,7 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       genLvl.loadData().whenComplete(() => newGame());
+      querySelector("#next").style.visibility = "hidden";
     }
   }
 
@@ -252,8 +295,8 @@ class KistenschiebenController {
    */
   void newGame() {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.loadLevel(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow());
+    ksView.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        .whenComplete(reactTouch);
   }
 
   void resetGame() {

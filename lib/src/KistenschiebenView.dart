@@ -1,23 +1,25 @@
+import 'dart:async';
 import 'dart:html';
 
 class KistenschiebenView {
 
+  //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
+
   KistenschiebenView() {
     print("running view...");
-    scaling(); //TODO warum hier obwohl im scaling nur objekte aus dem Level definiert werden? M&F
   }
 
+
   void scaling() {
-    //TODO gehört sowas nicht in die CSS? M&F
     /*querySelectorAll("img").style.height = "10%";
     querySelectorAll("img").style.width = "10%";*/
-    querySelectorAll("td").style.height = "1337%";
-    querySelectorAll("td").style.width = "1337%";
+    querySelectorAll("td").style.height = "100%";
+    querySelectorAll("td").style.width = "100%";
     querySelectorAll(".target").style.height = "10%";
     querySelectorAll(".target").style.width = "10%";
     querySelectorAll(".ground").style.height = "10%";
@@ -38,8 +40,8 @@ class KistenschiebenView {
   }
 
   void showWin() {
-    querySelector("level").innerHtml = "";
-    querySelector("#win").innerHtml = win; //TODO Overlay M&F
+    querySelector("#container").innerHtml =
+    "<div id=\"overlay\"><h2>LEVEL ABGESCHLOSSEN!!!</h2><button id=\"next\">Next Level</button></div>";
   }
 
   String generateLevelFromString(String level, int row, int column) {
@@ -51,7 +53,6 @@ class KistenschiebenView {
 
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
-      //TODO sind culmn und row in der richtigen reihenfolge? M&F
       //Spalten
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
@@ -85,15 +86,41 @@ class KistenschiebenView {
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table>\n$formatlevel</table>";
+    print(formatlevel);
     return formatlevel;
   }
 
-  loadLevel(String lvl, int row, int column) {
+  bool nextLvl() {
+    querySelector("#next").style.visibility = "visible";
+    return true;
+  }
+
+  Future<bool> loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
-    scaling(); //TODO nochmal?? M&F
-    querySelector("#win").innerHtml = ""; //TODO 2 M&F
+    scaling();
+
   }
+
+  String touchListener() {
+    querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
+      String id = (ev.target as HtmlElement).id;
+      if (id == "") {
+        id = (ev.target as HtmlElement).parent.id;
+      } else {
+
+      }
+      return id;
+    });
+  }
+
+
+  String get username =>
+      (document.querySelector('#username') as InputElement).value;
+
+
+  String get userpassword =>
+      (document.querySelector('#userpassword') as InputElement).value;
 
   void updateView(String playerPosition_old,
       String playerPosition_new, List<String>cratePosition_new) {
