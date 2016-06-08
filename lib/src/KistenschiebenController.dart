@@ -56,10 +56,10 @@ class KistenschiebenController {
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
 
     });
-    querySelector('#wOLogin').onMouseLeave.listen((MouseEvent e) {
-      querySelector('#register').style.visibility = "hidden";
-      querySelector('#login').style.visibility = "hidden";
-      querySelector('#wOLogin').style.visibility = "hidden";
+    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
+      querySelector('#register').remove();
+      querySelector('#login').remove();
+      querySelector('#wOLogin').remove();
       newGame();
     });
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
