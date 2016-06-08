@@ -1,6 +1,6 @@
 table {
-    height: 100%; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
-    width: 58%;
+    height: 100px; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
+    width: 100px;
     margin-left: auto;
     margin-right: auto;
 }

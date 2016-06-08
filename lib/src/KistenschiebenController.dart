@@ -118,36 +118,6 @@ class KistenschiebenController {
     });
   }
 
-  //***************************************************
-  /*
-			    //Falls Buttons genutzt werden, nicht entfernen!
-			    querySelectorAll("Left").onMouseDown.listen((MouseEvent me){
-			      moveLeft();
-			    });
-
-			    querySelectorAll("Right").onMouseDown.listen((MouseEvent me){
-			      moveRight();
-			    });
-
-			    querySelectorAll("Up").onMouseDown.listen((MouseEvent me){
-			      moveUp();
-			    });
-
-			    querySelectorAll("Down").onMouseDown.listen((MouseEvent me){
-			      moveDown();
-			    });
-
-			    querySelectorAll("Reset").onMouseDown.listen((MouseEvent me){
-			      resetGame();
-			    });
-
-			    querySelectorAll("Ground").onMouseDown.listen((MouseEvent me){ //Herausfinden wie für Ground, Target und Crate
-			      moveTouch(ksModel.player.getPosition(), "");//Position noch aendern
-
-			    });
-			    */
-  //***************************************************
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   /**
    * Retrieves TOP 10 highscore from Gamekey service.
@@ -178,13 +148,9 @@ class KistenschiebenController {
    */
   void moveUp() {
     String playerPos_old = ksModel.playerPositionAsString();
-    //print(playerPos_old);
-    //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
     if (ksModel.moveUp() == true) {
       List<String> crates_new = ksModel.crateList();
-      //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
-      //print(playerPos_new);
       updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
@@ -194,13 +160,9 @@ class KistenschiebenController {
    */
   void moveRight() {
     String playerPos_old = ksModel.playerPositionAsString();
-    //print(playerPos_old);
-    //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
     if (ksModel.moveRight() == true) {
       List<String> crates_new = ksModel.crateList();
-      //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
-      //print(playerPos_new);
       updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
@@ -210,13 +172,9 @@ class KistenschiebenController {
    */
   void moveDown() {
     String playerPos_old = ksModel.playerPositionAsString();
-    //print(playerPos_old);
-    //ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
     if (ksModel.moveDown() == true) {
       List<String> crates_new = ksModel.crateList();
-      //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
-      //print(playerPos_new);
       updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
@@ -226,13 +184,9 @@ class KistenschiebenController {
    */
   void moveLeft() {
     String playerPos_old = ksModel.playerPositionAsString();
-    //print(playerPos_old);
-    // ksView.updateView(playerPos_old,crates_old,playerPos_old,crates_old);
     if (ksModel.moveLeft() == true) {
       List<String> crates_new = ksModel.crateList();
-      //print(crates_new);
       String playerPos_new = ksModel.playerPositionAsString();
-      //print(playerPos_new);
       updateView(playerPos_old, playerPos_new, crates_new);
     }
   }
@@ -360,18 +314,15 @@ class KistenschiebenController {
   void updateView(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
     //TODO das ist zwar absoluter Blödsinn, dass bei jedem move das komplette Spielfeld nach kisten durchsucht wid....aber die View kann zurzeit nur damit umgehen
-    //print(crates_new);
-//    List<String> cratePositions_new = ksModel.crateList(); //Liste von Positionen von Kisten;
-//    String playerposition_new = ksModel.playerPositionAsString();
-
     ksView.updateView(playerPos_old, playerPos_new, crates_new);
-    // ksView.updateView(playerPos_old,crates_old,playerPos_new,crates_new);
     checkWin();
   }
 
   checkWin() {
     if (ksModel.checkWin() == true) {
+      print("gewonnen");
       ksView.showWin();
+      print("showWin");
       if (ksView.nextLvl() == true) {
         print("ja");
         querySelector("#next").onMouseDown.listen((MouseEvent e) {

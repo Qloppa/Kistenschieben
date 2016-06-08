@@ -29,6 +29,7 @@ class KistenschiebenModel {
   checks if the player has already won
    */
   bool checkWin() {
+    print(target.checkOutNeighbours());
     return target.checkOutNeighbours();
   }
 
