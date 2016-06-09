@@ -14,10 +14,8 @@ class KistenschiebenModel {
   Target target = null;
   List<String> crates;
   String playerPos_old;
-
   Statistics stats;
-
-  String actualLevel;
+  List<Map> actualLevel;
   int column;
   int row;
 
@@ -25,79 +23,97 @@ class KistenschiebenModel {
   constructor
    */
   KistenschiebenModel() {
-
   }
+
+  /*
+		checks if the player has already won
+	*/
   bool checkWin() {
     return target.checkOutNeighbours();
   }
 
-  /*
-  loads the level from a String with the size m x n
-   */
-  loadLvl(String level, int row, int column) {
+  loadLvl(List<Map> levelList, int row, int column) {
+    //TODO row und column eigentlich nicht mehr benötigt...in anderen Methoden anpassen
+    bool firstLine = true;
     this.column = column;
     this.row = row;
-    this.actualLevel = level;
+    this.actualLevel = levelList;
 
     qlList = null;
     qlList = new QuattroLinkedList();
 
-    level = level.substring(1);
-    level = level.toUpperCase();
-    for (int i = 0; i < column; i++) {
-      //Spalten
-      for (int j = 1; j < row; j++) {
-        //Zeilen
-        String firstChar = level.substring(0, 1);
-        level = level.substring(1);
-        switch (firstChar) {
-          case 'W' :
-            qlList.addRight(new Wall());
-            break;
-          case 'G' :
-            qlList.addRight(new Ground());
-            break;
-          case 'P' :
-            player = new Player(qlList.addRight(new Ground()));
-            break;
-          case 'C' :
-            crate = new Crate(qlList.addRight(new Ground()));
-            crate.staysOn.setCrate(crate);
-            break;
-          case 'T' :
-            target = qlList.addRight(new Target(target));
-            break;
-          case 'S' :
-            target = new Target(target);
-            crate = new Crate(qlList.addRight(target));
-            crate.staysOn.setCrate(crate);
-            break;
-        }
+    for (var map in levelList) {
+      firstLine = addNewLine(firstLine, map["r"].toUpperCase());
+    }
+  }
+
+  bool addNewLine(bool firstLine, String line) {
+    if (firstLine == true) {
+      addRight(line);
+      firstLine = false;
+    } else {
+      String firstChar = line.substring(0, 1);
+      line = line.substring(1);
+      addDown(firstChar);
+      addRight(line);
+    }
+    return firstLine;
+  }
+
+  addRight(String line) {
+    int length = line.length;
+    for (int i = 0; i < length; i++) {
+      String firstChar = line.substring(0, 1);
+      line = line.substring(1);
+      switch (firstChar) {
+        case 'W' :
+          qlList.addRight(new Wall());
+          break;
+        case 'G' :
+          qlList.addRight(new Ground());
+          break;
+        case 'P' :
+          player = new Player(qlList.addRight(new Ground()));
+          break;
+        case 'C' :
+          crate = new Crate(qlList.addRight(new Ground()));
+          crate.staysOn.setCrate(crate);
+          break;
+        case 'T' :
+          target = qlList.addRight(new Target(target));
+          break;
+        case 'S' :
+          target = new Target(target);
+          crate = new Crate(qlList.addRight(target));
+          crate.staysOn.setCrate(crate);
+          break;
       }
-      if (level.length > 0) {
-        //wollen wir anders abfangen DIRTY
-        //TODO wenn etwas anderes als W an dieser Stelle steht, Fehlermeldung (nicht zulässig) M&F
-        String firstChar = level.substring(0, 1);
-        level = level.substring(1);
-        switch (firstChar) {
-          case 'W' :
-            qlList.addDown(new Wall());
-            break;
-          case 'G' :
-            qlList.addDown(new Ground());
-            break;
-          case 'P' :
-            player = new Player(qlList.addDown(new Ground()));
-            break;
-          case 'C' :
-            crate = new Crate(qlList.addDown(new Ground()));
-            crate.staysOn.setCrate(crate);
-            break;
-          case 'T' :
-            target = qlList.addDown(new Target(target));
-            break;
-        }
-      }
+    }
+  }
+
+  addDown(String firstChar) {
+    switch (firstChar) {
+      case 'W' :
+        qlList.addDown(new Wall());
+        break;
+      case 'G' :
+        qlList.addDown(new Ground());
+        break;
+      case 'P' :
+        player = new Player(qlList.addDown(new Ground()));
+        break;
+      case 'C' :
+        crate = new Crate(qlList.addDown(new Ground()));
+        crate.staysOn.setCrate(crate);
+        break;
+      case 'T' :
+        target = qlList.addDown(new Target(target));
+        break;
+      case 'S' :
+        target = new Target(target);
+        crate = new Crate(qlList.addDown(target));
+        crate.staysOn.setCrate(crate);
+        break;
     }
   }
 
@@ -145,28 +161,66 @@ class KistenschiebenModel {
     }
   }
 
+  /*
+  returns a List of all crates
+   */
   List<String> crateList() {
-    return qlList.createCrateList(column, row); //TODO möglicherweise umdrehen M&F
+    return qlList.createCrateList(row, column);
   }
 
+  /*
+  returns the position of the player as String
+   */
   String playerPositionAsString() {
     return player.getPositionAsString();
   }
 
+  /*
+	  returns the X value of the position of the player
+	*/
+  int getPlayerPosX() {
+    return this.player.getPosX();
+  }
+
+  /*
+		returns the Y value of the position of the player
+	*/
+  int getPlayerPosY() {
+    return this.player.getPosY();
+  }
+
+  /*
+  resets the local stats and the level by loading it again
+  */
   reset() {
     loadLvl(actualLevel, row, column);
     stats.resetLocal();
   }
 
+  /*
+  resets all stats and the game
+  */
   resetTotal() {
     loadLvl(actualLevel, row, column);
     stats.resetAll();
   }
 
-  loadStats(int lm, int gm, int lp, int gp, int lt, int gt) {
-    stats.loadStats(lm, gm, lp, gp, lt, gt);
+  /*
+  sets the stats to the given values
+  */
+  loadStats(int lm, int gm, int lp, int gp, int lt, int gt, int rt) {
+    stats.loadStats(lm, gm, lp, gp, lt, gt, rt);
   }
 
+  /*
+			  returns the statistics as a list with the order
+			  1. local moves
+			  2. global moves
+			  3. local pushes
+			  4. global pushes
+			  5. local time
+			  6. global time
+	*/
   List<int> getStatistics() {
     return stats.getStats();
   }

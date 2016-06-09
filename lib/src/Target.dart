@@ -16,25 +16,27 @@ class Target extends FieldObject {
     }
   }
 
-  checkOutNeighbours() {
-    return checkOutNeighboursL() && checkOutNeighboursR();
+  bool checkOutNeighbours() {
+    return checkOutNeighboursPrev() && checkOutNeighboursNext();
   }
 
-  checkOutNeighboursL() {
-    if (this.prevTarget == null) {
-      return true;
-    } else if (this.prevTarget.crate != null) {
-      return this.prevTarget.checkOutNeighboursL();
+  bool checkOutNeighboursPrev() {
+    bool ret = false;
+    if((this.prevTarget == null || this.prevTarget.checkOutNeighboursPrev()==true) && this.crate != null) {
+      ret = true;
+    } else {
+      ret = false;
     }
-    return false;
+    return ret;
   }
 
-  checkOutNeighboursR() {
-    if (this.nextTarget == null) {
-      return true;
-    } else if (this.nextTarget.crate != null) {
-      return this.nextTarget.checkOutNeighboursR();
+  bool checkOutNeighboursNext() {
+    bool ret = false;
+    if((this.nextTarget == null || this.nextTarget.checkOutNeighboursNext()==true) && this.crate != null) {
+      ret = true;
+    } else {
+      ret = false;
     }
-    return false;
+    return ret;
   }
 }

@@ -5,8 +5,6 @@ class Player {
   FieldObject staysOn;
   int pushPower = 1;
 
-  //parametrisierung für die Endabgabe funktioniert noch nicht!
-
   Player(FieldObject staysOn) {
     this.staysOn = staysOn;
   }
@@ -71,16 +69,33 @@ class Player {
     }
   }
 
-
-  String getPosition() {
+  /*
+  Returns the position of the actual field of the player as a String of two numbers separated by a ","
+  */
+  String getPosition() { //TODO kann eventuell weg (nur auf konsole verwendet)
     return this.staysOn.position.x.toString() + "," +
         this.staysOn.position.y.toString();
+  }
+
+  /*
+		Returns the x value of the position
+	*/
+  int getPosX() {
+    return this.staysOn.position.getX();
+  }
+
+  /*
+		Returns the y value of the position
+	*/
+  int getPosY() {
+    return this.staysOn.position.getY();
   }
 
   /*
   Returns the position of the field as a String for the view
    */
   String getPositionAsString() {
+    //TODO fällt wohl weg, wenn CrateList neu implementiert
     String str = "#pos" + this.staysOn.position.x.toString() + "_" +
         this.staysOn.position.y.toString();
     return str;

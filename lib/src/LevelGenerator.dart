@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:html';
 
 class LevelGenerator {
+
   //Anzahl der Gesamtlevel
   int lvlNumberSum = 0;
 
@@ -15,6 +16,7 @@ class LevelGenerator {
   int column = 0;
   int row = 0;
   String endformat;
+  List<Map> levelList;
 
   //Reading Level from Json
   LevelGenerator() {
@@ -59,6 +61,7 @@ class LevelGenerator {
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
     List<Map> levelFormatList = level.values.elementAt(3);
+    levelList = levelFormatList;
     String levelformat = levelFormatList.join(",").replaceAll("{", "")
         .replaceAll("}", "").replaceAll("r: ", "")
         .replaceAll(",", "");
@@ -75,5 +78,9 @@ class LevelGenerator {
 
   String getEndFormat() {
     return this.endformat;
+  }
+
+  List<Map> getLevelList() {
+    return this.levelList;
   }
 }

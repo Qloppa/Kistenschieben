@@ -1,21 +1,19 @@
 table {
-    height: 100%; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
-    width: 58%;
+    height: 100px; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
+    width: 100px;
     margin-left: auto;
     margin-right: auto;
 }
 
 table, td {
     border-collapse: collapse;
-    border: 1px solid; /*TODO Tableborder bis grafiken eingefügt werden mit linien M&F*/
+    border: 0px solid; /*TODO Tableborder bis grafiken eingefügt werden mit linien M&F*/
 }
 
 #lvl{ /*TODO haben wir das nicht oben schon festgelegt? (table) M&F*/
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    height: 100%;
-    width: 100%;
 }
 
 td,.ground,.wall,.target,img{
@@ -31,20 +29,11 @@ td,.ground,.wall,.target,img{
     background: url(pictures/target.png);
     background-size: 100%;
 }
-/*
-TODO was ist denn mit ground, player und crate? und wieso ehemalig zweimal ground? M&F
-.ground, player {
-    text-align: center;
-    height: 80px;
-    width: 100px;
-}
 
-.ground, crate {
+h1 {
     text-align: center;
-    height: 80px;
-    width: 100px;
+    border-collapse: collapse;
 }
-*/
 
 #win{
     text-align: center;
