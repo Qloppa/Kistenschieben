@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:async';
 
 class KistenschiebenView {
 
@@ -7,6 +8,9 @@ class KistenschiebenView {
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
+  /*
+  Constructor
+  */
   KistenschiebenView() {
     print("running view...");
     scaling(); //TODO warum hier obwohl im scaling nur objekte aus dem Level definiert werden? M&F
@@ -14,10 +18,8 @@ class KistenschiebenView {
 
   void scaling() {
     //TODO gehört sowas nicht in die CSS? M&F
-    /*querySelectorAll("img").style.height = "10%";
-    querySelectorAll("img").style.width = "10%";*/
-    querySelectorAll("td").style.height = "1337%";
-    querySelectorAll("td").style.width = "1337%";
+    querySelectorAll("td").style.height = "100%";
+    querySelectorAll("td").style.width = "100%";
     querySelectorAll(".target").style.height = "10%";
     querySelectorAll(".target").style.width = "10%";
     querySelectorAll(".ground").style.height = "10%";
@@ -26,6 +28,9 @@ class KistenschiebenView {
     querySelectorAll(".wall").style.width = "10%";
   }
 
+  /*
+  Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
+  */
   setGameKeyAvailable(bool value) {
     if (value == true) {
       querySelector("#gamekeystatus").style.color = "green";
@@ -38,10 +43,13 @@ class KistenschiebenView {
   }
 
   void showWin() {
-    querySelector("level").innerHtml = "";
-    querySelector("#win").innerHtml = win; //TODO Overlay M&F
+    querySelector("#container").innerHtml =
+    "<div id=\"overlay\"><h2>LEVEL ABGESCHLOSSEN!!!</h2><button id=\"next\">Next Level</button></div>";
   }
 
+  /*
+  Creates the level in html from a String
+  */
   String generateLevelFromString(String level, int row, int column) {
     scaling();
     level = level.toUpperCase();
@@ -88,422 +96,48 @@ class KistenschiebenView {
     return formatlevel;
   }
 
-  loadLevel(String lvl, int row, int column) {
+  loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
     scaling(); //TODO nochmal?? M&F
-    querySelector("#win").innerHtml = ""; //TODO 2 M&F
   }
 
+  bool nextLvl() {
+    querySelector("#next").style.visibility = "visible";
+    return true;
+  }
+
+  String touchListener() {
+    querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
+      String id = (ev.target as HtmlElement).id;
+      if (id == "") {
+        id = (ev.target as HtmlElement).parent.id;
+      }
+      return id;
+    });
+  }
+
+  String get username =>
+      (document.querySelector('#username') as InputElement).value;
+
+
+  String get userpassword =>
+      (document.querySelector('#userpassword') as InputElement).value;
+
+  /*
+  Updates the position of the player and the crates
+  Receives old and new positions as Strings and updates the html
+  */
   void updateView(String playerPosition_old,
       String playerPosition_new, List<String>cratePosition_new) {
     querySelector(playerPosition_old).innerHtml = "";
     querySelector(playerPosition_new).innerHtml = player;
 
     querySelectorAll("td").remove(crate);
-
-    switch (cratePosition_new.length) {
-    //TODO Das muss doch anders gehen!! (Parametrisieren) M&F
-      case 1:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 2:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 3:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 4:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 5:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 6:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 7:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 8:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 9:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 10:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 11:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 12:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 13:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 14:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 15:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 16:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 17:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 18:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 19:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 20:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 21:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 22:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 23:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 24:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-
-      case 25:
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-        break;
-    }
-    scaling(); // TODO NOCHMAL?? M&F
+    int dummy = 0;
+    do {
+      querySelector(cratePosition_new.removeLast()).innerHtml = crate;
+    } while (dummy < cratePosition_new.length);
+    scaling();
   }
 }

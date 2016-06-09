@@ -29,25 +29,12 @@ td,.ground,.wall,.target,img{
     background: url(pictures/target.png);
     background-size: 100%;
 }
-/*
-TODO was ist denn mit ground, player und crate? und wieso ehemalig zweimal ground? M&F
-.ground, player {
-    text-align: center;
-    height: 80px;
-    width: 100px;
-}
-
-.ground, crate {
-    text-align: center;
-    height: 80px;
-    width: 100px;
-}
-*/
 
 h1 {
     text-align: center;
     border-collapse: collapse;
 }
+
 #win{
     text-align: center;
 }
@@ -67,4 +54,63 @@ h1 {
     font-size:20px;
     text-align:right;
 
+}
+
+#overlay {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.50);
+}
+
+form {
+    visibility: hidden;
+}
+
+#loadLvl {
+    visibility: hidden;
+}
+
+#states {
+    visibility: hidden;
+}
+
+#next {
+
+    height: 200px;
+    width: 400px;
+    position: center;
+    text-align: center;
+    /*
+    top: 50%;
+    left: 50%;
+    */
+    visibility: hidden;
+}
+
+/*
+#welcome, h1 {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+    background-color: red;
+
+}
+*/
+
+#start {
+    text-align: center;
+    position: center;
+
+    /*
+    right: 50%;
+     top: 50%;
+    */
+}
+
+button {
+    font-size: 30px;
+    height: 200px;
+    width: 450px;
 }
