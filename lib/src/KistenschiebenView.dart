@@ -1,25 +1,23 @@
-import 'dart:async';
 import 'dart:html';
+import 'dart:async';
 
 class KistenschiebenView {
 
-  //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
   /*
-	Constructor
-	*/
+  Constructor
+  */
   KistenschiebenView() {
     print("running view...");
+    scaling(); //TODO warum hier obwohl im scaling nur objekte aus dem Level definiert werden? M&F
   }
 
-
   void scaling() {
-    /*querySelectorAll("img").style.height = "10%";
-    querySelectorAll("img").style.width = "10%";*/
+    //TODO gehört sowas nicht in die CSS? M&F
     querySelectorAll("td").style.height = "100%";
     querySelectorAll("td").style.width = "100%";
     querySelectorAll(".target").style.height = "10%";
@@ -32,7 +30,7 @@ class KistenschiebenView {
 
   /*
   Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
-   */
+  */
   setGameKeyAvailable(bool value) {
     if (value == true) {
       querySelector("#gamekeystatus").style.color = "green";
@@ -44,9 +42,6 @@ class KistenschiebenView {
     }
   }
 
-  /*
-   Notifies the user that he has won
-   */
   void showWin() {
     querySelector("#container").innerHtml =
     "<div id=\"overlay\"><h2>LEVEL ABGESCHLOSSEN!!!</h2><button id=\"next\">Next Level</button></div>";
@@ -54,7 +49,7 @@ class KistenschiebenView {
 
   /*
   Creates the level in html from a String
-   */
+  */
   String generateLevelFromString(String level, int row, int column) {
     scaling();
     level = level.toUpperCase();
@@ -64,6 +59,7 @@ class KistenschiebenView {
 
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
+      //TODO sind culmn und row in der richtigen reihenfolge? M&F
       //Spalten
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
@@ -97,22 +93,18 @@ class KistenschiebenView {
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table>\n$formatlevel</table>";
-    //print(formatlevel);
     return formatlevel;
+  }
+
+  loadLvl(String lvl, int row, int column) async {
+    String level = generateLevelFromString(lvl, column, row);
+    querySelector("level").innerHtml = level;
+    scaling(); //TODO nochmal?? M&F
   }
 
   bool nextLvl() {
     querySelector("#next").style.visibility = "visible";
     return true;
-  }
-
-  /*
-  Loads the level from a given String and creates it in html
-   */
-  loadLvl(String lvl, int row, int column) async {
-    String level = generateLevelFromString(lvl, column, row);
-    querySelector("level").innerHtml = level;
-    scaling();
   }
 
   String touchListener() {
@@ -125,7 +117,6 @@ class KistenschiebenView {
     });
   }
 
-
   String get username =>
       (document.querySelector('#username') as InputElement).value;
 
@@ -133,12 +124,10 @@ class KistenschiebenView {
   String get userpassword =>
       (document.querySelector('#userpassword') as InputElement).value;
 
-
   /*
   Updates the position of the player and the crates
   Receives old and new positions as Strings and updates the html
   */
-
   void updateView(String playerPosition_old,
       String playerPosition_new, List<String>cratePosition_new) {
     querySelector(playerPosition_old).innerHtml = "";

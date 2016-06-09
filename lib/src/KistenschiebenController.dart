@@ -39,29 +39,31 @@ class KistenschiebenController {
   KistenschiebenController() {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
-    querySelector('#register').onMouseDown.listen((MouseEvent e) {
-      querySelector("form").style.visibility = "visible";
-    });
 
-    document
-        .querySelector('#submit')
-        .onMouseDown
-        .listen((MouseEvent ev) {
-      String username = ksView.username;
-      String password = ksView.userpassword;
-      querySelector("#example").innerHtml = username;
-      gamekey.registerUser(username, password);
-    });
+       querySelector('#register').onMouseDown.listen((MouseEvent e) {
+			      querySelector("form").style.visibility = "visible";
+			    });
 
-    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+			    document
+			        .querySelector('#submit')
+			        .onMouseDown
+			        .listen((MouseEvent ev) {
+			      String username = ksView.username;
+			      String password = ksView.userpassword;
+			      querySelector("#example").innerHtml = username;
+			      gamekey.registerUser(username, password);
+			    });
 
-    });
-    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
-      querySelector('#register').remove();
-      querySelector('#login').remove();
-      querySelector('#wOLogin').remove();
-      newGame();
-    });
+			    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+
+			    });
+			    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
+			      querySelector('#register').remove();
+			      querySelector('#login').remove();
+			      querySelector('#wOLogin').remove();
+			      newGame();
+			    });
+
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     print("startGameKey");
     try {
@@ -201,7 +203,7 @@ class KistenschiebenController {
         id = (ev.target as HtmlElement).parent.id;
       }
       id = id.replaceAll("pos", "");
-      List<String> lol = id.split("_");
+      List<String> lol = id.split("_"); //TODO lol?
       int x = int.parse(lol[0]);
       int y = int.parse(lol[1]);
       moveTouch(x, y);
@@ -313,18 +315,15 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
-    //TODO das ist zwar absoluter Blödsinn, dass bei jedem move das komplette Spielfeld nach kisten durchsucht wid....aber die View kann zurzeit nur damit umgehen
+    //TODO Die Liste der Kisten soll nur Positionen von geänderten Kisten enthalten
     ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
 
   checkWin() {
     if (ksModel.checkWin() == true) {
-      print("gewonnen");
       ksView.showWin();
-      print("showWin");
       if (ksView.nextLvl() == true) {
-        print("ja");
         querySelector("#next").onMouseDown.listen((MouseEvent e) {
           querySelector("#container").innerHtml = "";
           nextLvl();
@@ -335,11 +334,11 @@ class KistenschiebenController {
 
   /*
   Starts the next Level
-   */
+  */
   nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
-      genLvl.loadData().whenComplete(() => newGame());
+      genLvl.loadData().whenComplete(newGame);
       querySelector("#next").style.visibility = "hidden";
     }
   }
@@ -349,13 +348,13 @@ class KistenschiebenController {
    */
   void newGame() {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.loadLvl(genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(reactTouch); //Hier geaendert
+    ksView.loadLvl(
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
   }
 
   /*
   Resets Game and local stats
-   */
+  */
   void resetGame() {
     ksModel.reset();
   }
@@ -366,5 +365,4 @@ class KistenschiebenController {
   void resetTotal() {
     ksModel.resetTotal();
   }
-
 }

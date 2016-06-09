@@ -26,8 +26,8 @@ class KistenschiebenModel {
   }
 
   /*
-  checks if the player has already won
-   */
+		checks if the player has already won
+	*/
   bool checkWin() {
     return target.checkOutNeighbours();
   }
@@ -176,22 +176,22 @@ class KistenschiebenModel {
   }
 
   /*
-			  returns the X value of the position of the player
-			   */
+	  returns the X value of the position of the player
+	*/
   int getPlayerPosX() {
     return this.player.getPosX();
   }
 
   /*
-			  returns the Y value of the position of the player
-			   */
+		returns the Y value of the position of the player
+	*/
   int getPlayerPosY() {
     return this.player.getPosY();
   }
 
   /*
   resets the local stats and the level by loading it again
-   */
+  */
   reset() {
     loadLvl(actualLevel, row, column);
     stats.resetLocal();
@@ -199,7 +199,7 @@ class KistenschiebenModel {
 
   /*
   resets all stats and the game
-   */
+  */
   resetTotal() {
     loadLvl(actualLevel, row, column);
     stats.resetAll();
@@ -207,7 +207,7 @@ class KistenschiebenModel {
 
   /*
   sets the stats to the given values
-   */
+  */
   loadStats(int lm, int gm, int lp, int gp, int lt, int gt, int rt) {
     stats.loadStats(lm, gm, lp, gp, lt, gt, rt);
   }
