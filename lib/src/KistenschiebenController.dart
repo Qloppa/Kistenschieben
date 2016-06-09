@@ -1,6 +1,7 @@
-import 'dart:html';
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
+
 import 'GameKey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
@@ -386,7 +387,6 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       genLvl.loadData().whenComplete(newGame);
-      querySelector("#next").style.visibility = "hidden";
     }
   }
 

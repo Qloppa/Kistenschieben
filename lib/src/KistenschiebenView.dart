@@ -135,7 +135,7 @@ class KistenschiebenView {
     return true;
   }
 
-  loadLevel(String lvl, int row, int column) async {
+  loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
     scaling();
