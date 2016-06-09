@@ -40,35 +40,12 @@ class KistenschiebenController {
   KistenschiebenController() {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
-    querySelector('#register').onMouseDown.listen((MouseEvent e) {
-      querySelector("form").style.visibility = "visible";
+    ksView.startScreen();
+    startscreenListener();
 
-    });
-
-    document
-        .querySelector('#submit')
-        .onMouseDown
-        .listen((MouseEvent ev) {
-      String username = ksView.username;
-      String password = ksView.userpassword;
-      querySelector("#example").innerHtml = username;
-      gamekey.registerUser(username, password);
-    });
-
-    querySelector('#login').onMouseDown.listen((MouseEvent e) {
-
-    });
-    querySelector('#wOLogin').onMouseLeave.listen((MouseEvent e) {
-      querySelector('#register').style.visibility = "hidden";
-      querySelector('#login').style.visibility = "hidden";
-      querySelector('#wOLogin').style.visibility = "hidden";
-      newGame();
-      //querySelector('#wOLogin').innerHtml = "Try Again";
-
-    });
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    print("startGameKey");
+    //print("startGameKey");
     try {
       // Download gamekey settings. Display warning on problems.
       HttpRequest.getString(gamekeySettings).then((json) {
@@ -122,6 +99,44 @@ class KistenschiebenController {
       return "";
     });
   }
+
+  startscreenListener() {
+    querySelector('#register').onMouseDown.listen((MouseEvent e) {
+      ksView.userdates();
+      querySelector('#start').innerHtml = "";
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
+        String username = ksView.username;
+        String password = ksView.userpassword;
+        querySelector("#example").innerHtml = username;
+        print(username + " " + password);
+        gamekey.registerUser(username, password);
+      });
+    });
+
+    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+      ksView.userdates();
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
+        String username = ksView.username;
+        String password = ksView.userpassword;
+        querySelector("#example").innerHtml = username;
+        print(username + " " + password);
+        gamekey.registerUser(username, password);
+      });
+    });
+
+
+    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
+      querySelector('#start').innerHtml = "";
+      newGame();
+    });
+  }
+
 
   //***************************************************
   /*
@@ -319,3 +334,5 @@ class KistenschiebenController {
     ksModel.reset();
   }
 }
+
+

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:html';
 
 class KistenschiebenView {
@@ -13,6 +12,40 @@ class KistenschiebenView {
   KistenschiebenView() {
     print("running view...");
   }
+
+  startScreen() {
+    querySelector('#start').innerHtml =
+    "<div id=\"overlay\">"
+        "<div id=\"b1\">"
+        "  <button id=\"register\">Registrieren</button>"
+        "</div>"
+        "<div id=\"b2\">"
+        "<button id=\"login\">Anmelden</button>"
+        "</div>"
+        "<div id=\"b3\">"
+        "<button id=\"wOLogin\">Ohne Anmeldung spielen</button>"
+        "</div>"
+        "<div id=\"b4\">"
+        "<button id=\"about\">Anleitung</button>"
+        "</div>"
+        "</div>";
+  }
+
+  userdates() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"username\">"
+        "<input type=\"password\" id=\"userpassword\">"
+        "<button id=\"submit\">submit</button>"
+        "</form>"
+        "</div>";
+  }
+
+
+
+
+
 
 
   void scaling() {
@@ -95,7 +128,7 @@ class KistenschiebenView {
     return true;
   }
 
-  Future<bool> loadLevel(String lvl, int row, int column) async {
+  loadLevel(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
     scaling();

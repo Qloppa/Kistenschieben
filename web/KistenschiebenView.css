@@ -78,9 +78,6 @@ TODO was ist denn mit ground, player und crate? und wieso ehemalig zweimal groun
 
 }
 
-form {
-    visibility: hidden;
-}
 
 #loadLvl {
     visibility: hidden;
@@ -109,15 +106,11 @@ form {
 
 }
 
-#start {
-    text-align: center;
-    position: absolute;
-    right: 50%;
-    top: 50%;
-}
+
 
 button {
+
     font-size: 30px;
-    height: 200px;
+    height: 100px;
     width: 450px;
 }
