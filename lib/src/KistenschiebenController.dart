@@ -8,9 +8,9 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const gamekeyCheck = const Duration(seconds: 60);
+const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '2819b92f78114417';
+const gameSecret = '0be594b5c089ceca';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -42,6 +42,7 @@ class KistenschiebenController {
     ksView = new KistenschiebenView();
     ksView.startScreen();
     startscreenListener();
+
 
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -92,9 +93,6 @@ class KistenschiebenController {
         case KeyCode.LEFT:
           moveLeft();
           break;
-        case KeyCode.BACKSPACE:
-          newGame();
-          break;
       }
       return "";
     });
@@ -110,9 +108,9 @@ class KistenschiebenController {
           .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userpassword;
-        querySelector("#example").innerHtml = username;
         print(username + " " + password);
         gamekey.registerUser(username, password);
+        querySelector("#userinput").innerHtml = "";
       });
     });
 
@@ -124,20 +122,37 @@ class KistenschiebenController {
           .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userpassword;
-        querySelector("#example").innerHtml = username;
         print(username + " " + password);
-        gamekey.registerUser(username, password);
+        gamekey.loginUser(username, password);
+        querySelector("#start").innerHtml = "";
+        logedinListener();
+
       });
     });
 
-
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
+      querySelector("#b5").style.visibility = "visible";
+      newGame();
+    });
+
+    querySelector("#b5").onMouseDown.listen((MouseEvent e) {
+      newGame();
+    });
+
+  }
+
+  logedinListener() {
+    ksView.logedinScreen();
+
+    querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
+      newGame();
+    });
+
+    querySelector("edituser").onMouseDown.listen((MouseEvent g) {
       newGame();
     });
   }
-
-
   //***************************************************
   /*
 			    //Falls Buttons genutzt werden, nicht entfernen!
@@ -371,13 +386,11 @@ class KistenschiebenController {
   checkWin() {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
-      if (ksView.nextLvl() == true) {
         querySelector("#next").onMouseDown.listen((MouseEvent e) {
           querySelector("#container").innerHtml = "";
           nextLvl();
         });
       }
-    }
   }
 
   /*
@@ -394,9 +407,11 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a xml)
    */
   void newGame() {
+    ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLvl(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
+
   }
 
   /*
