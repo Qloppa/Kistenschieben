@@ -29,7 +29,7 @@ class KistenschiebenModel {
 		checks if the player has already won
 	*/
   bool checkWin() {
-    return target.checkOutNeighbours();
+    return target.getWon();
   }
 
   loadLvl(List<Map> levelList, int row, int column) {

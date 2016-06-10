@@ -153,6 +153,20 @@
 					{"r":"tggccccggg"},
 					{"r":"tttttggggg"}
 			]
+		},
+		{ "level" :12,
+			"row": 9,
+			"column": 9,
+			"format": 	[{"r":"wwwwwwwww"},
+				{"r":"wggggggpw"},
+				{"r":"wggtgtggw"},
+				{"r":"wgtgtgtgw"},
+				{"r":"wggtstggw"},
+				{"r":"wgtgtgtgw"},
+				{"r":"wggtgtggw"},
+				{"r":"wgggggggw"},
+				{"r":"wwwwwwwww"}
+			]
 		}
 
 	]

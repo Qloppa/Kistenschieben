@@ -4,6 +4,7 @@ class Target extends FieldObject {
 
   Target prevTarget = null;
   Target nextTarget = null;
+  bool _won = false;
 
 
   Target(Target prevTarget) : super() {
@@ -15,20 +16,26 @@ class Target extends FieldObject {
       this.prevTarget.nextTarget = this;
     }
   }
+  bool getWon() {
+    return this._won;
+  }
 
   bool checkOutNeighbours() {
-    return checkOutNeighboursPrev() && checkOutNeighboursNext();
+    bool ret = false;
+    ret = checkOutNeighboursPrev() && checkOutNeighboursNext();
+    if(ret == true) {
+      setPrevWon();
+      setNextWon();
+    }
+    return ret;
   }
 
   bool checkOutNeighboursPrev() {
     bool ret = false;
-    print(this.crate != null);
     if((this.prevTarget == null || this.prevTarget.checkOutNeighboursPrev()==true) && this.crate != null) {
       ret = true;
-      print("Prev: true");
     } else {
       ret = false;
-      print("Prev: false");
     }
     return ret;
   }
@@ -37,36 +44,22 @@ class Target extends FieldObject {
     bool ret = false;
     if((this.nextTarget == null || this.nextTarget.checkOutNeighboursNext()==true) && this.crate != null) {
       ret = true;
-      print("Next: true");
     } else {
       ret = false;
-      print("Next: false");
     }
     return ret;
   }
 
-/*
-  checkOutNeighbours() {
-    return checkOutNeighboursL() && checkOutNeighboursR();
-  }
-
-  checkOutNeighboursL() {
-    if (this.prevTarget == null) {
-      return true;
-    } else if (this.prevTarget.crate != null) {
-      return this.prevTarget.checkOutNeighboursL();
+  setPrevWon() {
+    this._won = true;
+    if (this.prevTarget != null) {
+    this.prevTarget.setPrevWon();
     }
-    return false;
   }
-
-  checkOutNeighboursR() {
-    if (this.nextTarget == null) {
-      return true;
-    } else if (this.nextTarget.crate != null) {
-      return this.nextTarget.checkOutNeighboursR();
+  setNextWon() {
+    this._won = true;
+    if (this.nextTarget != null) {
+      this.nextTarget.setNextWon();
     }
-    return false;
   }
-  */
-
 }
