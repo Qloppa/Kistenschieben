@@ -268,12 +268,13 @@ class KistenschiebenView {
       String playerPosition_new, List<String>cratePosition_new) {
     querySelector(playerPosition_old).innerHtml = "";
     querySelector(playerPosition_new).innerHtml = player;
-
-    querySelectorAll("td").remove(crate);
-    int dummy = 0;
-    do {
-      querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-    } while (dummy < cratePosition_new.length);
+    if (!cratePosition_new.isEmpty) {
+      querySelectorAll("td").remove(crate);
+      int dummy = 0;
+      do {
+        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
+      } while (dummy < cratePosition_new.length);
+    }
     scaling();
   }
 }
