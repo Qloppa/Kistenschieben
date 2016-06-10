@@ -8,8 +8,8 @@ class Wall extends FieldObject {
     this.isWall = true;
   }
 
-  isPassable(FieldObject player, pushPower) {
-    return false;
+  List isPassable(FieldObject player, pushPower) {
+    return new List();
   }
 
   setCrate(crate) {

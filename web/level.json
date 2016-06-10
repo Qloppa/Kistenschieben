@@ -95,7 +95,7 @@
 		{ "level" :8,
 			"row": 11,
 			"column": 19,
-			"format": 	[{"r":"ggggwwwwwgggggggggg"},
+			"format": [{"r":"ggggwwwwwgggggggggg"},
 				{"r":"ggggwgggwgggggggggg"},
 				{"r":"ggggwcggwgggggggggg"},
 				{"r":"ggwwwggcwwggggggggg"},
@@ -168,6 +168,5 @@
 				{"r":"wwwwwwwww"}
 			]
 		}
-
 	]
 }
