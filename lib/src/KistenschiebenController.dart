@@ -184,11 +184,11 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   void moveUp() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveUp() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveUp();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -196,11 +196,11 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   void moveRight() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveRight() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveRight();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -208,11 +208,11 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   void moveDown() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveDown() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveDown();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -220,11 +220,11 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   void moveLeft() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveLeft() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveLeft();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
