@@ -85,9 +85,11 @@ class GameKey {
       final user = await getUser(userID, pwd);
       if (user != null) {
         return true;
+      } else {
+        return false;
       }
     } catch (error, stacktrace) {
-      print("GameKey.changeUserName() caused following error: '$error'");
+      print("GameKey.loginUser() caused following error: '$error'");
       print("$stacktrace");
       return false;
     }

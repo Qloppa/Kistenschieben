@@ -8,96 +8,116 @@ class Crate {
     staysOn.passable = false;
   }
 
-  move(FieldObject whereActorStaysOn, pushPower) {
+  List move(FieldObject whereActorStaysOn, pushPower) {
+    List ret = new List();
     if (whereActorStaysOn == staysOn.upPointer) {
-      return moveDown(pushPower);
+      ret = moveDown(pushPower);
     } else if (whereActorStaysOn == staysOn.rightPointer) {
-      return moveLeft(pushPower);
+      ret = moveLeft(pushPower);
     } else if (whereActorStaysOn == staysOn.downPointer) {
-      return moveUp(pushPower);
+      ret = moveUp(pushPower);
     } else if (whereActorStaysOn == staysOn.leftPointer) {
-      return moveRight(pushPower);
+      ret = moveRight(pushPower);
+    }
+    return ret;
+  }
+
+  List moveUp(int pushPower) {
+    pushPower--;
+    if (staysOn.upPointer != null) {
+      List changedPositions = staysOn.upPointer.isPassable(staysOn, pushPower);
+      if (changedPositions.isEmpty == false) {
+        changedPositions.add(this.staysOn.getPositionAsString());
+        staysOn = staysOn.upPointer;
+        staysOn.downPointer.crate = null;
+        staysOn.crate = this;
+        if (staysOn.runtimeType.toString().contains("Target")) {
+          if (staysOn.checkOutNeighbours() == true) {
+            print("You won!!!");
+          }
+        }
+        print("CratePosition: " + getPosition());
+        return changedPositions;
+      } else {
+        return new List();
+      }
+    } else {
+      return new List();
     }
   }
 
-  moveUp(int pushPower) {
+  List moveRight(int pushPower) {
     pushPower--;
-    if (staysOn.upPointer != null &&
-        staysOn.upPointer.isPassable(staysOn, pushPower) == true) {
-      //upPointer gelöscht
-      staysOn = staysOn.upPointer;
-      staysOn.downPointer.crate = null;
-      staysOn.crate = this;
-      if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() == true) {
-          print("You won!!!");
+    if (staysOn.rightPointer != null) {
+      List changedPositions = staysOn.rightPointer.isPassable(
+          staysOn, pushPower);
+      if (changedPositions.isEmpty == false) {
+        changedPositions.add(this.staysOn.getPositionAsString());
+        staysOn = staysOn.rightPointer;
+        staysOn.leftPointer.crate = null;
+        staysOn.crate = this;
+        if (staysOn.runtimeType.toString().contains("Target")) {
+          if (staysOn.checkOutNeighbours() == true) {
+            print("You won!!!");
+          }
         }
+        print("CratePosition: " + getPosition());
+        return changedPositions;
+      } else {
+        return new List();
       }
-      print("CratePosition: " + getPosition());
-      return true;
     } else {
-      print("CratePosition: " + getPosition());
-      return false;
+      return new List();
     }
   }
 
-  moveRight(int pushPower) {
+  List moveDown(int pushPower) {
     pushPower--;
-    if (staysOn.rightPointer != null &&
-        staysOn.rightPointer.isPassable(staysOn, pushPower) == true) {
-      staysOn = staysOn.rightPointer;
-      staysOn.leftPointer.crate = null;
-      staysOn.crate = this;
-      if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() == true) {
-          print("You won!!!");
+    if (staysOn.downPointer != null) {
+      List changedPositions = staysOn.downPointer.isPassable(
+          staysOn, pushPower);
+      if (changedPositions.isEmpty == false) {
+        changedPositions.add(this.staysOn.getPositionAsString());
+        staysOn = staysOn.downPointer;
+        staysOn.upPointer.crate = null;
+        staysOn.crate = this;
+        if (staysOn.runtimeType.toString().contains("Target")) {
+          if (staysOn.checkOutNeighbours() == true) {
+            print("You won!!!");
+          }
         }
+        print("CratePosition: " + getPosition());
+        return changedPositions;
+      } else {
+        return new List();
       }
-      print("CratePosition: " + getPosition());
-      return true;
     } else {
-      print("CratePosition: " + getPosition());
-      return false;
+      return new List();
     }
   }
 
-  moveDown(int pushPower) {
+  List moveLeft(int pushPower) {
     pushPower--;
-    if (staysOn.downPointer != null &&
-        staysOn.downPointer.isPassable(staysOn, pushPower) == true) {
-      staysOn = staysOn.downPointer;
-      staysOn.upPointer.crate = null;
-      staysOn.crate = this;
-      if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() == true) {
-          print("You won!!!");
+    if (staysOn.leftPointer != null) {
+      List changedPositions = staysOn.leftPointer.isPassable(
+          staysOn, pushPower);
+      if (changedPositions.isEmpty == false) {
+        changedPositions.add(this.staysOn.getPositionAsString());
+        staysOn = staysOn.leftPointer;
+        staysOn.rightPointer.crate = null;
+        staysOn.crate = this;
+        if (staysOn.runtimeType.toString().contains("Target")) {
+          if (staysOn.checkOutNeighbours() == true) {
+            print("You won!!!");
+          }
         }
+        print("CratePosition: " + getPosition());
+        return changedPositions;
+      } else {
+        return new List();
       }
-      print("CratePosition: " + getPosition());
-      return true;
     } else {
-      print("CratePosition: " + getPosition());
-      return false;
-    }
-  }
-
-  moveLeft(int pushPower) {
-    pushPower--;
-    if (staysOn.leftPointer != null &&
-        staysOn.leftPointer.isPassable(staysOn, pushPower) == true) {
-      staysOn = staysOn.leftPointer;
-      staysOn.rightPointer.crate = null;
-      staysOn.crate = this;
-      if (staysOn.runtimeType.toString().contains("Target")) {
-        if (staysOn.checkOutNeighbours() == true) {
-          print("You won!!!");
-        }
-      }
-      print("CratePosition: " + getPosition());
-      return true;
-    } else {
-      print("CratePosition: " + getPosition());
-      return false;
+      return new List();
     }
   }
 
@@ -114,4 +134,5 @@ class Crate {
         this.staysOn.position.y.toString();
     return str;
   }
+
 }
