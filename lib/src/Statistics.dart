@@ -10,6 +10,9 @@ class Statistics {
   var localTime;
   var globalTime;
 
+  /**
+   * Constructor
+   */
   Statistics() {
     this.localMoves = 0;
     this.globalMoves = 0;
@@ -22,38 +25,50 @@ class Statistics {
   }
 
   /*
-  Sets the roundTime which is the used time in the last savegame
+   *Sets the roundTime which is the used time in the last savegame
    */
   setRoundTime(int time){
     this.roundTime = time;
   }
 
 
+  /**
+   * returns the local Moves
+   */
   int getLocalMoves() {
     return this.localMoves;
   }
 
+  /**
+   * returns the global Moves
+   */
   int getGlobalMoves() {
     return this.globalMoves;
   }
 
+  /**
+   * returns the local Pushes
+   */
   int getLocalPushes() {
     return this.localPushes;
   }
 
+  /**
+   * returns the global Pushes
+   */
   int getGlobalPushes() {
     return this.globalPushes;
   }
 
   /*
-  returns the used time of the actual game since start or last reset
+   *returns the used time of the actual game since start or last reset
    */
   int getLocalTime() {
     return this.localTime;
   }
 
   /*
-  returns the used time of the actual game since start
+   *returns the used time of the actual game since start
    */
   int getGlobalTime() {
     DateTime dt = new DateTime.now();
@@ -63,21 +78,24 @@ class Statistics {
   }
 
   /*
-  sets the statistics to the given values. Used when opening a savegame
+   *sets the statistics to the given values. Used when loading from a savegame
    */
-  loadStats(int lm, int gm, int lp, int gp, int lt, int gt, int rt) {
-    this.localMoves = lm;
-    this.globalMoves = gm;
-    this.localPushes = lp;
-    this.globalPushes = gp;
-    this.localTime = lt;
-    this.globalTime = gt;
+  loadStats(Map<String, int> stats) {
+    this.localMoves = stats.remove("localMoves");
+    this.globalMoves = stats.remove("globalMoves");
+    this.localPushes = stats.remove("localPushes");
+    this.globalPushes = stats.remove("globalPushes");
+    this.localTime = stats.remove("localTime");
+    this.globalTime = stats.remove("globalTime");
     this.startTime = new DateTime.now();
-    this.roundTime = rt;
+    if (stats.containsKey("roundTime")) {
+      this.roundTime = stats.remove("roundTime");
+    } else {
+      this.roundTime = 0;
+    }
   }
-
   /*
-    liefert Statistiken als Liste nach folgendem Schema:
+    Returns a Map with all stats
     1. local moves
     2. global moves
     3. local pushes
@@ -85,16 +103,16 @@ class Statistics {
     5. local time
     6. global time
    */
-  List<int> getStats() {
-    List<int> output = new List(5);
-    output[0] = localMoves;
-    output[1] = globalMoves;
-    output[2] = localPushes;
-    output[3] = globalPushes;
-    output[4] = localTime;
-    output[5] = globalTime;
+  Map<String, int> getStats() {
+    Map<String, int> out = new Map();
+    out.putIfAbsent("localMoves", localMoves);
+    out.putIfAbsent("globalMoves", globalMoves);
+    out.putIfAbsent("localPushes", localPushes);
+    out.putIfAbsent("globalPushes", globalPushes);
+    out.putIfAbsent("localTime", localTime);
+    out.putIfAbsent("globalTime", globalTime);
     //benoetigt keine roundTime
-    return output;
+    return out;
   }
 
   /*

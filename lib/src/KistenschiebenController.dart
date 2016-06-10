@@ -29,6 +29,8 @@ class KistenschiebenController {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   bool gkAvailable = false;
 
+  String username;
+  String password;
 
   LevelGenerator genLvl = new LevelGenerator();
   KistenschiebenModel ksModel;
@@ -106,8 +108,8 @@ class KistenschiebenController {
           .querySelector('#submit')
           .onMouseDown
           .listen((MouseEvent ev) {
-        String username = ksView.username;
-        String password = ksView.userpassword;
+        this.username = ksView.username;
+        this.password = ksView.userpassword;
         print(username + " " + password);
         gamekey.registerUser(username, password);
         querySelector("#userinput").innerHtml = "";
@@ -153,37 +155,7 @@ class KistenschiebenController {
       newGame();
     });
   }
-  //***************************************************
-  /*
-			    //Falls Buttons genutzt werden, nicht entfernen!
-			    querySelectorAll("Left").onMouseDown.listen((MouseEvent me){
-			      moveLeft();
-			    });
 
-			    querySelectorAll("Right").onMouseDown.listen((MouseEvent me){
-			      moveRight();
-			    });
-
-			    querySelectorAll("Up").onMouseDown.listen((MouseEvent me){
-			      moveUp();
-			    });
-
-			    querySelectorAll("Down").onMouseDown.listen((MouseEvent me){
-			      moveDown();
-			    });
-
-			    querySelectorAll("Reset").onMouseDown.listen((MouseEvent me){
-			      resetGame();
-			    });
-
-			    querySelectorAll("Ground").onMouseDown.listen((MouseEvent me){ //Herausfinden wie für Ground, Target und Crate
-			      moveTouch(ksModel.player.getPosition(), "");//Position noch aendern
-
-			    });
-			    */
-  //***************************************************
-
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   /**
    * Retrieves TOP 10 highscore from Gamekey service.
    * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
@@ -383,6 +355,9 @@ class KistenschiebenController {
     checkWin();
   }
 
+  /**
+   * Checks if the User has already won
+   */
   checkWin() {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
@@ -427,4 +402,26 @@ class KistenschiebenController {
   void resetTotal() {
     ksModel.resetTotal();
   }
+
+  //TODO Stats aus gamekey laden und an model bis zu stats weitergeben. Potentieller Fehler bei auslesen der Map aus der List
+  bool loadStats() {
+    //Bool weil Auslesen der .json schiefgehen kann
+    List dummy = gamekey.getStates();
+    Map test = dummy.last;
+    ksModel.loadStats(test);
+    return true;
+  }
+
+  //TODO stats aus Model holen und an gamekey weitergeben - TESTEN
+  bool storeStats() {
+    String uId = gamekey.getUserId(username);
+    bool works = gamekey.storeState(uId, ksModel.getStats());
+    if (works) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
 }

@@ -1,10 +1,10 @@
-import 'Wall.dart';
-import 'Ground.dart';
-import 'Target.dart';
-import 'QuattroLinkedList.dart';
-import 'Player.dart';
 import 'Crate.dart';
+import 'Ground.dart';
+import 'Player.dart';
+import 'QuattroLinkedList.dart';
 import 'Statistics.dart';
+import 'Target.dart';
+import 'Wall.dart';
 
 class KistenschiebenModel {
 
@@ -205,35 +205,18 @@ class KistenschiebenModel {
     stats.resetAll();
   }
 
-  /*
-  sets the stats to the given values
-  */
-  loadStats(int lm, int gm, int lp, int gp, int lt, int gt, int rt) {
-    stats.loadStats(lm, gm, lp, gp, lt, gt, rt);
+  /**
+   *sets the stats to the given values
+   */
+  loadStats(Map<String, int> save) {
+    stats.loadStats(save);
   }
 
-  /*
-			  returns the statistics as a list with the order
-			  1. local moves
-			  2. global moves
-			  3. local pushes
-			  4. global pushes
-			  5. local time
-			  6. global time
-	*/
-  List<int> getStatistics() {
+  /**
+   * returns the statistics as a Map
+   */
+  Map<String, int> getStats() {
     return stats.getStats();
   }
 
-  printErrorMessage() {
-
-  }
-
-  changeView() {
-
-  }
-
-  exit() {
-
-  }
 }
