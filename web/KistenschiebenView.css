@@ -1,6 +1,6 @@
 table {
-    height: 100px; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
-    width: 100px;
+    height: 10px;
+    width: 10px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -11,12 +11,22 @@ table, td {
 }
 
 #lvl{ /*TODO haben wir das nicht oben schon festgelegt? (table) M&F*/
+
+    position: absolute;
     text-align: center;
-    margin-left: auto;
+    width: 100%;
+    height: 100%;
+    margin-top: 40px;
+    background-color: whitesmoke;
+    /*margin-left: auto;
     margin-right: auto;
+    margin-bottom: auto;
+    margin-top: auto;*/
 }
 
 td,.ground,.wall,.target,img{
+    height: 50px;
+    width: 50px;
     text-align: center;
 }
 
@@ -33,6 +43,7 @@ td,.ground,.wall,.target,img{
 h1 {
     text-align: center;
     border-collapse: collapse;
+    color: burlywood;
 }
 
 #win{

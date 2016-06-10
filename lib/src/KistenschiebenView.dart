@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'dart:async';
+import 'dart:js';
 
 class KistenschiebenView {
 
@@ -7,6 +8,13 @@ class KistenschiebenView {
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
+
+  //scaling
+  int tableH = 10;
+  int tableW = 6;
+  double percentH;
+  double percentW;
+  int objectSize;
 
   /*
   Constructor
@@ -17,15 +25,38 @@ class KistenschiebenView {
   }
 
   void scaling() {
-    //TODO gehört sowas nicht in die CSS? M&F
-    querySelectorAll("td").style.height = "100%";
-    querySelectorAll("td").style.width = "100%";
-    querySelectorAll(".target").style.height = "10%";
-    querySelectorAll(".target").style.width = "10%";
-    querySelectorAll(".ground").style.height = "10%";
-    querySelectorAll(".ground").style.width = "10%";
-    querySelectorAll(".wall").style.height = "10%";
-    querySelectorAll(".wall").style.width = "10%";
+    Window w = window;
+    int resoWidth = w.screen.width - 200;
+    int resoHeight = w.screen.height - 200;
+    print(resoWidth.toString());
+    print(resoHeight.toString());
+    String oS;
+
+    int px;
+    if(tableH > tableW){
+      double size = resoWidth / tableW;
+      px = size.toInt();
+      print("Groesse: " + px.toString());
+    }else{
+      double size = resoHeight / tableH;
+      px = size.toInt();
+      print("Groesse: " + px.toString());
+    }
+      oS = px.toString() + "px";
+    String strH = resoHeight.toString() + "px";
+    String strW = resoWidth.toString() + "px";
+    //querySelector("table").style.height = strH;
+    //querySelector("table").style.width = strW;
+    querySelectorAll("lvl").style.height = "80%";
+    querySelectorAll("lvl").style.width = "80%";
+    querySelectorAll(".target").style.height = oS;
+    querySelectorAll(".target").style.width = oS;
+    querySelectorAll(".ground").style.height = oS;
+    querySelectorAll(".ground").style.width = oS;
+    querySelectorAll(".wall").style.height = oS;
+    querySelectorAll(".wall").style.width = oS;
+    querySelectorAll("img").style.height = oS;
+    querySelectorAll("img").style.width = oS;
   }
 
   /*
@@ -51,7 +82,9 @@ class KistenschiebenView {
   Creates the level in html from a String
   */
   String generateLevelFromString(String level, int row, int column) {
-    scaling();
+    this.tableH = row;
+    this.tableW = column;
+
     level = level.toUpperCase();
 
     String type = "";
@@ -93,6 +126,7 @@ class KistenschiebenView {
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table>\n$formatlevel</table>";
+    scaling();
     return formatlevel;
   }
 

@@ -341,7 +341,11 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       genLvl.loadData().whenComplete(newGame);
-      querySelector("#next").style.visibility = "hidden";
+      try{
+        querySelector("#next").style.visibility = "hidden";
+      }catch(e){
+        throw new Exception("no style");
+      }
     }
   }
 
