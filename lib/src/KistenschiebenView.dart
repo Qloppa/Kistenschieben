@@ -125,8 +125,8 @@ class KistenschiebenView {
       print("Groesse: " + px.toString());
     }
     oS = px.toString() + "px";
-    String strH = resoHeight.toString() + "px";
-    String strW = resoWidth.toString() + "px";
+    //String strH = resoHeight.toString() + "px";
+    //String strW = resoWidth.toString() + "px";
     //querySelector("table").style.height = strH;
     //querySelector("table").style.width = strW;
     querySelectorAll("lvl").style.height = "100%";
