@@ -8,8 +8,8 @@ class KistenschiebenView {
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
-  int tableH;
-  int tableW;
+  int tableH = 6;
+  int tableW = 7;
   /*
   Constructor
   */
@@ -108,27 +108,41 @@ class KistenschiebenView {
 
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 200;
-    int resoHeight = w.screen.height - 200;
+    int resoWidth = w.screen.width - 300;
+    int resoHeight = w.screen.height - 300;
     print(resoWidth.toString());
     print(resoHeight.toString());
     String oS;
-
+    bool hoch = tableH > tableW;
     int px;
-    if (tableH > tableW) {
-      double size = resoWidth / tableW;
-      px = size.toInt();
-      print("Groesse: " + px.toString());
-    } else {
+    print(hoch.toString());
+    if (hoch) {
+      print("hoeher");
+      print("resoWidth: " + resoHeight.toString());
+      print("/");
+      print("Width: " + tableW.toString());
       double size = resoHeight / tableH;
       px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
+      print("Groesse: " + px.toString());
+    } else {
+      print("breiter");
+      print("resoWidth: " + resoWidth.toString());
+      print("/");
+      print("Width: " + tableW.toString());
+      double size = resoHeight / tableW;
+      px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
       print("Groesse: " + px.toString());
     }
+
     oS = px.toString() + "px";
     //String strH = resoHeight.toString() + "px";
     //String strW = resoWidth.toString() + "px";
-    //querySelector("table").style.height = strH;
-    //querySelector("table").style.width = strW;
+    //querySelector("lvl").style.height = strH;
+    //querySelector("lvl").style.width = strW;
     querySelectorAll("lvl").style.height = "100%";
     querySelectorAll("lvl").style.width = "100%";
     querySelectorAll(".target").style.height = oS;
@@ -140,6 +154,7 @@ class KistenschiebenView {
     querySelectorAll("img").style.height = oS;
     querySelectorAll("img").style.width = oS;
   }
+
   /*
   Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
   */
