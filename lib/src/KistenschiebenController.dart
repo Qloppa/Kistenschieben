@@ -14,6 +14,8 @@ const gameSecret = '0be594b5c089ceca';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+bool isGameRunning = false;
+
 
 class KistenschiebenController {
 
@@ -43,9 +45,6 @@ class KistenschiebenController {
     ksView.startScreen();
     startscreenListener();
 
-
-
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //print("startGameKey");
     try {
       // Download gamekey settings. Display warning on problems.
@@ -79,6 +78,7 @@ class KistenschiebenController {
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //ksModel.playerPos_old = ksModel.playerPositionAsString();
     //ksModel.crates_old = ksModel.crateList();
+
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
@@ -98,7 +98,11 @@ class KistenschiebenController {
     });
   }
 
-  startscreenListener() {
+  setgameRunning(bool e) {
+    isGameRunning = e;
+  }
+
+  startscreenListener() async {
     querySelector('#register').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       querySelector('#start').innerHtml = "";
@@ -111,9 +115,21 @@ class KistenschiebenController {
         print(username + " " + password);
         gamekey.registerUser(username, password);
         querySelector("#userinput").innerHtml = "";
+        ksView.startScreen();
+        startscreenListener();
       });
+      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+        print("yeah");
+        querySelector("#userinput").innerHtml = "";
+        ksView.startScreen();
+        startscreenListener();
+      });
+
     });
 
+    /*
+    Login
+    */
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       document
@@ -123,67 +139,60 @@ class KistenschiebenController {
         String username = ksView.username;
         String password = ksView.userpassword;
         print(username + " " + password);
-        gamekey.loginUser(username, password);
-        querySelector("#start").innerHtml = "";
-        logedinListener();
+        querySelector("#userinput").innerHtml = "";
+        checklogin(username, password);
 
+
+      });
+      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+        print("yeah");
+        querySelector("#userinput").innerHtml = "";
+        ksView.startScreen();
+        startscreenListener();
       });
     });
 
+
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
-      querySelector("#b5").style.visibility = "visible";
+      querySelector("#resetbutton").style.visibility = "visible";
       newGame();
     });
 
-    querySelector("#b5").onMouseDown.listen((MouseEvent e) {
+    querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
+      querySelector('#start').innerHtml = "";
+      querySelector("#logedin").innerHtml = "";
+      querySelector("#container").innerHtml = "";
       newGame();
     });
 
   }
 
-  logedinListener() {
-    ksView.logedinScreen();
 
+  Future<bool> checklogin(String name, String pw) async {
+    final answer = await gamekey.loginUser(name, pw);
+
+    if (answer == true) {
+      querySelector("#start").innerHtml = "";
+      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
+      querySelector("#userstatus").style.color = "green";
+      ksView.logedinScreen();
+      logedinListener();
+    }
+
+  }
+
+  dynamic logedinListener() async {
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
+      querySelector("#logedin").innerHtml = "";
     });
 
-    querySelector("edituser").onMouseDown.listen((MouseEvent g) {
-      newGame();
+    querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
+      ksView.editUser();
     });
   }
-  //***************************************************
-  /*
-			    //Falls Buttons genutzt werden, nicht entfernen!
-			    querySelectorAll("Left").onMouseDown.listen((MouseEvent me){
-			      moveLeft();
-			    });
 
-			    querySelectorAll("Right").onMouseDown.listen((MouseEvent me){
-			      moveRight();
-			    });
-
-			    querySelectorAll("Up").onMouseDown.listen((MouseEvent me){
-			      moveUp();
-			    });
-
-			    querySelectorAll("Down").onMouseDown.listen((MouseEvent me){
-			      moveDown();
-			    });
-
-			    querySelectorAll("Reset").onMouseDown.listen((MouseEvent me){
-			      resetGame();
-			    });
-
-			    querySelectorAll("Ground").onMouseDown.listen((MouseEvent me){ //Herausfinden wie für Ground, Target und Crate
-			      moveTouch(ksModel.player.getPosition(), "");//Position noch aendern
-
-			    });
-			    */
-  //***************************************************
-
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   /**
    * Retrieves TOP 10 highscore from Gamekey service.
    * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
@@ -212,11 +221,13 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   void moveUp() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveUp() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    if (isGameRunning == true) {
+      String playerPos_old = ksModel.playerPositionAsString();
+      if (ksModel.moveUp() == true) {
+        List<String> crates_new = ksModel.crateList();
+        String playerPos_new = ksModel.playerPositionAsString();
+        updateView(playerPos_old, playerPos_new, crates_new);
+      }
     }
   }
 
@@ -224,11 +235,13 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   void moveRight() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveRight() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    if (isGameRunning == true) {
+      String playerPos_old = ksModel.playerPositionAsString();
+      if (ksModel.moveRight() == true) {
+        List<String> crates_new = ksModel.crateList();
+        String playerPos_new = ksModel.playerPositionAsString();
+        updateView(playerPos_old, playerPos_new, crates_new);
+      }
     }
   }
 
@@ -236,11 +249,13 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   void moveDown() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveDown() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    if (isGameRunning == true) {
+      String playerPos_old = ksModel.playerPositionAsString();
+      if (ksModel.moveDown() == true) {
+        List<String> crates_new = ksModel.crateList();
+        String playerPos_new = ksModel.playerPositionAsString();
+        updateView(playerPos_old, playerPos_new, crates_new);
+      }
     }
   }
 
@@ -248,11 +263,13 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   void moveLeft() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveLeft() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    if (isGameRunning == true) {
+      String playerPos_old = ksModel.playerPositionAsString();
+      if (ksModel.moveLeft() == true) {
+        List<String> crates_new = ksModel.crateList();
+        String playerPos_new = ksModel.playerPositionAsString();
+        updateView(playerPos_old, playerPos_new, crates_new);
+      }
     }
   }
 
@@ -384,8 +401,10 @@ class KistenschiebenController {
   }
 
   checkWin() {
+
     if (ksModel.checkWin() == true) {
       ksView.showWin();
+      setgameRunning(false);
         querySelector("#next").onMouseDown.listen((MouseEvent e) {
           querySelector("#container").innerHtml = "";
           nextLvl();
@@ -407,10 +426,12 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a xml)
    */
   void newGame() {
+    setgameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLvl(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
+    querySelector("#resetbutton").style.visibility = "visible";
 
   }
 

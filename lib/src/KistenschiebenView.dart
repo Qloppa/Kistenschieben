@@ -6,7 +6,7 @@ class KistenschiebenView {
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
-  String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
+  String win = "<img src=\"../web/pictures/win.gif\" height=\" 20px\" width=\" 30px\">";
 
   int tableH;
   int tableW;
@@ -57,19 +57,20 @@ class KistenschiebenView {
   /*
   Generates the buttons to access the Game
   */
-  logedinScreen() {
+  logedinScreen() async {
     querySelector('#logedin').innerHtml =
     "<div id=\"overlay\">"
         "<div id=\"b3\">"
         "<button id=\"newgame\">New Game</button>"
         "</div>"
         "<div id=\"b6\">"
-        "<button id=\"edituser\">Edit User</button>"
+        "<button id=\"edituserbutton\">Edit User</button>"
         "</div>"
         "<div id=\"b4\">"
         "<button id=\"about\">About</button>"
         "</div>"
         "</div>";
+
   }
 
   /*
@@ -79,19 +80,19 @@ class KistenschiebenView {
     querySelector('#edituser').innerHtml =
     "<div id=\"overlay\">"
         "<div id=\"b7\">"
-        "<button id=\"changename\">Change Name</button>"
-        "</div>"
-        "<div id=\"b8\">"
-        "<button id=\"changepassword\">Change Password</button>"
-        "</div>"
-        "<div id=\"b9\">"
-        "<button id=\"delete\">Delete User</button>"
-        "</div>"
-        "<div id=\"b10\">"
         "<button id=\"getuser\">Get Username</button>"
         "</div>"
-        "<div id=\"b11\">"
+        "<div id=\"b8\">"
         "<button id=\"getuserid\">Get UserId</button>"
+        "</div>"
+        "<div id=\"b9\">"
+        "<button id=\"changename\">Change Name</button>"
+        "</div>"
+        "<div id=\"b10\">"
+        "<button id=\"changepassword\">Change Password</button>"
+        "</div>"
+        "<div id=\"b11\">"
+        "<button id=\"delete\">Delete User</button>"
         "</div>"
         "</div>";
 
@@ -158,8 +159,15 @@ class KistenschiebenView {
     Generates the win-overlay and the button to access the next level
    */
   void showWin() {
+
     querySelector("#container").innerHtml =
     "<div id=\"overlay\"><button id=\"next\">Next Level</button></div>";
+    /* querySelector("#reset").style.position = "absolute";
+    querySelector("#reset").style.top = "75%";
+    querySelector("#reset").style.right = "50%";
+    querySelector("#left").style.left = "50";
+    querySelector("#resetbutton").style.background = "url(pictures/win.gif)";*/
+
   }
 
   /*
@@ -218,8 +226,9 @@ class KistenschiebenView {
   loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
+    querySelector("stat").innerHtml =
+    "Local Pushes:<em>123</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>1000000</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>500</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>5000000000</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>123:59</em>&nbsp&nbsp&nbsp&nbsp";
     scaling();
-
   }
 
 
