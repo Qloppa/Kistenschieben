@@ -15,7 +15,7 @@ class Player {
   Moves the player to the upper position
   returns true if possible, false if not
    */
-  bool moveUp() {
+  List<String> moveUp() {
     if (staysOn.upPointer != null) {
       List changedPositions = staysOn.upPointer.isPassable(staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
@@ -23,12 +23,12 @@ class Player {
         print(changedPositions);
         staysOn = staysOn.upPointer;
         print("PlayerPosition: " + getPosition());
-        return true;
+        return changedPositions;
       } else {
-        return false;
+        return new List();
       }
     } else {
-      return false;
+      return new List();
     }
   }
 
@@ -36,7 +36,7 @@ class Player {
   Moves the player to the right position
   returns true if possible, false if not
    */
-  bool moveRight() {
+  List<String> moveRight() {
     if (staysOn.rightPointer != null) {
       List changedPositions = staysOn.rightPointer.isPassable(staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
@@ -44,12 +44,12 @@ class Player {
         print(changedPositions);
         staysOn = staysOn.rightPointer;
         print("PlayerPosition: " + getPosition());
-        return true;
+        return changedPositions;
       } else {
-        return false;
+        return new List();
       }
     } else {
-      return false;
+      return new List();
     }
   }
 
@@ -57,7 +57,7 @@ class Player {
   Moves the player to the position below
   returns true if possible, false if not
    */
-  bool moveDown() {
+  List<String> moveDown() {
     if (staysOn.downPointer != null) {
       List changedPositions = staysOn.downPointer.isPassable(staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
@@ -65,12 +65,12 @@ class Player {
         print(changedPositions);
         staysOn = staysOn.downPointer;
         print("PlayerPosition: " + getPosition());
-        return true;
+        return changedPositions;
       } else {
-        return false;
+        return new List();
       }
     } else {
-      return false;
+      return new List();
     }
   }
 
@@ -78,7 +78,7 @@ class Player {
   Moves the player to the left position
   returns true if possible, false if not
    */
-  bool moveLeft() {
+  List<String> moveLeft() {
     if (staysOn.leftPointer != null) {
       List changedPositions = staysOn.leftPointer.isPassable(staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
@@ -86,12 +86,12 @@ class Player {
         print(changedPositions);
         staysOn = staysOn.leftPointer;
         print("PlayerPosition: " + getPosition());
-        return true;
+        return changedPositions;
       } else {
-        return false;
+        return new List();
       }
     } else {
-      return false;
+      return new List();
     }
   }
 
