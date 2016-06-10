@@ -277,4 +277,15 @@ class KistenschiebenView {
     }
     scaling();
   }
+
+  /**
+   * used to update the stats
+   */
+  void updateStats(Map<String, int> stats) {
+    querySelector("lp").innerHtml = stats.remove("localPushes").toString();
+    querySelector("lm").innerHtml = stats.remove("localMoves").toString();
+    querySelector("gp").innerHtml = stats.remove("globalPushes").toString();
+    querySelector("gm").innerHtml = stats.remove("globalMoves").toString();
+    querySelector("t").innerHtml = stats.remove("time").toString();
+  }
 }

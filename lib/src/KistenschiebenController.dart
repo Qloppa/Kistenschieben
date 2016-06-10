@@ -350,9 +350,16 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
-    //TODO Die Liste der Kisten soll nur Positionen von geänderten Kisten enthalten
+    //updateStats();  //TODO muss reingenommen werden sobald
     ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
+  }
+
+  /**
+   * Updates the stats in the view
+   */
+  void updateStats() {
+    ksView.updateStats(ksModel.getStats());
   }
 
   /**
