@@ -5,6 +5,7 @@ class Statistics {
   var globalPushes;
   DateTime startTime;
   var roundTime;
+  int resets;
 
   //not used yet
   var localTime;
@@ -22,6 +23,7 @@ class Statistics {
     this.globalTime = 0;
     this.startTime = new DateTime.now();
     this.roundTime = 0;
+    this.resets = 0;
   }
 
   /*
@@ -37,6 +39,18 @@ class Statistics {
 
   setGlobalPushes(int pushes){
     this.globalPushes = pushes;
+  }
+
+  incResets(){
+    this.resets++;
+  }
+
+  setResets(int res){
+    this.resets = res;
+  }
+
+  int getResets(){
+    return this.resets;
   }
 
 
@@ -119,6 +133,7 @@ class Statistics {
     out['globalPushes'] = globalPushes;
     out['localTime'] = localTime;
     out['globalTime'] = globalTime;
+    out['resets'] = resets;
     //benoetigt keine roundTime
     return out;
   }

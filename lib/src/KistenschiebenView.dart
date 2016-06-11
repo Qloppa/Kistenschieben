@@ -185,8 +185,8 @@ class KistenschiebenView {
 
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 200;
-    int resoHeight = w.screen.height - 200;
+    int resoWidth = w.screen.width - 300;
+    int resoHeight = w.screen.height - 300;
     print(resoWidth.toString());
     print(resoHeight.toString());
     String oS;
@@ -357,9 +357,10 @@ class KistenschiebenView {
     String globalPushes = stats.remove("globalPushes").toString();
     String localMoves = stats.remove("localMoves").toString();
     String globalMoves = stats.remove("globalMoves").toString();
+    String resets = stats.remove("resets").toString();
     String time = "0"; //stats.remove("time").toString();
     String level = actualLvl;
     querySelector("stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>$time</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
+    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>$time</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
   }
 }

@@ -551,6 +551,7 @@ class KistenschiebenController {
   */
   void resetGame() {
     setgameRunning(true);
+    ksModel.stats.incResets();
     Map<String, int> saveStats = ksModel.getStats();
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
@@ -558,6 +559,7 @@ class KistenschiebenController {
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
+    ksModel.stats.setResets(saveStats['resets']);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }
