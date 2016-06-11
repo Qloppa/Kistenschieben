@@ -10,7 +10,7 @@ class LevelGenerator {
   int currentLvl = 0;
 
   //levelnumber
-  int lvlNumber = 0;
+  int lvlNumber = 1;
 
   int column = 0;
   int row = 0;

@@ -57,6 +57,7 @@ h1 {
     top: 0px; /*TODO 0 oder 1?*/
     left: 0px;
     width: 100%;
+    height: 100%;
     background-color: rgba(0, 10, 10, 0.8);
     height: 100%;
     text-align: center;
@@ -67,8 +68,13 @@ h1 {
     visibility: hidden;
 }
 
-#states {
-    visibility: hidden;
+#stat {
+
+    text-align: center;
+}
+
+stat {
+    font-size: 20px;
 }
 
 #next {
@@ -98,17 +104,15 @@ button {
 }
 
 #submit {
-    top: 5%; /*TODO 5 oder 50?*/
-    font-size: 20px;
-    height: 27px;
+    font-size: 15px;
+    height: 22px;
     width: 200px;
 
 }
 
 #close {
-    top: 5%; /*TODO 5 oder 50?*/
-    font-size: 20px;
-    height: 27px;
+    font-size: 15px;
+    height: 22px;
     width: 200px;
 
 }
@@ -124,7 +128,7 @@ form {
 
     position: absolute;
     right: 85%;
-    font-size: 20px;
+    font-size: 15px;
     height: 50px;
     width: 200px;
     visibility: hidden;
@@ -136,7 +140,7 @@ form {
 
 }
 
-#logedin {
+#registered {
     position: absolute;
     left: 40%;
     top: 50%

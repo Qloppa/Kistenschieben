@@ -7,9 +7,10 @@ class KistenschiebenView {
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
+  String about = "<img src=\"../web/pictures/win.png\">";
 
-  int tableH = 6;
-  int tableW = 7;
+  int tableH = 60;
+  int tableW = 70;
   /*
   Constructor
   */
@@ -57,8 +58,8 @@ class KistenschiebenView {
   /*
   Generates the buttons to access the Game
   */
-  logedinScreen() async {
-    querySelector('#logedin').innerHtml =
+  registeredScreen() async {
+    querySelector('#registered').innerHtml =
     "<div id=\"overlay\">"
         "<div id=\"b3\">"
         "<button id=\"newgame\">New Game</button>"
@@ -67,7 +68,7 @@ class KistenschiebenView {
         "<button id=\"edituserbutton\">Edit User</button>"
         "</div>"
         "<div id=\"b4\">"
-        "<button id=\"about\">About</button>"
+        "<button id=\"ab\">About</button>"
         "</div>"
         "</div>";
   }
@@ -95,21 +96,97 @@ class KistenschiebenView {
         "</div>"
         "</div>";
 
-    // Future<bool> changeUserName(String oldName, String pwd,String newName)
-    // Future<bool> changeUserPassword(String name, String oldPW,String newPW)
-    //Future<bool> deleteUser(String name, String pwd)
-    //Future<Map> getUser(String id, String pwd)
-    //Future<String> getUserId(String name)
     //Future<List<Map>> listUsers()
     //Future<List<Map>> getStates()
     //Future<bool> storeState(String uid, Map state)
 
   }
 
+  changeUserName() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"oldusername\" placeholder=\"old Username\">"
+        "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
+        "<input type=\"text\" id=\"username\" placeholder=\"new Username\">"
+        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"close\">Close</button>"
+        "</form>"
+        "</div>";
+  }
+
+  changeUserPassword() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
+        "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
+        "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
+        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"close\">Close</button>"
+        "</form>"
+        "</div>";
+  }
+
+  getUser() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"userid\" placeholder=\"userID\">"
+        "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
+        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"close\">Close</button>"
+        "</form>"
+        "</div>";
+  }
+
+  getUserId() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"username\" placeholder=\"username\">"
+        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"close\">Close</button>"
+        "</form>"
+        "</div>";
+  }
+
+  getAbout() {
+    querySelector("#about").innerHtml =
+    "<div id=\"overlay\">" "$win" "<div><button type =\"button\" id=\"close\">Close</button></div>" "</div>";
+  }
+
+  /*
+  Gets the Name from UserInput
+  */
+  String get username =>
+      (document.querySelector('#username') as InputElement).value;
+
+  /*
+  Gets the Password from UserInput
+  */
+  String get userpassword =>
+      (document.querySelector('#userpassword') as InputElement).value;
+
+  /*
+  Gets the "ID" from UserInput
+  */
+  String get userId =>
+      (document.querySelector('#userid') as InputElement).value;
+
+  /*
+  Gets the "oldname" from UserInput
+  */
+  String get oldUsername =>
+      (document.querySelector('#oldusername') as InputElement).value;
+
+  String get oldUserpassword =>
+      (document.querySelector('#olduserpassword') as InputElement).value;
+
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 300;
-    int resoHeight = w.screen.height - 300;
+    int resoWidth = w.screen.width - 200;
+    int resoHeight = w.screen.height - 200;
     print(resoWidth.toString());
     print(resoHeight.toString());
     String oS;
@@ -143,8 +220,8 @@ class KistenschiebenView {
     //String strW = resoWidth.toString() + "px";
     //querySelector("lvl").style.height = strH;
     //querySelector("lvl").style.width = strW;
-    querySelectorAll("lvl").style.height = "100%";
-    querySelectorAll("lvl").style.width = "100%";
+    querySelectorAll("#lvl").style.height = "100%";
+    querySelectorAll("#lvl").style.width = "100%";
     querySelectorAll(".target").style.height = oS;
     querySelectorAll(".target").style.width = oS;
     querySelectorAll(".ground").style.height = oS;
@@ -238,8 +315,6 @@ class KistenschiebenView {
   loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
-    querySelector("stat").innerHtml =
-    "Local Pushes:<em>123</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>1000000</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>500</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>5000000000</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>123:59</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
     scaling();
   }
 
@@ -248,30 +323,20 @@ class KistenschiebenView {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
       String id = (ev.target as HtmlElement).id;
       if (id == "") {
-        id = (ev.target as HtmlElement).parent.id;
+        return id = (ev.target as HtmlElement).parent.id;
       }
       return id;
     });
   }
 
-  /*
-  Gets the Name from UserInput
-  */
-  String get username =>
-      (document.querySelector('#username') as InputElement).value;
 
-  /*
-  Gets the Password from UserInput
-  */
-  String get userpassword =>
-      (document.querySelector('#userpassword') as InputElement).value;
 
   /*
   Updates the position of the player and the crates
   Receives old and new positions as Strings and updates the html
   */
-  void updateView(String playerPosition_old,
-      String playerPosition_new, List<String>cratePosition_new) {
+  void updateView(String playerPosition_old, String playerPosition_new,
+      List<String>cratePosition_new) {
     querySelector(playerPosition_old).innerHtml = "";
     querySelector(playerPosition_new).innerHtml = player;
     if (!cratePosition_new.isEmpty) {
@@ -287,11 +352,14 @@ class KistenschiebenView {
   /**
    * used to update the stats
    */
-  void updateStats(Map<String, int> stats) {
-    querySelector("lp").innerHtml = stats.remove("localPushes").toString();
-    querySelector("lm").innerHtml = stats.remove("localMoves").toString();
-    querySelector("gp").innerHtml = stats.remove("globalPushes").toString();
-    querySelector("gm").innerHtml = stats.remove("globalMoves").toString();
-    querySelector("t").innerHtml = stats.remove("time").toString();
+  void updateStats(Map<String, int> stats, var actualLvl) {
+    String localPushes = stats.remove("localPushes").toString();
+    String globalPushes = stats.remove("globalPushes").toString();
+    String localMoves = stats.remove("localMoves").toString();
+    String globalMoves = stats.remove("globalMoves").toString();
+    String time = "0"; //stats.remove("time").toString();
+    String level = actualLvl;
+    querySelector("stat").innerHtml =
+    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>$time</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
   }
 }

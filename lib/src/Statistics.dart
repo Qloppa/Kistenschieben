@@ -105,12 +105,12 @@ class Statistics {
    */
   Map<String, int> getStats() {
     Map<String, int> out = new Map();
-    out.putIfAbsent("localMoves", localMoves);
-    out.putIfAbsent("globalMoves", globalMoves);
-    out.putIfAbsent("localPushes", localPushes);
-    out.putIfAbsent("globalPushes", globalPushes);
-    out.putIfAbsent("localTime", localTime);
-    out.putIfAbsent("globalTime", globalTime);
+    out['localMoves'] = localMoves;
+    out['globalMoves'] = globalMoves;
+    out['localPushes'] = localPushes;
+    out['globalPushes'] = globalPushes;
+    out['localTime'] = localTime;
+    out['globalTime'] = globalTime;
     //benoetigt keine roundTime
     return out;
   }

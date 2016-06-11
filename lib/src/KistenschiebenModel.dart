@@ -23,6 +23,7 @@ class KistenschiebenModel {
   constructor
    */
   KistenschiebenModel() {
+    stats = new Statistics();
   }
 
   /*
@@ -117,34 +118,66 @@ class KistenschiebenModel {
     }
   }
 
-  /*
+
+/*
   tells the player to go up. Returns true if possible, false if not
    */
   List<String> moveUp() {
-    return player.moveUp();
+    List<String> check = player.moveUp();
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
   }
 
   /*
   tells the player to go right. Returns true if possible, false if not
    */
   List<String> moveRight() {
-    return player.moveRight();
+    List<String> check = player.moveRight();
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
   }
 
   /*
   tells the player to go down. Returns true if possible, false if not
    */
   List<String> moveDown() {
-    return player.moveDown();
+    List<String> check = player.moveDown();
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
   }
 
   /*
   tells the player to go left. Returns true if possible, false if not
    */
   List<String> moveLeft() {
-    return player.moveLeft();
+    List<String> check = player.moveLeft();
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
   }
-
   /*
 	  returns the X value of the position of the player
 	*/
