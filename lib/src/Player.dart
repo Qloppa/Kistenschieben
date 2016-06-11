@@ -36,7 +36,8 @@ class Player {
    */
   List<String> moveRight() {
     if (staysOn.rightPointer != null) {
-      List changedPositions = staysOn.rightPointer.isPassable(staysOn, pushPower);
+      List changedPositions = staysOn.rightPointer.isPassable(
+          staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);
@@ -57,7 +58,8 @@ class Player {
    */
   List<String> moveDown() {
     if (staysOn.downPointer != null) {
-      List changedPositions = staysOn.downPointer.isPassable(staysOn, pushPower);
+      List changedPositions = staysOn.downPointer.isPassable(
+          staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);
@@ -78,7 +80,8 @@ class Player {
    */
   List<String> moveLeft() {
     if (staysOn.leftPointer != null) {
-      List changedPositions = staysOn.leftPointer.isPassable(staysOn, pushPower);
+      List changedPositions = staysOn.leftPointer.isPassable(
+          staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);

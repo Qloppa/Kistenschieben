@@ -1,5 +1,5 @@
-import 'Position.dart';
 import 'Crate.dart';
+import 'Position.dart';
 
 class FieldObject {
   Crate crate;

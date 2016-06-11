@@ -1,15 +1,16 @@
-import 'dart:html';
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
+
 import 'GameKey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const gamekeyCheck = const Duration(seconds: 60);
+const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '2819b92f78114417';
+const gameSecret = 'de03a09ddf51eb6d';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -28,6 +29,8 @@ class KistenschiebenController {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   bool gkAvailable = false;
 
+  String username;
+  String password;
 
   LevelGenerator genLvl = new LevelGenerator();
   KistenschiebenModel ksModel;
@@ -39,33 +42,13 @@ class KistenschiebenController {
   KistenschiebenController() {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
+    ksView.startScreen();
+    startscreenListener();
 
-       querySelector('#register').onMouseDown.listen((MouseEvent e) {
-			      querySelector("form").style.visibility = "visible";
-			    });
 
-			    document
-			        .querySelector('#submit')
-			        .onMouseDown
-			        .listen((MouseEvent ev) {
-			      String username = ksView.username;
-			      String password = ksView.userpassword;
-			      querySelector("#example").innerHtml = username;
-			      gamekey.registerUser(username, password);
-			    });
-
-			    querySelector('#login').onMouseDown.listen((MouseEvent e) {
-
-			    });
-			    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
-			      querySelector('#register').remove();
-			      querySelector('#login').remove();
-			      querySelector('#wOLogin').remove();
-			      newGame();
-			    });
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    print("startGameKey");
+    //print("startGameKey");
     try {
       // Download gamekey settings. Display warning on problems.
       HttpRequest.getString(gamekeySettings).then((json) {
@@ -96,8 +79,8 @@ class KistenschiebenController {
       print("$stacktrace");
     }
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-//    ksModel.playerPos_old = ksModel.playerPositionAsString();
-//    ksModel.crates_old = ksModel.crateList();
+    //ksModel.playerPos_old = ksModel.playerPositionAsString();
+    //ksModel.crates_old = ksModel.crateList();
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
@@ -112,15 +95,67 @@ class KistenschiebenController {
         case KeyCode.LEFT:
           moveLeft();
           break;
-        case KeyCode.BACKSPACE:
-          newGame();
-          break;
       }
       return "";
     });
   }
 
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  startscreenListener() {
+    querySelector('#register').onMouseDown.listen((MouseEvent e) {
+      ksView.userdates();
+      querySelector('#start').innerHtml = "";
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
+        this.username = ksView.username;
+        this.password = ksView.userpassword;
+        print(username + " " + password);
+        gamekey.registerUser(username, password);
+        querySelector("#userinput").innerHtml = "";
+      });
+    });
+
+    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+      ksView.userdates();
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
+        String username = ksView.username;
+        String password = ksView.userpassword;
+        print(username + " " + password);
+        gamekey.loginUser(username, password);
+        querySelector("#start").innerHtml = "";
+        logedinListener();
+
+      });
+    });
+
+    querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
+      querySelector('#start').innerHtml = "";
+      querySelector("#b5").style.visibility = "visible";
+      newGame();
+    });
+
+    querySelector("#b5").onMouseDown.listen((MouseEvent e) {
+      newGame();
+    });
+
+  }
+
+  logedinListener() {
+    ksView.logedinScreen();
+
+    querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
+      newGame();
+    });
+
+    querySelector("edituser").onMouseDown.listen((MouseEvent g) {
+      newGame();
+    });
+  }
+
   /**
    * Retrieves TOP 10 highscore from Gamekey service.
    * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
@@ -149,11 +184,11 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   void moveUp() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveUp() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveUp();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -161,11 +196,11 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   void moveRight() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveRight() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveRight();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -173,11 +208,11 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   void moveDown() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveDown() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveDown();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -185,11 +220,11 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   void moveLeft() {
-    String playerPos_old = ksModel.playerPositionAsString();
-    if (ksModel.moveLeft() == true) {
-      List<String> crates_new = ksModel.crateList();
-      String playerPos_new = ksModel.playerPositionAsString();
-      updateView(playerPos_old, playerPos_new, crates_new);
+    List<String> positions = ksModel.moveLeft();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -315,21 +350,29 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
-    //TODO Die Liste der Kisten soll nur Positionen von geänderten Kisten enthalten
+    //updateStats();  //TODO muss reingenommen werden sobald
     ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
 
+  /**
+   * Updates the stats in the view
+   */
+  void updateStats() {
+    ksView.updateStats(ksModel.getStats());
+  }
+
+  /**
+   * Checks if the User has already won
+   */
   checkWin() {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
-      if (ksView.nextLvl() == true) {
         querySelector("#next").onMouseDown.listen((MouseEvent e) {
           querySelector("#container").innerHtml = "";
           nextLvl();
         });
       }
-    }
   }
 
   /*
@@ -339,7 +382,6 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       genLvl.loadData().whenComplete(newGame);
-      querySelector("#next").style.visibility = "hidden";
     }
   }
 
@@ -347,9 +389,11 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a xml)
    */
   void newGame() {
+    ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLvl(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
+
   }
 
   /*
@@ -365,4 +409,26 @@ class KistenschiebenController {
   void resetTotal() {
     ksModel.resetTotal();
   }
+
+  //TODO Stats aus gamekey laden und an model bis zu stats weitergeben. Potentieller Fehler bei auslesen der Map aus der List
+  bool loadStats() {
+    //Bool weil Auslesen der .json schiefgehen kann
+    List dummy = gamekey.getStates();
+    Map test = dummy.last;
+    ksModel.loadStats(test);
+    return true;
+  }
+
+  //TODO stats aus Model holen und an gamekey weitergeben - TESTEN
+  bool storeStats() {
+    String uId = gamekey.getUserId(username);
+    bool works = gamekey.storeState(uId, ksModel.getStats());
+    if (works) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
 }

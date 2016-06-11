@@ -1,6 +1,7 @@
 import 'FieldObject.dart';
 
 class Wall extends FieldObject {
+
   //Wall benötigt eigentlich keine Pointer...möglicherweise super konstruktor entfernen
   Wall() : super() {
     this.passable = false;

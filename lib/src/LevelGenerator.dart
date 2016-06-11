@@ -1,9 +1,8 @@
-import 'dart:html';
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html';
 
 class LevelGenerator {
-
   //Anzahl der Gesamtlevel
   int lvlNumberSum = 0;
 
@@ -28,6 +27,7 @@ class LevelGenerator {
     final request = await HttpRequest.getString("../web/level.json").then(
         onDataLoaded);
   }
+
 
 // print the raw json response text from the server
   void onDataLoaded(String responseText) {
@@ -79,7 +79,6 @@ class LevelGenerator {
   String getEndFormat() {
     return this.endformat;
   }
-
   List<Map> getLevelList() {
     return this.levelList;
   }

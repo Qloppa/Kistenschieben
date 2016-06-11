@@ -1,31 +1,158 @@
 import 'dart:html';
-import 'dart:async';
 
 class KistenschiebenView {
 
+  //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
+  int tableH = 6;
+  int tableW = 7;
   /*
   Constructor
   */
   KistenschiebenView() {
     print("running view...");
-    scaling(); //TODO warum hier obwohl im scaling nur objekte aus dem Level definiert werden? M&F
+  }
+
+  /*
+  Generetes the Overlay with Startbuttons
+  */
+  startScreen() {
+    querySelector('#start').innerHtml =
+    "<div id=\"overlay\">"
+        "<div id=\"b1\">"
+        "  <button id=\"register\">Registrieren</button>"
+        "</div>"
+        "<div id=\"b2\">"
+        "<button id=\"login\">Anmelden</button>"
+        "</div>"
+        "<div id=\"b3\">"
+        "<button id=\"wOLogin\">Ohne Anmeldung spielen</button>"
+        "</div>"
+        "<div id=\"b4\">"
+        "<button id=\"about\">Anleitung</button>"
+        "</div>"
+        "</div>";
+  }
+
+  /*
+  Generates the Inputelements
+  */
+  userdates() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"username\" placeholder=\"username\">"
+        "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
+        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"close\">Close</button>"
+        "</form>"
+        "</div>";
+
+  }
+
+  /*
+  Generates the buttons to access the Game
+  */
+  logedinScreen() {
+    querySelector('#logedin').innerHtml =
+    "<div id=\"overlay\">"
+        "<div id=\"b3\">"
+        "<button id=\"newgame\">New Game</button>"
+        "</div>"
+        "<div id=\"b6\">"
+        "<button id=\"edituser\">Edit User</button>"
+        "</div>"
+        "<div id=\"b4\">"
+        "<button id=\"about\">About</button>"
+        "</div>"
+        "</div>";
+  }
+
+  /*
+  Generates the button to edit the user data
+  */
+  editUser() {
+    querySelector('#edituser').innerHtml =
+    "<div id=\"overlay\">"
+        "<div id=\"b7\">"
+        "<button id=\"changename\">Change Name</button>"
+        "</div>"
+        "<div id=\"b8\">"
+        "<button id=\"changepassword\">Change Password</button>"
+        "</div>"
+        "<div id=\"b9\">"
+        "<button id=\"delete\">Delete User</button>"
+        "</div>"
+        "<div id=\"b10\">"
+        "<button id=\"getuser\">Get Username</button>"
+        "</div>"
+        "<div id=\"b11\">"
+        "<button id=\"getuserid\">Get UserId</button>"
+        "</div>"
+        "</div>";
+
+    // Future<bool> changeUserName(String oldName, String pwd,String newName)
+    // Future<bool> changeUserPassword(String name, String oldPW,String newPW)
+    //Future<bool> deleteUser(String name, String pwd)
+    //Future<Map> getUser(String id, String pwd)
+    //Future<String> getUserId(String name)
+    //Future<List<Map>> listUsers()
+    //Future<List<Map>> getStates()
+    //Future<bool> storeState(String uid, Map state)
+
   }
 
   void scaling() {
-    //TODO gehört sowas nicht in die CSS? M&F
-    querySelectorAll("td").style.height = "100%";
-    querySelectorAll("td").style.width = "100%";
-    querySelectorAll(".target").style.height = "10%";
-    querySelectorAll(".target").style.width = "10%";
-    querySelectorAll(".ground").style.height = "10%";
-    querySelectorAll(".ground").style.width = "10%";
-    querySelectorAll(".wall").style.height = "10%";
-    querySelectorAll(".wall").style.width = "10%";
+    Window w = window;
+    int resoWidth = w.screen.width - 300;
+    int resoHeight = w.screen.height - 300;
+    print(resoWidth.toString());
+    print(resoHeight.toString());
+    String oS;
+    bool hoch = tableH > tableW;
+    int px;
+    print(hoch.toString());
+    if (hoch) {
+      print("hoeher");
+      print("resoWidth: " + resoHeight.toString());
+      print("/");
+      print("Width: " + tableW.toString());
+      double size = resoHeight / tableH;
+      px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
+      print("Groesse: " + px.toString());
+    } else {
+      print("breiter");
+      print("resoWidth: " + resoWidth.toString());
+      print("/");
+      print("Width: " + tableW.toString());
+      double size = resoHeight / tableW;
+      px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
+      print("Groesse: " + px.toString());
+    }
+
+    oS = px.toString() + "px";
+    //String strH = resoHeight.toString() + "px";
+    //String strW = resoWidth.toString() + "px";
+    //querySelector("lvl").style.height = strH;
+    //querySelector("lvl").style.width = strW;
+    querySelectorAll("lvl").style.height = "100%";
+    querySelectorAll("lvl").style.width = "100%";
+    querySelectorAll(".target").style.height = oS;
+    querySelectorAll(".target").style.width = oS;
+    querySelectorAll(".ground").style.height = oS;
+    querySelectorAll(".ground").style.width = oS;
+    querySelectorAll(".wall").style.height = oS;
+    querySelectorAll(".wall").style.width = oS;
+    querySelectorAll("img").style.height = oS;
+    querySelectorAll("img").style.width = oS;
   }
 
   /*
@@ -42,15 +169,20 @@ class KistenschiebenView {
     }
   }
 
+  /*
+    Generates the win-overlay and the button to access the next level
+   */
   void showWin() {
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><h2>LEVEL ABGESCHLOSSEN!!!</h2><button id=\"next\">Next Level</button></div>";
+    "<div id=\"overlay\"><button id=\"next\">Next Level</button></div>";
   }
 
   /*
   Creates the level in html from a String
   */
   String generateLevelFromString(String level, int row, int column) {
+    this.tableH = row;
+    this.tableW = column;
     scaling();
     level = level.toUpperCase();
 
@@ -59,7 +191,6 @@ class KistenschiebenView {
 
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
-      //TODO sind culmn und row in der richtigen reihenfolge? M&F
       //Spalten
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
@@ -96,16 +227,16 @@ class KistenschiebenView {
     return formatlevel;
   }
 
+  /*
+    appends the generated Field in Dom-tree
+  */
   loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
-    scaling(); //TODO nochmal?? M&F
+    scaling();
+
   }
 
-  bool nextLvl() {
-    querySelector("#next").style.visibility = "visible";
-    return true;
-  }
 
   String touchListener() {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
@@ -117,10 +248,15 @@ class KistenschiebenView {
     });
   }
 
+  /*
+  Gets the Name from UserInput
+  */
   String get username =>
       (document.querySelector('#username') as InputElement).value;
 
-
+  /*
+  Gets the Password from UserInput
+  */
   String get userpassword =>
       (document.querySelector('#userpassword') as InputElement).value;
 
@@ -132,12 +268,24 @@ class KistenschiebenView {
       String playerPosition_new, List<String>cratePosition_new) {
     querySelector(playerPosition_old).innerHtml = "";
     querySelector(playerPosition_new).innerHtml = player;
-
-    querySelectorAll("td").remove(crate);
-    int dummy = 0;
-    do {
-      querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-    } while (dummy < cratePosition_new.length);
+    if (!cratePosition_new.isEmpty) {
+      querySelectorAll("td").remove(crate);
+      int dummy = 0;
+      do {
+        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
+      } while (dummy < cratePosition_new.length);
+    }
     scaling();
+  }
+
+  /**
+   * used to update the stats
+   */
+  void updateStats(Map<String, int> stats) {
+    querySelector("lp").innerHtml = stats.remove("localPushes").toString();
+    querySelector("lm").innerHtml = stats.remove("localMoves").toString();
+    querySelector("gp").innerHtml = stats.remove("globalPushes").toString();
+    querySelector("gm").innerHtml = stats.remove("globalMoves").toString();
+    querySelector("t").innerHtml = stats.remove("time").toString();
   }
 }
