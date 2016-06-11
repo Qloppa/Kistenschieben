@@ -57,7 +57,7 @@ class KistenschiebenView {
   /*
   Generates the buttons to access the Game
   */
-  logedinScreen() async{
+  logedinScreen() async {
     querySelector('#logedin').innerHtml =
     "<div id=\"overlay\">"
         "<div id=\"b3\">"
@@ -241,7 +241,6 @@ class KistenschiebenView {
     querySelector("stat").innerHtml =
     "Local Pushes:<em>123</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>1000000</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>500</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>5000000000</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>123:59</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
     scaling();
-
   }
 
 

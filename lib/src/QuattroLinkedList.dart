@@ -1,5 +1,4 @@
 import 'FieldObject.dart';
-import 'Wall.dart';
 
 class QuattroLinkedList {
   FieldObject root = null;

@@ -47,7 +47,6 @@ class KistenschiebenController {
     startscreenListener();
 
 
-
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //print("startGameKey");
     try {
@@ -101,7 +100,8 @@ class KistenschiebenController {
     });
   }
 
-  setgameRunning(bool e) { //TODO variablen namen anpassen
+  setgameRunning(bool e) {
+    //TODO variablen namen anpassen
     isGameRunning = e;
   }
 
@@ -180,7 +180,8 @@ class KistenschiebenController {
   }
 
 
-  logedinListener() async{ //TODO wer ist logedin? kenn ich nicht! :)
+  logedinListener() async {
+    //TODO wer ist logedin? kenn ich nicht! :)
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
       querySelector("#logedin").innerHtml = "";
