@@ -10,12 +10,11 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '0be594b5c089ceca';
+const gameSecret = 'de03a09ddf51eb6d';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 bool isGameRunning = false;
-
 
 class KistenschiebenController {
 
@@ -31,6 +30,8 @@ class KistenschiebenController {
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
   bool gkAvailable = false;
 
+  String username;
+  String password;
 
   LevelGenerator genLvl = new LevelGenerator();
   KistenschiebenModel ksModel;
@@ -45,6 +46,9 @@ class KistenschiebenController {
     ksView.startScreen();
     startscreenListener();
 
+
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //print("startGameKey");
     try {
       // Download gamekey settings. Display warning on problems.
@@ -78,7 +82,6 @@ class KistenschiebenController {
     //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     //ksModel.playerPos_old = ksModel.playerPositionAsString();
     //ksModel.crates_old = ksModel.crateList();
-
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
@@ -98,9 +101,10 @@ class KistenschiebenController {
     });
   }
 
-  setgameRunning(bool e) {
+  setgameRunning(bool e) { //TODO variablen namen anpassen
     isGameRunning = e;
   }
+
 
   startscreenListener() async {
     querySelector('#register').onMouseDown.listen((MouseEvent e) {
@@ -110,8 +114,8 @@ class KistenschiebenController {
           .querySelector('#submit')
           .onMouseDown
           .listen((MouseEvent ev) {
-        String username = ksView.username;
-        String password = ksView.userpassword;
+        this.username = ksView.username;
+        this.password = ksView.userpassword;
         print(username + " " + password);
         gamekey.registerUser(username, password);
         querySelector("#userinput").innerHtml = "";
@@ -124,12 +128,11 @@ class KistenschiebenController {
         ksView.startScreen();
         startscreenListener();
       });
-
     });
 
     /*
-    Login
-    */
+			Login
+		*/
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       document
@@ -141,8 +144,6 @@ class KistenschiebenController {
         print(username + " " + password);
         querySelector("#userinput").innerHtml = "";
         checklogin(username, password);
-
-
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
         print("yeah");
@@ -151,7 +152,6 @@ class KistenschiebenController {
         startscreenListener();
       });
     });
-
 
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
@@ -168,10 +168,8 @@ class KistenschiebenController {
 
   }
 
-
-  Future<bool> checklogin(String name, String pw) async {
+  checklogin(String name, String pw) async {
     final answer = await gamekey.loginUser(name, pw);
-
     if (answer == true) {
       querySelector("#start").innerHtml = "";
       querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
@@ -179,10 +177,10 @@ class KistenschiebenController {
       ksView.logedinScreen();
       logedinListener();
     }
-
   }
 
-  dynamic logedinListener() async {
+
+  logedinListener() async{ //TODO wer ist logedin? kenn ich nicht! :)
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
       querySelector("#logedin").innerHtml = "";
@@ -221,13 +219,11 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   void moveUp() {
-    if (isGameRunning == true) {
-      String playerPos_old = ksModel.playerPositionAsString();
-      if (ksModel.moveUp() == true) {
-        List<String> crates_new = ksModel.crateList();
-        String playerPos_new = ksModel.playerPositionAsString();
-        updateView(playerPos_old, playerPos_new, crates_new);
-      }
+    List<String> positions = ksModel.moveUp();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -235,13 +231,11 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   void moveRight() {
-    if (isGameRunning == true) {
-      String playerPos_old = ksModel.playerPositionAsString();
-      if (ksModel.moveRight() == true) {
-        List<String> crates_new = ksModel.crateList();
-        String playerPos_new = ksModel.playerPositionAsString();
-        updateView(playerPos_old, playerPos_new, crates_new);
-      }
+    List<String> positions = ksModel.moveRight();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -249,13 +243,11 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   void moveDown() {
-    if (isGameRunning == true) {
-      String playerPos_old = ksModel.playerPositionAsString();
-      if (ksModel.moveDown() == true) {
-        List<String> crates_new = ksModel.crateList();
-        String playerPos_new = ksModel.playerPositionAsString();
-        updateView(playerPos_old, playerPos_new, crates_new);
-      }
+    List<String> positions = ksModel.moveDown();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -263,13 +255,11 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   void moveLeft() {
-    if (isGameRunning == true) {
-      String playerPos_old = ksModel.playerPositionAsString();
-      if (ksModel.moveLeft() == true) {
-        List<String> crates_new = ksModel.crateList();
-        String playerPos_new = ksModel.playerPositionAsString();
-        updateView(playerPos_old, playerPos_new, crates_new);
-      }
+    List<String> positions = ksModel.moveLeft();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
     }
   }
 
@@ -395,13 +385,22 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
-    //TODO Die Liste der Kisten soll nur Positionen von geänderten Kisten enthalten
+    //updateStats();  //TODO muss reingenommen werden sobald
     ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
 
-  checkWin() {
+  /**
+   * Updates the stats in the view
+   */
+  void updateStats() {
+    ksView.updateStats(ksModel.getStats());
+  }
 
+  /**
+   * Checks if the User has already won
+   */
+  checkWin() {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
       setgameRunning(false);
@@ -432,7 +431,6 @@ class KistenschiebenController {
     ksView.loadLvl(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
     querySelector("#resetbutton").style.visibility = "visible";
-
   }
 
   /*
@@ -448,4 +446,26 @@ class KistenschiebenController {
   void resetTotal() {
     ksModel.resetTotal();
   }
+
+  //TODO Stats aus gamekey laden und an model bis zu stats weitergeben. Potentieller Fehler bei auslesen der Map aus der List
+  bool loadStats() {
+    //Bool weil Auslesen der .json schiefgehen kann
+    List dummy = gamekey.getStates();
+    Map test = dummy.last;
+    ksModel.loadStats(test);
+    return true;
+  }
+
+  //TODO stats aus Model holen und an gamekey weitergeben - TESTEN
+  bool storeStats() {
+    String uId = gamekey.getUserId(username);
+    bool works = gamekey.storeState(uId, ksModel.getStats());
+    if (works) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
 }

@@ -4,6 +4,7 @@ class Target extends FieldObject {
 
   Target prevTarget = null;
   Target nextTarget = null;
+  bool _won = false;
 
 
   Target(Target prevTarget) : super() {
@@ -16,8 +17,18 @@ class Target extends FieldObject {
     }
   }
 
+  bool getWon() {
+    return this._won;
+  }
+
   bool checkOutNeighbours() {
-    return checkOutNeighboursPrev() && checkOutNeighboursNext();
+    bool ret = false;
+    ret = checkOutNeighboursPrev() && checkOutNeighboursNext();
+    if (ret == true) {
+      setPrevWon();
+      setNextWon();
+    }
+    return ret;
   }
 
   bool checkOutNeighboursPrev() {
@@ -38,5 +49,19 @@ class Target extends FieldObject {
       ret = false;
     }
     return ret;
+  }
+
+  setPrevWon() {
+    this._won = true;
+    if (this.prevTarget != null) {
+      this.prevTarget.setPrevWon();
+    }
+  }
+
+  setNextWon() {
+    this._won = true;
+    if (this.nextTarget != null) {
+      this.nextTarget.setNextWon();
+    }
   }
 }

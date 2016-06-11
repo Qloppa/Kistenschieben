@@ -1,5 +1,5 @@
-import 'Position.dart';
 import 'Crate.dart';
+import 'Position.dart';
 
 class FieldObject {
   Crate crate;
@@ -27,17 +27,27 @@ class FieldObject {
     this.leftPointer = null;
   }
 
-  isPassable(FieldObject whereActorStaysOn, int pushPower) {
+  List isPassable(FieldObject whereActorStaysOn, int pushPower) {
+
     if (this.crate == null) {
-      return true;
+      List changedPositions = new List();
+      changedPositions.add(this.getPositionAsString());
+      return changedPositions;
     } else if (pushPower > 0) {
       return crate.move(whereActorStaysOn, pushPower);
     } else {
-      return false;
+      return new List();
     }
   }
 
   setCrate(Crate crate) {
     this.crate = crate;
   }
+
+  String getPositionAsString() {
+    String str = "#pos" + this.position.x.toString() + "_" +
+        this.position.y.toString();
+    return str;
+  }
+
 }

@@ -6,10 +6,10 @@ class KistenschiebenView {
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
-  String win = "<img src=\"../web/pictures/win.gif\" height=\" 20px\" width=\" 30px\">";
+  String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
 
-  int tableH;
-  int tableW;
+  int tableH = 6;
+  int tableW = 7;
   /*
   Constructor
   */
@@ -57,7 +57,7 @@ class KistenschiebenView {
   /*
   Generates the buttons to access the Game
   */
-  logedinScreen() async {
+  logedinScreen() async{
     querySelector('#logedin').innerHtml =
     "<div id=\"overlay\">"
         "<div id=\"b3\">"
@@ -70,7 +70,6 @@ class KistenschiebenView {
         "<button id=\"about\">About</button>"
         "</div>"
         "</div>";
-
   }
 
   /*
@@ -109,27 +108,41 @@ class KistenschiebenView {
 
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 200;
-    int resoHeight = w.screen.height - 200;
+    int resoWidth = w.screen.width - 300;
+    int resoHeight = w.screen.height - 300;
     print(resoWidth.toString());
     print(resoHeight.toString());
     String oS;
-
+    bool hoch = tableH > tableW;
     int px;
-    if (tableH > tableW) {
-      double size = resoWidth / tableW;
-      px = size.toInt();
-      print("Groesse: " + px.toString());
-    } else {
+    print(hoch.toString());
+    if (hoch) {
+      print("hoeher");
+      print("resoWidth: " + resoHeight.toString());
+      print("/");
+      print("Width: " + tableW.toString());
       double size = resoHeight / tableH;
       px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
+      print("Groesse: " + px.toString());
+    } else {
+      print("breiter");
+      print("resoWidth: " + resoWidth.toString());
+      print("/");
+      print("Width: " + tableW.toString());
+      double size = resoHeight / tableW;
+      px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
       print("Groesse: " + px.toString());
     }
+
     oS = px.toString() + "px";
-    String strH = resoHeight.toString() + "px";
-    String strW = resoWidth.toString() + "px";
-    //querySelector("table").style.height = strH;
-    //querySelector("table").style.width = strW;
+    //String strH = resoHeight.toString() + "px";
+    //String strW = resoWidth.toString() + "px";
+    //querySelector("lvl").style.height = strH;
+    //querySelector("lvl").style.width = strW;
     querySelectorAll("lvl").style.height = "100%";
     querySelectorAll("lvl").style.width = "100%";
     querySelectorAll(".target").style.height = oS;
@@ -141,6 +154,7 @@ class KistenschiebenView {
     querySelectorAll("img").style.height = oS;
     querySelectorAll("img").style.width = oS;
   }
+
   /*
   Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
   */
@@ -159,15 +173,13 @@ class KistenschiebenView {
     Generates the win-overlay and the button to access the next level
    */
   void showWin() {
-
     querySelector("#container").innerHtml =
     "<div id=\"overlay\"><button id=\"next\">Next Level</button></div>";
     /* querySelector("#reset").style.position = "absolute";
-    querySelector("#reset").style.top = "75%";
-    querySelector("#reset").style.right = "50%";
-    querySelector("#left").style.left = "50";
-    querySelector("#resetbutton").style.background = "url(pictures/win.gif)";*/
-
+			    querySelector("#reset").style.top = "75%";
+			    querySelector("#reset").style.right = "50%";
+			    querySelector("#left").style.left = "50";
+			    querySelector("#resetbutton").style.background = "url(pictures/win.gif)";*/
   }
 
   /*
@@ -227,8 +239,9 @@ class KistenschiebenView {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
     querySelector("stat").innerHtml =
-    "Local Pushes:<em>123</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>1000000</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>500</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>5000000000</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>123:59</em>&nbsp&nbsp&nbsp&nbsp";
+    "Local Pushes:<em>123</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>1000000</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>500</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>5000000000</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>123:59</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
     scaling();
+
   }
 
 
@@ -262,12 +275,24 @@ class KistenschiebenView {
       String playerPosition_new, List<String>cratePosition_new) {
     querySelector(playerPosition_old).innerHtml = "";
     querySelector(playerPosition_new).innerHtml = player;
-
-    querySelectorAll("td").remove(crate);
-    int dummy = 0;
-    do {
-      querySelector(cratePosition_new.removeLast()).innerHtml = crate;
-    } while (dummy < cratePosition_new.length);
+    if (!cratePosition_new.isEmpty) {
+      querySelectorAll("td").remove(crate);
+      int dummy = 0;
+      do {
+        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
+      } while (dummy < cratePosition_new.length);
+    }
     scaling();
+  }
+
+  /**
+   * used to update the stats
+   */
+  void updateStats(Map<String, int> stats) {
+    querySelector("lp").innerHtml = stats.remove("localPushes").toString();
+    querySelector("lm").innerHtml = stats.remove("localMoves").toString();
+    querySelector("gp").innerHtml = stats.remove("globalPushes").toString();
+    querySelector("gm").innerHtml = stats.remove("globalMoves").toString();
+    querySelector("t").innerHtml = stats.remove("time").toString();
   }
 }

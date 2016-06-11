@@ -1,10 +1,10 @@
-import 'Wall.dart';
-import 'Ground.dart';
-import 'Target.dart';
-import 'QuattroLinkedList.dart';
-import 'Player.dart';
 import 'Crate.dart';
+import 'Ground.dart';
+import 'Player.dart';
+import 'QuattroLinkedList.dart';
 import 'Statistics.dart';
+import 'Target.dart';
+import 'Wall.dart';
 
 class KistenschiebenModel {
 
@@ -29,7 +29,7 @@ class KistenschiebenModel {
 		checks if the player has already won
 	*/
   bool checkWin() {
-    return target.checkOutNeighbours();
+    return target.getWon();
   }
 
   loadLvl(List<Map> levelList, int row, int column) {
@@ -120,59 +120,29 @@ class KistenschiebenModel {
   /*
   tells the player to go up. Returns true if possible, false if not
    */
-  bool moveUp() {
-    if (player.moveUp() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveUp() {
+    return player.moveUp();
   }
 
   /*
   tells the player to go right. Returns true if possible, false if not
    */
-  bool moveRight() {
-    if (player.moveRight() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveRight() {
+    return player.moveRight();
   }
 
   /*
   tells the player to go down. Returns true if possible, false if not
    */
-  bool moveDown() {
-    if (player.moveDown() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveDown() {
+    return player.moveDown();
   }
 
   /*
   tells the player to go left. Returns true if possible, false if not
    */
-  bool moveLeft() {
-    if (player.moveLeft() == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /*
-  returns a List of all crates
-   */
-  List<String> crateList() {
-    return qlList.createCrateList(row, column);
-  }
-
-  /*
-  returns the position of the player as String
-   */
-  String playerPositionAsString() {
-    return player.getPositionAsString();
+  List<String> moveLeft() {
+    return player.moveLeft();
   }
 
   /*
@@ -205,35 +175,18 @@ class KistenschiebenModel {
     stats.resetAll();
   }
 
-  /*
-  sets the stats to the given values
-  */
-  loadStats(int lm, int gm, int lp, int gp, int lt, int gt, int rt) {
-    stats.loadStats(lm, gm, lp, gp, lt, gt, rt);
+  /**
+   *sets the stats to the given values
+   */
+  loadStats(Map<String, int> save) {
+    stats.loadStats(save);
   }
 
-  /*
-			  returns the statistics as a list with the order
-			  1. local moves
-			  2. global moves
-			  3. local pushes
-			  4. global pushes
-			  5. local time
-			  6. global time
-	*/
-  List<int> getStatistics() {
+  /**
+   * returns the statistics as a Map
+   */
+  Map<String, int> getStats() {
     return stats.getStats();
   }
 
-  printErrorMessage() {
-
-  }
-
-  changeView() {
-
-  }
-
-  exit() {
-
-  }
 }

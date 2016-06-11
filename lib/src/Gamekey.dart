@@ -1,6 +1,6 @@
-import 'dart:html';
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
 
 /**
  * Provides parts of the GameKey REST API necessary for the SnakeGame.
@@ -85,9 +85,11 @@ class GameKey {
       final user = await getUser(userID, pwd);
       if (user != null) {
         return true;
+      } else {
+        return false;
       }
     } catch (error, stacktrace) {
-      print("GameKey.changeUserName() caused following error: '$error'");
+      print("GameKey.loginUser() caused following error: '$error'");
       print("$stacktrace");
       return false;
     }
@@ -270,7 +272,7 @@ class GameKey {
   /**
    * Retrieves all states stored for this game.
    */
-  Future<List<Map>> getStates() async {
+  Future<List<Map<String, int>>> getStates() async {
     if (!_available) return new Future.value([]);
     try {
       final uri = this._uri.resolve("/gamestate/$_gid").resolveUri(
@@ -288,7 +290,7 @@ class GameKey {
    * Stores an arbitrary state encoded as map for a user with identifier [uid]
    * for this game.
    */
-  Future<bool> storeState(String uid, Map state) async {
+  Future<bool> storeState(String uid, Map<String, int> state) async {
     if (!_available) return new Future.value(false);
     try {
       final answer = await HttpRequest.request(
