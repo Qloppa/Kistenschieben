@@ -29,7 +29,7 @@ class KistenschiebenModel {
 		checks if the player has already won
 	*/
   bool checkWin() {
-    return target.checkOutNeighbours();
+    return target.getWon();
   }
 
   loadLvl(List<Map> levelList, int row, int column) {
@@ -120,45 +120,29 @@ class KistenschiebenModel {
   /*
   tells the player to go up. Returns true if possible, false if not
    */
-  bool moveUp() {
-    if (player.moveUp() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveUp() {
+    return player.moveUp();
   }
 
   /*
   tells the player to go right. Returns true if possible, false if not
    */
-  bool moveRight() {
-    if (player.moveRight() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveRight() {
+    return player.moveRight();
   }
 
   /*
   tells the player to go down. Returns true if possible, false if not
    */
-  bool moveDown() {
-    if (player.moveDown() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveDown() {
+    return player.moveDown();
   }
 
   /*
   tells the player to go left. Returns true if possible, false if not
    */
-  bool moveLeft() {
-    if (player.moveLeft() == true) {
-      return true;
-    } else {
-      return false;
-    }
+  List<String> moveLeft() {
+    return player.moveLeft();
   }
 
   /*

@@ -95,7 +95,7 @@
 		{ "level" :8,
 			"row": 11,
 			"column": 19,
-			"format": 	[{"r":"ggggwwwwwgggggggggg"},
+			"format": [{"r":"ggggwwwwwgggggggggg"},
 				{"r":"ggggwgggwgggggggggg"},
 				{"r":"ggggwcggwgggggggggg"},
 				{"r":"ggwwwggcwwggggggggg"},
@@ -153,7 +153,20 @@
 					{"r":"tggccccggg"},
 					{"r":"tttttggggg"}
 			]
+		},
+		{ "level" :12,
+			"row": 9,
+			"column": 9,
+			"format": 	[{"r":"wwwwwwwww"},
+				{"r":"wggggggpw"},
+				{"r":"wggtgtggw"},
+				{"r":"wgtgtgtgw"},
+				{"r":"wggtstggw"},
+				{"r":"wgtgtgtgw"},
+				{"r":"wggtgtggw"},
+				{"r":"wgggggggw"},
+				{"r":"wwwwwwwww"}
+			]
 		}
-
 	]
 }
