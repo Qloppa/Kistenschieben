@@ -10,7 +10,7 @@ table, td {
     border: 0px solid; /*TODO Tableborder bis grafiken eingefügt werden mit linien M&F*/
 }
 
-td,.ground,.wall,.target,img{
+td, .ground, .wall, .target, img {
     text-align: center;
 }
 
@@ -30,30 +30,31 @@ h1 {
     border-collapse: collapse;
 }
 
-#win{
+#win {
     text-align: center;
 }
 
-#states{
+#states {
     text-align: center;
     margin-left: auto;
-    margin-right:auto ;
+    margin-right: auto;
 }
 
-#userstatus{
+#userstatus {
     font-size: 20px;
     text-align: right;
 }
-#gamekeystatus{
-    color:red;
-    font-size:20px;
-    text-align:right;
+
+#gamekeystatus {
+    color: red;
+    font-size: 20px;
+    text-align: right;
 
 }
 
 #overlay {
     position: absolute;
-    top: 0px;
+    top: 0px; /*TODO 0 oder 1?*/
     left: 0px;
     width: 100%;
     background-color: rgba(0, 10, 10, 0.8);
@@ -61,7 +62,6 @@ h1 {
     text-align: center;
 
 }
-
 
 #loadLvl {
     visibility: hidden;
@@ -78,7 +78,7 @@ h1 {
     position: absolute;
     text-align: center;
     top: 75%;
-    left: 60%;
+    left: 60%; /*TODO 60 oder 55?*/
 
 }
 
@@ -98,7 +98,7 @@ button {
 }
 
 #submit {
-    top: 5%;
+    top: 5%; /*TODO 5 oder 50?*/
     font-size: 20px;
     height: 27px;
     width: 200px;
@@ -106,7 +106,7 @@ button {
 }
 
 #close {
-    top: 5%;
+    top: 5%; /*TODO 5 oder 50?*/
     font-size: 20px;
     height: 27px;
     width: 200px;
@@ -120,7 +120,7 @@ form {
 
 }
 
-#b5 {
+#resetbutton {
 
     position: absolute;
     right: 85%;
@@ -128,11 +128,27 @@ form {
     height: 50px;
     width: 200px;
     visibility: hidden;
-
+    background-color: lightgrey;
 }
 
 #start {
     position: absolute;
 
+}
 
+#logedin {
+    position: absolute;
+    left: 40%;
+    top: 50%
+
+}
+
+#edituser {
+    position: absolute;
+    left: 40%;
+    top: 50%
+}
+
+em {
+    color: red;
 }

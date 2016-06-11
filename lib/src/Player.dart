@@ -20,7 +20,6 @@ class Player {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);
         staysOn = staysOn.upPointer;
-        print("PlayerPosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -42,7 +41,6 @@ class Player {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);
         staysOn = staysOn.rightPointer;
-        print("PlayerPosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -64,7 +62,6 @@ class Player {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);
         staysOn = staysOn.downPointer;
-        print("PlayerPosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -86,7 +83,6 @@ class Player {
         changedPositions.add(this.staysOn.getPositionAsString());
         print(changedPositions);
         staysOn = staysOn.leftPointer;
-        print("PlayerPosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -94,14 +90,6 @@ class Player {
     } else {
       return new List();
     }
-  }
-
-  /*
-  Returns the position of the actual field of the player as a String of two numbers separated by a ","
-  */
-  String getPosition() { //TODO kann eventuell weg (nur auf konsole verwendet)
-    return this.staysOn.position.x.toString() + "," +
-        this.staysOn.position.y.toString();
   }
 
   /*
@@ -116,15 +104,5 @@ class Player {
 	*/
   int getPosY() {
     return this.staysOn.position.getY();
-  }
-
-  /*
-  Returns the position of the field as a String for the view
-   */
-  String getPositionAsString() {
-    //TODO fällt wohl weg, wenn CrateList neu implementiert
-    String str = "#pos" + this.staysOn.position.x.toString() + "_" +
-        this.staysOn.position.y.toString();
-    return str;
   }
 }

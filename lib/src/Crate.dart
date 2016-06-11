@@ -32,11 +32,8 @@ class Crate {
         staysOn.downPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {
-            print("You won!!!");
-          }
+          if (staysOn.checkOutNeighbours() == true) {}
         }
-        print("CratePosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -57,11 +54,8 @@ class Crate {
         staysOn.leftPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {
-            print("You won!!!");
-          }
+          if (staysOn.checkOutNeighbours() == true) {}
         }
-        print("CratePosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -82,11 +76,8 @@ class Crate {
         staysOn.upPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {
-            print("You won!!!");
-          }
+          if (staysOn.checkOutNeighbours() == true) {}
         }
-        print("CratePosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -107,11 +98,8 @@ class Crate {
         staysOn.rightPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {
-            print("You won!!!");
-          }
+          if (staysOn.checkOutNeighbours() == true) {}
         }
-        print("CratePosition: " + getPosition());
         return changedPositions;
       } else {
         return new List();
@@ -120,19 +108,4 @@ class Crate {
       return new List();
     }
   }
-
-  getPosition() {
-    return this.staysOn.position.x.toString() + "," +
-        this.staysOn.position.y.toString();
-  }
-
-  /*
-  Returns the position of the field as a String for the view
-   */
-  String getPositionAsString() {
-    String str = "#pos" + this.staysOn.position.x.toString() + "_" +
-        this.staysOn.position.y.toString();
-    return str;
-  }
-
 }

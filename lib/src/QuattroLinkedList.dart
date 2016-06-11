@@ -49,33 +49,4 @@ class QuattroLinkedList {
     firstInRow = fieldObject;
     lastAdded = firstInRow;
   }
-
-  searchRight() {
-    if (nextPrint!= null) {
-      if (nextPrint.crate != null) {
-        crateList.add(nextPrint.crate.getPositionAsString());
-      }
-      nextPrint = nextPrint.rightPointer;
-    }
-  }
-
-  searchDown() {
-    if (firstInRowPrint.downPointer != null) {
-      firstInRowPrint = firstInRowPrint.downPointer;
-    }
-    nextPrint = firstInRowPrint;
-  }
-
-  createCrateList(row, column) {
-    crateList = new List();
-    nextPrint = root;
-    firstInRowPrint = root;
-    for (int i = 0; i < column; i++) {
-      for (int j = 0; j < row; j++) {
-        searchRight();
-      }
-      searchDown();
-    }
-    return crateList;
-  }
 }

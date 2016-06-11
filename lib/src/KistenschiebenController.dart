@@ -14,6 +14,7 @@ const gameSecret = 'de03a09ddf51eb6d';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+bool isGameRunning = false;
 
 class KistenschiebenController {
 
@@ -100,7 +101,12 @@ class KistenschiebenController {
     });
   }
 
-  startscreenListener() {
+  setgameRunning(bool e) { //TODO variablen namen anpassen
+    isGameRunning = e;
+  }
+
+
+  startscreenListener() async {
     querySelector('#register').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       querySelector('#start').innerHtml = "";
@@ -113,9 +119,20 @@ class KistenschiebenController {
         print(username + " " + password);
         gamekey.registerUser(username, password);
         querySelector("#userinput").innerHtml = "";
+        ksView.startScreen();
+        startscreenListener();
+      });
+      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+        print("yeah");
+        querySelector("#userinput").innerHtml = "";
+        ksView.startScreen();
+        startscreenListener();
       });
     });
 
+    /*
+			Login
+		*/
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       document
@@ -125,34 +142,52 @@ class KistenschiebenController {
         String username = ksView.username;
         String password = ksView.userpassword;
         print(username + " " + password);
-        gamekey.loginUser(username, password);
-        querySelector("#start").innerHtml = "";
-        logedinListener();
-
+        querySelector("#userinput").innerHtml = "";
+        checklogin(username, password);
+      });
+      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+        print("yeah");
+        querySelector("#userinput").innerHtml = "";
+        ksView.startScreen();
+        startscreenListener();
       });
     });
 
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
-      querySelector("#b5").style.visibility = "visible";
+      querySelector("#resetbutton").style.visibility = "visible";
       newGame();
     });
 
-    querySelector("#b5").onMouseDown.listen((MouseEvent e) {
+    querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
+      querySelector('#start').innerHtml = "";
+      querySelector("#logedin").innerHtml = "";
+      querySelector("#container").innerHtml = "";
       newGame();
     });
 
   }
 
-  logedinListener() {
-    ksView.logedinScreen();
+  checklogin(String name, String pw) async {
+    final answer = await gamekey.loginUser(name, pw);
+    if (answer == true) {
+      querySelector("#start").innerHtml = "";
+      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
+      querySelector("#userstatus").style.color = "green";
+      ksView.logedinScreen();
+      logedinListener();
+    }
+  }
 
+
+  logedinListener() async{ //TODO wer ist logedin? kenn ich nicht! :)
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
+      querySelector("#logedin").innerHtml = "";
     });
 
-    querySelector("edituser").onMouseDown.listen((MouseEvent g) {
-      newGame();
+    querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
+      ksView.editUser();
     });
   }
 
@@ -368,6 +403,7 @@ class KistenschiebenController {
   checkWin() {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
+      setgameRunning(false);
         querySelector("#next").onMouseDown.listen((MouseEvent e) {
           querySelector("#container").innerHtml = "";
           nextLvl();
@@ -389,11 +425,12 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a xml)
    */
   void newGame() {
+    setgameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.loadLvl(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
-
+    querySelector("#resetbutton").style.visibility = "visible";
   }
 
   /*

@@ -146,20 +146,6 @@ class KistenschiebenModel {
   }
 
   /*
-  returns a List of all crates
-   */
-  List<String> crateList() {
-    return qlList.createCrateList(row, column);
-  }
-
-  /*
-  returns the position of the player as String
-   */
-  String playerPositionAsString() {
-    return player.getPositionAsString();
-  }
-
-  /*
 	  returns the X value of the position of the player
 	*/
   int getPlayerPosX() {
