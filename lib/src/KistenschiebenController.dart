@@ -180,7 +180,9 @@ class KistenschiebenController {
       querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
-      newGame();
+      Map<String, int> save = ksModel.getStats();
+      resetGame();
+      //TODO global nicht reseten
     });
   }
 
@@ -548,7 +550,16 @@ class KistenschiebenController {
   Resets Game and local stats
   */
   void resetGame() {
-    ksModel.reset();
+    setgameRunning(true);
+    Map<String, int> saveStats = ksModel.getStats();
+    ksModel = new KistenschiebenModel();
+    ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
+    ksView.loadLvl(
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
+    ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
+    ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
+    querySelector("#resetbutton").style.visibility = "visible";
+    updateStats();
   }
 
   /*

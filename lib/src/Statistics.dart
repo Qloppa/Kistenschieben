@@ -31,6 +31,14 @@ class Statistics {
     this.roundTime = time;
   }
 
+  setGlobalMoves(int moves){
+    this.globalMoves = moves;
+  }
+
+  setGlobalPushes(int pushes){
+    this.globalPushes = pushes;
+  }
+
 
   /**
    * returns the local Moves
