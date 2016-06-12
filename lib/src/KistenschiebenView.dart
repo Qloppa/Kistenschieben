@@ -2,6 +2,8 @@ import 'dart:html';
 
 class KistenschiebenView {
 
+  List<List<HtmlElement>> field;
+
   //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
@@ -9,8 +11,8 @@ class KistenschiebenView {
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
   String about = "<img src=\"../web/pictures/win.png\">";
 
-  int tableH = 60;
-  int tableW = 70;
+  int tableH = 6;
+  int tableW = 7;
   /*
   Constructor
   */
@@ -163,9 +165,9 @@ class KistenschiebenView {
       (document.querySelector('#username') as InputElement).value;
 
   /*
-  Gets the Password from UserInput
+  Gets the userPassword from UserInput
   */
-  String get userpassword =>
+  String get userPassword =>
       (document.querySelector('#userpassword') as InputElement).value;
 
   /*
@@ -180,13 +182,16 @@ class KistenschiebenView {
   String get oldUsername =>
       (document.querySelector('#oldusername') as InputElement).value;
 
+  /*
+  Gets the "oldUserPassword"  from Userinput
+  */
   String get oldUserpassword =>
       (document.querySelector('#olduserpassword') as InputElement).value;
 
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 200;
-    int resoHeight = w.screen.height - 200;
+    int resoWidth = w.screen.width - 250;
+    int resoHeight = w.screen.height - 250;
     print(resoWidth.toString());
     print(resoHeight.toString());
     String oS;
@@ -306,6 +311,20 @@ class KistenschiebenView {
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table>\n$formatlevel</table>";
+
+    querySelector("level").innerHtml = formatlevel;
+
+
+    field = new List<List<HtmlElement>>(row);
+    for (int rows = 0; rows < row; rows++) {
+      field[rows] = [];
+      for (int col = 0; col < column; col++) {
+        field[rows].add(querySelector("#pos${col}_${rows}"));
+      }
+    }
+
+
+
     return formatlevel;
   }
 
@@ -314,7 +333,7 @@ class KistenschiebenView {
   */
   loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
-    querySelector("level").innerHtml = level;
+    //querySelector("level").innerHtml = level;
     scaling();
   }
 
@@ -329,6 +348,14 @@ class KistenschiebenView {
     });
   }
 
+  List<int> getPosition(String pos) {
+    List<String> values = pos.split("_");
+    List<int> positions = new List();
+    positions.clear();
+    positions.add(int.parse(values[0]));
+    positions.add(int.parse(values[1]));
+    return positions;
+  }
 
 
   /*
@@ -337,17 +364,26 @@ class KistenschiebenView {
   */
   void updateView(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_new) {
-    querySelector(playerPosition_old).innerHtml = "";
-    querySelector(playerPosition_new).innerHtml = player;
+    int pox = getPosition(playerPosition_old)[1];
+    int poy = getPosition(playerPosition_old)[0];
+    print(pox);
+    print(poy);
+    field[pox][poy].innerHtml = "";
+    int pnx = getPosition(playerPosition_new)[1];
+    int pny = getPosition(playerPosition_new)[0];
+    field[pnx][pny].innerHtml = player;
     if (!cratePosition_new.isEmpty) {
-      querySelectorAll("td").remove(crate);
       int dummy = 0;
       do {
-        querySelector(cratePosition_new.removeLast()).innerHtml = crate;
+        List<int> cratepos = getPosition(cratePosition_new.removeLast());
+        int pcx = cratepos[1];
+        int pcy = cratepos[0];
+        field[pcx][pcy].innerHtml = crate;
       } while (dummy < cratePosition_new.length);
     }
     scaling();
   }
+
 
   /**
    * used to update the stats
