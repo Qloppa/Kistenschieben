@@ -1,5 +1,8 @@
 import 'dart:html';
 
+/**
+ * The View of Kistenschieben. Is used to display the game
+ */
 class KistenschiebenView {
 
   //Bildelemente
@@ -8,9 +11,10 @@ class KistenschiebenView {
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
   String about = "<img src=\"../web/pictures/win.png\">";
-
+  //Used for scaling
   int tableH = 60;
   int tableW = 70;
+
   /*
   Constructor
   */
@@ -102,6 +106,9 @@ class KistenschiebenView {
 
   }
 
+  /**
+   * Shows the options to change the username
+   */
   changeUserName() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
@@ -115,6 +122,9 @@ class KistenschiebenView {
         "</div>";
   }
 
+  /**
+   * Shows the options to change the password
+   */
   changeUserPassword() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
@@ -128,6 +138,9 @@ class KistenschiebenView {
         "</div>";
   }
 
+  /**
+   * Shows the options if the user selects "get User"
+   */
   getUser() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
@@ -140,6 +153,9 @@ class KistenschiebenView {
         "</div>";
   }
 
+  /**
+   * Shows the options to get the User-ID by entering the Username
+   */
   getUserId() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
@@ -151,6 +167,9 @@ class KistenschiebenView {
         "</div>";
   }
 
+  /**
+   * When the user selects "about"
+   */
   getAbout() {
     querySelector("#about").innerHtml =
     "<div id=\"overlay\">" "$win" "<div><button type =\"button\" id=\"close\">Close</button></div>" "</div>";
@@ -180,46 +199,31 @@ class KistenschiebenView {
   String get oldUsername =>
       (document.querySelector('#oldusername') as InputElement).value;
 
+  /**
+   * gets the user's old password from userinput
+   */
   String get oldUserpassword =>
       (document.querySelector('#olduserpassword') as InputElement).value;
 
+  /**
+   * is used for scaling the gamefield. Uses the resolution of the Browser
+   */
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 300;
-    int resoHeight = w.screen.height - 300;
-    print(resoWidth.toString());
-    print(resoHeight.toString());
+    int resoWidth = w.innerWidth - 200;
+    int resoHeight = w.innerHeight - 200;
     String oS;
     bool hoch = tableH > tableW;
     int px;
     print(hoch.toString());
     if (hoch) {
-      print("hoeher");
-      print("resoWidth: " + resoHeight.toString());
-      print("/");
-      print("Width: " + tableW.toString());
       double size = resoHeight / tableH;
       px = size.toInt();
-      print("Heigth: " + tableH.toString());
-      print("Width: " + tableW.toString());
-      print("Groesse: " + px.toString());
     } else {
-      print("breiter");
-      print("resoWidth: " + resoWidth.toString());
-      print("/");
-      print("Width: " + tableW.toString());
       double size = resoHeight / tableW;
       px = size.toInt();
-      print("Heigth: " + tableH.toString());
-      print("Width: " + tableW.toString());
-      print("Groesse: " + px.toString());
     }
-
     oS = px.toString() + "px";
-    //String strH = resoHeight.toString() + "px";
-    //String strW = resoWidth.toString() + "px";
-    //querySelector("lvl").style.height = strH;
-    //querySelector("lvl").style.width = strW;
     querySelectorAll("#lvl").style.height = "100%";
     querySelectorAll("#lvl").style.width = "100%";
     querySelectorAll(".target").style.height = oS;
@@ -230,6 +234,7 @@ class KistenschiebenView {
     querySelectorAll(".wall").style.width = oS;
     querySelectorAll("img").style.height = oS;
     querySelectorAll("img").style.width = oS;
+
   }
 
   /*
@@ -247,7 +252,7 @@ class KistenschiebenView {
   }
 
   /*
-    Generates the win-overlay and the button to access the next level
+   *Generates the win-overlay and the button to access the next level
    */
   void showWin() {
     querySelector("#container").innerHtml =
@@ -260,8 +265,8 @@ class KistenschiebenView {
   }
 
   /*
-  Creates the level in html from a String
-  */
+   *Creates the level in html from a String
+   */
   String generateLevelFromString(String level, int row, int column) {
     this.tableH = row;
     this.tableW = column;
@@ -309,16 +314,18 @@ class KistenschiebenView {
     return formatlevel;
   }
 
-  /*
-    appends the generated Field in Dom-tree
-  */
+  /**
+    * appends the generated Field in Dom-tree
+    */
   loadLvl(String lvl, int row, int column) async {
     String level = generateLevelFromString(lvl, column, row);
     querySelector("level").innerHtml = level;
     scaling();
   }
 
-
+  /**
+   *  makes the gamefield clickable
+   */
   String touchListener() {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
       String id = (ev.target as HtmlElement).id;

@@ -17,9 +17,12 @@ class FieldObject {
   FieldObject leftPointer;
   FieldObject upPointer;
   FieldObject downPointer;
-  FieldObject prevTarget;
+  FieldObject prevTarget; //TODO verantwortlich? <- und V
   FieldObject nextTarget;
 
+  /**
+   * Constructor
+   */
   FieldObject() {
     this.upPointer = null;
     this.rightPointer = null;
@@ -28,7 +31,6 @@ class FieldObject {
   }
 
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {
-
     if (this.crate == null) {
       List changedPositions = new List();
       changedPositions.add(this.getPositionAsString());
@@ -40,10 +42,16 @@ class FieldObject {
     }
   }
 
+  /**
+   * Sets the crate
+   */
   setCrate(Crate crate) {
     this.crate = crate;
   }
 
+  /**
+   * Returns the position as a String "#posX_Y"
+   */
   String getPositionAsString() {
     String str = "#pos" + this.position.x.toString() + "_" +
         this.position.y.toString();

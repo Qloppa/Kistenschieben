@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
+/**
+ * Is used to generate the level
+ */
 class LevelGenerator {
   //Anzahl der Gesamtlevel
   int lvlNumberSum = 0;

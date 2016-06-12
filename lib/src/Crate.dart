@@ -1,13 +1,23 @@
 import 'FieldObject.dart';
 
+/**
+ * A Crate stays on a fieldObject of the type ground or target. The user has won if every crate stays on a target
+ */
 class Crate {
-  var staysOn;
 
+  var staysOn;//The FieldObject on which the crate stays
+
+  /**
+   * Constructor
+   */
   Crate(FieldObject staysOn) {
     this.staysOn = staysOn;
     staysOn.passable = false;
   }
 
+  /**
+   * moves the Crate and returns a list of changed positions
+   */
   List move(FieldObject whereActorStaysOn, pushPower) {
     List ret = new List();
     if (whereActorStaysOn == staysOn.upPointer) {

@@ -26,29 +26,44 @@ class Statistics {
     this.resets = 0;
   }
 
-  /*
-   *Sets the roundTime which is the used time in the last savegame
+  /**
+   * Sets the roundTime which is the used time in the last savegame
    */
   setRoundTime(int time){
     this.roundTime = time;
   }
 
+  /**
+   * Sets the value of the total Moves used in this round
+   */
   setGlobalMoves(int moves){
     this.globalMoves = moves;
   }
 
+  /**
+   * Sets the value of the total Pushes used in this round
+   */
   setGlobalPushes(int pushes){
     this.globalPushes = pushes;
   }
 
+  /**
+   * Increments the resets
+   */
   incResets(){
     this.resets++;
   }
 
+  /**
+   * sets the resets to the value res
+   */
   setResets(int res){
     this.resets = res;
   }
 
+  /**
+   * returns the number of resets
+   */
   int getResets(){
     return this.resets;
   }

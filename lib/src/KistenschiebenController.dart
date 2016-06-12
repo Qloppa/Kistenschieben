@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
-
-import 'GameKey.dart';
+import 'Gamekey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
@@ -180,9 +179,7 @@ class KistenschiebenController {
       querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
-      Map<String, int> save = ksModel.getStats();
       resetGame();
-      //TODO global nicht reseten
     });
   }
 
@@ -384,9 +381,9 @@ class KistenschiebenController {
         id = (ev.target as HtmlElement).parent.id;
       }
       id = id.replaceAll("pos", "");
-      List<String> lol = id.split("_"); //TODO lol?
-      int x = int.parse(lol[0]);
-      int y = int.parse(lol[1]);
+      List<String> l = id.split("_");
+      int x = int.parse(l[0]);
+      int y = int.parse(l[1]);
       moveTouch(x, y);
     });
   }
@@ -496,7 +493,7 @@ class KistenschiebenController {
    */
   void updateView(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
-    updateStats(); //TODO muss reingenommen werden sobald
+    updateStats();
     ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
@@ -571,16 +568,19 @@ class KistenschiebenController {
     ksModel.resetTotal();
   }
 
-  //TODO Stats aus gamekey laden und an model bis zu stats weitergeben. Potentieller Fehler bei auslesen der Map aus der List
-  bool loadStats() {
-    //Bool weil Auslesen der .json schiefgehen kann
+  /**
+   * loads the Stats from the json via the gamekey
+   */
+  void loadStats() {
     List dummy = gamekey.getStates();
     Map test = dummy.last;
     ksModel.loadStats(test);
-    return true;
   }
 
-  //TODO stats aus Model holen und an gamekey weitergeben - TESTEN
+  //TODO : TESTEN
+  /**
+   * stores the stats in the .json-file via the gamekey
+   */
   bool storeStats() {
     String uId = gamekey.getUserId(username);
     bool works = gamekey.storeState(uId, ksModel.getStats());

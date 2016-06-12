@@ -6,6 +6,9 @@ import 'Statistics.dart';
 import 'Target.dart';
 import 'Wall.dart';
 
+/**
+ * The model of Kistenschieben.
+ */
 class KistenschiebenModel {
 
   QuattroLinkedList qlList = null;
@@ -27,14 +30,16 @@ class KistenschiebenModel {
   }
 
   /*
-		checks if the player has already won
+	*checks if the player has already won
 	*/
   bool checkWin() {
     return target.getWon();
   }
 
+  /**
+   * loads the level from a list
+   */
   loadLvl(List<Map> levelList, int row, int column) {
-    //TODO row und column eigentlich nicht mehr benötigt...in anderen Methoden anpassen
     bool firstLine = true;
     this.column = column;
     this.row = row;
@@ -48,6 +53,9 @@ class KistenschiebenModel {
     }
   }
 
+  /**
+   * adds a new line of fieldobjects to the gamefield
+   */
   bool addNewLine(bool firstLine, String line) {
     if (firstLine == true) {
       addRight(line);
@@ -61,6 +69,9 @@ class KistenschiebenModel {
     return firstLine;
   }
 
+  /**
+   * Adds a new fieldobject right to the last one
+   */
   addRight(String line) {
     int length = line.length;
     for (int i = 0; i < length; i++) {
@@ -92,6 +103,9 @@ class KistenschiebenModel {
     }
   }
 
+  /**
+   * Adds a new fieldObject below another
+   */
   addDown(String firstChar) {
     switch (firstChar) {
       case 'W' :
@@ -119,9 +133,9 @@ class KistenschiebenModel {
   }
 
 
-/*
-  tells the player to go up. Returns true if possible, false if not
-   */
+  /**
+    * tells the player to go up. Returns true if possible, false if not
+    */
   List<String> moveUp() {
     List<String> check = player.moveUp();
     if (check.length > 0) {
@@ -135,7 +149,7 @@ class KistenschiebenModel {
   }
 
   /*
-  tells the player to go right. Returns true if possible, false if not
+   * tells the player to go right. Returns true if possible, false if not
    */
   List<String> moveRight() {
     List<String> check = player.moveRight();
@@ -149,9 +163,9 @@ class KistenschiebenModel {
     return check;
   }
 
-  /*
-  tells the player to go down. Returns true if possible, false if not
-   */
+  /**
+    *tells the player to go down. Returns true if possible, false if not
+    */
   List<String> moveDown() {
     List<String> check = player.moveDown();
     if (check.length > 0) {
@@ -165,7 +179,7 @@ class KistenschiebenModel {
   }
 
   /*
-  tells the player to go left. Returns true if possible, false if not
+   * tells the player to go left. Returns true if possible, false if not
    */
   List<String> moveLeft() {
     List<String> check = player.moveLeft();
@@ -178,46 +192,46 @@ class KistenschiebenModel {
     }
     return check;
   }
-  /*
-	  returns the X value of the position of the player
-	*/
+  /**
+	  * returns the X value of the position of the player
+	  */
   int getPlayerPosX() {
     return this.player.getPosX();
   }
 
-  /*
-		returns the Y value of the position of the player
-	*/
+  /**
+		* returns the Y value of the position of the player
+	  */
   int getPlayerPosY() {
     return this.player.getPosY();
   }
 
-  /*
-  resets the local stats and the level by loading it again
-  */
+  /**
+    * resets the local stats and the level by loading it again
+    */
   reset() {
     loadLvl(actualLevel, row, column);
     stats.resetLocal();
   }
 
-  /*
-  resets all stats and the game
-  */
+  /**
+    * resets all stats and the game
+    */
   resetTotal() {
     loadLvl(actualLevel, row, column);
     stats.resetAll();
   }
 
   /**
-   *sets the stats to the given values
-   */
+    * sets the stats to the given values
+    */
   loadStats(Map<String, int> save) {
     stats.loadStats(save);
   }
 
   /**
-   * returns the statistics as a Map
-   */
+    * returns the statistics as a Map
+    */
   Map<String, int> getStats() {
     return stats.getStats();
   }
