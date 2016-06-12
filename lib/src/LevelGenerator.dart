@@ -18,7 +18,7 @@ class LevelGenerator {
   int column = 0;
   int row = 0;
   String endformat;
-  List<Map> levelList;
+  List<Map> levelList = new List<Map>();
 
   //Reading Level from Json
   LevelGenerator() {
@@ -47,17 +47,27 @@ class LevelGenerator {
     this.lvlNumber = lvlValue;
   }
 
+  /**
+   * increments the number of the level
+   */
   void nextLvl() {
     this.lvlNumber++;
   }
 
+  /**
+   * returns the number of the actual level
+   */
   getLevelValue() {
     return this.lvlNumber;
   }
 
+  /**
+   * returns the total number of levels
+   */
   getLevelAmount() {
     return this.lvlNumberSum;
   }
+
 
   Levelformatter(Map level) {
     this.currentLvl = level.values.elementAt(0);

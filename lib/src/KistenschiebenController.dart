@@ -33,7 +33,7 @@ class KistenschiebenController {
   String username;
   String password;
 
-  LevelGenerator genLvl = new LevelGenerator();
+  LevelGenerator genLvl;
   KistenschiebenModel ksModel;
   KistenschiebenView ksView;
 
@@ -41,6 +41,7 @@ class KistenschiebenController {
   CONSTRUCTOR
    */
   KistenschiebenController() {
+    genLvl = new LevelGenerator();
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
     ksView.startScreen();

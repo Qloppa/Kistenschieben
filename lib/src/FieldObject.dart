@@ -28,6 +28,8 @@ class FieldObject {
     this.rightPointer = null;
     this.downPointer = null;
     this.leftPointer = null;
+    this.prevTarget = null;//test
+    this.nextTarget = null;//test
   }
 
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {

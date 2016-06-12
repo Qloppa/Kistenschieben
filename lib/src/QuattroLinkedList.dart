@@ -9,6 +9,7 @@ class QuattroLinkedList {
   List crateList = null;
 
   QuattroLinkedList() {
+    crateList = new List();
   }
 
   addRight(FieldObject fieldObject) {
