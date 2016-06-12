@@ -216,12 +216,22 @@ class KistenschiebenView {
     bool hoch = tableH > tableW;
     int px;
     print(hoch.toString());
-    if (hoch) {
-      double size = resoHeight / tableH;
-      px = size.toInt();
-    } else {
-      double size = resoHeight / tableW;
-      px = size.toInt();
+    if(resoWidth > resoHeight){
+      if (hoch) {
+        double size = resoHeight / tableH;
+        px = size.toInt();
+      } else {
+        double size = resoHeight / tableW;
+        px = size.toInt();
+      }
+    }else{
+      if (hoch) {
+        double size = resoWidth / tableH;
+        px = size.toInt();
+      } else {
+        double size = resoWidth / tableW;
+        px = size.toInt();
+      }
     }
     oS = px.toString() + "px";
     querySelectorAll("#lvl").style.height = "100%";
@@ -273,8 +283,8 @@ class KistenschiebenView {
     scaling();
     level = level.toUpperCase();
 
-    String type = "";
-    String initObj = "";
+    //String type = "";
+    //String initObj = "";
 
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
@@ -330,10 +340,11 @@ class KistenschiebenView {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
       String id = (ev.target as HtmlElement).id;
       if (id == "") {
-        return id = (ev.target as HtmlElement).parent.id;
+        id = (ev.target as HtmlElement).parent.id;
       }
       return id;
     });
+    return "";
   }
 
 
@@ -366,7 +377,7 @@ class KistenschiebenView {
     String globalMoves = stats.remove("globalMoves").toString();
     String resets = stats.remove("resets").toString();
     String time = "0"; //stats.remove("time").toString();
-    String level = actualLvl;
+    //String level = actualLvl;
     querySelector("stat").innerHtml =
     "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>$time</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
   }

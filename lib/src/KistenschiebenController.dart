@@ -326,49 +326,57 @@ class KistenschiebenController {
   /*
   tells the Player to move up. updates the view if the model returns true
    */
-  void moveUp() {
+  bool moveUp() {
     List<String> positions = ksModel.moveUp();
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
+      return true;
     }
+    return false;
   }
 
   /*
   tells the Player to move right. updates the view if the model returns true
    */
-  void moveRight() {
+  bool moveRight() {
     List<String> positions = ksModel.moveRight();
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
+      return true;
     }
+    return false;
   }
 
   /*
   tells the Player to move down. updates the view if the model returns true
    */
-  void moveDown() {
+  bool moveDown() {
     List<String> positions = ksModel.moveDown();
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
+      return true;
     }
+    return false;
   }
 
   /*
   tells the Player to move left. updates the view if the model returns true
    */
-  void moveLeft() {
+  bool moveLeft() {
     List<String> positions = ksModel.moveLeft();
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
+      return true;
     }
+    return false;
   }
 
   /*
@@ -424,7 +432,7 @@ class KistenschiebenController {
    */
   void touchUp(int count) {
     while (count > 0) {
-      moveUp();
+      if(!moveUp()) count = 1;
       count--;
     }
   }
@@ -434,7 +442,7 @@ class KistenschiebenController {
    */
   void touchRight(int count) {
     while (count > 0) {
-      moveRight();
+      if(!moveRight()) count = 1;
       count--;
     }
   }
@@ -444,7 +452,7 @@ class KistenschiebenController {
    */
   void touchDown(int count) {
     while (count > 0) {
-      moveDown();
+      if(!moveDown()) count = 1;
       count--;
     }
   }
@@ -454,7 +462,7 @@ class KistenschiebenController {
    */
   void touchLeft(int count) {
     while (count > 0) {
-      moveLeft();
+      if(!moveLeft()) count = 1;
       count--;
     }
   }
