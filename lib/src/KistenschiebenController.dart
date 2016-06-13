@@ -132,7 +132,6 @@ class KistenschiebenController {
         ksView.startScreen();
         startscreenListener();
       });
-
     });
 
     /*
@@ -199,7 +198,6 @@ class KistenschiebenController {
   listener to the buttons on the "registered" layout
   */
   registeredListener() async {
-
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
       querySelector("#registered").innerHtml = "";
@@ -297,7 +295,6 @@ class KistenschiebenController {
       });
     });
   }
-
 
 
   /**
@@ -433,7 +430,7 @@ class KistenschiebenController {
    */
   void touchUp(int count) {
     while (count > 0) {
-      if(!moveUp()) count = 1;
+      if (!moveUp()) count = 1;
       count--;
     }
   }
@@ -443,7 +440,7 @@ class KistenschiebenController {
    */
   void touchRight(int count) {
     while (count > 0) {
-      if(!moveRight()) count = 1;
+      if (!moveRight()) count = 1;
       count--;
     }
   }
@@ -453,7 +450,7 @@ class KistenschiebenController {
    */
   void touchDown(int count) {
     while (count > 0) {
-      if(!moveDown()) count = 1;
+      if (!moveDown()) count = 1;
       count--;
     }
   }
@@ -463,7 +460,7 @@ class KistenschiebenController {
    */
   void touchLeft(int count) {
     while (count > 0) {
-      if(!moveLeft()) count = 1;
+      if (!moveLeft()) count = 1;
       count--;
     }
   }
@@ -511,7 +508,8 @@ class KistenschiebenController {
    * Updates the stats in the view
    */
   void updateStats() {
-    ksView.updateStats(ksModel.getStats(), genLvl.getLevelValue().toString());
+    var actualLvl = genLvl.getLevelValue() + 1;
+    ksView.updateStats(ksModel.getStats(), actualLvl.toString());
   }
 
   /**
@@ -521,12 +519,12 @@ class KistenschiebenController {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
       setgameRunning(false);
-        querySelector("#next").onMouseDown.listen((MouseEvent e) {
-          querySelector("#container").innerHtml = "";
-          updateStats();
-          nextLvl();
-        });
-      }
+      querySelector("#next").onMouseDown.listen((MouseEvent e) {
+        querySelector("#container").innerHtml = "";
+        updateStats();
+        nextLvl();
+      });
+    }
   }
 
   /*
@@ -546,8 +544,9 @@ class KistenschiebenController {
     setgameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.loadLvl(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
+    ksView.generateLevelFromString(
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        .whenComplete(reactTouch); //.whenComplete(reactTouch)
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }
@@ -561,8 +560,9 @@ class KistenschiebenController {
     Map<String, int> saveStats = ksModel.getStats();
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.loadLvl(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow()).whenComplete(reactTouch); //.whenComplete(reactTouch)
+    ksView.generateLevelFromString(
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        .whenComplete(reactTouch); //.whenComplete(reactTouch)
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
     ksModel.stats.setResets(saveStats['resets']);

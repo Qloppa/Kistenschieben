@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:async';
 
 /**
  * The View of Kistenschieben. Is used to display the game
@@ -14,8 +15,9 @@ class KistenschiebenView {
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
   String about = "<img src=\"../web/pictures/win.png\">";
 
-  int tableH = 6;
-  int tableW = 7;
+  int tableH = 0;
+  int tableW = 0;
+
   /*
   Constructor
   */
@@ -57,7 +59,6 @@ class KistenschiebenView {
         "<button type =\"button\" id=\"close\">Close</button>"
         "</form>"
         "</div>";
-
   }
 
   /*
@@ -217,7 +218,7 @@ class KistenschiebenView {
     bool hoch = tableH > tableW;
     int px;
     print(hoch.toString());
-    if(resoWidth > resoHeight){
+    if (resoWidth > resoHeight) {
       if (hoch) {
         double size = resoHeight / tableH;
         px = size.toInt();
@@ -225,7 +226,7 @@ class KistenschiebenView {
         double size = resoHeight / tableW;
         px = size.toInt();
       }
-    }else{
+    } else {
       if (hoch) {
         double size = resoWidth / tableH;
         px = size.toInt();
@@ -277,15 +278,12 @@ class KistenschiebenView {
   /*
    *Creates the level in html from a String
    */
-  String generateLevelFromString(String level, int row, int column) {
+  Future<String> generateLevelFromString(String level, int column,
+      int row) async {
     this.tableH = row;
     this.tableW = column;
     scaling();
     level = level.toUpperCase();
-
-    //String type = "";
-    //String initObj = "";
-
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
       //Spalten
@@ -321,10 +319,7 @@ class KistenschiebenView {
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table>\n$formatlevel</table>";
-
     querySelector("level").innerHtml = formatlevel;
-
-
     field = new List<List<HtmlElement>>(row);
     for (int rows = 0; rows < row; rows++) {
       field[rows] = [];
@@ -332,19 +327,8 @@ class KistenschiebenView {
         field[rows].add(querySelector("#pos${col}_${rows}"));
       }
     }
-
-
-
-    return formatlevel;
-  }
-
-  /**
-    * appends the generated Field in Dom-tree
-    */
-  loadLvl(String lvl, int row, int column) async {
-    String level = generateLevelFromString(lvl, column, row);
-    //querySelector("level").innerHtml = level;
     scaling();
+    return formatlevel;
   }
 
   /**

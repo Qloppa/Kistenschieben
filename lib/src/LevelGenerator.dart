@@ -27,8 +27,7 @@ class LevelGenerator {
 
   Future loadData() async {
     // call the web server asynchronously
-    final request = await HttpRequest.getString("../web/level.json").then(
-        onDataLoaded);
+    await HttpRequest.getString("../web/level.json").then(onDataLoaded);
   }
 
 
