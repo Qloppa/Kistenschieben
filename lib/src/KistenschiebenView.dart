@@ -269,13 +269,8 @@ class KistenschiebenView {
    */
   void showWin() {
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button><button id=\"save\">Save</button></div></div></div>";
+    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button><button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
-    /* querySelector("#reset").style.position = "absolute";
-			    querySelector("#reset").style.top = "75%";
-			    querySelector("#reset").style.right = "50%";
-			    querySelector("#left").style.left = "50";
-			    querySelector("#resetbutton").style.background = "url(pictures/win.gif)";*/
   }
 
   /*

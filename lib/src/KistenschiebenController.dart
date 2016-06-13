@@ -10,7 +10,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = "0be594b5c089ceca";
+const gameSecret = "2819b92f78114417";
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -331,27 +331,7 @@ class KistenschiebenController {
     final username = await gamekey.getUserId(user);
   }
 
-  /**
-   * Retrieves TOP 10 highscore from Gamekey service.
-   * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
-   * - Returns [] if gamekey service is not available.
-   * - Returns [] if no highscores are present.
-   */
-  Future<List<Map>> getHighscores() async {
-    var scores = [];
-    try {
-      final states = await gamekey.getStates();
-      scores = states.map((entry) => {
-        'name' : "${entry['username']}",
-        'score' : entry['state']['points']
-      }).toList();
-      scores.sort((a, b) => b['score'] - a['score']);
-    } catch (error, stacktrace) {
-      print(error);
-      print(stacktrace);
-    }
-    return scores.take(10);
-  }
+
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -569,12 +549,48 @@ class KistenschiebenController {
       nextLvl();
     });
     querySelector("#save").onMouseDown.listen((MouseEvent e) {
-      if (gamekey.storeState(userid, stats) == true) {
-        print("save");
-      }
-    });
+      print("save");
+      gamekey.storeState(userid, ksModel.getStats()).whenComplete(getHighscores);
+      });
   }
 
+  /**
+   * Retrieves TOP 10 highscore from Gamekey service.
+   * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
+   * - Returns [] if gamekey service is not available.
+   * - Returns [] if no highscores are present.
+   */
+  Future<List<Map>> getHighscores() async {
+    var scores = [];
+    try {
+      final states = await gamekey.getStates();
+      scores = states.map((entry) => {
+        'name' : "${entry['username']}"
+      }).toList();
+      print(states);
+      //scores.sort((a, b) => b['score'] - a['score']); //die niedrigsten localPushes
+    } catch (error, stacktrace) {
+      print(error);
+      print(stacktrace);
+    }
+    return scores.take(10);
+  }
+/*
+  //TODO : TESTEN
+  /**
+   * stores the stats in the .json-file via the gamekey
+   */
+  bool storeStats() {
+    String name = username;
+    String uId = gamekey.getUserId(username);
+    bool works = gamekey.storeState(uId, ksModel.getStats(), name);
+    if (works) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+*/
   /*
   Starts the next Level
   */
@@ -632,20 +648,5 @@ class KistenschiebenController {
     List dummy = gamekey.getStates();
     Map test = dummy.last;
     ksModel.loadStats(test);
-  }
-
-  //TODO : TESTEN
-  /**
-   * stores the stats in the .json-file via the gamekey
-   */
-  bool storeStats() {
-    String un = username;
-    String uId = gamekey.getUserId(username);
-    bool works = gamekey.storeState(un, uId, ksModel.getStats());
-    if (works) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }
