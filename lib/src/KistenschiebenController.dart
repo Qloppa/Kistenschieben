@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
+
 import 'Gamekey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
@@ -9,7 +10,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '2819b92f78114417';
+const gameSecret = '0be594b5c089ceca';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -185,8 +186,9 @@ class KistenschiebenController {
   }
 
   checklogin(String name, String pw) async {
-    final answer = await gamekey.loginUser(name, pw);
-    if (answer == true) {
+    Map answer = await gamekey.loginUser(name, pw);
+    print(answer);
+    if (answer.isNotEmpty) {
       querySelector("#start").innerHtml = "";
       querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
       querySelector("#userstatus").style.color = "green";
