@@ -14,8 +14,8 @@ class KistenschiebenView {
   String wall = "<img src=\"../web/pictures/wall.png\">";
   String about = "<img src=\"../web/pictures/Anleitung_1.png\">";
 
-  int tableH = 1;
-  int tableW = 1;
+  int tableH = 0;
+  int tableW = 0;
 
   /*
   Constructor
@@ -214,8 +214,8 @@ class KistenschiebenView {
    */
   void scaling() {
     Window w = window;
-    int resoWidth = w.innerWidth - 250;
-    int resoHeight = w.innerHeight - 250;
+    int resoWidth = w.innerWidth - 300;
+    int resoHeight = w.innerHeight - 300;
     String oS;
     bool hoch = tableH > tableW;
     int px;

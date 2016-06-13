@@ -291,7 +291,8 @@ class GameKey {
    * Stores an arbitrary state encoded as map for a user with identifier [uid]
    * for this game.
    */
-  Future<bool> storeState(String uid, Map<String, int> state) async {
+  Future<bool> storeState(String un, String uid, Map<String, int> state) async {
+    String username = un;
     if (!_available) return new Future.value(false);
     try {
       final answer = await HttpRequest.request(
