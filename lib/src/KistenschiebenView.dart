@@ -256,11 +256,11 @@ class KistenschiebenView {
   */
   setGameKeyAvailable(bool value) {
     if (value == true) {
-      querySelector("gamekeystatus").style.color = "green";
-      querySelector("gamekeystatus").innerHtml = "Gamekeystatus: Verbunden";
+      querySelector("#gamekeystatus").style.color = "green";
+      querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Verbunden";
     } else {
-      querySelector("gamekeystatus").style.color = "red";
-      querySelector("gamekeystatus").innerHtml =
+      querySelector("#gamekeystatus").style.color = "red";
+      querySelector("#gamekeystatus").innerHtml =
       "Gamekeystatus: nicht Verbunden";
     }
   }

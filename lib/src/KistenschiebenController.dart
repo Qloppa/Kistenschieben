@@ -188,8 +188,8 @@ class KistenschiebenController {
     final answer = await gamekey.loginUser(name, pw);
     if (answer == true) {
       querySelector("#start").innerHtml = "";
-      querySelector("userstatus").innerHtml = "Userstatus: Angemeldet";
-      querySelector("userstatus").style.color = "green";
+      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
+      querySelector("#userstatus").style.color = "green";
       ksView.registeredScreen();
       registeredListener();
     }
