@@ -55,7 +55,7 @@ class FieldObject {
    * Returns the position as a String "#posX_Y"
    */
   String getPositionAsString() {
-    String str = "#pos" + this.position.x.toString() + "_" +
+    String str = this.position.x.toString() + "_" +
         this.position.y.toString();
     return str;
   }

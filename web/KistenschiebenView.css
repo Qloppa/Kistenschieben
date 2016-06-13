@@ -1,5 +1,5 @@
 table {
-    height: 100px; /*TODO Darf nicht hart codiert sein M&F sonst sind schmale Level breit gezogen M&F*/
+    height: 100px;
     width: 100px;
     margin-left: auto;
     margin-right: auto;
@@ -7,7 +7,7 @@ table {
 
 table, td {
     border-collapse: collapse;
-    border: 0px solid; /*TODO Tableborder bis grafiken eingefügt werden mit linien M&F*/
+    border: 0px solid;
 }
 
 td, .ground, .wall, .target, img {
@@ -19,7 +19,7 @@ td, .ground, .wall, .target, img {
 }
 
 .target {
-    /*text-align: center; TODO das sagen wir doch schon bei rd oder? M&F*/
+
     background: url(pictures/target.png);
     background-size: 100%;
 }
@@ -54,7 +54,7 @@ h1 {
 
 #overlay {
     position: absolute;
-    top: 0px; /*TODO 0 oder 1?*/
+    top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
@@ -84,7 +84,7 @@ stat {
     position: absolute;
     text-align: center;
     top: 75%;
-    left: 60%; /*TODO 60 oder 55?*/
+    left: 60%;
 
 }
 

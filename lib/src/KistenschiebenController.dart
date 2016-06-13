@@ -119,7 +119,7 @@ class KistenschiebenController {
           .onMouseDown
           .listen((MouseEvent ev) {
         String username = ksView.username;
-        String password = ksView.userpassword;
+        String password = ksView.userPassword;
         print(username + " " + password);
         gamekey.registerUser(username, password);
         querySelector("#userinput").innerHtml = "";
@@ -145,7 +145,7 @@ class KistenschiebenController {
           .onMouseDown
           .listen((MouseEvent ev) {
         String username = ksView.username;
-        String password = ksView.userpassword;
+        String password = ksView.userPassword;
         print(username + " " + password);
         querySelector("#userinput").innerHtml = "";
         checklogin(username, password);
@@ -222,7 +222,7 @@ class KistenschiebenController {
           .onMouseDown
           .listen((MouseEvent ev) {
         String userid = ksView.userId;
-        String password = ksView.userpassword;
+        String password = ksView.userPassword;
         Future<String> us = gamekey.getUser(userid, password);
         String getu = us.toString();
         print("the user you get is: $getu");
@@ -255,7 +255,7 @@ class KistenschiebenController {
           .onMouseDown
           .listen((MouseEvent ev) {
         String oldName = ksView.oldUsername;
-        String password = ksView.userpassword;
+        String password = ksView.userPassword;
         String username = ksView.username;
         print(username + " " + password);
         gamekey.changeUserName(oldName, password, username);
@@ -273,7 +273,7 @@ class KistenschiebenController {
           .listen((MouseEvent ev) {
         String username = ksView.username;
         String oldpassword = ksView.oldUserpassword;
-        String password = ksView.userpassword;
+        String password = ksView.userPassword;
         print(username + " " + password);
         gamekey.changeUserPassword(username, oldpassword, password);
       });
@@ -289,7 +289,7 @@ class KistenschiebenController {
           .onMouseDown
           .listen((MouseEvent ev) {
         String username = ksView.username;
-        String password = ksView.userpassword;
+        String password = ksView.userPassword;
         gamekey.deleteUser(username, password);
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
