@@ -41,14 +41,14 @@ h1 {
     margin-right: auto;
 }
 
-userstatus {
+#userstatus {
     margin-left: 80%;
     color: red;
     font-size: 20px;
     text-align: right;
 }
 
-gamekeystatus {
+#gamekeystatus {
     margin-left: 80%;
     color: red;
     font-size: 20px;
@@ -72,9 +72,6 @@ gamekeystatus {
 #stat {
 
     text-align: center;
-}
-
-stat {
     font-size: 20px;
 }
 
@@ -125,7 +122,7 @@ form {
 
 }
 
-reset {
+#reset {
     margint-top: 20%;
     margin-left: 43%;
 
