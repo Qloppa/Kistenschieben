@@ -639,8 +639,9 @@ class KistenschiebenController {
    * stores the stats in the .json-file via the gamekey
    */
   bool storeStats() {
+    String un = username;
     String uId = gamekey.getUserId(username);
-    bool works = gamekey.storeState(uId, ksModel.getStats());
+    bool works = gamekey.storeState(un, uId, ksModel.getStats());
     if (works) {
       return true;
     } else {
