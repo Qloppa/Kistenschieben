@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
+
 import 'Gamekey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
@@ -128,7 +129,6 @@ class KistenschiebenController {
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
-        querySelector("#about").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
       });
@@ -179,6 +179,7 @@ class KistenschiebenController {
       querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
+      querySelector("#resetbutton").style.position = "";
       resetGame();
     });
   }
@@ -187,8 +188,8 @@ class KistenschiebenController {
     final answer = await gamekey.loginUser(name, pw);
     if (answer == true) {
       querySelector("#start").innerHtml = "";
-      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
-      querySelector("#userstatus").style.color = "green";
+      querySelector("userstatus").innerHtml = "Userstatus: Angemeldet";
+      querySelector("userstatus").style.color = "green";
       ksView.registeredScreen();
       registeredListener();
     }
@@ -206,6 +207,15 @@ class KistenschiebenController {
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
       ksView.editUser();
       editUserListener();
+    });
+
+    querySelector('#ab').onMouseDown.listen((MouseEvent g) {
+      ksView.getAbout();
+      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+        querySelector("#about").innerHtml = "";
+        ksView.registeredScreen();
+        registeredListener();
+      });
     });
   }
 
@@ -237,9 +247,8 @@ class KistenschiebenController {
           .onMouseDown
           .listen((MouseEvent ev) {
         String username = ksView.username;
-        Future<String> pw = gamekey.getUserId(username);
-        String getp = pw.toString();
-        print("the user you get is: $getp");
+        var pw = getUserId(username);
+        print("the user you get is: $pw");
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
@@ -294,8 +303,15 @@ class KistenschiebenController {
         querySelector("#userinput").innerHtml = "";
       });
     });
+
+    querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#edituser").innerHtml = "";
+    });
   }
 
+  getUserId(String user) async {
+    final username = await gamekey.getUserId(user);
+  }
 
   /**
    * Retrieves TOP 10 highscore from Gamekey service.
@@ -521,6 +537,7 @@ class KistenschiebenController {
       setgameRunning(false);
       querySelector("#next").onMouseDown.listen((MouseEvent e) {
         querySelector("#container").innerHtml = "";
+        querySelector("#resetbutton").style.position = "";
         updateStats();
         nextLvl();
       });

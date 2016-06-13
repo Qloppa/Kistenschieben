@@ -238,7 +238,7 @@ class GameKey {
    * Returns the user id of a given name.
    * Returns null if name is not present or on error.
    */
-  Future<String> getUserId(String name) async {
+  Future getUserId(String name) async {
     if (!_available) return new Future.value(null);
     try {
       final users = await listUsers();

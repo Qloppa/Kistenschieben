@@ -1,5 +1,5 @@
-import 'dart:html';
 import 'dart:async';
+import 'dart:html';
 
 /**
  * The View of Kistenschieben. Is used to display the game
@@ -15,8 +15,8 @@ class KistenschiebenView {
   String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
   String about = "<img src=\"../web/pictures/win.png\">";
 
-  int tableH = 0;
-  int tableW = 0;
+  int tableH = 1;
+  int tableW = 1;
 
   /*
   Constructor
@@ -32,16 +32,16 @@ class KistenschiebenView {
     querySelector('#start').innerHtml =
     "<div id=\"overlay\">"
         "<div id=\"b1\">"
-        "  <button id=\"register\">Registrieren</button>"
+        "<button id=\"register\">Register</button>"
         "</div>"
         "<div id=\"b2\">"
-        "<button id=\"login\">Anmelden</button>"
+        "<button id=\"login\">Login</button>"
         "</div>"
         "<div id=\"b3\">"
-        "<button id=\"wOLogin\">Ohne Anmeldung spielen</button>"
+        "<button id=\"wOLogin\">Play without login</button>"
         "</div>"
         "<div id=\"b4\">"
-        "<button id=\"about\">Anleitung</button>"
+        "<button id=\"about\">About</button>"
         "</div>"
         "</div>";
   }
@@ -53,9 +53,9 @@ class KistenschiebenView {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
-        "<input type=\"text\" id=\"username\" placeholder=\"username\">"
+        "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
-        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"submit\">Submit</button>"
         "<button type =\"button\" id=\"close\">Close</button>"
         "</form>"
         "</div>";
@@ -100,6 +100,9 @@ class KistenschiebenView {
         "<div id=\"b11\">"
         "<button id=\"delete\">Delete User</button>"
         "</div>"
+        "<div id=\"b12\">"
+        "<button id=\"close\">Close</button>"
+        "</div>"
         "</div>";
 
     //Future<List<Map>> listUsers()
@@ -118,7 +121,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"oldusername\" placeholder=\"old Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<input type=\"text\" id=\"username\" placeholder=\"new Username\">"
-        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"submit\">Submit</button>"
         "<button type =\"button\" id=\"close\">Close</button>"
         "</form>"
         "</div>";
@@ -134,7 +137,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
-        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"submit\">Submit</button>"
         "<button type =\"button\" id=\"close\">Close</button>"
         "</form>"
         "</div>";
@@ -147,9 +150,9 @@ class KistenschiebenView {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
-        "<input type=\"text\" id=\"userid\" placeholder=\"userID\">"
+        "<input type=\"text\" id=\"userid\" placeholder=\"UserID\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
-        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<button type =\"button\" id=\"submit\">Submit</button>"
         "<button type =\"button\" id=\"close\">Close</button>"
         "</form>"
         "</div>";
@@ -162,8 +165,8 @@ class KistenschiebenView {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
-        "<input type=\"text\" id=\"username\" placeholder=\"username\">"
-        "<button type =\"button\" id=\"submit\">submit</button>"
+        "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
+        "<button type =\"button\" id=\"submit\">Submit</button>"
         "<button type =\"button\" id=\"close\">Close</button>"
         "</form>"
         "</div>";
@@ -212,8 +215,8 @@ class KistenschiebenView {
    */
   void scaling() {
     Window w = window;
-    int resoWidth = w.innerWidth - 200;
-    int resoHeight = w.innerHeight - 200;
+    int resoWidth = w.innerWidth - 150;
+    int resoHeight = w.innerHeight - 250;
     String oS;
     bool hoch = tableH > tableW;
     int px;
@@ -253,11 +256,11 @@ class KistenschiebenView {
   */
   setGameKeyAvailable(bool value) {
     if (value == true) {
-      querySelector("#gamekeystatus").style.color = "green";
-      querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Verbunden";
+      querySelector("gamekeystatus").style.color = "green";
+      querySelector("gamekeystatus").innerHtml = "Gamekeystatus: Verbunden";
     } else {
-      querySelector("#gamekeystatus").style.color = "red";
-      querySelector("#gamekeystatus").innerHtml =
+      querySelector("gamekeystatus").style.color = "red";
+      querySelector("gamekeystatus").innerHtml =
       "Gamekeystatus: nicht Verbunden";
     }
   }
@@ -268,6 +271,7 @@ class KistenschiebenView {
   void showWin() {
     querySelector("#container").innerHtml =
     "<div id=\"overlay\"><button id=\"next\">Next Level</button></div>";
+    querySelector("#resetbutton").style.position = "absolute";
     /* querySelector("#reset").style.position = "absolute";
 			    querySelector("#reset").style.top = "75%";
 			    querySelector("#reset").style.right = "50%";
