@@ -1,6 +1,7 @@
 table {
     height: 100px;
     width: 100px;
+    margin-top: 5px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -40,15 +41,19 @@ h1 {
     margin-right: auto;
 }
 
-#userstatus {
+userstatus {
+    margin-left: 80%;
+    color: red;
     font-size: 20px;
     text-align: right;
 }
 
-#gamekeystatus {
+gamekeystatus {
+    margin-left: 80%;
     color: red;
     font-size: 20px;
     text-align: right;
+
 
 }
 
@@ -64,10 +69,6 @@ h1 {
 
 }
 
-#loadLvl {
-    visibility: hidden;
-}
-
 #stat {
 
     text-align: center;
@@ -79,12 +80,12 @@ stat {
 
 #next {
 
-    height: 50px;
+    height: 40px;
     width: 200px;
     position: absolute;
     text-align: center;
-    top: 75%;
-    left: 60%;
+    bottom: 10%;
+    left: 43%;
 
 }
 
@@ -99,7 +100,7 @@ stat {
 button {
 
     font-size: 20px;
-    height: 60px;
+    height: 50px;
     width: 200px;
 }
 
@@ -124,15 +125,19 @@ form {
 
 }
 
+reset {
+    margint-top: 20%;
+    margin-left: 43%;
+
+}
+
 #resetbutton {
 
-    position: absolute;
-    right: 85%;
+    text-align: center;
     font-size: 15px;
-    height: 50px;
+    height: 40px;
     width: 200px;
     visibility: hidden;
-    background-color: lightgrey;
 }
 
 #start {
