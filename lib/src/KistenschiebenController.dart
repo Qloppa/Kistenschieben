@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
-
 import 'Gamekey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
@@ -10,7 +9,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '2819b92f78114417';
+const gameSecret = '0be594b5c089ceca';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -129,6 +128,7 @@ class KistenschiebenController {
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
+        querySelector("#about").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
       });
@@ -307,6 +307,15 @@ class KistenschiebenController {
     querySelector("#close").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
+
+    /*querySelector("#saveStats").onMouseDown.listen((MouseEvent e) {
+      bool success = storeStats();
+      if(success){
+        print("statistics saved");
+      }
+    });
+    */
+
   }
 
   getUserId(String user) async {
