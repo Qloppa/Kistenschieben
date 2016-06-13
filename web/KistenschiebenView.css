@@ -134,7 +134,7 @@ reset {
 #resetbutton {
 
     text-align: center;
-    font-size: 15px;
+    font-size: 20px;
     height: 40px;
     width: 200px;
     visibility: hidden;
@@ -142,20 +142,24 @@ reset {
 
 #start {
     position: absolute;
+    left: 43%;
+    top: 50%
 
 }
 
 #registered {
     position: absolute;
-    left: 40%;
+    left: 43%;
     top: 50%
 
 }
 
 #edituser {
     position: absolute;
-    left: 40%;
-    top: 50%
+    left: 43%;
+    top: 50%;
+
+
 }
 
 em {

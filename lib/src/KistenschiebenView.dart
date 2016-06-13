@@ -215,8 +215,8 @@ class KistenschiebenView {
    */
   void scaling() {
     Window w = window;
-    int resoWidth = w.innerWidth - 150;
-    int resoHeight = w.innerHeight - 250;
+    int resoWidth = w.innerWidth;
+    int resoHeight = w.innerHeight;
     String oS;
     bool hoch = tableH > tableW;
     int px;
