@@ -9,7 +9,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '0be594b5c089ceca';
+const gameSecret = 'de03a09ddf51eb6d';
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -294,6 +294,15 @@ class KistenschiebenController {
         querySelector("#userinput").innerHtml = "";
       });
     });
+
+    /*querySelector("#saveStats").onMouseDown.listen((MouseEvent e) {
+      bool success = storeStats();
+      if(success){
+        print("statistics saved");
+      }
+    });
+    */
+
   }
 
 
