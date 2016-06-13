@@ -92,6 +92,7 @@ class LevelGenerator {
   String getEndFormat() {
     return this.endformat;
   }
+
   List<Map> getLevelList() {
     return this.levelList;
   }

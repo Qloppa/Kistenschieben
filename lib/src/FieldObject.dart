@@ -59,5 +59,4 @@ class FieldObject {
         this.position.y.toString();
     return str;
   }
-
 }

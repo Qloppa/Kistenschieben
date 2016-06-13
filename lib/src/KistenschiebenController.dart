@@ -599,6 +599,4 @@ class KistenschiebenController {
       return false;
     }
   }
-
-
 }

@@ -235,5 +235,4 @@ class KistenschiebenModel {
   Map<String, int> getStats() {
     return stats.getStats();
   }
-
 }
