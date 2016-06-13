@@ -12,8 +12,7 @@ class KistenschiebenView {
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
-  String win = "<img src=\"../web/pictures/win.gif\" height=\" 200px\" width=\" 200px\">";
-  String about = "<img src=\"../web/pictures/win.png\">";
+  String about = "<img src=\"../web/pictures/Anleitung_1.png\">";
 
   int tableH = 1;
   int tableW = 1;
@@ -177,7 +176,7 @@ class KistenschiebenView {
    */
   getAbout() {
     querySelector("#about").innerHtml =
-    "<div id=\"overlay\">" "$win" "<div><button type =\"button\" id=\"close\">Close</button></div>" "</div>";
+    "<div id=\"overlay\">" "$about" "<div><button type =\"button\" id=\"close\">Close</button></div>" "</div>";
   }
 
   /*
@@ -215,8 +214,8 @@ class KistenschiebenView {
    */
   void scaling() {
     Window w = window;
-    int resoWidth = w.innerWidth;
-    int resoHeight = w.innerHeight;
+    int resoWidth = w.innerWidth - 250;
+    int resoHeight = w.innerHeight - 250;
     String oS;
     bool hoch = tableH > tableW;
     int px;
