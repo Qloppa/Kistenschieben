@@ -10,7 +10,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '2819b92f78114417';
+const gameSecret = "0be594b5c089ceca";
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -33,6 +33,10 @@ class KistenschiebenController {
 
   String username;
   String password;
+  Map stats;
+  String userid = "";
+  String user = "";
+  bool logedIn = false;
 
   LevelGenerator genLvl;
   KistenschiebenModel ksModel;
@@ -187,11 +191,14 @@ class KistenschiebenController {
 
   checklogin(String name, String pw) async {
     Map answer = await gamekey.loginUser(name, pw);
-    print(answer);
+    userid = answer.values.elementAt(2);
+    username = answer.values.elementAt(3);
     if (answer.isNotEmpty) {
+      logedIn = true;
       querySelector("#start").innerHtml = "";
       querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
       querySelector("#userstatus").style.color = "green";
+
       ksView.registeredScreen();
       registeredListener();
     }
@@ -546,13 +553,26 @@ class KistenschiebenController {
     if (ksModel.checkWin() == true) {
       ksView.showWin();
       setgameRunning(false);
-      querySelector("#next").onMouseDown.listen((MouseEvent e) {
-        querySelector("#container").innerHtml = "";
-        querySelector("#resetbutton").style.position = "";
-        updateStats();
-        nextLvl();
-      });
+      nextListener();
+
     }
+  }
+
+  nextListener() {
+    if (logedIn == true) {
+      querySelector("#save").style.visibility = "visible";
+    }
+    querySelector("#next").onMouseDown.listen((MouseEvent e) {
+      querySelector("#container").innerHtml = "";
+      querySelector("#resetbutton").style.position = "";
+      updateStats();
+      nextLvl();
+    });
+    querySelector("#save").onMouseDown.listen((MouseEvent e) {
+      if (gamekey.storeState(userid, stats) == true) {
+        print("save");
+      }
+    });
   }
 
   /*

@@ -69,6 +69,10 @@ h1 {
 
 }
 
+#save {
+
+}
+
 #stat {
 
     text-align: center;
@@ -81,9 +85,19 @@ h1 {
     width: 200px;
     position: absolute;
     text-align: center;
-    bottom: 10%;
+    bottom: 12%;
     left: 43%;
 
+}
+
+#save {
+    height: 40px;
+    width: 200px;
+    position: absolute;
+    text-align: center;
+    bottom: 5%;
+    left: 43%;
+    visibility: hidden;
 }
 
 #welcome, h1 {

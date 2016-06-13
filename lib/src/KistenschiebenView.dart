@@ -269,7 +269,7 @@ class KistenschiebenView {
    */
   void showWin() {
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><button id=\"next\">Next Level</button></div>";
+    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button><button id=\"save\">Save</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
     /* querySelector("#reset").style.position = "absolute";
 			    querySelector("#reset").style.top = "75%";
