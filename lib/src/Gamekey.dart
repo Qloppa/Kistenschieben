@@ -76,22 +76,23 @@ class GameKey {
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   Future<Map> loginUser(String name, String pwd) async {
+    Map map = new Map();
     if (!_available) return new Future.value(false);
     try {
       final userID = await getUserId(name);
       if (userID == null) {
-        return null;
+        return map;
       }
       final user = await getUser(userID, pwd);
       if (user != null) {
         return user;
       } else {
-        return null;
+        return map;
       }
     } catch (error, stacktrace) {
       print("GameKey.loginUser() caused following error: '$error'");
       print("$stacktrace");
-      return null;
+      return map;
     }
   }
 
