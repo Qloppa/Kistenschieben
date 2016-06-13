@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
-
 import 'Gamekey.dart';
 import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
@@ -129,6 +128,7 @@ class KistenschiebenController {
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
+        querySelector("#about").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
       });
@@ -188,8 +188,8 @@ class KistenschiebenController {
     final answer = await gamekey.loginUser(name, pw);
     if (answer == true) {
       querySelector("#start").innerHtml = "";
-      querySelector("userstatus").innerHtml = "Userstatus: Angemeldet";
-      querySelector("userstatus").style.color = "green";
+      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
+      querySelector("#userstatus").style.color = "green";
       ksView.registeredScreen();
       registeredListener();
     }
@@ -307,6 +307,15 @@ class KistenschiebenController {
     querySelector("#close").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
+
+    /*querySelector("#saveStats").onMouseDown.listen((MouseEvent e) {
+      bool success = storeStats();
+      if(success){
+        print("statistics saved");
+      }
+    });
+    */
+
   }
 
   getUserId(String user) async {
