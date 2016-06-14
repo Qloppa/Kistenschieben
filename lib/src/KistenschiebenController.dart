@@ -585,7 +585,13 @@ class KistenschiebenController {
       print(error);
       print(stacktrace);
     }
-    return scores.take(amount);
+  List<Map<String, int>> lvlOnly = new List();
+    for(Map m in scores){
+      if(m['level'] == genLvl.currentLvl){
+        lvlOnly.add(m);
+      }
+    }
+    return lvlOnly.take(amount);
   }
 
 
