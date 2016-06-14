@@ -569,7 +569,10 @@ class KistenschiebenController {
       final states = await gamekey.getStates();
       scores = states.map((entry) => {
         'name' : "${entry['username']}",
-        'LocalPushes' : entry['state']['localPushes']
+        'LocalPushes' : entry['state']['localPushes'],
+        'GlobalPushes' : entry['state']['globalPushes'],
+        'LocalMoves' : entry['state']['localMoves'],
+        'GlobalMoves': entry['state']['globalMoves']
       }).toList();
       scores.sort((a, b) => a['LocalPushes'] -
           b['LocalPushes']); //die niedrigsten localPushes
