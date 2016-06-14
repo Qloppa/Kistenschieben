@@ -8,7 +8,7 @@ table {
 
 table, td {
     border-collapse: collapse;
-    border: 0px solid;
+
 }
 
 td, .ground, .wall, .target, img {

@@ -8,7 +8,7 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> field;
 
-  //Bildelemente
+  //Bildelemente //TODO gehört sowas nicht in die CSS?
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
