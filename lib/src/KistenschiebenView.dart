@@ -269,7 +269,7 @@ class KistenschiebenView {
    */
   showWin(var highscores) async {
     final list = highscores.map((
-        s) => "<dd>User:${s['name']}, Localpushes: ${s['LocalPushes']},GlobalPushespushes: ${s['GlobalPushes']},LocalMoves: ${s['LocalMoves']},GlobalMoves: ${s['GlobalMoves']}</dd>")
+        s) => "<dd>User ${s['name']}: Localpushes: ${s['LocalPushes']}, GlobalPushespushes: ${s['GlobalPushes']}, LocalMoves: ${s['LocalMoves']}, GlobalMoves: ${s['GlobalMoves']}</dd>")
         .join("");
     String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
     querySelector("#container").innerHtml =
