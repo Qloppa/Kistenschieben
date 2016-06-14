@@ -10,7 +10,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = "2819b92f78114417";
+const gameSecret = "3fc15faab679cd11";
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -569,7 +569,10 @@ class KistenschiebenController {
       final states = await gamekey.getStates();
       scores = states.map((entry) => {
         'name' : "${entry['username']}",
-        'LocalPushes' : entry['state']['localPushes']
+        'LocalPushes' : entry['state']['localPushes'],
+        'GlobalPushes' : entry['state']['globalPushes'],
+        'LocalMoves' : entry['state']['localMoves'],
+        'GlobalMoves': entry['state']['globalMoves']
       }).toList();
       scores.sort((a, b) => a['LocalPushes'] -
           b['LocalPushes']); //die niedrigsten localPushes
