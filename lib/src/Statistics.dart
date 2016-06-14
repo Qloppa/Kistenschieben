@@ -6,6 +6,7 @@ class Statistics {
   DateTime _startTime;
   var _roundTime;
   int _resets;
+  int _actualLevel;
 
   //not used yet
   var _localTime;
@@ -24,6 +25,7 @@ class Statistics {
     this._startTime = new DateTime.now();
     this._roundTime = 0;
     this._resets = 0;
+    this._actualLevel = 0;
   }
 
   /**
@@ -118,6 +120,7 @@ class Statistics {
    *sets the statistics to the given values. Used when loading from a savegame
    */
   loadStats(Map<String, int> stats) {
+    this._actualLevel = stats.remove("actualLevel");
     this._localMoves = stats.remove("localMoves");
     this._globalMoves = stats.remove("globalMoves");
     this._localPushes = stats.remove("localPushes");
@@ -149,6 +152,7 @@ class Statistics {
     out['localTime'] = _localTime;
     out['globalTime'] = _globalTime;
     out['resets'] = _resets;
+    out['actualLevel'] = _actualLevel;
     //benoetigt keine roundTime
     return out;
   }
