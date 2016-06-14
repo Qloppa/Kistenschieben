@@ -10,7 +10,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = '2819b92f78114417';
+const gameSecret = "2819b92f78114417";
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -33,6 +33,10 @@ class KistenschiebenController {
 
   String username;
   String password;
+  Map stats;
+  String userid = "";
+  String user = "";
+  bool logedIn = false;
 
   LevelGenerator genLvl;
   KistenschiebenModel ksModel;
@@ -187,11 +191,14 @@ class KistenschiebenController {
 
   checklogin(String name, String pw) async {
     Map answer = await gamekey.loginUser(name, pw);
-    print(answer);
+    userid = answer.values.elementAt(2);
+    username = answer.values.elementAt(3);
     if (answer.isNotEmpty) {
+      logedIn = true;
       querySelector("#start").innerHtml = "";
       querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
       querySelector("#userstatus").style.color = "green";
+
       ksView.registeredScreen();
       registeredListener();
     }
@@ -324,27 +331,7 @@ class KistenschiebenController {
     final username = await gamekey.getUserId(user);
   }
 
-  /**
-   * Retrieves TOP 10 highscore from Gamekey service.
-   * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
-   * - Returns [] if gamekey service is not available.
-   * - Returns [] if no highscores are present.
-   */
-  Future<List<Map>> getHighscores() async {
-    var scores = [];
-    try {
-      final states = await gamekey.getStates();
-      scores = states.map((entry) => {
-        'name' : "${entry['username']}",
-        'score' : entry['state']['points']
-      }).toList();
-      scores.sort((a, b) => b['score'] - a['score']);
-    } catch (error, stacktrace) {
-      print(error);
-      print(stacktrace);
-    }
-    return scores.take(10);
-  }
+
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -542,19 +529,76 @@ class KistenschiebenController {
   /**
    * Checks if the User has already won
    */
-  checkWin() {
+  checkWin() async {
     if (ksModel.checkWin() == true) {
-      ksView.showWin();
+      final highscores = await getHighscores();
+      ksView.showWin(highscores);
       setgameRunning(false);
-      querySelector("#next").onMouseDown.listen((MouseEvent e) {
-        querySelector("#container").innerHtml = "";
-        querySelector("#resetbutton").style.position = "";
-        updateStats();
-        nextLvl();
-      });
+      nextListener();
+
     }
   }
 
+  nextListener() async {
+    if (logedIn == true) {
+      querySelector("#save").style.visibility = "visible";
+      querySelector("level").innerHtml = "";
+    }
+    querySelector("#next").onMouseDown.listen((MouseEvent e) {
+      querySelector("#container").innerHtml = "";
+      querySelector("#resetbutton").style.position = "";
+      updateStats();
+      nextLvl();
+    });
+    querySelector("#save").onMouseDown.listen((MouseEvent e) {
+      print("save");
+      gamekey.storeState(userid, ksModel.getStats()).whenComplete(getHighscores);
+      });
+  }
+
+  /**
+   * Retrieves TOP 10 highscore from Gamekey service.
+   * - Returns List of max. 10 highscore entries. { 'name': STRING, 'score': INT }
+   * - Returns [] if gamekey service is not available.
+   * - Returns [] if no highscores are present.
+   */
+  Future<List<Map>> getHighscores() async {
+    var scores = [];
+    var highscore;
+    try {
+      final states = await gamekey.getStates();
+      scores = states.map((entry) => {
+        'name' : "${entry['username']}",
+        'LocalPushes' : entry['state']['localPushes']
+      }).toList();
+      scores.sort((a, b) => a['LocalPushes'] -
+          b['LocalPushes']); //die niedrigsten localPushes
+      print(scores);
+
+    } catch (error, stacktrace) {
+      print(error);
+      print(stacktrace);
+    }
+    return scores.take(10);
+  }
+
+
+/*
+  //TODO : TESTEN
+  /**
+   * stores the stats in the .json-file via the gamekey
+   */
+  bool storeStats() {
+    String name = username;
+    String uId = gamekey.getUserId(username);
+    bool works = gamekey.storeState(uId, ksModel.getStats(), name);
+    if (works) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+*/
   /*
   Starts the next Level
   */
@@ -574,7 +618,7 @@ class KistenschiebenController {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.generateLevelFromString(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(reactTouch); //.whenComplete(reactTouch)
+        .whenComplete(reactTouch);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }
@@ -612,20 +656,5 @@ class KistenschiebenController {
     List dummy = gamekey.getStates();
     Map test = dummy.last;
     ksModel.loadStats(test);
-  }
-
-  //TODO : TESTEN
-  /**
-   * stores the stats in the .json-file via the gamekey
-   */
-  bool storeStats() {
-    String un = username;
-    String uId = gamekey.getUserId(username);
-    bool works = gamekey.storeState(un, uId, ksModel.getStats());
-    if (works) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

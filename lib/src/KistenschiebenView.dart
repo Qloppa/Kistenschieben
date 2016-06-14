@@ -8,7 +8,7 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> field;
 
-  //Bildelemente
+  //Bildelemente //TODO gehört sowas nicht in die CSS?
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
@@ -267,16 +267,16 @@ class KistenschiebenView {
   /*
    *Generates the win-overlay and the button to access the next level
    */
-  void showWin() {
+  showWin(var highscores) async {
+    final list = highscores.map((
+        s) => "<dd>User:${s['name']}, Localpushes: ${s['LocalPushes']}</dd>")
+        .join("");
+    String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><button id=\"next\">Next Level</button></div>";
+    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
-    /* querySelector("#reset").style.position = "absolute";
-			    querySelector("#reset").style.top = "75%";
-			    querySelector("#reset").style.right = "50%";
-			    querySelector("#left").style.left = "50";
-			    querySelector("#resetbutton").style.background = "url(pictures/win.gif)";*/
   }
+
 
   /*
    *Creates the level in html from a String
