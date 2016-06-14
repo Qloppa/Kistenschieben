@@ -10,7 +10,7 @@ import 'LevelGenerator.dart';
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 const gamekeyCheck = const Duration(seconds: 10);
 
-const gameSecret = "2819b92f78114417";
+const gameSecret = "0be594b5c089ceca";
 
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -529,18 +529,20 @@ class KistenschiebenController {
   /**
    * Checks if the User has already won
    */
-  checkWin() {
+  checkWin() async {
     if (ksModel.checkWin() == true) {
-      ksView.showWin();
+      final highscores = await getHighscores();
+      ksView.showWin(highscores);
       setgameRunning(false);
       nextListener();
 
     }
   }
 
-  nextListener() {
+  nextListener() async {
     if (logedIn == true) {
       querySelector("#save").style.visibility = "visible";
+      querySelector("level").innerHtml = "";
     }
     querySelector("#next").onMouseDown.listen((MouseEvent e) {
       querySelector("#container").innerHtml = "";
@@ -562,19 +564,25 @@ class KistenschiebenController {
    */
   Future<List<Map>> getHighscores() async {
     var scores = [];
+    var highscore;
     try {
       final states = await gamekey.getStates();
       scores = states.map((entry) => {
-        'name' : "${entry['username']}"
+        'name' : "${entry['username']}",
+        'LocalPushes' : entry['state']['localPushes']
       }).toList();
-      print(states);
-      //scores.sort((a, b) => b['score'] - a['score']); //die niedrigsten localPushes
+      scores.sort((a, b) => a['LocalPushes'] -
+          b['LocalPushes']); //die niedrigsten localPushes
+      print(scores);
+
     } catch (error, stacktrace) {
       print(error);
       print(stacktrace);
     }
     return scores.take(10);
   }
+
+
 /*
   //TODO : TESTEN
   /**
@@ -610,7 +618,7 @@ class KistenschiebenController {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.generateLevelFromString(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(reactTouch); //.whenComplete(reactTouch)
+        .whenComplete(reactTouch);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }

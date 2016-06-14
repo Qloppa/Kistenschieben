@@ -267,11 +267,16 @@ class KistenschiebenView {
   /*
    *Generates the win-overlay and the button to access the next level
    */
-  void showWin() {
+  showWin(var highscores) async {
+    final list = highscores.map((
+        s) => "<dd>User:${s['name']}, Localpushes: ${s['LocalPushes']}</dd>")
+        .join("");
+    String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button><button id=\"save\">Save Statistics</button></div></div></div>";
+    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
+
 
   /*
    *Creates the level in html from a String
