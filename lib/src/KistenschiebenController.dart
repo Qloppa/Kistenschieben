@@ -565,24 +565,27 @@ class KistenschiebenController {
   Future<List<Map>> getHighscores() async {
     var scores = [];
     var highscore;
+    int amount = 10;
     try {
       final states = await gamekey.getStates();
       scores = states.map((entry) => {
         'name' : "${entry['username']}",
+        'level' : entry['state']['actualLevel'],
         'LocalPushes' : entry['state']['localPushes'],
         'GlobalPushes' : entry['state']['globalPushes'],
         'LocalMoves' : entry['state']['localMoves'],
         'GlobalMoves': entry['state']['globalMoves']
       }).toList();
-      scores.sort((a, b) => a['LocalPushes'] -
-          b['LocalPushes']); //die niedrigsten localPushes
+      for(int i = 0; i<scores.length; i++)
+      scores.sort((a, b) => a['level']['LocalPushes'] -
+          b['level']['LocalPushes']); //die niedrigsten localPushes
       print(scores);
 
     } catch (error, stacktrace) {
       print(error);
       print(stacktrace);
     }
-    return scores.take(10);
+    return scores.take(amount);
   }
 
 
@@ -622,6 +625,7 @@ class KistenschiebenController {
     ksView.generateLevelFromString(
         genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
+    setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }
@@ -641,6 +645,7 @@ class KistenschiebenController {
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
     ksModel.stats.setResets(saveStats['resets']);
+    setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }
@@ -659,5 +664,12 @@ class KistenschiebenController {
     List dummy = gamekey.getStates();
     Map test = dummy.last;
     ksModel.loadStats(test);
+  }
+
+  /**
+   * Sets the actual level in the statistics to the value i
+   */
+  void setActualLevel(int i){
+    this.ksModel.setLevel(i);
   }
 }

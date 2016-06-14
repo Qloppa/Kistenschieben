@@ -183,19 +183,26 @@ class Statistics {
     this._globalTime = 0;
   }
 
-  /*
-  increments Pushes
+  /**
+   * increments Pushes
    */
   incPushes() {
     this._localPushes++;
     this._globalPushes++;
   }
 
-  /*
-  increments Moves
+  /**
+   * increments Moves
    */
   incMoves() {
     this._localMoves++;
     this._globalMoves++;
+  }
+
+  /**
+   * sets the actual level
+   */
+  setActualLevel(int lvl){
+    _actualLevel = lvl;
   }
 }

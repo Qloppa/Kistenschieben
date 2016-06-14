@@ -207,6 +207,13 @@ class KistenschiebenModel {
   }
 
   /**
+   * sets the actual level in the statistics to the new value
+   */
+  void setLevel(int i){
+    this.stats.setActualLevel(i);
+  }
+
+  /**
     * resets the local stats and the level by loading it again
     */
   reset() {
