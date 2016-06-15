@@ -9,12 +9,8 @@ import 'LevelGenerator.dart';
 
 
 const gamekeyCheck = const Duration(seconds: 10);
-
 const gameSecret = "3fc15faab679cd11";
-
 const gamekeySettings = 'gamekey.json';
-
-bool isGameRunning = false;
 
 /**
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.
@@ -37,7 +33,7 @@ class KistenschiebenController {
   String user = "";                 //The User
   bool logedIn = false;             //Shows if the user is logged in or not
   bool pull = false;                //Shows if the user activated the pull-ability for the next round
-
+  bool isGameRunning = false;
 
   /*
   CONSTRUCTOR
@@ -128,7 +124,6 @@ class KistenschiebenController {
       return "";
     });
   }
-
 
 
 //region LISTENER AND QUERYSELECTORS
@@ -653,7 +648,6 @@ class KistenschiebenController {
    */
   Future<List<Map>> getHighscores() async {
     var scores = [];
-    var highscore;
     int amount = 10;
     try {
       final states = await gamekey.getStates();

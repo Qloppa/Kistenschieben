@@ -12,6 +12,8 @@ class Statistics {
   var _localTime;
   var _globalTime;
 
+//region CONSTRUCTOR
+
   /**
    * Constructor
    */
@@ -27,6 +29,10 @@ class Statistics {
     this._resets = 0;
     this._actualLevel = 0;
   }
+
+//endregion  
+
+//region SETTER
 
   /**
    * Sets the roundTime which is the used time in the last savegame
@@ -50,18 +56,34 @@ class Statistics {
   }
 
   /**
-   * Increments the resets
-   */
-  incResets(){
-    this._resets++;
-  }
-
-  /**
    * sets the resets to the value res
    */
   setResets(int res){
     this._resets = res;
   }
+
+  /*
+   *sets the statistics to the given values. Used when loading from a savegame
+   */
+  loadStats(Map<String, int> stats) {
+    this._actualLevel = stats.remove("actualLevel");
+    this._localMoves = stats.remove("localMoves");
+    this._globalMoves = stats.remove("globalMoves");
+    this._localPushes = stats.remove("localPushes");
+    this._globalPushes = stats.remove("globalPushes");
+    this._localTime = stats.remove("localTime");
+    this._globalTime = stats.remove("globalTime");
+    this._startTime = new DateTime.now();
+    if (stats.containsKey("roundTime")) {
+      this._roundTime = stats.remove("roundTime");
+    } else {
+      this._roundTime = 0;
+    }
+  }
+
+//endregion
+
+//region GETTER
 
   /**
    * returns the number of resets
@@ -116,24 +138,7 @@ class Statistics {
     return _roundTime + diff;
   }
 
-  /*
-   *sets the statistics to the given values. Used when loading from a savegame
-   */
-  loadStats(Map<String, int> stats) {
-    this._actualLevel = stats.remove("actualLevel");
-    this._localMoves = stats.remove("localMoves");
-    this._globalMoves = stats.remove("globalMoves");
-    this._localPushes = stats.remove("localPushes");
-    this._globalPushes = stats.remove("globalPushes");
-    this._localTime = stats.remove("localTime");
-    this._globalTime = stats.remove("globalTime");
-    this._startTime = new DateTime.now();
-    if (stats.containsKey("roundTime")) {
-      this._roundTime = stats.remove("roundTime");
-    } else {
-      this._roundTime = 0;
-    }
-  }
+
   /*
     Returns a Map with all stats
     1. local moves
@@ -156,6 +161,10 @@ class Statistics {
     //benoetigt keine roundTime
     return out;
   }
+
+//endregion
+
+//region RESETS
 
   /*
   Resets all values
@@ -183,6 +192,10 @@ class Statistics {
     this._globalTime = 0;
   }
 
+//endregion
+
+//region INCREMENTS
+
   /**
    * increments Pushes
    */
@@ -198,6 +211,15 @@ class Statistics {
     this._localMoves++;
     this._globalMoves++;
   }
+
+  /**
+   * Increments the resets
+   */
+  incResets(){
+    this._resets++;
+  }
+
+//endregion
 
   /**
    * sets the actual level

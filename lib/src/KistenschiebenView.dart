@@ -357,7 +357,6 @@ class KistenschiebenView {
     return positions;
   }
 
-
   /*
   Updates the position of the player and the crates
   Receives old and new positions as Strings and updates the html
