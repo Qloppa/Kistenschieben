@@ -32,6 +32,9 @@ class Crate {
     return ret;
   }
 
+  /**
+   * is used when the crate is moved up. The value pushPower indicates the amount of crates that can be pushed and is incremented for each moved crate
+   */
   List moveUp(int pushPower) {
     pushPower--;
     if (staysOn.upPointer != null) {
@@ -53,6 +56,9 @@ class Crate {
     }
   }
 
+  /**
+   * is used when the crate is moved right. The value pushPower indicates the amount of crates that can be pushed and is incremented for each moved crate
+   */
   List moveRight(int pushPower) {
     pushPower--;
     if (staysOn.rightPointer != null) {
@@ -75,6 +81,9 @@ class Crate {
     }
   }
 
+  /**
+   * is used when the crate is moved down. The value pushPower indicates the amount of crates that can be pushed and is incremented for each moved crate
+   */
   List moveDown(int pushPower) {
     pushPower--;
     if (staysOn.downPointer != null) {
@@ -97,6 +106,9 @@ class Crate {
     }
   }
 
+  /**
+   * is used when the crate is moved left. The value pushPower indicates the amount of crates that can be pushed and is incremented for each moved crate
+   */
   List moveLeft(int pushPower) {
     pushPower--;
     if (staysOn.leftPointer != null) {

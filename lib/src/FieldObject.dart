@@ -17,7 +17,7 @@ class FieldObject {
   FieldObject leftPointer;
   FieldObject upPointer;
   FieldObject downPointer;
-  FieldObject prevTarget; //TODO verantwortlich? <- und V
+  FieldObject prevTarget;
   FieldObject nextTarget;
 
   /**
@@ -28,10 +28,13 @@ class FieldObject {
     this.rightPointer = null;
     this.downPointer = null;
     this.leftPointer = null;
-    this.prevTarget = null;//test
-    this.nextTarget = null;//test
+    this.prevTarget = null;
+    this.nextTarget = null;
   }
 
+  /**
+   * checks if the fieldObject is passable for the player
+   */
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {
     if (this.crate == null) {
       List changedPositions = new List();

@@ -594,23 +594,6 @@ class KistenschiebenController {
     return lvlOnly.take(amount);
   }
 
-
-/*
-  //TODO : TESTEN
-  /**
-   * stores the stats in the .json-file via the gamekey
-   */
-  bool storeStats() {
-    String name = username;
-    String uId = gamekey.getUserId(username);
-    bool works = gamekey.storeState(uId, ksModel.getStats(), name);
-    if (works) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-*/
   /*
   Starts the next Level
   */
