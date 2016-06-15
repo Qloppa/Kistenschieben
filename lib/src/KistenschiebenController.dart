@@ -136,10 +136,18 @@ class KistenschiebenController {
 
 //region LISTENER AND QUERYSELECTORS
 
+
+  /**
+   * Listener for the Startscreen.
+   * Has the following buttons:
+   *    [REGISTER]
+   *    [LOGIN]
+   *    [WITHOUT LOGIN]
+   *    [RESET]
+   */
   dynamic startscreenListener() async {
-    /*
-    register
-    */
+
+    //REGISTER
     querySelector('#register').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       querySelector('#start').innerHtml = "";
@@ -160,9 +168,7 @@ class KistenschiebenController {
       });
     });
 
-    /*
-			Login
-		*/
+    //LOGIN
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
@@ -179,9 +185,7 @@ class KistenschiebenController {
       });
     });
 
-    /*
-    Play without login
-    */
+    //WITHOUT LOGIN
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
       querySelector("#resetbutton").style.visibility = "visible";
@@ -199,6 +203,7 @@ class KistenschiebenController {
       });
     });
 
+    //RESET
     querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
@@ -208,6 +213,9 @@ class KistenschiebenController {
     });
   }
 
+  /**
+   * Checks if user & password are valid and changes the userstatus
+   */
   checklogin(String name, String pw) async {
     Map answer = await gamekey.loginUser(name, pw);
     userid = answer.values.elementAt(2);
@@ -258,6 +266,8 @@ class KistenschiebenController {
    *    [CLOSE]
    */
   dynamic editUserListener() async {
+
+    //GET USER
     querySelector("#getuser").onMouseDown.listen((MouseEvent f) async {
       ksView.getUser();
       document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
@@ -272,6 +282,7 @@ class KistenschiebenController {
       });
     });
 
+    //GET USER ID
     querySelector("#getuserid").onMouseDown.listen((MouseEvent f) async {
       ksView.getUserId();
       document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
@@ -284,6 +295,7 @@ class KistenschiebenController {
       });
     });
 
+    //CHANGE NAME
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserName();
       document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
@@ -298,6 +310,7 @@ class KistenschiebenController {
       });
     });
 
+    //CHANGE PASSWORD
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserPassword();
       document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
@@ -312,6 +325,7 @@ class KistenschiebenController {
       });
     });
 
+    //DELETE
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
       ksView.userdates();
       document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
@@ -324,6 +338,7 @@ class KistenschiebenController {
       });
     });
 
+    //CLOSE
     querySelector("#close").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
@@ -339,12 +354,16 @@ class KistenschiebenController {
       querySelector("#save").style.visibility = "visible";
       querySelector("level").innerHtml = "";
     }
+
+    //NEXT
     querySelector("#next").onMouseDown.listen((MouseEvent e) {
       querySelector("#container").innerHtml = "";
       querySelector("#resetbutton").style.position = "";
       updateStats();
       nextLvl();
     });
+
+    //SAVE
     querySelector("#save").onMouseDown.listen((MouseEvent e) {
       print("saved");
       gamekey
