@@ -112,13 +112,22 @@ class KistenschiebenController {
           }
           break;
         case KeyCode.ENTER:
-          if(finishedGame){
+          if (finishedGame) {
             finishedGame = false;
             querySelector("#container").innerHtml = "";
             querySelector("#resetbutton").style.position = "";
             updateStats();
             nextLvl();
           }
+          break;
+        case KeyCode.S:
+          if (finishedGame && logedIn) {
+            print("saved");
+            gamekey
+                .storeState(userid, ksModel.getStats())
+                .whenComplete(getHighscores);
+          }
+          break;
       }
       return "";
     });
