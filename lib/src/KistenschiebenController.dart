@@ -7,7 +7,6 @@ import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
-
 const gamekeyCheck = const Duration(seconds: 10);
 const gameSecret = "3fc15faab679cd11";
 const gamekeySettings = 'gamekey.json';
@@ -16,24 +15,26 @@ const gamekeySettings = 'gamekey.json';
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.
  */
 class KistenschiebenController {
-
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
-  LevelGenerator genLvl;            //The Levelgenerator
-  KistenschiebenModel ksModel;      //The Model
-  KistenschiebenView ksView;        //The View
+  LevelGenerator genLvl; //The Levelgenerator
+  KistenschiebenModel ksModel; //The Model
+  KistenschiebenView ksView; //The View
 
-  Timer gamekeyTrigger;             //Periodic trigger controlling availability of gamekey service.
-  bool gkAvailable = false;         //Shows if the gamekey is available or not
-  String username;                  //The username of the actual user
-  String password;                  //The password of the actual user
-  Map stats;                        //The actual statistics
-  String userid = "";               //The User-ID
-  String user = "";                 //The User
-  bool logedIn = false;             //Shows if the user is logged in or not
-  bool pull = false;                //Shows if the user activated the pull-ability for the next round
+  Timer
+      gamekeyTrigger; //Periodic trigger controlling availability of gamekey service.
+  bool gkAvailable = false; //Shows if the gamekey is available or not
+  String username; //The username of the actual user
+  String password; //The password of the actual user
+  Map stats; //The actual statistics
+  String userid = ""; //The User-ID
+  String user = ""; //The User
+  bool logedIn = false; //Shows if the user is logged in or not
+  bool pull =
+      false; //Shows if the user activated the pull-ability for the next round
   bool isGameRunning = false;
+  bool finishedGame = false;
 
   /*
   CONSTRUCTOR
@@ -45,7 +46,6 @@ class KistenschiebenController {
     ksView.startScreen();
     startscreenListener();
 
-
     //  [-======== GAMEKEY ========-]
 
     try {
@@ -55,11 +55,7 @@ class KistenschiebenController {
 
         // Create gamekey client using connection parameters
         this.gamekey = new GameKey(
-            settings['host'],
-            settings['port'],
-            settings['gameid'],
-            gameSecret
-        );
+            settings['host'], settings['port'], settings['gameid'], gameSecret);
 
         // Check periodically if gamekey service is reachable. Display warning if not.
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
@@ -78,59 +74,66 @@ class KistenschiebenController {
       print("$stacktrace");
     }
 
-
     //  [-======== KEYLISTENER ========-]
 
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
-          if(pull){
+          if (pull) {
             pullUp();
-          }else{
+          } else {
             moveUp();
           }
           break;
         case KeyCode.RIGHT:
-          if(pull){
+          if (pull) {
             pullRight();
-          }else{
+          } else {
             moveRight();
           }
           break;
         case KeyCode.DOWN:
-          if(pull){
+          if (pull) {
             pullDown();
-          }else{
+          } else {
             moveDown();
           }
           break;
         case KeyCode.LEFT:
-          if(pull){
+          if (pull) {
             pullLeft();
-          }else{
+          } else {
             moveLeft();
           }
           break;
+        case KeyCode.BACKSPACE:
+          if (isGameRunning) {
+            resetGame();
+          }
+          break;
+        case KeyCode.ENTER:
+          if(finishedGame){
+            finishedGame = false;
+            querySelector("#container").innerHtml = "";
+            querySelector("#resetbutton").style.position = "";
+            updateStats();
+            nextLvl();
+          }
       }
       return "";
     });
   }
 
-
 //region LISTENER AND QUERYSELECTORS
 
   dynamic startscreenListener() async {
-
     /*
     register
     */
     querySelector('#register').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       querySelector('#start').innerHtml = "";
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         print("You are registered now");
@@ -152,10 +155,7 @@ class KistenschiebenController {
 		*/
     querySelector('#login').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         print("You are logged in now");
@@ -243,10 +243,7 @@ class KistenschiebenController {
   dynamic editUserListener() async {
     querySelector("#getuser").onMouseDown.listen((MouseEvent f) async {
       ksView.getUser();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String userid = ksView.userId;
         String password = ksView.userPassword;
         Future<String> us = gamekey.getUser(userid, password);
@@ -260,10 +257,7 @@ class KistenschiebenController {
 
     querySelector("#getuserid").onMouseDown.listen((MouseEvent f) async {
       ksView.getUserId();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         var pw = getUserId(username);
         print("the user you get is: $pw");
@@ -275,10 +269,7 @@ class KistenschiebenController {
 
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserName();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String oldName = ksView.oldUsername;
         String password = ksView.userPassword;
         String username = ksView.username;
@@ -292,10 +283,7 @@ class KistenschiebenController {
 
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserPassword();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         String oldpassword = ksView.oldUserpassword;
         String password = ksView.userPassword;
@@ -309,10 +297,7 @@ class KistenschiebenController {
 
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
       ksView.userdates();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         gamekey.deleteUser(username, password);
@@ -340,7 +325,9 @@ class KistenschiebenController {
     });
     querySelector("#save").onMouseDown.listen((MouseEvent e) {
       print("saved");
-      gamekey.storeState(userid, ksModel.getStats()).whenComplete(getHighscores);
+      gamekey
+          .storeState(userid, ksModel.getStats())
+          .whenComplete(getHighscores);
     });
   }
 
@@ -497,28 +484,27 @@ class KistenschiebenController {
     int py = ksModel.getPlayerPosY();
     int dir = checkDirection(targetX, targetY, px, py);
     switch (dir) {
-      case 0 :
+      case 0:
         break;
-    //stay
-      case 1 :
-      //up
+      //stay
+      case 1:
+        //up
         touchUp(py - targetY);
         break;
-      case 2 :
-      //right
+      case 2:
+        //right
         touchRight(targetX - px);
         break;
-      case 3 :
-      //down
+      case 3:
+        //down
         touchDown(targetY - py);
         break;
-      case 4 :
-      //left
+      case 4:
+        //left
         touchLeft(px - targetX);
         break;
     }
   }
-
 
   /*
   moves the player up for a given number of fields.
@@ -596,8 +582,8 @@ class KistenschiebenController {
   /*
   takes the positions of the player and the crates
    */
-  void updateViewPush(String playerPos_old,
-      String playerPos_new, List<String> crates_new) {
+  void updateViewPush(
+      String playerPos_old, String playerPos_new, List<String> crates_new) {
     updateStats();
     ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
     checkWin();
@@ -606,8 +592,8 @@ class KistenschiebenController {
   /*//TODO vielleicht bearbeiten
   takes the positions of the player and the crates
    */
-  void updateViewPull(String playerPos_old,
-      String playerPos_new, List<String> crates_new) {
+  void updateViewPull(
+      String playerPos_old, String playerPos_new, List<String> crates_new) {
     updateStats();
     ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
     checkWin();
@@ -637,7 +623,7 @@ class KistenschiebenController {
   /**
    * Sets the actual level in the statistics to the value i
    */
-  void setActualLevel(int i){
+  void setActualLevel(int i) {
     this.ksModel.setLevel(i);
   }
 
@@ -652,25 +638,28 @@ class KistenschiebenController {
     int amount = 10;
     try {
       final states = await gamekey.getStates();
-      scores = states.map((entry) => {
-        'name' : "${entry['username']}",
-        'level' : entry['state']['actualLevel'],
-        'LocalPushes' : entry['state']['localPushes'],
-        'GlobalPushes' : entry['state']['globalPushes'],
-        'LocalMoves' : entry['state']['localMoves'],
-        'GlobalMoves': entry['state']['globalMoves']
-      }).toList();
-      for(int i = 0; i<scores.length; i++)
-      scores.sort((a, b) => a['level']['LocalPushes'] -
-          b['level']['LocalPushes']); //die niedrigsten localPushes
+      scores = states
+          .map((entry) => {
+                'name': "${entry['username']}",
+                'level': entry['state']['actualLevel'],
+                'LocalPushes': entry['state']['localPushes'],
+                'GlobalPushes': entry['state']['globalPushes'],
+                'LocalMoves': entry['state']['localMoves'],
+                'GlobalMoves': entry['state']['globalMoves']
+              })
+          .toList();
+      for (int i = 0; i < scores.length; i++)
+        scores.sort((a, b) =>
+            a['level']['LocalPushes'] -
+            b['level']['LocalPushes']); //die niedrigsten localPushes
 
     } catch (error, stacktrace) {
       print(error);
       print(stacktrace);
     }
-  List<Map<String, int>> lvlOnly = new List();
-    for(Map m in scores){
-      if(m['level'] == genLvl.currentLvl){
+    List<Map<String, int>> lvlOnly = new List();
+    for (Map m in scores) {
+      if (m['level'] == genLvl.currentLvl) {
         lvlOnly.add(m);
       }
     }
@@ -698,14 +687,14 @@ class KistenschiebenController {
     setgameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevelFromString(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+    ksView
+        .generateLevelFromString(
+            genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
   }
-
 
   /*
   Resets Game and local stats
@@ -716,8 +705,9 @@ class KistenschiebenController {
     Map<String, int> saveStats = ksModel.getStats();
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevelFromString(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+    ksView
+        .generateLevelFromString(
+            genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch); //.whenComplete(reactTouch)
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
@@ -732,6 +722,7 @@ class KistenschiebenController {
    */
   checkWin() async {
     if (ksModel.checkWin() == true) {
+      finishedGame = true;
       final highscores = await getHighscores();
       ksView.showWin(highscores);
       setgameRunning(false);
@@ -748,14 +739,10 @@ class KistenschiebenController {
 
 //endregion
 
-
   /**
    * gets the username from the gamekey
    */
   getUserId(String user) async {
     final username = await gamekey.getUserId(user);
   }
-
-
-
 }
