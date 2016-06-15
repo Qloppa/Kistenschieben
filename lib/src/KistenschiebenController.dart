@@ -37,6 +37,7 @@ class KistenschiebenController {
   String userid = "";
   String user = "";
   bool logedIn = false;
+  bool pull = false;
 
   LevelGenerator genLvl;
   KistenschiebenModel ksModel;
@@ -90,16 +91,32 @@ class KistenschiebenController {
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
-          moveUp();
+          if(pull){
+            pullUp();
+          }else{
+            moveUp();
+          }
           break;
         case KeyCode.RIGHT:
-          moveRight();
+          if(pull){
+            pullRight();
+          }else{
+            moveRight();
+          }
           break;
         case KeyCode.DOWN:
-          moveDown();
+          if(pull){
+            pullDown();
+          }else{
+            moveDown();
+          }
           break;
         case KeyCode.LEFT:
-          moveLeft();
+          if(pull){
+            pullLeft();
+          }else{
+            moveLeft();
+          }
           break;
       }
       return "";
@@ -382,6 +399,62 @@ class KistenschiebenController {
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
+      return true;
+    }
+    return false;
+  }
+
+  /*
+  tells the Player to pull a crate up. updates the view if the model returns true
+   */
+  bool pullUp() {
+    List<String> positions = ksModel.pullUp();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
+      return true;
+    }
+    return false;
+  }
+
+  /*
+  tells the Player to pull a crate to the right. updates the view if the model returns true
+   */
+  bool pullRight() {
+    List<String> positions = ksModel.pullRight();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
+      return true;
+    }
+    return false;
+  }
+
+  /*
+  tells the Player to pull a crate down. updates the view if the model returns true
+   */
+  bool pullDown() {
+    List<String> positions = ksModel.pullDown();
+    if (positions.isEmpty == false) {
+      String playerPos_old = positions.removeLast();
+      String playerPos_new = positions.removeLast();
+      updateView(playerPos_old, playerPos_new, positions);
+      return true;
+    }
+    return false;
+  }
+
+  /*
+  tells the Player to pull a crate to the left. updates the view if the model returns true
+   */
+  bool pullLeft() {
+    List<String> positions = ksModel.pullLeft();
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();

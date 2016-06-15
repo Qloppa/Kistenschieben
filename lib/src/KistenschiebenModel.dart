@@ -192,6 +192,70 @@ class KistenschiebenModel {
     }
     return check;
   }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullUp() {
+    List<String> check = player.moveUp(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
+  }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullRight() {
+    List<String> check = player.moveRight(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
+  }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullDown() {
+    List<String> check = player.moveDown(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
+  }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullLeft() {
+    List<String> check = player.moveLeft(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+      print("PUSHES : " + stats.getLocalPushes().toString());
+    }
+    return check;
+  }
+
+
+
+
   /**
 	  * returns the X value of the position of the player
 	  */
