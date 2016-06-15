@@ -107,7 +107,7 @@ class KistenschiebenController {
           }
           break;
         case KeyCode.BACKSPACE:
-          if (isGameRunning) {
+          if (isGameRunning ||  finishedGame) {
             resetGame();
           }
           break;
@@ -246,9 +246,16 @@ class KistenschiebenController {
     });
   }
 
-  /*
-  listener to the buttons on the "edit user" layout
-  */
+  /**
+   * Listener for editing the user.
+   * Has the following buttons:
+   *    [GET USER]
+   *    [GET USER ID]
+   *    [CHANGE NAME]
+   *    [CHANGE PASSWORD]
+   *    [DELETE]
+   *    [CLOSE]
+   */
   dynamic editUserListener() async {
     querySelector("#getuser").onMouseDown.listen((MouseEvent f) async {
       ksView.getUser();
@@ -321,6 +328,11 @@ class KistenschiebenController {
     });
   }
 
+  /**
+   * Listener for the Buttons which appear when the user has finished the level
+   * [SAVE]
+   * [NEXT]
+   */
   nextListener() async {
     if (logedIn == true) {
       querySelector("#save").style.visibility = "visible";
