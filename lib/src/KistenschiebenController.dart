@@ -7,41 +7,37 @@ import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 const gamekeyCheck = const Duration(seconds: 10);
 
 const gameSecret = "3fc15faab679cd11";
 
 const gamekeySettings = 'gamekey.json';
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 bool isGameRunning = false;
 
+/**
+ * The Controller of the Game. Accepts input and converts it to commands for the model or view.
+ */
 class KistenschiebenController {
 
-
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
-  /**
-   * Periodic trigger controlling availability of gamekey service.
-   */
-  Timer gamekeyTrigger;
+  LevelGenerator genLvl;            //The Levelgenerator
+  KistenschiebenModel ksModel;      //The Model
+  KistenschiebenView ksView;        //The View
 
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  bool gkAvailable = false;
+  Timer gamekeyTrigger;             //Periodic trigger controlling availability of gamekey service.
+  bool gkAvailable = false;         //Shows if the gamekey is available or not
+  String username;                  //The username of the actual user
+  String password;                  //The password of the actual user
+  Map stats;                        //The actual statistics
+  String userid = "";               //The User-ID
+  String user = "";                 //The User
+  bool logedIn = false;             //Shows if the user is logged in or not
+  bool pull = false;                //Shows if the user activated the pull-ability for the next round
 
-  String username;
-  String password;
-  Map stats;
-  String userid = "";
-  String user = "";
-  bool logedIn = false;
-  bool pull = false;
-
-  LevelGenerator genLvl;
-  KistenschiebenModel ksModel;
-  KistenschiebenView ksView;
 
   /*
   CONSTRUCTOR
@@ -54,8 +50,13 @@ class KistenschiebenController {
     startscreenListener();
 
 
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    //print("startGameKey");
+
+
+    //  [-======== GAMEKEY ========-]
+
+
+
+
     try {
       // Download gamekey settings. Display warning on problems.
       HttpRequest.getString(gamekeySettings).then((json) {
@@ -82,12 +83,17 @@ class KistenschiebenController {
         });
       });
     } catch (error, stacktrace) {
-      print("KistenschiebenKontroller() caused following error: '$error'");
+      print("KistenschiebenController() caused following error: '$error'");
       print("$stacktrace");
     }
-    //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    //ksModel.playerPos_old = ksModel.playerPositionAsString();
-    //ksModel.crates_old = ksModel.crateList();
+
+
+
+    //  [-======== KEYLISTENER ========-]
+
+
+
+
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.UP:
@@ -123,10 +129,9 @@ class KistenschiebenController {
     });
   }
 
-  setgameRunning(bool value) {
-    isGameRunning = value;
-  }
 
+
+//region LISTENER AND QUERYSELECTORS
 
   dynamic startscreenListener() async {
 
@@ -142,7 +147,7 @@ class KistenschiebenController {
           .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
-        print(username + " " + password);
+        print("You are registered now");
         gamekey.registerUser(username, password);
         querySelector("#userinput").innerHtml = "";
         ksView.startScreen();
@@ -167,7 +172,7 @@ class KistenschiebenController {
           .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
-        print(username + " " + password);
+        print("You are logged in now");
         querySelector("#userinput").innerHtml = "";
         checklogin(username, password);
       });
@@ -177,6 +182,7 @@ class KistenschiebenController {
         startscreenListener();
       });
     });
+
     /*
     Play without login
     */
@@ -290,7 +296,7 @@ class KistenschiebenController {
         String oldName = ksView.oldUsername;
         String password = ksView.userPassword;
         String username = ksView.username;
-        print(username + " " + password);
+        print("your new Username" + username);
         gamekey.changeUserName(oldName, password, username);
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
@@ -307,7 +313,7 @@ class KistenschiebenController {
         String username = ksView.username;
         String oldpassword = ksView.oldUserpassword;
         String password = ksView.userPassword;
-        print(username + " " + password);
+        print("Changed password");
         gamekey.changeUserPassword(username, oldpassword, password);
       });
       querySelector("#close").onMouseDown.listen((MouseEvent e) {
@@ -333,24 +339,28 @@ class KistenschiebenController {
     querySelector("#close").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
+  }
 
-    /*querySelector("#saveStats").onMouseDown.listen((MouseEvent e) {
-      bool success = storeStats();
-      if(success){
-        print("statistics saved");
-      }
+  nextListener() async {
+    if (logedIn == true) {
+      querySelector("#save").style.visibility = "visible";
+      querySelector("level").innerHtml = "";
+    }
+    querySelector("#next").onMouseDown.listen((MouseEvent e) {
+      querySelector("#container").innerHtml = "";
+      querySelector("#resetbutton").style.position = "";
+      updateStats();
+      nextLvl();
     });
-    */
-
+    querySelector("#save").onMouseDown.listen((MouseEvent e) {
+      print("saved");
+      gamekey.storeState(userid, ksModel.getStats()).whenComplete(getHighscores);
+    });
   }
 
-  getUserId(String user) async {
-    final username = await gamekey.getUserId(user);
-  }
+//endregion
 
-
-
-  //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//region MOVES
 
   /*
   tells the Player to move up. updates the view if the model returns true
@@ -408,12 +418,17 @@ class KistenschiebenController {
     return false;
   }
 
+//endregion
+
+//region PULL
+
   /*
   tells the Player to pull a crate up. updates the view if the model returns true
    */
   bool pullUp() {
     List<String> positions = ksModel.pullUp();
     if (positions.isEmpty == false) {
+      pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
@@ -428,6 +443,7 @@ class KistenschiebenController {
   bool pullRight() {
     List<String> positions = ksModel.pullRight();
     if (positions.isEmpty == false) {
+      pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
@@ -442,6 +458,7 @@ class KistenschiebenController {
   bool pullDown() {
     List<String> positions = ksModel.pullDown();
     if (positions.isEmpty == false) {
+      pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
@@ -456,6 +473,7 @@ class KistenschiebenController {
   bool pullLeft() {
     List<String> positions = ksModel.pullLeft();
     if (positions.isEmpty == false) {
+      pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateView(playerPos_old, playerPos_new, positions);
@@ -463,6 +481,10 @@ class KistenschiebenController {
     }
     return false;
   }
+
+//endregion
+
+//region TOUCH
 
   /*
   enables movement by clicking on the Field. Takes the coordinates and hands them over to the moveTouch
@@ -581,6 +603,10 @@ class KistenschiebenController {
     return 0;
   }
 
+//endregion
+
+//region UPDATE
+
   /*
   takes the positions of the player and the crates
    */
@@ -599,34 +625,24 @@ class KistenschiebenController {
     ksView.updateStats(ksModel.getStats(), actualLvl.toString());
   }
 
-  /**
-   * Checks if the User has already won
-   */
-  checkWin() async {
-    if (ksModel.checkWin() == true) {
-      final highscores = await getHighscores();
-      ksView.showWin(highscores);
-      setgameRunning(false);
-      nextListener();
+//endregion
 
-    }
+//region STATISTICS
+
+  /**
+   * loads the Stats from the json via the gamekey
+   */
+  void loadStats() {
+    List dummy = gamekey.getStates();
+    Map test = dummy.last;
+    ksModel.loadStats(test);
   }
 
-  nextListener() async {
-    if (logedIn == true) {
-      querySelector("#save").style.visibility = "visible";
-      querySelector("level").innerHtml = "";
-    }
-    querySelector("#next").onMouseDown.listen((MouseEvent e) {
-      querySelector("#container").innerHtml = "";
-      querySelector("#resetbutton").style.position = "";
-      updateStats();
-      nextLvl();
-    });
-    querySelector("#save").onMouseDown.listen((MouseEvent e) {
-      print("save");
-      gamekey.storeState(userid, ksModel.getStats()).whenComplete(getHighscores);
-      });
+  /**
+   * Sets the actual level in the statistics to the value i
+   */
+  void setActualLevel(int i){
+    this.ksModel.setLevel(i);
   }
 
   /**
@@ -652,7 +668,6 @@ class KistenschiebenController {
       for(int i = 0; i<scores.length; i++)
       scores.sort((a, b) => a['level']['LocalPushes'] -
           b['level']['LocalPushes']); //die niedrigsten localPushes
-      print(scores);
 
     } catch (error, stacktrace) {
       print(error);
@@ -666,6 +681,10 @@ class KistenschiebenController {
     }
     return lvlOnly.take(amount);
   }
+
+//endregion
+
+//region RESET AND NEW GAME
 
   /*
   Starts the next Level
@@ -692,6 +711,7 @@ class KistenschiebenController {
     updateStats();
   }
 
+
   /*
   Resets Game and local stats
   */
@@ -712,26 +732,35 @@ class KistenschiebenController {
     updateStats();
   }
 
-  /*
-	Resets Game and all stats (local and global)
-	*/
-  void resetTotal() {
-    ksModel.resetTotal();
+  /**
+   * Checks if the User has already won
+   */
+  checkWin() async {
+    if (ksModel.checkWin() == true) {
+      final highscores = await getHighscores();
+      ksView.showWin(highscores);
+      setgameRunning(false);
+      nextListener();
+    }
   }
 
   /**
-   * loads the Stats from the json via the gamekey
+   * sets the status of the game to running or not
    */
-  void loadStats() {
-    List dummy = gamekey.getStates();
-    Map test = dummy.last;
-    ksModel.loadStats(test);
+  setgameRunning(bool value) {
+    isGameRunning = value;
   }
 
+//endregion
+
+
   /**
-   * Sets the actual level in the statistics to the value i
+   * gets the username from the gamekey
    */
-  void setActualLevel(int i){
-    this.ksModel.setLevel(i);
+  getUserId(String user) async {
+    final username = await gamekey.getUserId(user);
   }
+
+
+
 }

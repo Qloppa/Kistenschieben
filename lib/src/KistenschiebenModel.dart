@@ -143,7 +143,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -158,7 +157,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -173,7 +171,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -188,7 +185,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -203,7 +199,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -218,7 +213,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -233,7 +227,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -248,7 +241,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
