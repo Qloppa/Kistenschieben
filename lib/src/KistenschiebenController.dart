@@ -108,6 +108,7 @@ class KistenschiebenController {
           break;
         case KeyCode.BACKSPACE:
           if (isGameRunning ||  finishedGame) {
+            finishedGame = false;
             resetGame();
           }
           break;
