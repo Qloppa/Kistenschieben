@@ -46,12 +46,7 @@ class KistenschiebenController {
     startscreenListener();
 
 
-
-
     //  [-======== GAMEKEY ========-]
-
-
-
 
     try {
       // Download gamekey settings. Display warning on problems.
@@ -84,11 +79,7 @@ class KistenschiebenController {
     }
 
 
-
     //  [-======== KEYLISTENER ========-]
-
-
-
 
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
@@ -365,7 +356,7 @@ class KistenschiebenController {
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPush(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -379,7 +370,7 @@ class KistenschiebenController {
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPush(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -393,7 +384,7 @@ class KistenschiebenController {
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPush(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -407,7 +398,7 @@ class KistenschiebenController {
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPush(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -426,7 +417,7 @@ class KistenschiebenController {
       pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPull(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -441,7 +432,7 @@ class KistenschiebenController {
       pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPull(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -456,7 +447,7 @@ class KistenschiebenController {
       pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPull(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -471,7 +462,7 @@ class KistenschiebenController {
       pull = false;
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
-      updateView(playerPos_old, playerPos_new, positions);
+      updateViewPull(playerPos_old, playerPos_new, positions);
       return true;
     }
     return false;
@@ -605,10 +596,20 @@ class KistenschiebenController {
   /*
   takes the positions of the player and the crates
    */
-  void updateView(String playerPos_old,
+  void updateViewPush(String playerPos_old,
       String playerPos_new, List<String> crates_new) {
     updateStats();
-    ksView.updateView(playerPos_old, playerPos_new, crates_new);
+    ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
+    checkWin();
+  }
+
+  /*//TODO vielleicht bearbeiten
+  takes the positions of the player and the crates
+   */
+  void updateViewPull(String playerPos_old,
+      String playerPos_new, List<String> crates_new) {
+    updateStats();
+    ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
 
