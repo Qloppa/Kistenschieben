@@ -8,10 +8,10 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-const gamekeyCheck = const Duration(seconds: 10);
+const gamekeyCheck = const Duration(seconds: 5);
 
-const gameSecret = "3fc15faab679cd11";
-
+//const gameSecret = "3fc15faab679cd11";
+const gameSecret = "0be594b5c089ceca";
 const gamekeySettings = 'gamekey.json';
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 bool isGameRunning = false;
@@ -36,7 +36,8 @@ class KistenschiebenController {
   Map stats;
   String userid = "";
   String user = "";
-  bool logedIn = false;
+  bool registered = false;
+  bool authentication = false;
 
   LevelGenerator genLvl;
   KistenschiebenModel ksModel;
@@ -50,7 +51,7 @@ class KistenschiebenController {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
     ksView.startScreen();
-    startscreenListener();
+
 
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -68,10 +69,19 @@ class KistenschiebenController {
             gameSecret
         );
 
+        querySelector("#registerbutton").style.visibility = "hidden";
+        querySelector("#loginbutton").style.visibility = "hidden";
+        startscreenListener();
         // Check periodically if gamekey service is reachable. Display warning if not.
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
           if (await this.gamekey.authenticate() == true) {
             print("Authentifizierung Erfolgreich!");
+            if (authentication == false && isGameRunning == false) {
+              querySelector("#registerbutton").style.visibility = "visible";
+              querySelector("#loginbutton").style.visibility = "visible";
+              authentication = true;
+              gkAvailable = true;
+            }
             gkAvailable = true;
           } else {
             print("Authentifizierung Fehlgeschlagen!");
@@ -112,13 +122,11 @@ class KistenschiebenController {
 
 
   dynamic startscreenListener() async {
-
     /*
     register
     */
-    querySelector('#register').onMouseDown.listen((MouseEvent e) {
+    querySelector('#registerbutton').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
-      querySelector('#start').innerHtml = "";
       document
           .querySelector('#submit')
           .onMouseDown
@@ -126,12 +134,10 @@ class KistenschiebenController {
         String username = ksView.username;
         String password = ksView.userPassword;
         print(username + " " + password);
-        gamekey.registerUser(username, password);
+        checkRegister(username, password);
         querySelector("#userinput").innerHtml = "";
-        ksView.startScreen();
-        startscreenListener();
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         querySelector("#about").innerHtml = "";
         ksView.startScreen();
@@ -142,7 +148,7 @@ class KistenschiebenController {
     /*
 			Login
 		*/
-    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+    querySelector('#loginbutton').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
       document
           .querySelector('#submit')
@@ -150,11 +156,11 @@ class KistenschiebenController {
           .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
-        print(username + " " + password);
+        this.user = username;
         querySelector("#userinput").innerHtml = "";
         checklogin(username, password);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
@@ -166,13 +172,14 @@ class KistenschiebenController {
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
       querySelector("#resetbutton").style.visibility = "visible";
+      querySelector("#skipbutton").style.visibility = "visible";
       newGame();
     });
 
     querySelector('#about').onMouseDown.listen((MouseEvent g) {
       querySelector('#start').innerHtml = "";
       ksView.getAbout();
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         querySelector("#about").innerHtml = "";
         ksView.startScreen();
@@ -181,26 +188,51 @@ class KistenschiebenController {
     });
 
     querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
-      querySelector('#start').innerHtml = "";
+      //querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
       querySelector("#resetbutton").style.position = "";
       resetGame();
     });
+
+    querySelector("#skipbutton").onMouseDown.listen((MouseEvent e) {
+      nextLvl();
+    });
+  }
+
+  checkRegister(String name, String pw) async {
+    Map answer = await gamekey.registerUser(name, pw);
+    print("Answer:");
+    print(answer);
+    if (answer.isNotEmpty && answer != null) {
+      querySelector("messagefield").className = "messageanimation";
+      querySelector("messagefield").innerHtml = "Register succed";
+      ksView.startScreen();
+      startscreenListener();
+    } else {
+      querySelector("messagefield").className = "messageanimation";
+      querySelector("messagefield").innerHtml = "Register failed";
+    }
   }
 
   checklogin(String name, String pw) async {
     Map answer = await gamekey.loginUser(name, pw);
-    userid = answer.values.elementAt(2);
-    username = answer.values.elementAt(3);
+    print("Answer:");
+    print(answer);
     if (answer.isNotEmpty) {
-      logedIn = true;
+      registered = true;
+      userid = answer.values.elementAt(2);
+      username = answer.values.elementAt(3);
       querySelector("#start").innerHtml = "";
-      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
-      querySelector("#userstatus").style.color = "green";
-
+      querySelector("messagefield").className = "greetinganimation";
+      querySelector("messagefield").innerHtml = "Hello $user";
+      querySelector("#userstatus").innerHtml = "Registered as: $user";
+      querySelector("#userstatus").style.color = "darkgreen";
       ksView.registeredScreen();
       registeredListener();
+    } else {
+      querySelector("messagefield").className = "greetinganimation";
+      querySelector("messagefield").innerHtml = "Login failed!";
     }
   }
 
@@ -211,6 +243,7 @@ class KistenschiebenController {
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
       querySelector("#registered").innerHtml = "";
+      querySelector("#start").innerHtml = "";
     });
 
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
@@ -220,7 +253,7 @@ class KistenschiebenController {
 
     querySelector('#ab').onMouseDown.listen((MouseEvent g) {
       ksView.getAbout();
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#about").innerHtml = "";
         ksView.registeredScreen();
         registeredListener();
@@ -232,37 +265,6 @@ class KistenschiebenController {
   listener to the buttons on the "edit user" layout
   */
   dynamic editUserListener() async {
-    querySelector("#getuser").onMouseDown.listen((MouseEvent f) async {
-      ksView.getUser();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
-        String userid = ksView.userId;
-        String password = ksView.userPassword;
-        Future<String> us = gamekey.getUser(userid, password);
-        String getu = us.toString();
-        print("the user you get is: $getu");
-      });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-      });
-    });
-
-    querySelector("#getuserid").onMouseDown.listen((MouseEvent f) async {
-      ksView.getUserId();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
-        String username = ksView.username;
-        var pw = getUserId(username);
-        print("the user you get is: $pw");
-      });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-      });
-    });
 
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserName();
@@ -276,7 +278,7 @@ class KistenschiebenController {
         print(username + " " + password);
         gamekey.changeUserName(oldName, password, username);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
     });
@@ -293,7 +295,7 @@ class KistenschiebenController {
         print(username + " " + password);
         gamekey.changeUserPassword(username, oldpassword, password);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
     });
@@ -308,23 +310,14 @@ class KistenschiebenController {
         String password = ksView.userPassword;
         gamekey.deleteUser(username, password);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
     });
 
-    querySelector("#close").onMouseDown.listen((MouseEvent e) {
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
-
-    /*querySelector("#saveStats").onMouseDown.listen((MouseEvent e) {
-      bool success = storeStats();
-      if(success){
-        print("statistics saved");
-      }
-    });
-    */
-
   }
 
   getUserId(String user) async {
@@ -540,7 +533,7 @@ class KistenschiebenController {
   }
 
   nextListener() async {
-    if (logedIn == true) {
+    if (registered == true) {
       querySelector("#save").style.visibility = "visible";
       querySelector("level").innerHtml = "";
     }
@@ -594,23 +587,6 @@ class KistenschiebenController {
     return lvlOnly.take(amount);
   }
 
-
-/*
-  //TODO : TESTEN
-  /**
-   * stores the stats in the .json-file via the gamekey
-   */
-  bool storeStats() {
-    String name = username;
-    String uId = gamekey.getUserId(username);
-    bool works = gamekey.storeState(uId, ksModel.getStats(), name);
-    if (works) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-*/
   /*
   Starts the next Level
   */
