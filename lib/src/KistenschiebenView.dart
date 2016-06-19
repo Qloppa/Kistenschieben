@@ -131,7 +131,7 @@ class KistenschiebenView {
         "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
         "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"back\">Close</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
   }
@@ -260,6 +260,7 @@ class KistenschiebenView {
    */
   Future<String> generateLevelFromString(String level, int column,
       int row) async {
+
     this.tableH = row;
     this.tableW = column;
     level = level.toUpperCase();

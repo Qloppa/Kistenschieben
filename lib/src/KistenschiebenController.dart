@@ -143,8 +143,8 @@ class KistenschiebenController {
         ksView.startScreen();
         startscreenListener();
       });
+      hoverlistener();
     });
-
     /*
 			Login
 		*/
@@ -165,6 +165,7 @@ class KistenschiebenController {
         ksView.startScreen();
         startscreenListener();
       });
+      hoverlistener();
     });
     /*
     Play without login
@@ -185,6 +186,7 @@ class KistenschiebenController {
         ksView.startScreen();
         startscreenListener();
       });
+      hoverlistener();
     });
 
     querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
@@ -198,6 +200,9 @@ class KistenschiebenController {
     querySelector("#skipbutton").onMouseDown.listen((MouseEvent e) {
       nextLvl();
     });
+
+    hoverlistener();
+
   }
 
   checkRegister(String name, String pw) async {
@@ -244,6 +249,8 @@ class KistenschiebenController {
       newGame();
       querySelector("#registered").innerHtml = "";
       querySelector("#start").innerHtml = "";
+      querySelector("#resetbutton").style.visibility = "visible";
+      querySelector("#skipbutton").style.visibility = "visible";
     });
 
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
@@ -258,8 +265,12 @@ class KistenschiebenController {
         ksView.registeredScreen();
         registeredListener();
       });
+      hoverlistener();
     });
+    hoverlistener();
+
   }
+
 
   /*
   listener to the buttons on the "edit user" layout
@@ -281,6 +292,7 @@ class KistenschiebenController {
       querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
+      hoverlistener();
     });
 
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
@@ -298,6 +310,7 @@ class KistenschiebenController {
       querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
+      hoverlistener();
     });
 
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
@@ -313,18 +326,28 @@ class KistenschiebenController {
       querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
+      hoverlistener();
     });
 
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
+
+    hoverlistener();
   }
 
-  getUserId(String user) async {
-    final username = await gamekey.getUserId(user);
+  /*
+   Contains the listener for the hoverevent of the buttons
+   */
+  hoverlistener() {
+    querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "buttonhover";
+    });
+
+    querySelectorAll("button").onMouseLeave.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "";
+    });
   }
-
-
 
   //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -533,9 +556,9 @@ class KistenschiebenController {
   }
 
   nextListener() async {
+    querySelector("level").innerHtml = "";
     if (registered == true) {
       querySelector("#save").style.visibility = "visible";
-      querySelector("level").innerHtml = "";
     }
     querySelector("#next").onMouseDown.listen((MouseEvent e) {
       querySelector("#container").innerHtml = "";
@@ -545,8 +568,12 @@ class KistenschiebenController {
     });
     querySelector("#save").onMouseDown.listen((MouseEvent e) {
       print("save");
-      gamekey.storeState(userid, ksModel.getStats()).whenComplete(getHighscores);
+      querySelector("#container").innerHtml = "";
+      gamekey.storeState(userid, ksModel.getStats()).whenComplete(
+          getHighscores());
+      updateStats();
       });
+    hoverlistener();
   }
 
   /**
@@ -569,11 +596,11 @@ class KistenschiebenController {
         'LocalMoves' : entry['state']['localMoves'],
         'GlobalMoves': entry['state']['globalMoves']
       }).toList();
-      for(int i = 0; i<scores.length; i++)
+      for (int i = 0; i < scores.length; i++) {
       scores.sort((a, b) => a['level']['LocalPushes'] -
           b['level']['LocalPushes']); //die niedrigsten localPushes
       print(scores);
-
+      }
     } catch (error, stacktrace) {
       print(error);
       print(stacktrace);

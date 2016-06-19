@@ -47,10 +47,6 @@ table {
 
 }
 
-#status {
-    background-color: darkgray;
-}
-
 #stat {
     margin-left: 15%;
     position: fixed;
@@ -86,22 +82,27 @@ h1 {
 }
 
 button {
-    background-color: lightgrey;
-    border-radius: 100%;
+    background-image: url(pictures/DefaultButton.png);
+
     font-size: 20px;
-    height: 50px;
+    height: 52px;
     width: 200px;
+    background-size: 100%;
+}
+
+.buttonhover {
+    background-image: url(pictures/HoverButton.png);
 }
 
 input {
     font-size: 20px;
-    height: 20px;
+    height: 40px;
     width: 200px;
 }
 
 form {
     position: absolute;
-    left: 30%;
+    left: 20%;
     top: 40%;
 }
 
@@ -111,10 +112,14 @@ form {
 }
 
 #resetbutton {
+    border-bottom-right-radius: 0%;
+    border-top-right-radius: 0%;
     visibility: hidden;
 }
 
 #skipbutton {
+    border-bottom-left-radius: 0%;
+    border-top-left-radius: 0%;
     visibility: hidden;
 }
 
@@ -161,7 +166,9 @@ em {
 .greetinganimation {
     opacity: 0;
     position: relative;
+    background-repeat: repeat;
     animation: greetingduration 7s;
+
 }
 
 @keyframes greetingduration {
@@ -180,7 +187,9 @@ em {
 .messageanimation {
     opacity: 0;
     position: relative;
+    background-repeat: repeat;
     animation: messageduration 5s;
+    marquee-repetition: infinite;
 
 }
 
