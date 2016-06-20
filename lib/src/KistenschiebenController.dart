@@ -583,7 +583,6 @@ class KistenschiebenController {
    */
   Future<List<Map>> getHighscores() async {
     var scores = [];
-    var highscore;
     int amount = 10;
     try {
       final states = await gamekey.getStates();
