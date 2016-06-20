@@ -12,27 +12,25 @@
     <link rel="stylesheet" type="text/css" href="KistenschiebenView.css"/>
 </head>
 <body>
-<span id="welcome">
 <h1>Kistenschieben</h1>
-</span>
 <div id="container"></div>
 <div id="start"></div>
 <div id="registered"></div>
 <div id="userinput"></div>
 <div id="edituser"></div>
 <div id="about"></div>
-<div id="lvl">
-    <div>
-        <div id="userstatus">Userstatus: nicht Angemeldet</div>
-    </div>
-    <div id="gamekeystatus">Gamekeystatus: nicht Verbunden</div>
-    <div id="reset">
+<div id="status">
+    <userstatus id="userstatus">Userstatus: Not registered</userstatus>
+    <gamekeystatus id="gamekeystatus">Gamekeystatus: Not connected</gamekeystatus>
+    <messagefield id="messagefield" placeholder="messagefield"></messagefield>
+</div>
+<div>
+    <div id="leveloptions">
         <button id="resetbutton">Reset</button>
+        <button id="skipbutton">Skip</button>
     </div>
     <level></level>
-    <div id="stat">
-
-    </div>
+    <stat id="stat"></stat>
 </div>
 </body>
 </html>
