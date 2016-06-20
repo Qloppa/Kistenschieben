@@ -22,8 +22,7 @@ class KistenschiebenController {
   KistenschiebenModel ksModel; //The Model
   KistenschiebenView ksView; //The View
 
-  Timer
-      gamekeyTrigger; //Periodic trigger controlling availability of gamekey service.
+  Timer gamekeyTrigger; //Periodic trigger controlling availability of gamekey service.
   bool gkAvailable = false; //Shows if the gamekey is available or not
   String username; //The username of the actual user
   String password; //The password of the actual user
@@ -31,10 +30,11 @@ class KistenschiebenController {
   String userid = ""; //The User-ID
   String user = ""; //The User
   bool logedIn = false; //Shows if the user is logged in or not
-  bool pull =
-      false; //Shows if the user activated the pull-ability for the next round
+  bool pull = false; //Shows if the user activated the pull-ability for the next round
   bool isGameRunning = false;
   bool finishedGame = false;
+  bool registered = false;
+  bool authentication = false;
 
   /*
   CONSTRUCTOR
@@ -44,7 +44,6 @@ class KistenschiebenController {
     ksModel = new KistenschiebenModel();
     ksView = new KistenschiebenView();
     ksView.startScreen();
-    startscreenListener();
 
     //  [-======== GAMEKEY ========-]
 
@@ -55,22 +54,35 @@ class KistenschiebenController {
 
         // Create gamekey client using connection parameters
         this.gamekey = new GameKey(
-            settings['host'], settings['port'], settings['gameid'], gameSecret);
+            settings['host'],
+            settings['port'],
+            settings['gameid'],
+            gameSecret
+        );
 
+        querySelector("#registerbutton").style.visibility = "hidden";
+        querySelector("#loginbutton").style.visibility = "hidden";
+        startscreenListener();
         // Check periodically if gamekey service is reachable. Display warning if not.
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
           if (await this.gamekey.authenticate() == true) {
-            print("Authentifizierung Erfolgreich!");
+            print("Authentification succeded!");
+            if (authentication == false && isGameRunning == false) {
+              querySelector("#registerbutton").style.visibility = "visible";
+              querySelector("#loginbutton").style.visibility = "visible";
+              authentication = true;
+              gkAvailable = true;
+            }
             gkAvailable = true;
           } else {
-            print("Authentifizierung Fehlgeschlagen!");
+            print("Authentification failed!");
             gkAvailable = false;
           }
           ksView.setGameKeyAvailable(gkAvailable);
         });
       });
     } catch (error, stacktrace) {
-      print("KistenschiebenController() caused following error: '$error'");
+      print("KistenschiebenKontroller() caused following error: '$error'");
       print("$stacktrace");
     }
 
@@ -148,69 +160,100 @@ class KistenschiebenController {
   dynamic startscreenListener() async {
 
     //REGISTER
-    querySelector('#register').onMouseDown.listen((MouseEvent e) {
+    querySelector('#registerbutton').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
-      querySelector('#start').innerHtml = "";
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         print("You are registered now");
-        gamekey.registerUser(username, password);
+        checkRegister(username, password);
         querySelector("#userinput").innerHtml = "";
-        ksView.startScreen();
-        startscreenListener();
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         querySelector("#about").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
       });
+      hoverlistener();
     });
 
     //LOGIN
-    querySelector('#login').onMouseDown.listen((MouseEvent e) {
+    querySelector('#loginbutton').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
-        print("You are logged in now");
+        this.user = username;
         querySelector("#userinput").innerHtml = "";
         checklogin(username, password);
+        print("You are logged in now");
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
       });
+      hoverlistener();
     });
 
     //WITHOUT LOGIN
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       querySelector('#start').innerHtml = "";
       querySelector("#resetbutton").style.visibility = "visible";
+      querySelector("#skipbutton").style.visibility = "visible";
       newGame();
     });
 
+    //ABOUT
     querySelector('#about').onMouseDown.listen((MouseEvent g) {
       querySelector('#start').innerHtml = "";
       ksView.getAbout();
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         querySelector("#about").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
       });
+      hoverlistener();
     });
 
     //RESET
     querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
-      querySelector('#start').innerHtml = "";
+      //querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
       querySelector("#resetbutton").style.position = "";
       resetGame();
     });
+
+    //SKIP
+    querySelector("#skipbutton").onMouseDown.listen((MouseEvent e) {
+      nextLvl();
+    });
+
+    hoverlistener();
+  }
+
+  checkRegister(String name, String pw) async {
+    Map answer = await gamekey.registerUser(name, pw);
+    print("Answer:");
+    print(answer);
+    if (answer.isNotEmpty && answer != null) {
+      querySelector("messagefield").className = "messageanimation";
+      querySelector("messagefield").innerHtml = "Register succed";
+      ksView.startScreen();
+      startscreenListener();
+    } else {
+      querySelector("messagefield").className = "messageanimation";
+      querySelector("messagefield").innerHtml = "Register failed";
+    }
   }
 
   /**
@@ -218,16 +261,22 @@ class KistenschiebenController {
    */
   checklogin(String name, String pw) async {
     Map answer = await gamekey.loginUser(name, pw);
-    userid = answer.values.elementAt(2);
-    username = answer.values.elementAt(3);
+    print("Answer:");
+    print(answer);
     if (answer.isNotEmpty) {
-      logedIn = true;
+      registered = true;
+      userid = answer.values.elementAt(2);
+      username = answer.values.elementAt(3);
       querySelector("#start").innerHtml = "";
-      querySelector("#userstatus").innerHtml = "Userstatus: Angemeldet";
-      querySelector("#userstatus").style.color = "green";
-
+      querySelector("messagefield").className = "greetinganimation";
+      querySelector("messagefield").innerHtml = "Hello $user";
+      querySelector("#userstatus").innerHtml = "Registered as: $user";
+      querySelector("#userstatus").style.color = "darkgreen";
       ksView.registeredScreen();
       registeredListener();
+    } else {
+      querySelector("messagefield").className = "greetinganimation";
+      querySelector("messagefield").innerHtml = "Login failed!";
     }
   }
 
@@ -235,24 +284,34 @@ class KistenschiebenController {
   listener to the buttons on the "registered" layout
   */
   registeredListener() async {
+
+    //NEW GAME
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
       querySelector("#registered").innerHtml = "";
+      querySelector("#start").innerHtml = "";
+      querySelector("#resetbutton").style.visibility = "visible";
+      querySelector("#skipbutton").style.visibility = "visible";
     });
 
+    //EDIT USER
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
       ksView.editUser();
       editUserListener();
     });
 
+    //ABOUT
     querySelector('#ab').onMouseDown.listen((MouseEvent g) {
       ksView.getAbout();
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#about").innerHtml = "";
         ksView.registeredScreen();
         registeredListener();
       });
+      hoverlistener();
     });
+
+    hoverlistener();
   }
 
   /**
@@ -267,82 +326,82 @@ class KistenschiebenController {
    */
   dynamic editUserListener() async {
 
-    //GET USER
-    querySelector("#getuser").onMouseDown.listen((MouseEvent f) async {
-      ksView.getUser();
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-        String userid = ksView.userId;
-        String password = ksView.userPassword;
-        Future<String> us = gamekey.getUser(userid, password);
-        String getu = us.toString();
-        print("the user you get is: $getu");
-      });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-      });
-    });
-
-    //GET USER ID
-    querySelector("#getuserid").onMouseDown.listen((MouseEvent f) async {
-      ksView.getUserId();
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-        String username = ksView.username;
-        var pw = getUserId(username);
-        print("the user you get is: $pw");
-      });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-      });
-    });
-
     //CHANGE NAME
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserName();
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
         String oldName = ksView.oldUsername;
         String password = ksView.userPassword;
         String username = ksView.username;
-        print("your new Username" + username);
+        print(username + " " + password);
         gamekey.changeUserName(oldName, password, username);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
+      hoverlistener();
     });
 
     //CHANGE PASSWORD
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserPassword();
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
         String username = ksView.username;
         String oldpassword = ksView.oldUserpassword;
         String password = ksView.userPassword;
-        print("Changed password");
+        print(username + " " + password);
         gamekey.changeUserPassword(username, oldpassword, password);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
+      hoverlistener();
     });
 
     //DELETE
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
       ksView.userdates();
-      document.querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      document
+          .querySelector('#submit')
+          .onMouseDown
+          .listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         gamekey.deleteUser(username, password);
       });
-      querySelector("#close").onMouseDown.listen((MouseEvent e) {
+      querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
       });
+      hoverlistener();
     });
 
     //CLOSE
-    querySelector("#close").onMouseDown.listen((MouseEvent e) {
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#edituser").innerHtml = "";
     });
+
+    hoverlistener();
   }
+
+  /**
+   * Listener for the hoverevent of the buttons
+   */
+  hoverlistener() async {
+    querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "buttonhover";
+    });
+
+    querySelectorAll("button").onMouseLeave.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "";
+    });
+  }
+
 
   /**
    * Listener for the Buttons which appear when the user has finished the level
@@ -350,9 +409,9 @@ class KistenschiebenController {
    * [NEXT]
    */
   nextListener() async {
-    if (logedIn == true) {
+    querySelector("level").innerHtml = "";
+    if (registered == true) {
       querySelector("#save").style.visibility = "visible";
-      querySelector("level").innerHtml = "";
     }
 
     //NEXT
@@ -366,10 +425,10 @@ class KistenschiebenController {
     //SAVE
     querySelector("#save").onMouseDown.listen((MouseEvent e) {
       print("saved");
-      gamekey
-          .storeState(userid, ksModel.getStats())
-          .whenComplete(getHighscores);
+      gamekey.storeState(userid, ksModel.getStats());
+      updateStats();
     });
+    hoverlistener();
   }
 
 //endregion
@@ -781,7 +840,7 @@ class KistenschiebenController {
 //endregion
 
   /**
-   * gets the username from the gamekey
+   * gets the username from the gamekey  //TODO entfernen
    */
   getUserId(String user) async {
     final username = await gamekey.getUserId(user);

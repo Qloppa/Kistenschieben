@@ -8,11 +8,11 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> field;
 
-  //Bildelemente //TODO gehört sowas nicht in die CSS?
+  //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
-  String about = "<img src=\"../web/pictures/Anleitung_1.png\">";
+  String about = "<img src=\"../web/pictures/Anleitung_1.png\" height=\"80%\" width=\"100%\" >";
 
   int tableH = 0;
   int tableW = 0;
@@ -30,16 +30,16 @@ class KistenschiebenView {
   startScreen() {
     querySelector('#start').innerHtml =
     "<div id=\"overlay\">"
-        "<div id=\"b1\">"
-        "<button id=\"register\">Register</button>"
+        "<div>"
+        "<button id=\"registerbutton\">Register</button>"
         "</div>"
-        "<div id=\"b2\">"
-        "<button id=\"login\">Login</button>"
+        "<div>"
+        "<button id=\"loginbutton\">Login</button>"
         "</div>"
-        "<div id=\"b3\">"
+        "<div>"
         "<button id=\"wOLogin\">Play without login</button>"
         "</div>"
-        "<div id=\"b4\">"
+        "<div>"
         "<button id=\"about\">About</button>"
         "</div>"
         "</div>";
@@ -55,7 +55,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"close\">Close</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
   }
@@ -66,13 +66,13 @@ class KistenschiebenView {
   registeredScreen() async {
     querySelector('#registered').innerHtml =
     "<div id=\"overlay\">"
-        "<div id=\"b3\">"
+        "<div>"
         "<button id=\"newgame\">New Game</button>"
         "</div>"
-        "<div id=\"b6\">"
+        "<div>"
         "<button id=\"edituserbutton\">Edit User</button>"
         "</div>"
-        "<div id=\"b4\">"
+        "<div>"
         "<button id=\"ab\">About</button>"
         "</div>"
         "</div>";
@@ -84,23 +84,17 @@ class KistenschiebenView {
   editUser() {
     querySelector('#edituser').innerHtml =
     "<div id=\"overlay\">"
-        "<div id=\"b7\">"
-        "<button id=\"getuser\">Get Username</button>"
-        "</div>"
-        "<div id=\"b8\">"
-        "<button id=\"getuserid\">Get UserId</button>"
-        "</div>"
-        "<div id=\"b9\">"
+        "<div>"
         "<button id=\"changename\">Change Name</button>"
         "</div>"
-        "<div id=\"b10\">"
+        "<div>"
         "<button id=\"changepassword\">Change Password</button>"
         "</div>"
-        "<div id=\"b11\">"
+        "<div>"
         "<button id=\"delete\">Delete User</button>"
         "</div>"
-        "<div id=\"b12\">"
-        "<button id=\"close\">Close</button>"
+        "<div>"
+        "<button id=\"back\">Back</button>"
         "</div>"
         "</div>";
 
@@ -121,7 +115,7 @@ class KistenschiebenView {
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<input type=\"text\" id=\"username\" placeholder=\"new Username\">"
         "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"close\">Close</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
   }
@@ -137,7 +131,7 @@ class KistenschiebenView {
         "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
         "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"close\">Close</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
   }
@@ -152,7 +146,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"userid\" placeholder=\"UserID\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"close\">Close</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
   }
@@ -166,7 +160,7 @@ class KistenschiebenView {
         "<form id=\"inputdates\">"
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"close\">Close</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
   }
@@ -176,7 +170,7 @@ class KistenschiebenView {
    */
   getAbout() {
     querySelector("#about").innerHtml =
-    "<div id=\"overlay\">" "$about" "<div><button type =\"button\" id=\"close\">Close</button></div>" "</div>";
+    "<div id=\"overlay\">" "$about" "<div><button type =\"button\" id=\"back\">Back</button></div>" "</div>";
   }
 
   /*
@@ -210,45 +204,26 @@ class KistenschiebenView {
       (document.querySelector('#olduserpassword') as InputElement).value;
 
   /**
-   * is used for scaling the gamefield. Uses the resolution of the Browser
+   * is used for scaling the gamefield.
    */
+
+
   void scaling() {
-    Window w = window;
-    int resoWidth = w.innerWidth - 300;
-    int resoHeight = w.innerHeight - 300;
-    String oS;
-    bool hoch = tableH > tableW;
-    int px;
-    print(hoch.toString());
-    if (resoWidth > resoHeight) {
-      if (hoch) {
-        double size = resoHeight / tableH;
-        px = size.toInt();
-      } else {
-        double size = resoHeight / tableW;
-        px = size.toInt();
-      }
+    double scalingoprocent = 0.0;
+    if (tableH >= tableW) {
+      scalingoprocent = tableW.toDouble();
+      print("on TableW" "$scalingoprocent");
     } else {
-      if (hoch) {
-        double size = resoWidth / tableH;
-        px = size.toInt();
-      } else {
-        double size = resoWidth / tableW;
-        px = size.toInt();
-      }
+      print(scalingoprocent);
+      scalingoprocent = tableH.toDouble();
+      print("on TableH" "$scalingoprocent");
     }
-    oS = px.toString() + "px";
-    querySelectorAll("#lvl").style.height = "100%";
-    querySelectorAll("#lvl").style.width = "100%";
-    querySelectorAll(".target").style.height = oS;
-    querySelectorAll(".target").style.width = oS;
-    querySelectorAll(".ground").style.height = oS;
-    querySelectorAll(".ground").style.width = oS;
-    querySelectorAll(".wall").style.height = oS;
-    querySelectorAll(".wall").style.width = oS;
-    querySelectorAll("img").style.height = oS;
-    querySelectorAll("img").style.width = oS;
+    scalingoprocent = (-7 / 3) * scalingoprocent + (105 / 3);
+    int scalingout = scalingoprocent.toInt();
+    querySelector("table").style.zoom = "$scalingout" "%";
+    //querySelector("table").style.zoom = "7%";
   }
+
 
   /*
   Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
@@ -256,11 +231,11 @@ class KistenschiebenView {
   setGameKeyAvailable(bool value) {
     if (value == true) {
       querySelector("#gamekeystatus").style.color = "green";
-      querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Verbunden";
+      querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Connected";
     } else {
       querySelector("#gamekeystatus").style.color = "red";
       querySelector("#gamekeystatus").innerHtml =
-      "Gamekeystatus: nicht Verbunden";
+      "Gamekeystatus: Not connected";
     }
   }
 
@@ -268,24 +243,26 @@ class KistenschiebenView {
    *Generates the win-overlay and the button to access the next level
    */
   showWin(var highscores) async {
-    final list = highscores.map((
-        s) => "<dd>User ${s['name']}: Level: ${s['level']}, Localpushes: ${s['LocalPushes']}, GlobalPushespushes: ${s['GlobalPushes']}, LocalMoves: ${s['LocalMoves']}, GlobalMoves: ${s['GlobalMoves']}</dd>")
-        .join("");
+    final list = highscores.map((s) => "<dd>User ${s['name']}:"
+        " Level: ${s['level']},"
+        "Localpushes: ${s['LocalPushes']},"
+        "GlobalPushespushes: ${s['GlobalPushes']},"
+        "LocalMoves: ${s['LocalMoves']},"
+        "GlobalMoves: ${s['GlobalMoves']}</dd>").join("");
     String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
+    "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
-
 
   /*
    *Creates the level in html from a String
    */
   Future<String> generateLevelFromString(String level, int column,
       int row) async {
+    //List<Map>levellist = new List<Map>();
     this.tableH = row;
     this.tableW = column;
-    scaling();
     level = level.toUpperCase();
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
@@ -321,7 +298,7 @@ class KistenschiebenView {
       }
       formatlevel += "</tr>\n";
     }
-    formatlevel = "<table>\n$formatlevel</table>";
+    formatlevel = "<table><tbody>\n$formatlevel</tbody></table>";
     querySelector("level").innerHtml = formatlevel;
     field = new List<List<HtmlElement>>(row);
     for (int rows = 0; rows < row; rows++) {
@@ -330,22 +307,8 @@ class KistenschiebenView {
         field[rows].add(querySelector("#pos${col}_${rows}"));
       }
     }
-    scaling();
+    await scaling();
     return formatlevel;
-  }
-
-  /**
-   *  makes the gamefield clickable
-   */
-  String touchListener() {
-    querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
-      String id = (ev.target as HtmlElement).id;
-      if (id == "") {
-        id = (ev.target as HtmlElement).parent.id;
-      }
-      return id;
-    });
-    return "";
   }
 
   List<int> getPosition(String pos) {
@@ -356,6 +319,7 @@ class KistenschiebenView {
     positions.add(int.parse(values[1]));
     return positions;
   }
+
 
   /*
   Updates the position of the player and the crates
@@ -408,7 +372,6 @@ class KistenschiebenView {
     scaling();
   }
 
-
   /**
    * used to update the stats
    */
@@ -418,8 +381,6 @@ class KistenschiebenView {
     String localMoves = stats.remove("localMoves").toString();
     String globalMoves = stats.remove("globalMoves").toString();
     String resets = stats.remove("resets").toString();
-    String time = "0"; //stats.remove("time").toString();
-    //String level = actualLvl;
     querySelector("#stat").innerHtml =
     "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp";
   }
