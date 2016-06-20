@@ -339,7 +339,7 @@ class KistenschiebenController {
   /*
    Contains the listener for the hoverevent of the buttons
    */
-  hoverlistener() {
+  hoverlistener() async {
     querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
       (e.target as HtmlElement).className = "buttonhover";
     });
@@ -566,11 +566,10 @@ class KistenschiebenController {
       updateStats();
       nextLvl();
     });
-    querySelector("#save").onMouseDown.listen((MouseEvent e) {
+    await querySelector("#save").onMouseDown.listen((MouseEvent e) {
       print("save");
       querySelector("#container").innerHtml = "";
-      gamekey.storeState(userid, ksModel.getStats()).whenComplete(
-          getHighscores());
+      gamekey.storeState(userid, ksModel.getStats());
       updateStats();
       });
     hoverlistener();
@@ -617,7 +616,7 @@ class KistenschiebenController {
   /*
   Starts the next Level
   */
-  nextLvl() {
+  nextLvl() async {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       genLvl.loadData().whenComplete(newGame);

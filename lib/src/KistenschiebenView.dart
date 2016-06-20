@@ -251,7 +251,7 @@ class KistenschiebenView {
         "GlobalMoves: ${s['GlobalMoves']}</dd>").join("");
     String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"overlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
+    "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
 
@@ -260,7 +260,7 @@ class KistenschiebenView {
    */
   Future<String> generateLevelFromString(String level, int column,
       int row) async {
-
+    List<Map>levellist = new List<Map>();
     this.tableH = row;
     this.tableW = column;
     level = level.toUpperCase();
