@@ -206,3 +206,4 @@ class Statistics {
     _actualLevel = lvl;
   }
 }
+

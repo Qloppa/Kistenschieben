@@ -96,3 +96,4 @@ class LevelGenerator {
     return this.levelList;
   }
 }
+

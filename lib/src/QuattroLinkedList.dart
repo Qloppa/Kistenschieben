@@ -12,6 +12,9 @@ class QuattroLinkedList {
     crateList = new List();
   }
 
+  /**
+   * Adds a new Fieldobject in the actual row
+   */
   addRight(FieldObject fieldObject) {
     if (root == null) {
       root = fieldObject;
@@ -22,7 +25,7 @@ class QuattroLinkedList {
       fieldObject.leftPointer = lastAdded;
       lastAdded.rightPointer = fieldObject;
 
-      //Position setzen
+      //set position
       fieldObject.position.x = fieldObject.leftPointer.position.x + 1;
       fieldObject.position.y = fieldObject.leftPointer.position.y;
       if (fieldObject.leftPointer.upPointer != null &&
@@ -38,12 +41,14 @@ class QuattroLinkedList {
     return lastAdded;
   }
 
-  // neues erstes Element in neuer Zeile
+  /**
+   * Adds a new Fieldobject at the first place in a new row
+   */
   addDown(FieldObject fieldObject) {
     fieldObject.upPointer = firstInRow;
     firstInRow.downPointer = fieldObject;
 
-    //Position setzen
+    //set position
     fieldObject.position.x = fieldObject.upPointer.position.x;
     fieldObject.position.y = fieldObject.upPointer.position.y + 1;
     firstInRow = fieldObject;

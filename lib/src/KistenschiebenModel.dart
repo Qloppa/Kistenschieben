@@ -7,7 +7,7 @@ import 'Target.dart';
 import 'Wall.dart';
 
 /**
- * The model of Kistenschieben.
+ * The model of the Game. Manages the data, logic and rules of the application
  */
 class KistenschiebenModel {
 
@@ -29,12 +29,9 @@ class KistenschiebenModel {
     stats = new Statistics();
   }
 
-  /*
-	*checks if the player has already won
-	*/
-  bool checkWin() {
-    return target.getWon();
-  }
+
+
+//region LOAD AND BUILD LEVEL
 
   /**
    * loads the level from a list
@@ -132,6 +129,9 @@ class KistenschiebenModel {
     }
   }
 
+//endregion
+
+//region MOVE
 
   /**
     * tells the player to go up. Returns true if possible, false if not
@@ -143,7 +143,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -158,7 +157,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -173,7 +171,6 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
@@ -188,10 +185,74 @@ class KistenschiebenModel {
     }
     if (check.length > 2) {
       stats.incPushes();
-      print("PUSHES : " + stats.getLocalPushes().toString());
     }
     return check;
   }
+
+//endregion
+
+//region PULL
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullUp() {
+    List<String> check = player.moveUp(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+    }
+    return check;
+  }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullRight() {
+    List<String> check = player.moveRight(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+    }
+    return check;
+  }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullDown() {
+    List<String> check = player.moveDown(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+    }
+    return check;
+  }
+
+  /*
+   * tells the player to pull a crate up. Returns true if possible, false if not
+   */
+  List<String> pullLeft() {
+    List<String> check = player.moveLeft(); //Hier aendern
+    if (check.length > 0) {
+      stats.incMoves();
+    }
+    if (check.length > 2) {
+      stats.incPushes();
+    }
+    return check;
+  }
+
+//endregion
+
+//region GETTER & SETTER
+
   /**
 	  * returns the X value of the position of the player
 	  */
@@ -213,6 +274,10 @@ class KistenschiebenModel {
     this.stats.setActualLevel(i);
   }
 
+//endregion
+
+//region RESET
+
   /**
     * resets the local stats and the level by loading it again
     */
@@ -229,6 +294,10 @@ class KistenschiebenModel {
     stats.resetAll();
   }
 
+//endregion
+
+//region STATS
+
   /**
     * sets the stats to the given values
     */
@@ -241,5 +310,14 @@ class KistenschiebenModel {
     */
   Map<String, int> getStats() {
     return stats.getStats();
+  }
+
+//endregion
+
+  /*
+	*checks if the player has already won
+	*/
+  bool checkWin() {
+    return target.getWon();
   }
 }

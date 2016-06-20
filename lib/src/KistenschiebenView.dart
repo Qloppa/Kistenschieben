@@ -8,7 +8,7 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> field;
 
-  //Bildelemente //TODO gehört sowas nicht in die CSS?
+  //Bildelemente
   String crate = "<img src=\"../web/pictures/crate.png\">";
   String player = "<img src=\"../web/pictures/player.png\">";
   String wall = "<img src=\"../web/pictures/wall.png\">";
@@ -220,7 +220,7 @@ class KistenschiebenView {
     }
     scalingoprocent = (-7 / 3) * scalingoprocent + (105 / 3);
     int scalingout = scalingoprocent.toInt();
-    querySelector("table").style.zoom = "$scalingoprocent" "%";
+    querySelector("table").style.zoom = "$scalingout" "%";
     //querySelector("table").style.zoom = "7%";
   }
 
@@ -260,7 +260,7 @@ class KistenschiebenView {
    */
   Future<String> generateLevelFromString(String level, int column,
       int row) async {
-    List<Map>levellist = new List<Map>();
+    //List<Map>levellist = new List<Map>();
     this.tableH = row;
     this.tableW = column;
     level = level.toUpperCase();
@@ -325,12 +325,10 @@ class KistenschiebenView {
   Updates the position of the player and the crates
   Receives old and new positions as Strings and updates the html
   */
-  void updateView(String playerPosition_old, String playerPosition_new,
+  void updateViewPush(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_new) {
     int pox = getPosition(playerPosition_old)[1];
     int poy = getPosition(playerPosition_old)[0];
-    print(pox);
-    print(poy);
     field[pox][poy].innerHtml = "";
     int pnx = getPosition(playerPosition_new)[1];
     int pny = getPosition(playerPosition_new)[0];
@@ -347,6 +345,33 @@ class KistenschiebenView {
     scaling();
   }
 
+
+  /*
+  Updates the position of the player and the crates
+  Receives old and new positions as Strings and updates the html
+  */
+  void updateViewPull(String playerPosition_old, String playerPosition_new,
+      List<String>cratePosition_old) {
+    int pnx = getPosition(playerPosition_new)[1];
+    int pny = getPosition(playerPosition_new)[0];
+    field[pnx][pny].innerHtml = player;     //set new position of player
+    if (!cratePosition_old.isEmpty) {
+      int dummy = 0;
+      do {
+        List<int> newCratePos = getPosition(playerPosition_old);
+        int pcx = newCratePos[1];
+        int pcy = newCratePos[0];
+        field[pcx][pcy].innerHtml = crate;  //crate on old playerposition
+
+        List<int> oldCratePos = getPosition(cratePosition_old.removeLast());
+        int ocx = oldCratePos[1];
+        int ocy = oldCratePos[0];
+        field[ocx][ocy].innerHtml = "";     //old crateposition to only ground
+      } while (dummy < cratePosition_old.length);
+    }
+    scaling();
+  }
+
   /**
    * used to update the stats
    */
@@ -356,8 +381,7 @@ class KistenschiebenView {
     String localMoves = stats.remove("localMoves").toString();
     String globalMoves = stats.remove("globalMoves").toString();
     String resets = stats.remove("resets").toString();
-    String time = "0"; //stats.remove("time").toString();
     querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Time:<em>$time</em>&nbsp&nbsp&nbsp&nbsp"; //TODO cool ein String :) funktioniert das auch mit berechneten Werten?
+    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp";
   }
 }
