@@ -430,7 +430,8 @@ class KistenschiebenController {
    * [NEXT]
    */
   nextListener() async {
-    querySelector("level").innerHtml = "";
+    querySelector("#groundlayer").innerHtml = "";
+    querySelector("#objectlayer").innerHtml = "";
     if (registered == true) {
       querySelector("#save").style.visibility = "visible";
     }

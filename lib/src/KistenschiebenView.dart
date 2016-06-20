@@ -9,9 +9,6 @@ class KistenschiebenView {
   List<List<HtmlElement>> field;
 
   //Bildelemente
-  String crate = "<img src=\"../web/pictures/crate.png\">";
-  String player = "<img src=\"../web/pictures/player.png\">";
-  String wall = "<img src=\"../web/pictures/wall.png\">";
   String about = "<img src=\"../web/pictures/Anleitung_1.png\" height=\"80%\" width=\"100%\" >";
 
   int tableH = 0;
@@ -209,19 +206,46 @@ class KistenschiebenView {
 
 
   void scaling() {
-    double scalingoprocent = 0.0;
-    if (tableH >= tableW) {
-      scalingoprocent = tableW.toDouble();
-      print("on TableW" "$scalingoprocent");
+    Window w = window;
+    int resoWidth = w.screen.width - 300;
+    int resoHeight = w.screen.height - 330;
+    print(resoWidth.toString());
+    print(resoHeight.toString());
+    String oS;
+    bool hoch = tableH > tableW;
+    int px;
+    print(hoch.toString());
+    if (hoch) {
+      print("hoeher");
+      print("resoWidth: " + resoHeight.toString());
+      print("/");
+      print("Width: " + tableW.toString());
+      double size = resoHeight / tableH;
+      px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
+      print("Groesse: " + px.toString());
     } else {
-      print(scalingoprocent);
-      scalingoprocent = tableH.toDouble();
-      print("on TableH" "$scalingoprocent");
+      print("breiter");
+      print("resoWidth: " + resoWidth.toString());
+      print("/");
+      print("Width: " + tableW.toString());
+      double size = resoHeight / tableW;
+      px = size.toInt();
+      print("Heigth: " + tableH.toString());
+      print("Width: " + tableW.toString());
+      print("Groesse: " + px.toString());
     }
-    scalingoprocent = (-7 / 3) * scalingoprocent + (105 / 3);
-    int scalingout = scalingoprocent.toInt();
-    querySelector("table").style.zoom = "$scalingout" "%";
-    //querySelector("table").style.zoom = "7%";
+
+    oS = px.toString() + "px";
+    querySelectorAll(".target").style.height = oS;
+    querySelectorAll(".target").style.width = oS;
+    querySelectorAll(".ground").style.height = oS;
+    querySelectorAll(".ground").style.width = oS;
+    querySelectorAll(".wall").style.height = oS;
+    querySelectorAll(".wall").style.width = oS;
+    querySelectorAll("img").style.height = oS;
+    querySelectorAll("img").style.width = oS;
   }
 
 
@@ -274,32 +298,41 @@ class KistenschiebenView {
         level = level.substring(1);
         switch (firstChar) {
           case 'W' :
-            formatlevel += "<td id=\"pos$i\_$j\" class=\"wall\" >$wall</td>";
+            formatlevel += "<td id=\"pos$i\_$j\" class=\"wall\" ></td>";
             break;
           case 'G' :
             formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
             break;
           case 'P' :
             formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"ground\">$player</td>";
+            "<td id=\"pos$i\_$j\" class=\"player\"></td>";
             break;
           case 'C' :
             formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"ground\">$crate</td>";
+            "<td id=\"pos$i\_$j\" class=\"crate\"></td>";
             break;
           case 'T' :
             formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
             break;
           case 'S' :
             formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"target\">$crate</td>";
+            "<td id=\"pos$i\_$j\" class=\"target\"></td>";
             break;
         }
       }
       formatlevel += "</tr>\n";
     }
     formatlevel = "<table><tbody>\n$formatlevel</tbody></table>";
-    querySelector("level").innerHtml = formatlevel;
+    String groundlayer = formatlevel.replaceAll(
+        "class=\"crate\"", "class=\"ground\"");
+    groundlayer =
+        groundlayer.replaceAll("class=\"player\"", "class=\"ground\"");
+    String objectlayer = formatlevel.replaceAll(
+        "class=\"wall\"", "class=\"ground\"");
+    objectlayer =
+        objectlayer.replaceAll("class=\"target\" ", "class=\"ground\"");
+    querySelector("#groundlayer").innerHtml = groundlayer;
+    querySelector("#objectlayer").innerHtml = objectlayer;
     field = new List<List<HtmlElement>>(row);
     for (int rows = 0; rows < row; rows++) {
       field[rows] = [];
@@ -307,6 +340,10 @@ class KistenschiebenView {
         field[rows].add(querySelector("#pos${col}_${rows}"));
       }
     }
+    print(field);
+
+
+
     await scaling();
     return formatlevel;
   }
@@ -329,17 +366,17 @@ class KistenschiebenView {
       List<String>cratePosition_new) {
     int pox = getPosition(playerPosition_old)[1];
     int poy = getPosition(playerPosition_old)[0];
-    field[pox][poy].innerHtml = "";
+    field[pox][poy].className = "";
     int pnx = getPosition(playerPosition_new)[1];
     int pny = getPosition(playerPosition_new)[0];
-    field[pnx][pny].innerHtml = player;
+    field[pnx][pny].className = "player";
     if (!cratePosition_new.isEmpty) {
       int dummy = 0;
       do {
         List<int> cratepos = getPosition(cratePosition_new.removeLast());
         int pcx = cratepos[1];
         int pcy = cratepos[0];
-        field[pcx][pcy].innerHtml = crate;
+        field[pcx][pcy].className = "crate";
       } while (dummy < cratePosition_new.length);
     }
     scaling();
@@ -354,19 +391,19 @@ class KistenschiebenView {
       List<String>cratePosition_old) {
     int pnx = getPosition(playerPosition_new)[1];
     int pny = getPosition(playerPosition_new)[0];
-    field[pnx][pny].innerHtml = player; //set new position of player
+    field[pnx][pny].className = "player"; //set new position of player
     if (!cratePosition_old.isEmpty) {
       int dummy = 0;
       do {
         List<int> newCratePos = getPosition(playerPosition_old);
         int pcx = newCratePos[1];
         int pcy = newCratePos[0];
-        field[pcx][pcy].innerHtml = crate; //crate on old playerposition
+        field[pcx][pcy].className = "crate"; //crate on old playerposition
 
         List<int> oldCratePos = getPosition(cratePosition_old.removeLast());
         int ocx = oldCratePos[1];
         int ocy = oldCratePos[0];
-        field[ocx][ocy].innerHtml = ""; //old crateposition to only ground
+        field[ocx][ocy].className = ""; //old crateposition to only ground
       } while (dummy < cratePosition_old.length);
     }
     scaling();
