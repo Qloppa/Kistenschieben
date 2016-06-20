@@ -1,5 +1,8 @@
 import 'FieldObject.dart';
 
+/**
+ * A FieldObject of the type target. Each Crates must be on a target to win the game
+ */
 class Target extends FieldObject {
 
   Target prevTarget = null;
@@ -7,6 +10,9 @@ class Target extends FieldObject {
   bool _won = false;
 
 
+  /**
+   * Constructor
+   */
   Target(Target prevTarget) : super() {
     this.passable = true;
     this.isTarget = true;
@@ -17,10 +23,14 @@ class Target extends FieldObject {
     }
   }
 
+  /**
+   * returns if won
+   */
   bool getWon() {
     return this._won;
   }
 
+  //checks if the other targets have crates on them
   bool checkOutNeighbours() {
     bool ret = false;
     ret = checkOutNeighboursPrev() && checkOutNeighboursNext();
@@ -31,6 +41,9 @@ class Target extends FieldObject {
     return ret;
   }
 
+  /**
+   * checks the previous neighbours
+   */
   bool checkOutNeighboursPrev() {
     bool ret = false;
     if((this.prevTarget == null || this.prevTarget.checkOutNeighboursPrev()==true) && this.crate != null) {
@@ -41,6 +54,9 @@ class Target extends FieldObject {
     return ret;
   }
 
+  /**
+   * checks the next neighbours
+   */
   bool checkOutNeighboursNext() {
     bool ret = false;
     if((this.nextTarget == null || this.nextTarget.checkOutNeighboursNext()==true) && this.crate != null) {
@@ -51,6 +67,9 @@ class Target extends FieldObject {
     return ret;
   }
 
+  /**
+   * sets the previous neighbour to "won"
+   */
   setPrevWon() {
     this._won = true;
     if (this.prevTarget != null) {
@@ -58,6 +77,9 @@ class Target extends FieldObject {
     }
   }
 
+  /**
+   * sets the next neighbour to "won"
+   */
   setNextWon() {
     this._won = true;
     if (this.nextTarget != null) {

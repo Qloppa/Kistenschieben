@@ -320,5 +320,4 @@ class KistenschiebenModel {
   bool checkWin() {
     return target.getWon();
   }
-
 }
