@@ -18,19 +18,43 @@ class KistenschiebenController {
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
-  LevelGenerator genLvl; //The Levelgenerator
-  KistenschiebenModel ksModel; //The Model
-  KistenschiebenView ksView; //The View
+  LevelGenerator genLvl;
 
-  Timer gamekeyTrigger; //Periodic trigger controlling availability of gamekey service.
-  bool gkAvailable = false; //Shows if the gamekey is available or not
-  String username; //The username of the actual user
-  String password; //The password of the actual user
-  Map stats; //The actual statistics
-  String userid = ""; //The User-ID
-  String user = ""; //The User
-  bool logedIn = false; //Shows if the user is logged in or not
-  bool pull = false; //Shows if the user activated the pull-ability for the next round
+  //The Levelgenerator
+  KistenschiebenModel ksModel;
+
+  //The Model
+  KistenschiebenView ksView;
+
+  //The View
+
+  Timer gamekeyTrigger;
+
+  //Periodic trigger controlling availability of gamekey service.
+  bool gkAvailable = false;
+
+  //Shows if the gamekey is available or not
+  String username;
+
+  //The username of the actual user
+  String password;
+
+  //The password of the actual user
+  Map stats;
+
+  //The actual statistics
+  String userid = "";
+
+  //The User-ID
+  String user = "";
+
+  //The User
+  bool logedIn = false;
+
+  //Shows if the user is logged in or not
+  bool pull = false;
+
+  //Shows if the user activated the pull-ability for the next round
   bool isGameRunning = false;
   bool finishedGame = false;
   bool registered = false;
@@ -119,7 +143,7 @@ class KistenschiebenController {
           }
           break;
         case KeyCode.BACKSPACE:
-          if (isGameRunning ||  finishedGame) {
+          if (isGameRunning || finishedGame) {
             finishedGame = false;
             resetGame();
           }
@@ -158,7 +182,6 @@ class KistenschiebenController {
    *    [RESET]
    */
   dynamic startscreenListener() async {
-
     //REGISTER
     querySelector('#registerbutton').onMouseDown.listen((MouseEvent e) {
       ksView.userdates();
@@ -284,7 +307,6 @@ class KistenschiebenController {
   listener to the buttons on the "registered" layout
   */
   registeredListener() async {
-
     //NEW GAME
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGame();
@@ -325,7 +347,6 @@ class KistenschiebenController {
    *    [CLOSE]
    */
   dynamic editUserListener() async {
-
     //CHANGE NAME
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserName();
@@ -586,21 +607,21 @@ class KistenschiebenController {
     switch (dir) {
       case 0:
         break;
-      //stay
+    //stay
       case 1:
-        //up
+      //up
         touchUp(py - targetY);
         break;
       case 2:
-        //right
+      //right
         touchRight(targetX - px);
         break;
       case 3:
-        //down
+      //down
         touchDown(targetY - py);
         break;
       case 4:
-        //left
+      //left
         touchLeft(px - targetX);
         break;
     }
@@ -682,8 +703,8 @@ class KistenschiebenController {
   /*
   takes the positions of the player and the crates
    */
-  void updateViewPush(
-      String playerPos_old, String playerPos_new, List<String> crates_new) {
+  void updateViewPush(String playerPos_old, String playerPos_new,
+      List<String> crates_new) {
     updateStats();
     ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
     checkWin();
@@ -692,8 +713,8 @@ class KistenschiebenController {
   /*//TODO vielleicht bearbeiten
   takes the positions of the player and the crates
    */
-  void updateViewPull(
-      String playerPos_old, String playerPos_new, List<String> crates_new) {
+  void updateViewPull(String playerPos_old, String playerPos_new,
+      List<String> crates_new) {
     updateStats();
     ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
     checkWin();
@@ -740,17 +761,17 @@ class KistenschiebenController {
       final states = await gamekey.getStates();
       scores = states
           .map((entry) => {
-                'name': "${entry['username']}",
-                'level': entry['state']['actualLevel'],
-                'LocalPushes': entry['state']['localPushes'],
-                'GlobalPushes': entry['state']['globalPushes'],
-                'LocalMoves': entry['state']['localMoves'],
-                'GlobalMoves': entry['state']['globalMoves']
-              })
+        'name': "${entry['username']}",
+        'level': entry['state']['actualLevel'],
+        'LocalPushes': entry['state']['localPushes'],
+        'GlobalPushes': entry['state']['globalPushes'],
+        'LocalMoves': entry['state']['localMoves'],
+        'GlobalMoves': entry['state']['globalMoves']
+      })
           .toList();
       for (int i = 0; i < scores.length; i++)
         scores.sort((a, b) =>
-            a['level']['LocalPushes'] -
+        a['level']['LocalPushes'] -
             b['level']['LocalPushes']); //die niedrigsten localPushes
 
     } catch (error, stacktrace) {
@@ -789,7 +810,7 @@ class KistenschiebenController {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView
         .generateLevelFromString(
-            genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
@@ -807,7 +828,7 @@ class KistenschiebenController {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView
         .generateLevelFromString(
-            genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch); //.whenComplete(reactTouch)
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);

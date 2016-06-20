@@ -30,7 +30,6 @@ class KistenschiebenModel {
   }
 
 
-
 //region LOAD AND BUILD LEVEL
 
   /**

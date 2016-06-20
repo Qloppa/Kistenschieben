@@ -354,19 +354,19 @@ class KistenschiebenView {
       List<String>cratePosition_old) {
     int pnx = getPosition(playerPosition_new)[1];
     int pny = getPosition(playerPosition_new)[0];
-    field[pnx][pny].innerHtml = player;     //set new position of player
+    field[pnx][pny].innerHtml = player; //set new position of player
     if (!cratePosition_old.isEmpty) {
       int dummy = 0;
       do {
         List<int> newCratePos = getPosition(playerPosition_old);
         int pcx = newCratePos[1];
         int pcy = newCratePos[0];
-        field[pcx][pcy].innerHtml = crate;  //crate on old playerposition
+        field[pcx][pcy].innerHtml = crate; //crate on old playerposition
 
         List<int> oldCratePos = getPosition(cratePosition_old.removeLast());
         int ocx = oldCratePos[1];
         int ocy = oldCratePos[0];
-        field[ocx][ocy].innerHtml = "";     //old crateposition to only ground
+        field[ocx][ocy].innerHtml = ""; //old crateposition to only ground
       } while (dummy < cratePosition_old.length);
     }
     scaling();
