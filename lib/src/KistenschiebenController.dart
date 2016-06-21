@@ -8,7 +8,7 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 const gamekeyCheck = const Duration(seconds: 10);
-const gameSecret = "3fc15faab679cd11";
+const gameSecret = "ad97258677ce8c26";
 const gamekeySettings = 'gamekey.json';
 
 /**
