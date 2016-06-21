@@ -461,7 +461,7 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
-    List<String> positions = ksModel.moveUp();
+    List<String> positions = ksModel.moveUp(1);
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -475,7 +475,7 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    List<String> positions = ksModel.moveRight();
+    List<String> positions = ksModel.moveRight(0);
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -489,7 +489,7 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    List<String> positions = ksModel.moveDown();
+    List<String> positions = ksModel.moveDown(0);
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -503,7 +503,7 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    List<String> positions = ksModel.moveLeft();
+    List<String> positions = ksModel.moveLeft(0);
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -798,6 +798,7 @@ class KistenschiebenController {
   nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
+      ksModel.stats.resetAll(); //TODO Bugfix resetAll
       genLvl.loadData().whenComplete(newGame);
     }
   }
@@ -834,6 +835,7 @@ class KistenschiebenController {
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
     ksModel.stats.setResets(saveStats['resets']);
+    ksModel.stats.resetLocal(); //TODO Bugfix resetLocal
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();

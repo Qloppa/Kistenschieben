@@ -1,10 +1,11 @@
 import 'FieldObject.dart';
+import 'Statistics.dart';
 
 /**
  * A Crate stays on a fieldObject of the type ground or target. The user has won if every crate stays on a target
  */
 class Crate {
-
+  Statistics stats = Statistics.getInstance();
   var staysOn;//The FieldObject on which the crate stays
 
   /**
@@ -42,8 +43,9 @@ class Crate {
         staysOn.downPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {}
+          staysOn.checkOutNeighbours();
         }
+        stats.incPushes();
         return changedPositions;
       } else {
         return new List();
@@ -64,8 +66,9 @@ class Crate {
         staysOn.leftPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {}
+          staysOn.checkOutNeighbours();
         }
+        stats.incPushes();
         return changedPositions;
       } else {
         return new List();
@@ -86,8 +89,9 @@ class Crate {
         staysOn.upPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {}
+          staysOn.checkOutNeighbours();
         }
+        stats.incPushes();
         return changedPositions;
       } else {
         return new List();
@@ -108,8 +112,9 @@ class Crate {
         staysOn.rightPointer.crate = null;
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
-          if (staysOn.checkOutNeighbours() == true) {}
+          staysOn.checkOutNeighbours();
         }
+        stats.incPushes();
         return changedPositions;
       } else {
         return new List();

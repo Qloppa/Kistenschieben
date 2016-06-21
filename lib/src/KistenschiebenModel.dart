@@ -13,7 +13,7 @@ class KistenschiebenModel {
 
   QuattroLinkedList qlList = null;
   Player player = null;
-  Crate crate = null;
+  //Crate crate = null;
   Target target = null;
   List<String> crates;
   String playerPos_old;
@@ -26,7 +26,8 @@ class KistenschiebenModel {
   constructor
    */
   KistenschiebenModel() {
-    stats = new Statistics();
+    //stats = new Statistics();
+    stats = Statistics.getInstance();
   }
 
 
@@ -69,6 +70,7 @@ class KistenschiebenModel {
    * Adds a new fieldobject right to the last one
    */
   addRight(String line) {
+    Crate crate = null;
     int length = line.length;
     for (int i = 0; i < length; i++) {
       String firstChar = line.substring(0, 1);
@@ -103,6 +105,7 @@ class KistenschiebenModel {
    * Adds a new fieldObject below another
    */
   addDown(String firstChar) {
+    Crate crate = null;
     switch (firstChar) {
       case 'W' :
         qlList.addDown(new Wall());
@@ -135,120 +138,36 @@ class KistenschiebenModel {
   /**
     * tells the player to go up. Returns true if possible, false if not
     */
-  List<String> moveUp() {
-    List<String> check = player.moveUp();
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
+  List<String> moveUp(int pullAmount) {
+    return player.moveUp(pullAmount);
   }
 
   /*
    * tells the player to go right. Returns true if possible, false if not
    */
-  List<String> moveRight() {
-    List<String> check = player.moveRight();
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
+  List<String> moveRight(int pullAmount) {
+    return player.moveRight(pullAmount);
   }
 
   /**
     *tells the player to go down. Returns true if possible, false if not
     */
-  List<String> moveDown() {
-    List<String> check = player.moveDown();
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
+  List<String> moveDown(int pullAmount) {
+    return player.moveDown(pullAmount);
   }
 
   /*
    * tells the player to go left. Returns true if possible, false if not
    */
-  List<String> moveLeft() {
-    List<String> check = player.moveLeft();
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
+  List<String> moveLeft(int pullAmount) {
+    return player.moveLeft(pullAmount);
   }
 
 //endregion
 
-//region PULL
+  setPlayerToPull() {
 
-  /*
-   * tells the player to pull a crate up. Returns true if possible, false if not
-   */
-  List<String> pullUp() {
-    List<String> check = player.moveUp(); //Hier aendern
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
   }
-
-  /*
-   * tells the player to pull a crate up. Returns true if possible, false if not
-   */
-  List<String> pullRight() {
-    List<String> check = player.moveRight(); //Hier aendern
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
-  }
-
-  /*
-   * tells the player to pull a crate up. Returns true if possible, false if not
-   */
-  List<String> pullDown() {
-    List<String> check = player.moveDown(); //Hier aendern
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
-  }
-
-  /*
-   * tells the player to pull a crate up. Returns true if possible, false if not
-   */
-  List<String> pullLeft() {
-    List<String> check = player.moveLeft(); //Hier aendern
-    if (check.length > 0) {
-      stats.incMoves();
-    }
-    if (check.length > 2) {
-      stats.incPushes();
-    }
-    return check;
-  }
-
-//endregion
 
 //region GETTER & SETTER
 
