@@ -52,7 +52,7 @@ class KistenschiebenController {
   bool logedIn = false;
 
   //Shows if the user is logged in or not
-  int pullAmount = 0;
+  int pullAmount = 1;
 
   //Shows if the user activated the pull-ability for the next round
   bool isGameRunning = false;
@@ -446,6 +446,7 @@ class KistenschiebenController {
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(pullAmount);
+    pullAmount = 0;
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -460,6 +461,7 @@ class KistenschiebenController {
    */
   bool moveRight() {
     List<String> positions = ksModel.moveRight(pullAmount);
+    pullAmount = 0;
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -474,6 +476,7 @@ class KistenschiebenController {
    */
   bool moveDown() {
     List<String> positions = ksModel.moveDown(pullAmount);
+    pullAmount = 0;
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -488,6 +491,7 @@ class KistenschiebenController {
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(pullAmount);
+    pullAmount = 0;
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
