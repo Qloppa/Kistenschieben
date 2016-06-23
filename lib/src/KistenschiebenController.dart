@@ -168,11 +168,8 @@ class KistenschiebenController {
   dynamic startscreenListener() async {
     //REGISTER
     querySelector('#registerbutton').onMouseDown.listen((MouseEvent e) {
-      ksView.userdates();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      ksView.userdates("Register");
+      querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         print("You are registered now");
@@ -190,11 +187,8 @@ class KistenschiebenController {
 
     //LOGIN
     querySelector('#loginbutton').onMouseDown.listen((MouseEvent e) {
-      ksView.userdates();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      ksView.userdates("Login");
+      querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String username = ksView.username;
         String password = ksView.userPassword;
         this.user = username;
@@ -233,7 +227,6 @@ class KistenschiebenController {
 
     //RESET
     querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
-      //querySelector('#start').innerHtml = "";
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
       querySelector("#resetbutton").style.position = "";
@@ -278,7 +271,7 @@ class KistenschiebenController {
       querySelector("messagefield").className = "greetinganimation";
       querySelector("messagefield").innerHtml = "Hello $user";
       querySelector("#userstatus").innerHtml = "Registered as: $user";
-      querySelector("#userstatus").style.color = "darkgreen";
+      querySelector("#userstatus").style.color = "green";
       ksView.registeredScreen();
       registeredListener();
     } else {
@@ -302,6 +295,7 @@ class KistenschiebenController {
 
     //EDIT USER
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
+      querySelector("#registered").style.visibility = "hidden";
       ksView.editUser();
       editUserListener();
     });
@@ -316,7 +310,6 @@ class KistenschiebenController {
       });
       hoverlistener();
     });
-
     hoverlistener();
   }
 
@@ -334,10 +327,7 @@ class KistenschiebenController {
     //CHANGE NAME
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       ksView.changeUserName();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
+      querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
         String oldName = ksView.oldUsername;
         String password = ksView.userPassword;
         String username = ksView.username;
@@ -346,6 +336,7 @@ class KistenschiebenController {
       });
       querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
+        querySelector("#registered").style.visibility = "visible";
       });
       hoverlistener();
     });
@@ -371,7 +362,7 @@ class KistenschiebenController {
 
     //DELETE
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
-      ksView.userdates();
+      ksView.userdates("Delete");
       document
           .querySelector('#submit')
           .onMouseDown
@@ -649,7 +640,7 @@ class KistenschiebenController {
    * Updates the stats in the view
    */
   void updateStats() {
-    var actualLvl = genLvl.getLevelValue() + 1;
+    var actualLvl = genLvl.getLevelValue();
     ksView.updateStats(ksModel.getStats(), actualLvl.toString());
   }
 
@@ -734,9 +725,8 @@ class KistenschiebenController {
     setgameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView
-        .generateLevelFromString(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+    ksView.generateLevelFromString(
+        genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
@@ -754,7 +744,7 @@ class KistenschiebenController {
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView
         .generateLevelFromString(
-        genLvl.getEndFormat(), genLvl.getColumn(), genLvl.getRow())
+        genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch); //.whenComplete(reactTouch)
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
