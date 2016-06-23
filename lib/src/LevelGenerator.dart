@@ -17,7 +17,7 @@ class LevelGenerator {
 
   int column = 0;
   int row = 0;
-  String endformat;
+
   List<Map> levelList = new List<Map>();
 
   //Reading Level from Json
@@ -30,7 +30,6 @@ class LevelGenerator {
     await HttpRequest.getString("../web/level.json").then(onDataLoaded);
   }
 
-
 // print the raw json response text from the server
   void onDataLoaded(String responseText) {
     var jsonString = JSON.decode(responseText);
@@ -38,7 +37,7 @@ class LevelGenerator {
 
     List str = lvl; //Anzahl der Level
     Map str2 = lvl.elementAt(lvlNumber); // LevelIndex
-    Levelformatter(str2);
+    levelformatter(str2);
     this.lvlNumberSum = str.length; //Anzahl der Level
   }
 
@@ -67,17 +66,12 @@ class LevelGenerator {
     return this.lvlNumberSum;
   }
 
-
-  Levelformatter(Map level) {
+  levelformatter(Map level) {
     this.currentLvl = level.values.elementAt(0);
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
     List<Map> levelFormatList = level.values.elementAt(3);
     levelList = levelFormatList;
-    String levelformat = levelFormatList.join(",").replaceAll("{", "")
-        .replaceAll("}", "").replaceAll("r: ", "")
-        .replaceAll(",", "");
-    this.endformat = levelformat;
   }
 
   int getColumn() {
@@ -86,10 +80,6 @@ class LevelGenerator {
 
   int getRow() {
     return this.row;
-  }
-
-  String getEndFormat() {
-    return this.endformat;
   }
 
   List<Map> getLevelList() {

@@ -190,6 +190,7 @@ class Statistics {
     _globalMoves = 0;
     _globalPushes = 0;
     _globalTime = 0;
+    _resets = 0;
   }
 
   /**
@@ -215,4 +216,3 @@ class Statistics {
     _actualLevel = lvl;
   }
 }
-

@@ -713,7 +713,7 @@ class KistenschiebenController {
   nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
-      ksModel.stats.resetAll(); //TODO Bugfix resetAll
+      ksModel.resetStatsTotal();
       genLvl.loadData().whenComplete(newGame);
     }
   }
@@ -740,16 +740,16 @@ class KistenschiebenController {
     setgameRunning(true);
     ksModel.stats.incResets();
     Map<String, int> saveStats = ksModel.getStats();
-    ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView
         .generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch); //.whenComplete(reactTouch)
+    //TODO objektorientierter Zugriff
     ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
     ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
     ksModel.stats.setResets(saveStats['resets']);
-    ksModel.stats.resetLocal(); //TODO Bugfix resetLocal
+    ksModel.resetStats();
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();

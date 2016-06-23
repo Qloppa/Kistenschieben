@@ -13,7 +13,6 @@ class KistenschiebenModel {
 
   QuattroLinkedList qlList = null;
   Player player = null;
-  //Crate crate = null;
   Target target = null;
   List<String> crates;
   String playerPos_old;
@@ -41,7 +40,7 @@ class KistenschiebenModel {
     this.column = column;
     this.row = row;
     this.actualLevel = levelList;
-
+    target = null;
     qlList = null;
     qlList = new QuattroLinkedList();
 
@@ -165,10 +164,6 @@ class KistenschiebenModel {
 
 //endregion
 
-  setPlayerToPull() {
-
-  }
-
 //region GETTER & SETTER
 
   /**
@@ -199,16 +194,15 @@ class KistenschiebenModel {
   /**
     * resets the local stats and the level by loading it again
     */
-  reset() {
-    loadLvl(actualLevel, row, column);
+  resetStats() {
+    //loadLvl(actualLevel, row, column);
     stats.resetLocal();
   }
 
   /**
     * resets all stats and the game
     */
-  resetTotal() {
-    loadLvl(actualLevel, row, column);
+  resetStatsTotal() {
     stats.resetAll();
   }
 
@@ -236,6 +230,7 @@ class KistenschiebenModel {
 	*checks if the player has already won
 	*/
   bool checkWin() {
+    print("Target: " + target.getWon().toString());
     return target.getWon();
   }
 }
