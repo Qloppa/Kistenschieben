@@ -45,13 +45,13 @@ class KistenschiebenView {
   /*
   Generates the Inputelements
   */
-  userdates() {
+  userdates(String fromLayer) {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
-        "<button type =\"button\" id=\"submit\">Submit</button>"
+        "<button type =\"button\" id=\"submit\">$fromLayer</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -111,7 +111,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"oldusername\" placeholder=\"old Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<input type=\"text\" id=\"username\" placeholder=\"new Username\">"
-        "<button type =\"button\" id=\"submit\">Submit</button>"
+        "<button type =\"button\" id=\"submit\">Change username</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -127,7 +127,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
-        "<button type =\"button\" id=\"submit\">Submit</button>"
+        "<button type =\"button\" id=\"submit\">Change userpassword</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -166,8 +166,8 @@ class KistenschiebenView {
    * When the user selects "about"
    */
   getAbout() {
-    querySelector("#about").innerHtml =
-    "<div id=\"overlay\">" "$about" "<div><button type =\"button\" id=\"back\">Back</button></div>" "</div>";
+    print("come in");
+    querySelector("#about").className = "instruction";
   }
 
   /*
@@ -282,12 +282,18 @@ class KistenschiebenView {
   /*
    *Creates the level in html from a String
    */
-  Future<String> generateLevelFromString(String level, int column,
+  Future<String> generateLevelFromString(List<Map> levelList, int column,
       int row) async {
-    //List<Map>levellist = new List<Map>();
     this.tableH = row;
     this.tableW = column;
-    level = level.toUpperCase();
+    List<Map>tempList = new List<Map>();
+    tempList = levelList;
+    String level = "";
+
+    for (var map in tempList) {
+      level += map["r"].toUpperCase();
+    }
+    print(level);
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
       //Spalten

@@ -33,6 +33,10 @@ table, td {
     background-size: 100%;
 }
 
+.instructions {
+    background-image: url(pictures/Anleitung_1.png);
+}
+
 #win {
     text-align: center;
 }
@@ -43,11 +47,30 @@ table, td {
     margin-right: auto;
 }
 
+#status {
+    width: 100%;
+}
+
 #userstatus {
-    margin-left: 1%;
     position: absolute;
+    left: 1%;
     color: red;
     font-size: 20px;
+}
+
+#gamekeystatus {
+    position: absolute;
+    right: 1%;
+    color: red;
+    font-size: 20px;
+}
+
+#messagefield {
+    font-size: 20px;
+    color: blue;
+    position: absolute;
+    left: 50%;
+    right: 50%;
 }
 
 #objectlayer {
@@ -61,19 +84,12 @@ table, td {
     width: 100%;
 }
 
-
-#gamekeystatus {
-    margin-left: 78%;
-    position: absolute;
-    color: red;
-    font-size: 20px;
-}
-
 #overlay {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 10, 10, 0.5);
+    /*background-color: rgba(0, 10, 10, 0.5);*/
+    background-color: white;
     text-align: center;
 
 }
@@ -126,9 +142,10 @@ h1 {
 
 button {
     background-image: url(pictures/DefaultButton.png);
-
+    border-spacing: 0;
+    border: 0px;
     font-size: 20px;
-    height: 52px;
+    height: 49px;
     width: 200px;
     background-size: 100%;
 }
@@ -163,22 +180,27 @@ form {
 
 #start {
     position: absolute;
-    left: 43%;
-    top: 50%
+    left: 45%;
+    right: 65%;
+    top: 50%;
+    bottom: 50%;
 
 }
 
 #registered {
     position: absolute;
-    left: 43%;
-    top: 50%
-
+    left: 45%;
+    right: 65%;
+    top: 50%;
+    bottom: 50%;
 }
 
 #edituser {
     position: absolute;
-    left: 43%;
+    left: 45%;
+    right: 65%;
     top: 50%;
+    bottom: 50%;
 }
 
 em {
@@ -192,19 +214,8 @@ em {
     font-size: 20px;
 }
 
-#messagefield {
-    margin-left: 25%;
-    width: 50%;
-    font-size: 20px;
-    color: blue;
-    text-align: right;
-
-}
-
 .greetinganimation {
     opacity: 0;
-    position: relative;
-    background-repeat: repeat;
     animation: greetingduration 7s;
 
 }
@@ -212,30 +223,26 @@ em {
 @keyframes greetingduration {
     0% {
         opacity: 1;
-        left: 20%
+
     }
     100% {
         opacity: 0;
-        left: 20%
+
     }
 }
 
 .messageanimation {
     opacity: 0;
-    position: relative;
-    background-repeat: repeat;
-    animation: messageduration 5s;
-    marquee-repetition: infinite;
+    animation: messageduration 7s;
 
 }
 
 @keyframes messageduration {
     0% {
         opacity: 1;
-        left: 20%
     }
     100% {
         opacity: 0;
-        left: 20%
     }
+
 }
