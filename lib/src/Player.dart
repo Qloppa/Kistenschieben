@@ -13,6 +13,10 @@ class Player {
     this.staysOn = staysOn;
   }
 
+  int getPullAmount() {
+    return pullPower;
+  }
+
   /*
   Moves the player to the upper position
   returns true if possible, false if not

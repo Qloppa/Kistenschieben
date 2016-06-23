@@ -36,19 +36,6 @@ class Statistics {
     return _instance;
   }
 
-  resetStatistics() {
-    _localMoves = 0;
-    _globalMoves = 0;
-    _localPushes = 0;
-    _globalPushes = 0;
-    _localTime = 0;
-    _globalTime = 0;
-    _startTime = new DateTime.now();
-    _roundTime = 0;
-    _resets = 0;
-    _actualLevel = 0;
-  }
-
   /**
    * Sets the roundTime which is the used time in the last savegame
    */
@@ -178,33 +165,10 @@ class Statistics {
     return out;
   }
 
-  resetAll() {
-    resetLocal();
-    resetGlobal();
-  }
-
-  /*
-  resets all "local" values, used if reset
-   */
-  resetLocal() {
-    _localMoves = 0;
-    _localPushes = 0;
-    _localTime = 0;
-  }
-
-  /*
-  resets all "global" values
-   */
-  resetGlobal() {
-    _globalMoves = 0;
-    _globalPushes = 0;
-    _globalTime = 0;
-  }
-
   /*
   Resets all values
    */
-  /*
+
   resetAll() {
     resetLocal();
     resetGlobal();
@@ -227,7 +191,7 @@ class Statistics {
     _globalPushes = 0;
     _globalTime = 0;
   }
-*/
+
   /**
    * increments Pushes
    */
