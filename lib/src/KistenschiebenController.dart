@@ -52,7 +52,7 @@ class KistenschiebenController {
   bool logedIn = false;
 
   //Shows if the user is logged in or not
-  int pullAmount = 1;
+  int pullAmount = 0;
 
   //Shows if the user activated the pull-ability for the next round
   bool isGameRunning = false;
@@ -92,9 +92,10 @@ class KistenschiebenController {
           if (await this.gamekey.authenticate() == true) {
             print("Authentification succeded!");
             if (authentication == false && isGameRunning == false) {
+              print("jumpIn");
               querySelector("#registerbutton").style.visibility = "visible";
               querySelector("#loginbutton").style.visibility = "visible";
-              authentication = true;
+              this.authentication = true;
               gkAvailable = true;
             }
             gkAvailable = true;
@@ -152,6 +153,7 @@ class KistenschiebenController {
       }
       return "";
     });
+
   }
 
 //region LISTENER AND QUERYSELECTORS
@@ -728,6 +730,9 @@ class KistenschiebenController {
     ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
+    window.onResize.listen((EventListener) {
+      ksView.scaling();
+    });
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();

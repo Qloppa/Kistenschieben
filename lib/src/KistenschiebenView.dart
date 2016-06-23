@@ -207,8 +207,9 @@ class KistenschiebenView {
 
   void scaling() {
     Window w = window;
-    int resoWidth = w.screen.width - 300;
-    int resoHeight = w.screen.height - 330;
+
+    int resoWidth = w.innerWidth;
+    int resoHeight = w.innerHeight - 190;
     print(resoWidth.toString());
     print(resoHeight.toString());
     String oS;
@@ -236,16 +237,12 @@ class KistenschiebenView {
       print("Width: " + tableW.toString());
       print("Groesse: " + px.toString());
     }
+    print("window:");
+    print(w.innerWidth.toString());
 
     oS = px.toString() + "px";
-    querySelectorAll(".target").style.height = oS;
-    querySelectorAll(".target").style.width = oS;
-    querySelectorAll(".ground").style.height = oS;
-    querySelectorAll(".ground").style.width = oS;
-    querySelectorAll(".wall").style.height = oS;
-    querySelectorAll(".wall").style.width = oS;
-    querySelectorAll("img").style.height = oS;
-    querySelectorAll("img").style.width = oS;
+    querySelectorAll("td").style.height = oS;
+    querySelectorAll("td").style.width = oS;
   }
 
 
