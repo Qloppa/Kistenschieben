@@ -644,6 +644,14 @@ class KistenschiebenController {
     ksView.updateStats(ksModel.getStats(), actualLvl.toString());
   }
 
+  /**
+   * Updates the code for the actual level in the view
+   */
+  void updateLvlCode(){
+    String code = genLvl.getlvlcode();
+    ksView.showLvlCode(code);
+  }
+
 //endregion
 
 //region STATISTICS
@@ -728,9 +736,17 @@ class KistenschiebenController {
     ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
-    setActualLevel(genLvl.currentLvl + 1);
+    setActualLevel(genLvl.currentLvl + 1); //TODO Levelnummer anpassen
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
+    ksView.showLvlCode(genLvl.getlvlcode());
+
+    //TEST
+    print("LEVEL: ");
+    print(genLvl.getLevelByCode("p5yDXpR3"));
+    //TEST
+
+
   }
 
   /*
@@ -776,6 +792,8 @@ class KistenschiebenController {
   }
 
 //endregion
+
+
 
   /**
    * gets the username from the gamekey  //TODO entfernen

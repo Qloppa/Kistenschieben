@@ -264,7 +264,7 @@ class KistenschiebenView {
   }
 
   /*
-   *Generates the win-overlay and the button to access the next level
+   * Generates the win-overlay and the button to access the next level
    */
   showWin(var highscores) async {
     final list = highscores.map((s) => "<dd>User ${s['name']}:"
@@ -277,6 +277,7 @@ class KistenschiebenView {
     querySelector("#container").innerHtml =
     "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
+
   }
 
   /*
@@ -346,10 +347,7 @@ class KistenschiebenView {
         field[rows].add(querySelector("#pos${col}_${rows}"));
       }
     }
-    print(field);
-
-
-
+    //print(field);
     await scaling();
     return formatlevel;
   }
@@ -392,7 +390,7 @@ class KistenschiebenView {
   /*
   Updates the position of the player and the crates
   Receives old and new positions as Strings and updates the html
-  */
+
   void updateViewPull(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_old) {
     int pnx = getPosition(playerPosition_new)[1];
@@ -413,7 +411,7 @@ class KistenschiebenView {
       } while (dummy < cratePosition_old.length);
     }
     scaling();
-  }
+  }*/
 
   /**
    * used to update the stats
@@ -426,5 +424,13 @@ class KistenschiebenView {
     String resets = stats.remove("resets").toString();
     querySelector("#stat").innerHtml =
     "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp";
+  }
+
+  /**
+   * Displays the Code for the actual level
+   */
+  void showLvlCode(String code){
+    querySelector("#header").innerHtml = code;
+    //TODO Noch implementieren
   }
 }

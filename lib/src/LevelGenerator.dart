@@ -17,7 +17,8 @@ class LevelGenerator {
 
   int column = 0;
   int row = 0;
-  String code = "";
+  String _code = "";
+  List<Map> lvls = new List<Map>();
 
   List<Map> levelList = new List<Map>();
 
@@ -36,10 +37,10 @@ class LevelGenerator {
     var jsonString = JSON.decode(responseText);
     var lvl = jsonString.values.toList().elementAt(0);
 
-    List str = lvl; //Anzahl der Level
+    lvls = lvl; //Anzahl der Level
     Map str2 = lvl.elementAt(lvlNumber); // LevelIndex
     levelformatter(str2);
-    this.lvlNumberSum = str.length; //Anzahl der Level
+    this.lvlNumberSum = lvls.length; //Anzahl der Level
   }
 
   void setSelectlevel(int lvlValue) {
@@ -71,7 +72,7 @@ class LevelGenerator {
     this.currentLvl = level.values.elementAt(0);
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
-    this.code = level.values.elementAt(3);
+    this._code = level.values.elementAt(3);
     List<Map> levelFormatList = level.values.elementAt(4);
     levelList = levelFormatList;
   }
@@ -88,9 +89,24 @@ class LevelGenerator {
     return this.levelList;
   }
 
+  /**
+   * returns the secret code for the actual level
+   */
+  String getlvlcode(){
+    return this._code;
+  }
+
+  /**
+   * Returns the level that matches the secret code. returns -1 if code not valid
+   */
   int getLevelByCode(String str){
     int lvlnr = -1;
-    //if(this.levelList)
+    for(int i = 0; i < lvls.length; i++){
+      if(str == lvls.elementAt(i)['code']){
+        return lvls.elementAt(i)['level'];
+      }
+    }
+    return lvlnr;
   }
 }
 
