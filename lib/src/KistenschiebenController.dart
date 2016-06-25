@@ -55,10 +55,11 @@ class KistenschiebenController {
   int pullAmount = 0;
 
   //Shows if the user activated the pull-ability for the next round
-  bool isGameRunning = false;
+  bool gameRunning = false;
   bool finishedGame = false;
   bool registered = false;
   bool authentication = false;
+  bool typing = false;
 
   /*
   CONSTRUCTOR
@@ -91,11 +92,12 @@ class KistenschiebenController {
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
           if (await this.gamekey.authenticate() == true) {
             print("Authentification succeded!");
-            if (authentication == false && isGameRunning == false) {
+            if (authentication == false && gameRunning == false) {
               print("jumpIn");
               querySelector("#registerbutton").style.visibility = "visible";
               querySelector("#loginbutton").style.visibility = "visible";
-              this.authentication = true;
+              authentication = true;
+              print("Authentication-Value:" + "$authentication");
               gkAvailable = true;
             }
             gkAvailable = true;
@@ -128,7 +130,7 @@ class KistenschiebenController {
             moveLeft();
           break;
         case KeyCode.BACKSPACE:
-          if (isGameRunning || finishedGame) {
+          if (gameRunning || finishedGame) {
             finishedGame = false;
             resetGame();
           }
@@ -167,81 +169,138 @@ class KistenschiebenController {
    *    [WITHOUT LOGIN]
    *    [RESET]
    */
-  dynamic startscreenListener() async {
+  startscreenListener() async {
     //REGISTER
+    window.onKeyDown.listen((KeyboardEvent ev) {
+      if (gameRunning != true) {
+        switch (ev.keyCode) {
+          case KeyCode.ONE :
+            registerRoutine();
+            break;
+          case KeyCode.TWO :
+            loginRoutine();
+            break;
+          case KeyCode.THREE:
+            withoutLoginRoutine();
+            break;
+          case KeyCode.FOUR:
+            aboutRoutine();
+        }
+      }
+    });
+
     querySelector('#registerbutton').onMouseDown.listen((MouseEvent e) {
-      ksView.userdates("Register");
-      querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-        String username = ksView.username;
-        String password = ksView.userPassword;
-        print("You are registered now");
-        checkRegister(username, password);
-        querySelector("#userinput").innerHtml = "";
-      });
-      querySelector("#back").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-        querySelector("#about").innerHtml = "";
-        ksView.startScreen();
-        startscreenListener();
-      });
-      hoverlistener();
+      registerRoutine();
     });
 
     //LOGIN
     querySelector('#loginbutton').onMouseDown.listen((MouseEvent e) {
-      ksView.userdates("Login");
-      querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-        String username = ksView.username;
-        String password = ksView.userPassword;
-        this.user = username;
-        querySelector("#userinput").innerHtml = "";
-        checklogin(username, password);
-        print("You are logged in now");
-      });
-      querySelector("#back").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-        ksView.startScreen();
-        startscreenListener();
-      });
-      hoverlistener();
+      loginRoutine();
     });
 
     //WITHOUT LOGIN
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
-      querySelector('#start').innerHtml = "";
-      querySelector("#resetbutton").style.visibility = "visible";
-      querySelector("#skipbutton").style.visibility = "visible";
-      newGame();
+      withoutLoginRoutine();
     });
 
     //ABOUT
     querySelector('#about').onMouseDown.listen((MouseEvent g) {
-      querySelector('#start').innerHtml = "";
-      ksView.getAbout();
+      print("jmp1");
+      querySelector("#overlay").className = "instructions";
       querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
         querySelector("#about").innerHtml = "";
         ksView.startScreen();
         startscreenListener();
+        hoverlistener();
       });
-      hoverlistener();
     });
+
 
     //RESET
     querySelector("#resetbutton").onMouseDown.listen((MouseEvent e) {
       querySelector("#registered").innerHtml = "";
       querySelector("#container").innerHtml = "";
       querySelector("#resetbutton").style.position = "";
+      ksView.setPullButton(0);
+      pullAmount = 0;
       resetGame();
     });
 
-    //SKIP
-    querySelector("#skipbutton").onMouseDown.listen((MouseEvent e) {
-      nextLvl();
+    //Pull
+    querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
+      int init = pullAmount + 1;
+      pullAmount++;
+      ksView.setPullButton(init);
     });
 
     hoverlistener();
   }
+
+  registerRoutine() {
+    ksView.userdates("Register");
+    window.onKeyDown.listen((KeyboardEvent ke) {
+      switch (ke.keyCode) {
+        case KeyCode.ENTER:
+          String username = ksView.username;
+          String password = ksView.userPassword;
+          print("You are registered now");
+          checkRegister(username, password);
+          querySelector("#userinput").innerHtml = "";
+      }
+    });
+    querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      String username = ksView.username;
+      String password = ksView.userPassword;
+      print("You are registered now");
+      checkRegister(username, password);
+      querySelector("#userinput").innerHtml = "";
+    });
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#userinput").innerHtml = "";
+      querySelector("#about").innerHtml = "";
+      ksView.startScreen();
+      startscreenListener();
+    });
+    hoverlistener();
+  }
+
+  loginRoutine() {
+    ksView.userdates("Login");
+    window.onKeyDown.listen((KeyboardEvent ke) {
+      switch (ke.keyCode) {
+        case KeyCode.ENTER:
+          String username = ksView.username;
+          String password = ksView.userPassword;
+          this.user = username;
+          querySelector("#userinput").innerHtml = "";
+          checklogin(username, password);
+          print("You are logged in now");
+      }
+    });
+    querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      String username = ksView.username;
+      String password = ksView.userPassword;
+      this.user = username;
+      querySelector("#userinput").innerHtml = "";
+      checklogin(username, password);
+      print("You are logged in now");
+    });
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#userinput").innerHtml = "";
+      ksView.startScreen();
+      startscreenListener();
+    });
+    hoverlistener();
+  }
+
+  withoutLoginRoutine() {
+    querySelector('#start').innerHtml = "";
+    querySelector("#resetbutton").style.visibility = "visible";
+    querySelector("#pullbutton").style.visibility = "visible";
+    newGame();
+  }
+
 
   checkRegister(String name, String pw) async {
     Map answer = await gamekey.registerUser(name, pw);
@@ -286,33 +345,46 @@ class KistenschiebenController {
   listener to the buttons on the "registered" layout
   */
   registeredListener() async {
-    //NEW GAME
+    //NEW GAME Listener
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
-      newGame();
-      querySelector("#registered").innerHtml = "";
-      querySelector("#start").innerHtml = "";
-      querySelector("#resetbutton").style.visibility = "visible";
-      querySelector("#skipbutton").style.visibility = "visible";
+      newGameRoutine();
     });
 
-    //EDIT USER
+    //EDIT USER Listener
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
-      querySelector("#registered").style.visibility = "hidden";
-      ksView.editUser();
-      editUserListener();
+      editUserRoutine();
     });
 
-    //ABOUT
-    querySelector('#ab').onMouseDown.listen((MouseEvent g) {
-      ksView.getAbout();
-      querySelector("#back").onMouseDown.listen((MouseEvent e) {
-        querySelector("#about").innerHtml = "";
-        ksView.registeredScreen();
-        registeredListener();
-      });
-      hoverlistener();
+    //ABOUT Listener
+    querySelector('#about').onMouseDown.listen((MouseEvent g) {
+      aboutRoutine();
     });
+
+
     hoverlistener();
+  }
+
+  newGameRoutine() {
+    newGame();
+    querySelector("#registered").innerHtml = "";
+    querySelector("#start").innerHtml = "";
+    querySelector("#resetbutton").style.visibility = "visible";
+    querySelector("#pullbutton").style.visibility = "visible";
+  }
+
+  editUserRoutine() {
+    querySelector("#registered").innerHtml = "";
+    ksView.editUser();
+    editUserListener();
+  }
+
+  aboutRoutine() {
+    querySelector("#overlay").className = "instructions";
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#about").innerHtml = "";
+      ksView.registeredScreen();
+      registeredListener();
+    });
   }
 
   /**
@@ -328,63 +400,115 @@ class KistenschiebenController {
   dynamic editUserListener() async {
     //CHANGE NAME
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
-      ksView.changeUserName();
-      querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-        String oldName = ksView.oldUsername;
-        String password = ksView.userPassword;
-        String username = ksView.username;
-        print(username + " " + password);
-        gamekey.changeUserName(oldName, password, username);
-      });
-      querySelector("#back").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-        querySelector("#registered").style.visibility = "visible";
-      });
-      hoverlistener();
+      changeNameRoutine();
     });
 
     //CHANGE PASSWORD
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
-      ksView.changeUserPassword();
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
-        String username = ksView.username;
-        String oldpassword = ksView.oldUserpassword;
-        String password = ksView.userPassword;
-        print(username + " " + password);
-        gamekey.changeUserPassword(username, oldpassword, password);
-      });
-      querySelector("#back").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-      });
-      hoverlistener();
+      changePasswordRoutine();
     });
 
     //DELETE
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
-      ksView.userdates("Delete");
-      document
-          .querySelector('#submit')
-          .onMouseDown
-          .listen((MouseEvent ev) {
-        String username = ksView.username;
-        String password = ksView.userPassword;
-        gamekey.deleteUser(username, password);
-      });
-      querySelector("#back").onMouseDown.listen((MouseEvent e) {
-        querySelector("#userinput").innerHtml = "";
-      });
-      hoverlistener();
+      deleteUserRoutine();
     });
 
-    //CLOSE
-    querySelector("#back").onMouseDown.listen((MouseEvent e) {
-      querySelector("#edituser").innerHtml = "";
+    //Back
+    querySelector('#back').onMouseDown.listen((MouseEvent g) {
+      backToRegisteredListener();
     });
 
     hoverlistener();
+  }
+
+  changeNameRoutine() {
+    querySelector("#edituser").style.visibility = "hidden";
+    ksView.changeUserName();
+    querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      String oldName = ksView.oldUsername;
+      String password = ksView.userPassword;
+      String username = ksView.username;
+      print(username + " " + password);
+      bool state;
+      if (
+      state = (gamekey.changeUserName(oldName, password, username) != null)) {
+        querySelector("#edituser").style.visibility = "visible";
+        querySelector("messagefield").className = "messageanimation";
+        querySelector("messagefield").innerHtml = "Changename succeded";
+        querySelector("#userstatus").innerHtml =
+        "Userstaus: Registered as:$username";
+      } else {
+        querySelector("messagefield").className = "messageanimation";
+        querySelector("messagefield").innerHtml = "Changename failed";
+      }
+      print(state);
+    });
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#userinput").innerHtml = "";
+      querySelector("#registered").style.visibility = "visible";
+      querySelector("#edituser").style.visibility = "visible";
+    });
+    hoverlistener();
+  }
+
+  changePasswordRoutine() {
+    querySelector("#edituser").style.visibility = "hidden";
+    ksView.changeUserPassword();
+    window.onKeyDown.listen((KeyboardEvent ev) {
+      switch (ev.keyCode) {
+        case KeyCode.ENTER:
+          String username = ksView.username;
+          String oldpassword = ksView.oldUserpassword;
+          String password = ksView.userPassword;
+          print(username + " " + password);
+          gamekey.changeUserPassword(username, oldpassword, password);
+          querySelector("#edituser").style.visibility = "visible";
+      }
+    });
+    querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      String username = ksView.username;
+      String oldpassword = ksView.oldUserpassword;
+      String password = ksView.userPassword;
+      print(username + " " + password);
+      gamekey.changeUserPassword(username, oldpassword, password);
+      querySelector("#edituser").style.visibility = "visible";
+    });
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#userinput").innerHtml = "";
+      querySelector("#edituser").style.visibility = "visible";
+    });
+    hoverlistener();
+  }
+
+  deleteUserRoutine() {
+    querySelector("#edituser").style.visibility = "hidden";
+    ksView.userdates("Delete");
+    window.onKeyDown.listen((KeyboardEvent ev) {
+      switch (ev.keyCode) {
+        case KeyCode.ENTER:
+          String username = ksView.username;
+          String password = ksView.userPassword;
+          gamekey.deleteUser(username, password);
+          querySelector("#edituser").style.visibility = "visible";
+      }
+    });
+    querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
+      String username = ksView.username;
+      String password = ksView.userPassword;
+      gamekey.deleteUser(username, password);
+      querySelector("#edituser").style.visibility = "visible";
+    });
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#userinput").innerHtml = "";
+      querySelector("#edituser").style.visibility = "visible";
+    });
+    hoverlistener();
+  }
+
+  backToRegisteredListener() {
+    querySelector("#edituser").innerHtml = "";
+    ksView.registeredScreen();
+    registeredListener();
   }
 
   /**
@@ -444,6 +568,7 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
+      ksView.setPullButton(ksModel.player.getPullAmount());
       return true;
     }
     return false;
@@ -459,6 +584,7 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
+      ksView.setPullButton(ksModel.player.getPullAmount());
       return true;
     }
     return false;
@@ -474,6 +600,7 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
+      ksView.setPullButton(ksModel.player.getPullAmount());
       return true;
     }
     return false;
@@ -489,6 +616,7 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
+      ksView.setPullButton(ksModel.player.getPullAmount());
       return true;
     }
     return false;
@@ -724,7 +852,7 @@ class KistenschiebenController {
   creates the model, starts a new game and creates the map from a String (later from a json)
    */
   void newGame() {
-    setgameRunning(true);
+    setGameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.generateLevelFromString(
@@ -742,7 +870,7 @@ class KistenschiebenController {
   Resets Game and local stats
   */
   void resetGame() {
-    setgameRunning(true);
+    setGameRunning(true);
     ksModel.stats.incResets();
     Map<String, int> saveStats = ksModel.getStats();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
@@ -768,7 +896,7 @@ class KistenschiebenController {
       finishedGame = true;
       final highscores = await getHighscores();
       ksView.showWin(highscores);
-      setgameRunning(false);
+      setGameRunning(false);
       nextListener();
     }
   }
@@ -776,16 +904,13 @@ class KistenschiebenController {
   /**
    * sets the status of the game to running or not
    */
-  setgameRunning(bool value) {
-    isGameRunning = value;
+  setGameRunning(bool value) {
+    gameRunning = value;
+  }
+
+  setTyping(bool value) {
+    this.typing = value;
   }
 
 //endregion
-
-  /**
-   * gets the username from the gamekey  //TODO entfernen
-   */
-  getUserId(String user) async {
-    final username = await gamekey.getUserId(user);
-  }
 }

@@ -8,9 +8,6 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> field;
 
-  //Bildelemente
-  String about = "<img src=\"../web/pictures/Anleitung_1.png\" height=\"80%\" width=\"100%\" >";
-
   int tableH = 0;
   int tableW = 0;
 
@@ -28,16 +25,16 @@ class KistenschiebenView {
     querySelector('#start').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
-        "<button id=\"registerbutton\">Register</button>"
+        "<button id=\"registerbutton\">Register(1)</button>"
         "</div>"
         "<div>"
-        "<button id=\"loginbutton\">Login</button>"
+        "<button id=\"loginbutton\">Login(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"wOLogin\">Play without login</button>"
+        "<button id=\"wOLogin\">Play without login(3)</button>"
         "</div>"
         "<div>"
-        "<button id=\"about\">About</button>"
+        "<button id=\"aboutbutton\">About(4)</button>"
         "</div>"
         "</div>";
   }
@@ -64,13 +61,13 @@ class KistenschiebenView {
     querySelector('#registered').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
-        "<button id=\"newgame\">New Game</button>"
+        "<button id=\"newgame\">New Game(1)</button>"
         "</div>"
         "<div>"
-        "<button id=\"edituserbutton\">Edit User</button>"
+        "<button id=\"edituserbutton\">Edit User(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"ab\">About</button>"
+        "<button id=\"aboutbutton\">About(3)</button>"
         "</div>"
         "</div>";
   }
@@ -111,7 +108,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"oldusername\" placeholder=\"old Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<input type=\"text\" id=\"username\" placeholder=\"new Username\">"
-        "<button type =\"button\" id=\"submit\">Change username</button>"
+        "<button type =\"button\" id=\"submit\">Change Name</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -127,7 +124,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
-        "<button type =\"button\" id=\"submit\">Change userpassword</button>"
+        "<button type =\"button\" id=\"submit\">Change Password</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -160,14 +157,6 @@ class KistenschiebenView {
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
-  }
-
-  /**
-   * When the user selects "about"
-   */
-  getAbout() {
-    print("come in");
-    querySelector("#about").className = "instruction";
   }
 
   /*
@@ -207,39 +196,18 @@ class KistenschiebenView {
 
   void scaling() {
     Window w = window;
-
     int resoWidth = w.innerWidth;
     int resoHeight = w.innerHeight - 190;
-    print(resoWidth.toString());
-    print(resoHeight.toString());
     String oS;
     bool hoch = tableH > tableW;
     int px;
-    print(hoch.toString());
     if (hoch) {
-      print("hoeher");
-      print("resoWidth: " + resoHeight.toString());
-      print("/");
-      print("Width: " + tableW.toString());
       double size = resoHeight / tableH;
       px = size.toInt();
-      print("Heigth: " + tableH.toString());
-      print("Width: " + tableW.toString());
-      print("Groesse: " + px.toString());
     } else {
-      print("breiter");
-      print("resoWidth: " + resoWidth.toString());
-      print("/");
-      print("Width: " + tableW.toString());
       double size = resoHeight / tableW;
       px = size.toInt();
-      print("Heigth: " + tableH.toString());
-      print("Width: " + tableW.toString());
-      print("Groesse: " + px.toString());
     }
-    print("window:");
-    print(w.innerWidth.toString());
-
     oS = px.toString() + "px";
     querySelectorAll("td").style.height = oS;
     querySelectorAll("td").style.width = oS;
@@ -274,6 +242,11 @@ class KistenschiebenView {
     querySelector("#container").innerHtml =
     "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
+  }
+
+  setPullButton(int amount) {
+    querySelector("#pullbutton").innerHtml = "pull gloves($amount)";
+
   }
 
   /*
@@ -319,21 +292,29 @@ class KistenschiebenView {
             break;
           case 'S' :
             formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"target\"></td>";
+            "<td id=\"pos$i\_$j\" class=\"special\"></td>";
             break;
         }
       }
       formatlevel += "</tr>\n";
+      print(formatlevel);
     }
     formatlevel = "<table><tbody>\n$formatlevel</tbody></table>";
-    String groundlayer = formatlevel.replaceAll(
+    String objectlayer = formatlevel;
+    String groundLayer = formatlevel;
+    String groundlayer = groundLayer.replaceAll(
         "class=\"crate\"", "class=\"ground\"");
     groundlayer =
         groundlayer.replaceAll("class=\"player\"", "class=\"ground\"");
-    String objectlayer = formatlevel.replaceAll(
-        "class=\"wall\"", "class=\"ground\"");
+    groundlayer =
+        groundlayer.replaceAll("class=\"special\"", "class=\"target\"");
+
+    objectlayer = objectlayer.replaceAll("class=\"wall\"", "class=\"ground\"");
     objectlayer =
-        objectlayer.replaceAll("class=\"target\" ", "class=\"ground\"");
+        objectlayer.replaceAll("class=\"target\"", "class=\"ground\"");
+    objectlayer =
+        objectlayer.replaceAll("class=\"special\"", "class=\"crate\"");
+
     querySelector("#groundlayer").innerHtml = groundlayer;
     querySelector("#objectlayer").innerHtml = objectlayer;
     field = new List<List<HtmlElement>>(row);
