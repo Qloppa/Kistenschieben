@@ -270,7 +270,7 @@ class KistenschiebenView {
     final list = highscores.map((s) => "<dd>User ${s['name']}:"
         " Level: ${s['level']},"
         "Localpushes: ${s['LocalPushes']},"
-        "GlobalPushespushes: ${s['GlobalPushes']},"
+        "GlobalPushes: ${s['GlobalPushes']},"
         "LocalMoves: ${s['LocalMoves']},"
         "GlobalMoves: ${s['GlobalMoves']}</dd>").join("");
     String ret = "<div id=\"highscore\"><dt>$list</dt><div>";

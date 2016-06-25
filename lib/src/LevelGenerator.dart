@@ -17,6 +17,7 @@ class LevelGenerator {
 
   int column = 0;
   int row = 0;
+  String code = "";
 
   List<Map> levelList = new List<Map>();
 
@@ -70,7 +71,8 @@ class LevelGenerator {
     this.currentLvl = level.values.elementAt(0);
     this.row = level.values.elementAt(1);
     this.column = level.values.elementAt(2);
-    List<Map> levelFormatList = level.values.elementAt(3);
+    this.code = level.values.elementAt(3);
+    List<Map> levelFormatList = level.values.elementAt(4);
     levelList = levelFormatList;
   }
 
@@ -84,6 +86,11 @@ class LevelGenerator {
 
   List<Map> getLevelList() {
     return this.levelList;
+  }
+
+  int getLevelByCode(String str){
+    int lvlnr = -1;
+    //if(this.levelList)
   }
 }
 

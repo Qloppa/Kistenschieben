@@ -4,6 +4,7 @@
 			"level" :1,
 			"row": 5,
 			"column": 6,
+			"code": "Q2vR2CEs",
 			"format":[{"r":"wwwwww"},
 				{"r":"wggttw"},
 				{"r":"wcccgw"},
@@ -14,6 +15,7 @@
 		{ "level" :2,
 			"row": 9,
 			"column": 9,
+			"code": "EXvmTZS5",
 			"format": [{"r":"gwwwwwggg"},
 				{"r":"gwgggwwww"},
 				{"r":"gwgggwggw"},
@@ -28,6 +30,7 @@
 		{ "level" :3,
 			"row": 9,
 			"column": 10,
+			"code": "p5yDXpR3",
 			"format": 	[{"r":"ggwwwwwwwg"},
 				{"r":"ggwgggggwg"},
 				{"r":"ggwgcgpgwg"},
@@ -42,6 +45,7 @@
 		{ "level" :4,
 			"row": 8,
 			"column": 6,
+			"code": "8658DFdj",
 			"format": 	[{"r":"wwwwww"},
 				{"r":"wttstw"},
 				{"r":"wtcggw"},
@@ -55,6 +59,7 @@
 		{ "level" :5,
 			"row": 8,
 			"column": 8,
+			"code": "yzZq3wGx",
 			"format": 	[{"r":"wwwwwwww"},
 				{"r":"wgggwggw"},
 				{"r":"wgwgwctw"},
@@ -68,6 +73,7 @@
 		{ "level" :6,
 			"row": 9,
 			"column": 9,
+			"code": "k2J5SsZ6",
 			"format": 	[{"r":"wwwwwwwww"},
 				{"r":"wggggggpw"},
 				{"r":"wgctctcgw"},
@@ -82,6 +88,7 @@
 		{ "level" :7,
 			"row": 8,
 			"column": 9,
+			"code": "npzbCg4A",
 			"format": 	[{"r":"wwwwwwwww"},
 				{"r":"wgggpgggw"},
 				{"r":"wcccccccw"},
@@ -95,6 +102,7 @@
 		{ "level" :8,
 			"row": 11,
 			"column": 19,
+			"code": "dXzGvDQS",
 			"format": [
 				{
 					"r": "ggggwwwwwgggggggggg"
@@ -114,6 +122,7 @@
 		{ "level" :9,
 			"row": 10,
 			"column": 14,
+			"code": "3G8U4Fhd",
 			"format": 	[{"r":"wwwwwwwwwwwwgg"},
 				{"r":"wttggwgggggwww"},
 				{"r":"wttggwgcggcggw"},
@@ -129,6 +138,7 @@
 		{ "level" :10,
 			"row": 10,
 			"column": 17,
+			"code": "xS8f9Xcn",
 			"format": 	[{"r":"ggggggggwwwwwwwwg"},
 				{"r":"ggggggggwgggggpwg"},
 				{"r":"ggggggggwgcwcgwwg"},
@@ -145,6 +155,7 @@
 			"level": 11,
 			"row": 11,
 			"column": 12,
+			"code": "cBqEHh6M",
 			"format": [
 				{
 					"r": "wwwwwwggwwwg"
@@ -185,6 +196,7 @@
 			"level": 12,
 			"row": 12,
 			"column": 13,
+			"code": "7vjtYYaR",
 			"format": [
 				{
 					"r": "gggggggwwwwwg"
@@ -228,6 +240,7 @@
 			"level": 13,
 			"row": 14,
 			"column": 17,
+			"code": "x9CrELu3",
 			"format": [
 				{
 					"r": "ggggggggggwwwwwww"
@@ -277,6 +290,7 @@
 			"level": 14,
 			"row": 15,
 			"column": 19,
+			"code": "us8ufaFh",
 			"format": [
 				{
 					"r": "ggggggggggwwwwggggg"
@@ -329,6 +343,7 @@
 			"level": 15,
 			"row": 13,
 			"column": 17,
+			"code": "CVMb4HN2",
 			"format": [
 				{
 					"r": "wwwwwwwwwwwwwwwwg"
@@ -375,6 +390,7 @@
 			"level": 16,
 			"row": 13,
 			"column": 19,
+			"code": "4WjSMkA9",
 			"format": [
 				{
 					"r": "gggwwwwwwwwwggggggg"
@@ -421,6 +437,7 @@
 			"level": 17,
 			"row": 15,
 			"column": 14,
+			"code": "j4qNEHGX",
 			"format": [
 				{
 					"r": "wwwwwggggggggg"
