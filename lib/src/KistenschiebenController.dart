@@ -218,11 +218,11 @@ class KistenschiebenController {
     });
 
     //PULL (STICKY GLOVES)    TODO anpassen in View
-    querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
+    /*querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
       activatePull();
       //Anzahl von StickyGloves in View aendern beim Button, Methode schreiben sobald Button steht
     });
-
+    */
     hoverlistener();
   }
 

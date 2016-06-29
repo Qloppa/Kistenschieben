@@ -300,13 +300,18 @@ class KistenschiebenView {
     for (var map in tempList) {
       level += map["r"].toUpperCase();
     }
+    int testRow = 0;
+    int testColumn = 0;
+    int dummy = 0;
     print(level);
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
       //Spalten
+      testRow++;
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
         //Zeilen
+        dummy++;
         String firstChar = level.substring(0, 1);
         level = level.substring(1);
         switch (firstChar) {
@@ -333,7 +338,14 @@ class KistenschiebenView {
             break;
         }
       }
+      if(dummy >= testColumn){
+        testColumn = dummy;
+        dummy = 0;
+      }
       formatlevel += "</tr>\n";
+    }
+    if(testColumn != column && testRow != row){
+      print("AN ERROR OCCURED WHILE LOADING THE LEVEL");
     }
     formatlevel = "<table><tbody>\n$formatlevel</tbody></table>";
     String groundlayer = formatlevel.replaceAll(
