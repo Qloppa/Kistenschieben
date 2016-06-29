@@ -189,39 +189,59 @@ class KistenschiebenModel {
 
 //endregion
 
-//region RESET
+//region STATS
 
   /**
-    * resets the local stats and the level by loading it again
-    */
+   * resets the local stats and the level by loading it again
+   */
   resetStats() {
     //loadLvl(actualLevel, row, column);
     stats.resetLocal();
   }
 
   /**
-    * resets all stats and the game
-    */
+   * resets all stats and the game
+   */
   resetStatsTotal() {
+    int gloves = stats.getGloves();
     stats.resetAll();
+    stats.setGloves(gloves);
   }
 
-//endregion
-
-//region STATS
-
   /**
-    * sets the stats to the given values
-    */
+   * sets the stats to the given values
+   */
   loadStats(Map<String, int> save) {
     stats.loadStats(save);
   }
 
   /**
-    * returns the statistics as a Map
-    */
+   * returns the statistics as a Map
+   */
   Map<String, int> getStats() {
     return stats.getStats();
+  }
+
+  /**
+   * returns the number of left gloves
+   */
+  int getGloves(){
+    return stats.getGloves();
+  }
+
+  /**
+   * returns the number of used gloves
+   */
+  int getUsedGloves(){
+    return stats.getUsedGloves();
+  }
+
+  /**
+   * increments used gloves and decrements the left gloves
+   */
+  pull(){
+    stats.decGloves();
+    stats.incUsedGloves();
   }
 
 //endregion

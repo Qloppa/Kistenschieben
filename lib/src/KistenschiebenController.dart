@@ -31,7 +31,7 @@ class KistenschiebenController {
   String user = "";               //The User
   bool logedIn = false;           //Shows if the user is logged in or not
 
-  int pullAmount = 1;
+  int _pullAmount = 0;
 
   //Shows if the user activated the pull-ability for the next round
   bool isGameRunning = false;
@@ -217,6 +217,12 @@ class KistenschiebenController {
       nextLvl();
     });
 
+    //PULL (STICKY GLOVES)    TODO anpassen in View
+    querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
+      activatePull();
+      //Anzahl von StickyGloves in View aendern beim Button, Methode schreiben sobald Button steht
+    });
+
     hoverlistener();
   }
 
@@ -234,6 +240,7 @@ class KistenschiebenController {
       querySelector("messagefield").innerHtml = "Register failed";
     }
   }
+
 
   /**
    * Checks if user & password are valid and changes the userstatus
@@ -291,6 +298,7 @@ class KistenschiebenController {
     });
     hoverlistener();
   }
+
 
   /**
    * Listener for editing the user.
@@ -415,8 +423,10 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
-    List<String> positions = ksModel.moveUp(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveUp(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -430,8 +440,10 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    List<String> positions = ksModel.moveRight(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveRight(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -445,8 +457,10 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    List<String> positions = ksModel.moveDown(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveDown(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -460,8 +474,10 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    List<String> positions = ksModel.moveLeft(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveLeft(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -659,7 +675,8 @@ class KistenschiebenController {
         'LocalPushes': entry['state']['localPushes'],
         'GlobalPushes': entry['state']['globalPushes'],
         'LocalMoves': entry['state']['localMoves'],
-        'GlobalMoves': entry['state']['globalMoves']
+        'GlobalMoves': entry['state']['globalMoves'],
+        'UsedGloves': entry['state']['usedGloves']
       })
           .toList();
       for (int i = 0; i < scores.length; i++)
@@ -678,6 +695,12 @@ class KistenschiebenController {
       }
     }
     return lvlOnly.take(amount);
+  }
+
+  activatePull(){
+    if(ksModel.getGloves() > 0){
+      ksModel.pull();
+    }
   }
 
 //endregion
@@ -716,7 +739,6 @@ class KistenschiebenController {
   void resetGame() {
     setgameRunning(true);
     ksModel.stats.incResets();
-    Map<String, int> saveStats = ksModel.getStats();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
