@@ -321,8 +321,7 @@ class KistenschiebenView {
             formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
             break;
           case 'S' :
-            formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"target\"></td>";
+            formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
             break;
         }
       }
@@ -347,7 +346,6 @@ class KistenschiebenView {
       }
     }
     print(field);
-
 
 
     await scaling();

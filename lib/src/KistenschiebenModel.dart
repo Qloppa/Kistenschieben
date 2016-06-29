@@ -20,6 +20,9 @@ class KistenschiebenModel {
   List<Map> actualLevel;
   int column;
   int row;
+  bool onePlayer = false;
+  int countCrates = 0;
+  int countTargets = 0;
 
   /*
   constructor
@@ -43,7 +46,7 @@ class KistenschiebenModel {
     target = null;
     qlList = null;
     qlList = new QuattroLinkedList();
-
+    onePlayer = false;
     for (var map in levelList) {
       firstLine = addNewLine(firstLine, map["r"].toUpperCase());
     }
@@ -53,12 +56,18 @@ class KistenschiebenModel {
    * adds a new line of fieldobjects to the gamefield
    */
   bool addNewLine(bool firstLine, String line) {
+
     if (firstLine == true) {
       addRight(line);
       firstLine = false;
     } else {
-      String firstChar = line.substring(0, 1);
-      line = line.substring(1);
+      String firstChar = "";
+      if (line.length > 0) {
+        firstChar = line.substring(0, 1);
+        line = line.substring(1);
+      } else {
+        firstChar = "G";
+      }
       addDown(firstChar);
       addRight(line);
     }
@@ -72,8 +81,13 @@ class KistenschiebenModel {
     Crate crate = null;
     int length = line.length;
     for (int i = 0; i < length; i++) {
-      String firstChar = line.substring(0, 1);
-      line = line.substring(1);
+      String firstChar = "";
+      if (line.length > 0) {
+        firstChar = line.substring(0, 1);
+        line = line.substring(1);
+      } else {
+        firstChar = "G";
+      }
       switch (firstChar) {
         case 'W' :
           qlList.addRight(new Wall());
@@ -82,19 +96,31 @@ class KistenschiebenModel {
           qlList.addRight(new Ground());
           break;
         case 'P' :
-          player = new Player(qlList.addRight(new Ground()));
+          if (onePlayer == false) {
+            player = new Player(qlList.addRight(new Ground()));
+            onePlayer = true;
+          } else {
+            qlList.addRight(new Ground());
+          }
           break;
         case 'C' :
           crate = new Crate(qlList.addRight(new Ground()));
           crate.staysOn.setCrate(crate);
+          countCrates++;
           break;
         case 'T' :
           target = qlList.addRight(new Target(target));
+          countTargets++;
           break;
         case 'S' :
           target = new Target(target);
           crate = new Crate(qlList.addRight(target));
           crate.staysOn.setCrate(crate);
+          countCrates++;
+          countTargets++;
+          break;
+        default:
+          qlList.addRight(new Ground());
           break;
       }
     }
@@ -113,19 +139,31 @@ class KistenschiebenModel {
         qlList.addDown(new Ground());
         break;
       case 'P' :
-        player = new Player(qlList.addDown(new Ground()));
+        if (onePlayer == false) {
+          player = new Player(qlList.addRight(new Ground()));
+          onePlayer = true;
+        } else {
+          qlList.addRight(new Ground());
+        }
         break;
       case 'C' :
         crate = new Crate(qlList.addDown(new Ground()));
         crate.staysOn.setCrate(crate);
+        countCrates++;
         break;
       case 'T' :
         target = qlList.addDown(new Target(target));
+        countTargets++;
         break;
       case 'S' :
         target = new Target(target);
         crate = new Crate(qlList.addDown(target));
         crate.staysOn.setCrate(crate);
+        countCrates++;
+        countTargets++;
+        break;
+      default:
+        qlList.addRight(new Ground());
         break;
     }
   }
@@ -135,8 +173,8 @@ class KistenschiebenModel {
 //region MOVE
 
   /**
-    * tells the player to go up. Returns true if possible, false if not
-    */
+   * tells the player to go up. Returns true if possible, false if not
+   */
   List<String> moveUp(int pullAmount) {
     return player.moveUp(pullAmount);
   }
@@ -149,8 +187,8 @@ class KistenschiebenModel {
   }
 
   /**
-    *tells the player to go down. Returns true if possible, false if not
-    */
+   *tells the player to go down. Returns true if possible, false if not
+   */
   List<String> moveDown(int pullAmount) {
     return player.moveDown(pullAmount);
   }
@@ -167,15 +205,15 @@ class KistenschiebenModel {
 //region GETTER & SETTER
 
   /**
-	  * returns the X value of the position of the player
-	  */
+   * returns the X value of the position of the player
+   */
   int getPlayerPosX() {
     return this.player.getPosX();
   }
 
   /**
-		* returns the Y value of the position of the player
-	  */
+   * returns the Y value of the position of the player
+   */
   int getPlayerPosY() {
     return this.player.getPosY();
   }
@@ -183,7 +221,7 @@ class KistenschiebenModel {
   /**
    * sets the actual level in the statistics to the new value
    */
-  void setLevel(int i){
+  void setLevel(int i) {
     this.stats.setActualLevel(i);
   }
 
@@ -192,16 +230,16 @@ class KistenschiebenModel {
 //region RESET
 
   /**
-    * resets the local stats and the level by loading it again
-    */
+   * resets the local stats and the level by loading it again
+   */
   resetStats() {
     //loadLvl(actualLevel, row, column);
     stats.resetLocal();
   }
 
   /**
-    * resets all stats and the game
-    */
+   * resets all stats and the game
+   */
   resetStatsTotal() {
     stats.resetAll();
   }
@@ -211,15 +249,15 @@ class KistenschiebenModel {
 //region STATS
 
   /**
-    * sets the stats to the given values
-    */
+   * sets the stats to the given values
+   */
   loadStats(Map<String, int> save) {
     stats.loadStats(save);
   }
 
   /**
-    * returns the statistics as a Map
-    */
+   * returns the statistics as a Map
+   */
   Map<String, int> getStats() {
     return stats.getStats();
   }
@@ -230,7 +268,12 @@ class KistenschiebenModel {
 	*checks if the player has already won
 	*/
   bool checkWin() {
-    print("Target: " + target.getWon().toString());
-    return target.getWon();
+    bool ret = false;
+    if (countCrates < countTargets) {
+      ret = true;
+    } else {
+      ret = target.getWon();
+    }
+    return ret;
   }
 }

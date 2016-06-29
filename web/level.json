@@ -1,473 +1,137 @@
 {
 	"levels": [
 		{
-			"level" :1,
-			"row": 5,
-			"column": 6,
-			"format":[{"r":"wwwwww"},
-				{"r":"wggttw"},
-				{"r":"wcccgw"},
-				{"r":"wtggpw"},
-				{"r":"wwwwww"}
-			]
-		},
-		{ "level" :2,
-			"row": 9,
-			"column": 9,
-			"format": [{"r":"gwwwwwggg"},
-				{"r":"gwgggwwww"},
-				{"r":"gwgggwggw"},
-				{"r":"gwwggggtw"},
-				{"r":"wwwgwwwtw"},
-				{"r":"wgcgwgwtw"},
-				{"r":"wgccwgwww"},
-				{"r":"wpggwgggg"},
-				{"r":"wwwwwgggg"}
-			]
-		},
-		{ "level" :3,
-			"row": 9,
-			"column": 10,
-			"format": 	[{"r":"ggwwwwwwwg"},
-				{"r":"ggwgggggwg"},
-				{"r":"ggwgcgpgwg"},
-				{"r":"wwwwwgwgwg"},
-				{"r":"wgcgggggwg"},
-				{"r":"wggwcwwgww"},
-				{"r":"wttcggwggw"},
-				{"r":"wttggggggw"},
-				{"r":"wwwwwwwwww"}
-			]
-		},
-		{ "level" :4,
-			"row": 8,
-			"column": 6,
-			"format": 	[{"r":"wwwwww"},
-				{"r":"wttstw"},
-				{"r":"wtcggw"},
-				{"r":"wwgcgw"},
-				{"r":"wwcgww"},
-				{"r":"wpcgwg"},
-				{"r":"wwggwg"},
-				{"r":"gwwwwg"}
-			]
-		},
-		{ "level" :5,
-			"row": 8,
-			"column": 8,
-			"format": 	[{"r":"wwwwwwww"},
-				{"r":"wgggwggw"},
-				{"r":"wgwgwctw"},
-				{"r":"wggggctw"},
-				{"r":"wgwgwctw"},
-				{"r":"wgggwggw"},
-				{"r":"wwwwwpgw"},
-				{"r":"ggggwwww"}
-			]
-		},
-		{ "level" :6,
-			"row": 9,
-			"column": 9,
-			"format": 	[{"r":"wwwwwwwww"},
-				{"r":"wggggggpw"},
-				{"r":"wgctctcgw"},
-				{"r":"wgtctctgw"},
-				{"r":"wgctstcgw"},
-				{"r":"wgtctctgw"},
-				{"r":"wgctctcgw"},
-				{"r":"wgggggggw"},
-				{"r":"wwwwwwwww"}
-			]
-		},
-		{ "level" :7,
-			"row": 8,
-			"column": 9,
-			"format": 	[{"r":"wwwwwwwww"},
-				{"r":"wgggpgggw"},
-				{"r":"wcccccccw"},
-				{"r":"wtttwtttw"},
-				{"r":"wtttttttw"},
-				{"r":"wcccgcccw"},
-				{"r":"wgggggggw"},
-				{"r":"wwwwwwwww"}
-			]
-		},
-		{ "level" :8,
-			"row": 11,
-			"column": 19,
-			"format": [
-				{
-					"r": "ggggwwwwwgggggggggg"
-				},
-				{"r":"ggggwgggwgggggggggg"},
-				{"r":"ggggwcggwgggggggggg"},
-				{"r":"ggwwwggcwwggggggggg"},
-				{"r":"ggwggcgcgwggggggggg"},
-				{"r":"wwwgwgwwgwgggwwwwww"},
-				{"r":"wgggwgwwgwwwwwggttw"},
-				{"r":"wgcggcggggggggggttw"},
-				{"r":"wwwwwgwwwgwpwwggttw"},
-				{"r":"ggggwgggggwwwwwwwww"},
-				{"r":"ggggwwwwwwwgggggggg"}
-			]
-		},
-		{ "level" :9,
-			"row": 10,
-			"column": 14,
-			"format": 	[{"r":"wwwwwwwwwwwwgg"},
-				{"r":"wttggwgggggwww"},
-				{"r":"wttggwgcggcggw"},
-				{"r":"wttggwcwwwwggw"},
-				{"r":"wttggggpgwwggw"},
-				{"r":"wttggwgwggcgww"},
-				{"r":"wwwwwwgwwcgcgw"},
-				{"r":"ggwgcggcgcgcgw"},
-				{"r":"ggwggggwgggggw"},
-				{"r":"ggwwwwwwwwwwww"}
-			]
-		},
-		{ "level" :10,
-			"row": 10,
-			"column": 17,
-			"format": 	[{"r":"ggggggggwwwwwwwwg"},
-				{"r":"ggggggggwgggggpwg"},
-				{"r":"ggggggggwgcwcgwwg"},
-				{"r":"ggggggggwgcggcwgg"},
-				{"r":"ggggggggwwcgcgwgg"},
-				{"r":"wwwwwwwwwgcgwgwww"},
-				{"r":"wttttggwwgcggcggw"},
-				{"r":"wwtttggggcggcgggw"},
-				{"r":"wttttggwwwwwwwwww"},
-				{"r":"wwwwwwwwggggggggg"}
+			"level" : 1,
+			"row" : 6,
+			"column" : 6,
+			"format" : [{"r" : "wwwwwg"},
+				{"r" : "wgggww"},
+				{"r" : "wggcpw"},
+				{"r" : "wwcgtw"},
+				{"r" : "gwggtw"},
+				{"r" : "gwwwww"}
 			]
 		},
 		{
-			"level": 11,
-			"row": 11,
-			"column": 12,
-			"format": [
-				{
-					"r": "wwwwwwggwwwg"
-				},
-				{
-					"r": "wttggwgwwpww"
-				},
-				{
-					"r": "wttggwwwgggw"
-				},
-				{
-					"r": "wttgggggccgw"
-				},
-				{
-					"r": "wttggwgwgcgw"
-				},
-				{
-					"r": "wttwwwgwgcgw"
-				},
-				{
-					"r": "wwwwgcgwcggw"
-				},
-				{
-					"r": "gggwggcwgcgw"
-				},
-				{
-					"r": "gggwgcggcggw"
-				},
-				{
-					"r": "gggwggwwgggw"
-				},
-				{
-					"r": "gggwwwwwwwww"
-				}
+			"level" : 2,
+			"row" : 6,
+			"column" : 6,
+			"format" : [{"r" : "gwwwww"},
+				{"r" : "wwpttw"},
+				{"r" : "wgccww"},
+				{"r" : "wggggw"},
+				{"r" : "wwgggw"},
+				{"r" : "gwwwww"}
 			]
 		},
 		{
-			"level": 12,
-			"row": 12,
-			"column": 13,
-			"format": [
-				{
-					"r": "gggggggwwwwwg"
-				},
-				{
-					"r": "gwwwwwwwgggww"
-				},
-				{
-					"r": "wwgwgpwwgccgw"
-				},
-				{
-					"r": "wggggcggggggw"
-				},
-				{
-					"r": "wggcggwwwgggw"
-				},
-				{
-					"r": "wwwgwwwwwcwww"
-				},
-				{
-					"r": "wgcggwwwgttwg"
-				},
-				{
-					"r": "wgcgcgcgtttwg"
-				},
-				{
-					"r": "wggggwwwtttwg"
-				},
-				{
-					"r": "wgccgwgwtttwg"
-				},
-				{
-					"r": "wggwwwgwwwwwg"
-				},
-				{
-					"r": "wwwwggggggggg"
-				}
+			"level" : 3,
+			"row" : 6,
+			"column" : 8,
+			"format" : [{"r" : "wwwwwwww"},
+				{"r" : "wgpwgggw"},
+				{"r" : "wgscgggw"},
+				{"r" : "wggwggww"},
+				{"r" : "wtgwggwg"},
+				{"r" : "wwwwwwwg"}
 			]
 		},
 		{
-			"level": 13,
-			"row": 14,
-			"column": 17,
-			"format": [
-				{
-					"r": "ggggggggggwwwwwww"
-				},
-				{
-					"r": "ggggggggggwggtttw"
-				},
-				{
-					"r": "ggggggwwwwwggtttw"
-				},
-				{
-					"r": "ggggggwggggggtgtw"
-				},
-				{
-					"r": "ggggggwggwwggtttw"
-				},
-				{
-					"r": "ggggggwwgwwggtttw"
-				},
-				{
-					"r": "gggggwwwgwwwwwwww"
-				},
-				{
-					"r": "gggggwgcccgwwgggg"
-				},
-				{
-					"r": "gwwwwwggcgcgwwwww"
-				},
-				{
-					"r": "wwgggwcgcgggwgggw"
-				},
-				{
-					"r": "wpgcggcggggcggcgw"
-				},
-				{
-					"r": "wwwwwwgccgcgwwwww"
-				},
-				{
-					"r": "gggggwggggggwgggg"
-				},
-				{
-					"r": "gggggwwwwwwwwgggg"
-				}
+			"level" : 4,
+			"row" : 8,
+			"column" : 10,
+			"format" : [{"r" : "ggggggwwww"},
+				{"r" : "gwwwwwwggw"},
+				{"r" : "gwpcgggcgw"},
+				{"r" : "gwtwgggggw"},
+				{"r" : "wwggggwwww"},
+				{"r" : "wgtggwwggg"},
+				{"r" : "wgggwwgggg"},
+				{"r" : "wwwwwggggg"}
 			]
 		},
 		{
-			"level": 14,
-			"row": 15,
-			"column": 19,
-			"format": [
-				{
-					"r": "ggggggggggwwwwggggg"
-				},
-				{
-					"r": "gggggwwwwgwggwggggg"
-				},
-				{
-					"r": "gggwwwgpwwwcgwggggg"
-				},
-				{
-					"r": "ggwwggggggcggwggggg"
-				},
-				{
-					"r": "gwwggcgccwwgwwggggg"
-				},
-				{
-					"r": "gwggwcwwgggggwggggg"
-				},
-				{
-					"r": "gwgwgcgccgwgwwwgggg"
-				},
-				{
-					"r": "gwgggcgwggwgcgwwwww"
-				},
-				{
-					"r": "wwwwggggwggccgwgggw"
-				},
-				{
-					"r": "wwwwgwwgcgggggggggw"
-				},
-				{
-					"r": "wtggggwwwggwwwwwwww"
-				},
-				{
-					"r": "wttgttwgwwwwggggggg"
-				},
-				{
-					"r": "wtttwtwgggggggggggg"
-				},
-				{
-					"r": "wtttttwgggggggggggg"
-				},
-				{
-					"r": "wwwwwwwgggggggggggg"
-				}
+			"level" : 5,
+			"row" : 6,
+			"column" : 8,
+			"format" : [{"r" : "wwwwwggg"},
+				{"r" : "wgtgwwww"},
+				{"r" : "wggcpggw"},
+				{"r" : "wwsggggw"},
+				{"r" : "gwggwwww"},
+				{"r" : "gwwwwggg"}
 			]
 		},
 		{
-			"level": 15,
-			"row": 13,
-			"column": 17,
-			"format": [
-				{
-					"r": "wwwwwwwwwwwwwwwwg"
-				},
-				{
-					"r": "wggggggggggggggwg"
-				},
-				{
-					"r": "wgwgwwwwwwgggggwg"
-				},
-				{
-					"r": "wgwggcgcgcgcwggwg"
-				},
-				{
-					"r": "wgwgggcpcgggwwgww"
-				},
-				{
-					"r": "wgwggcgcgcwwwtttw"
-				},
-				{
-					"r": "wgwgggcgcggwwtttw"
-				},
-				{
-					"r": "wgwwwcccgcgwwtttw"
-				},
-				{
-					"r": "wgggggwgwwgwwtttw"
-				},
-				{
-					"r": "wwwwwgggwwgwwtttw"
-				},
-				{
-					"r": "ggggwwwwwgggggwww"
-				},
-				{
-					"r": "ggggggggwgggggwgg"
-				},
-				{
-					"r": "ggggggggwwwwwwwgg"
-				}
+			"level" : 6,
+			"row" : 6,
+			"column" : 8,
+			"format" : [{"r" : "gwwwwwwg"},
+				{"r" : "gwgtggww"},
+				{"r" : "wwcggcpw"},
+				{"r" : "wggtwggw"},
+				{"r" : "wgggwggw"},
+				{"r" : "wwwwwwww"}
 			]
 		},
 		{
-			"level": 16,
-			"row": 13,
-			"column": 19,
-			"format": [
-				{
-					"r": "gggwwwwwwwwwggggggg"
-				},
-				{
-					"r": "ggwwgggwwggwwwwwwgg"
-				},
-				{
-					"r": "wwwgggggwggwggggwww"
-				},
-				{
-					"r": "wggcgwcgwggwggtttgw"
-				},
-				{
-					"r": "wgwgcwpcwwgwgwtwtgw"
-				},
-				{
-					"r": "wggwgwcggwggggtgtgw"
-				},
-				{
-					"r": "wgcggggcgwgwgwtwtgw"
-				},
-				{
-					"r": "wgggwwggwwcgcgtgtgw"
-				},
-				{
-					"r": "wgcgwgggwggwcwtwtgw"
-				},
-				{
-					"r": "wwgcggcgggcggctttgw"
-				},
-				{
-					"r": "gwcgwwwwwwggggwwggw"
-				},
-				{
-					"r": "gwggwggggwwwwwwwwww"
-				},
-				{
-					"r": "gwwwwgggggggggggggg"
-				}
+			"level" : 7,
+			"row" : 9,
+			"column" : 7,
+			"format" : [{"r" : "wwwwwww"},
+				{"r" : "wgggggw"},
+				{"r" : "wgpgggw"},
+				{"r" : "wwcwggw"},
+				{"r" : "wwgtsgw"},
+				{"r" : "wggwwww"},
+				{"r" : "wggggwg"},
+				{"r" : "wggggwg"},
+				{"r" : "wwwwwwg"}
 			]
 		},
 		{
-			"level": 17,
-			"row": 15,
-			"column": 14,
-			"format": [
-				{
-					"r": "wwwwwggggggggg"
-				},
-				{
-					"r": "wgggwwgggggggg"
-				},
-				{
-					"r": "wggggwggwwwwgg"
-				},
-				{
-					"r": "wgcggwwwwggwgg"
-				},
-				{
-					"r": "wggccgcgggcwgg"
-				},
-				{
-					"r": "wwwpgwcggggwwg"
-				},
-				{
-					"r": "gwggwwggcgcgww"
-				},
-				{
-					"r": "gwgcggwwgwwgtw"
-				},
-				{
-					"r": "gwggwcwwcggwtw"
-				},
-				{
-					"r": "gwwwgggcttwwtw"
-				},
-				{
-					"r": "ggwggggwtstttw"
-				},
-				{
-					"r": "ggwgccgwtttttw"
-				},
-				{
-					"r": "ggwggwwwwwwwww"
-				},
-				{
-					"r": "ggwggwgggggggg"
-				},
-				{
-					"r": "ggwwwwgggggggg"
-				}
+			"level" : 8,
+			"row" : 7,
+			"column" : 7,
+			"format" : [{"r" : "gggwwww"},
+				{"r" : "wwwwttw"},
+				{"r" : "wgggggw"},
+				{"r" : "wgccgpw"},
+				{"r" : "wwggwww"},
+				{"r" : "gwggwgg"},
+				{"r" : "gwwwwgg"}
+			]
+		},
+		{
+			"level" : 9,
+			"row" : 9,
+			"column" : 7,
+			"format" : [{"r" : "gwwwwwg"},
+				{"r" : "gwgggwg"},
+				{"r" : "gwgcgwg"},
+				{"r" : "wwgwwww"},
+				{"r" : "wtpgggw"},
+				{"r" : "wwgwggw"},
+				{"r" : "gwgctgw"},
+				{"r" : "gwwwggw"},
+				{"r" : "gggwwww"}
+			]
+		},
+		{
+			"level" : 10,
+			"row" : 9,
+			"column" : 7,
+			"format" : [{"r" : "wwwwwgg"},
+				{"r" : "wgggwwg"},
+				{"r" : "wggggwg"},
+				{"r" : "wwgtpwg"},
+				{"r" : "wwgtcww"},
+				{"r" : "wggwggw"},
+				{"r" : "wggcggw"},
+				{"r" : "wggwggw"},
+				{"r" : "wwwwwww"}
 			]
 		}
+
 	]
 }
