@@ -18,40 +18,19 @@ class KistenschiebenController {
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
-  LevelGenerator genLvl;
+  LevelGenerator genLvl;          //The Levelgenerator
+  KistenschiebenModel ksModel;    //The Model
+  KistenschiebenView ksView;      //The View
 
-  //The Levelgenerator
-  KistenschiebenModel ksModel;
+  Timer gamekeyTrigger;           //Periodic trigger controlling availability of gamekey service.
+  bool gkAvailable = false;       //Shows if the gamekey is available or not
+  String username;                //The username of the actual user
+  String password;                //The password of the actual user
+  Map stats;                      //The actual statistics
+  String userid = "";             //The User-ID
+  String user = "";               //The User
+  bool logedIn = false;           //Shows if the user is logged in or not
 
-  //The Model
-  KistenschiebenView ksView;
-
-  //The View
-
-  Timer gamekeyTrigger;
-
-  //Periodic trigger controlling availability of gamekey service.
-  bool gkAvailable = false;
-
-  //Shows if the gamekey is available or not
-  String username;
-
-  //The username of the actual user
-  String password;
-
-  //The password of the actual user
-  Map stats;
-
-  //The actual statistics
-  String userid = "";
-
-  //The User-ID
-  String user = "";
-
-  //The User
-  bool logedIn = false;
-
-  //Shows if the user is logged in or not
   int pullAmount = 1;
 
   //Shows if the user activated the pull-ability for the next round
@@ -626,16 +605,6 @@ class KistenschiebenController {
     checkWin();
   }
 
-  /*//TODO vielleicht bearbeiten
-  takes the positions of the player and the crates
-   */
-  void updateViewPull(String playerPos_old, String playerPos_new,
-      List<String> crates_new) {
-    updateStats();
-    ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
-    checkWin();
-  }
-
   /**
    * Updates the stats in the view
    */
@@ -731,7 +700,6 @@ class KistenschiebenController {
    */
   void newGame() {
     setgameRunning(true);
-    ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
@@ -740,13 +708,6 @@ class KistenschiebenController {
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
     ksView.showLvlCode(genLvl.getlvlcode());
-
-    //TEST
-    print("LEVEL: ");
-    print(genLvl.getLevelByCode("p5yDXpR3"));
-    //TEST
-
-
   }
 
   /*
@@ -757,14 +718,9 @@ class KistenschiebenController {
     ksModel.stats.incResets();
     Map<String, int> saveStats = ksModel.getStats();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView
-        .generateLevelFromString(
+    ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(reactTouch); //.whenComplete(reactTouch)
-    //TODO objektorientierter Zugriff
-    ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
-    ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
-    ksModel.stats.setResets(saveStats['resets']);
+        .whenComplete(reactTouch);
     ksModel.resetStats();
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
@@ -789,6 +745,20 @@ class KistenschiebenController {
    */
   setgameRunning(bool value) {
     isGameRunning = value;
+  }
+
+  /**
+   * Starts the level and returns true if the secret code is correct, returns false if not
+   */
+  bool _setLevelByCode(String code){
+    int level = genLvl.getLevelByCode(code);
+    if(level != -1){
+      genLvl.setSelectlevel(level);
+      ksModel.resetStatsTotal();
+      genLvl.loadData().whenComplete(newGame);
+      return true;
+    }
+    return false;
   }
 
 //endregion

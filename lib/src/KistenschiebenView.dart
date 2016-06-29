@@ -267,17 +267,23 @@ class KistenschiebenView {
    * Generates the win-overlay and the button to access the next level
    */
   showWin(var highscores) async {
-    final list = highscores.map((s) => "<dd>User ${s['name']}:"
-        " Level: ${s['level']},"
-        "Localpushes: ${s['LocalPushes']},"
-        "GlobalPushes: ${s['GlobalPushes']},"
-        "LocalMoves: ${s['LocalMoves']},"
-        "GlobalMoves: ${s['GlobalMoves']}</dd>").join("");
-    String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
+    String str = "<table border = 1; width=\"60%\">" +
+        "<colgroup><col width=\"2*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
+        "<tr><td>Name</td><td>Pushes</td><td>Moves</td><td>Pushes Total</td><td>Moves Total</td></tr>";
+    for (Map m in highscores) {
+      String n = m['name'];
+      String lp = m['LocalPushes'];
+      String lm = m['LocalMoves'];
+      String gp = m['GlobalPushes'];
+      String gm = m['GlobalMoves'];
+      str +=
+      "<tr><td>$n</td><td>$lp</td><td>$lm</td><td>$gp</td><td>$gm</td></tr>";
+    }
+    str += "</table>";
+    String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#container").innerHtml =
     "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
-
   }
 
   /*
@@ -386,32 +392,6 @@ class KistenschiebenView {
     scaling();
   }
 
-
-  /*
-  Updates the position of the player and the crates
-  Receives old and new positions as Strings and updates the html
-
-  void updateViewPull(String playerPosition_old, String playerPosition_new,
-      List<String>cratePosition_old) {
-    int pnx = getPosition(playerPosition_new)[1];
-    int pny = getPosition(playerPosition_new)[0];
-    field[pnx][pny].className = "player"; //set new position of player
-    if (!cratePosition_old.isEmpty) {
-      int dummy = 0;
-      do {
-        List<int> newCratePos = getPosition(playerPosition_old);
-        int pcx = newCratePos[1];
-        int pcy = newCratePos[0];
-        field[pcx][pcy].className = "crate"; //crate on old playerposition
-
-        List<int> oldCratePos = getPosition(cratePosition_old.removeLast());
-        int ocx = oldCratePos[1];
-        int ocy = oldCratePos[0];
-        field[ocx][ocy].className = ""; //old crateposition to only ground
-      } while (dummy < cratePosition_old.length);
-    }
-    scaling();
-  }*/
 
   /**
    * used to update the stats
