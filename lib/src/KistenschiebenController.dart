@@ -673,7 +673,7 @@ class KistenschiebenController {
     }
     List<Map<String, int>> lvlOnly = new List();
     for (Map m in scores) {
-      if (m['level'] == genLvl.currentLvl-1) {
+      if (m['level'] == genLvl.currentLvl + 1) {
         lvlOnly.add(m);
       }
     }
