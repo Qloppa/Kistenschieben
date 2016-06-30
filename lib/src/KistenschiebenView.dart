@@ -270,30 +270,35 @@ class KistenschiebenView {
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
         //Zeilen
-        String firstChar = level.substring(0, 1);
-        level = level.substring(1);
-        switch (firstChar) {
-          case 'W' :
-            formatlevel += "<td id=\"pos$i\_$j\" class=\"wall\" ></td>";
-            break;
-          case 'G' :
-            formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
-            break;
-          case 'P' :
-            formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"player\"></td>";
-            break;
-          case 'C' :
-            formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"crate\"></td>";
-            break;
-          case 'T' :
-            formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
-            break;
-          case 'S' :
-            formatlevel +=
-            "<td id=\"pos$i\_$j\" class=\"special\"></td>";
-            break;
+        if (formatlevel.length < 1) {
+          String firstChar = level.substring(0, 1);
+          level = level.substring(1);
+          switch (firstChar) {
+            case 'W' :
+              formatlevel += "<td id=\"pos$i\_$j\" class=\"wall\" ></td>";
+              break;
+            case 'G' :
+              formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
+              break;
+            case 'P' :
+              formatlevel +=
+              "<td id=\"pos$i\_$j\" class=\"player\"></td>";
+              break;
+            case 'C' :
+              formatlevel +=
+              "<td id=\"pos$i\_$j\" class=\"crate\"></td>";
+              break;
+            case 'T' :
+              formatlevel += "<td id=\"pos$i\_$j\" class=\"target\"></td>";
+              break;
+            case 'S' :
+              formatlevel +=
+              "<td id=\"pos$i\_$j\" class=\"special\"></td>";
+              break;
+          }
+        }
+        else {
+          formatlevel += "<td class=\"ground\" ></td>";
         }
       }
       formatlevel += "</tr>\n";

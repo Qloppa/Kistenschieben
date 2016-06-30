@@ -60,6 +60,10 @@ class KistenschiebenController {
   bool registered = false;
   bool authentication = false;
   bool typing = false;
+  bool onStartscreen = false;
+  bool onLoginscreen = false;
+  bool onEditUserScreen = false;
+  bool startscreenbuttons = false;
 
   /*
   CONSTRUCTOR
@@ -91,13 +95,11 @@ class KistenschiebenController {
         // Check periodically if gamekey service is reachable. Display warning if not.
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
           if (await this.gamekey.authenticate() == true) {
-            print("Authentification succeded!");
-            if (authentication == false && gameRunning == false) {
-              print("jumpIn");
+            if (authentication != true && gameRunning == false) {
               querySelector("#registerbutton").style.visibility = "visible";
               querySelector("#loginbutton").style.visibility = "visible";
-              authentication = true;
-              print("Authentication-Value:" + "$authentication");
+              setStartscreenButtons(true);
+              setAuthentication(true);
               gkAvailable = true;
             }
             gkAvailable = true;
@@ -170,22 +172,30 @@ class KistenschiebenController {
    *    [RESET]
    */
   startscreenListener() async {
+    setStartscreen(true);
+    setLoginscreen(false);
     //REGISTER
     window.onKeyDown.listen((KeyboardEvent ev) {
-      if (gameRunning != true) {
+      if (gameRunning != true && typing != true && onStartscreen == true) {
         switch (ev.keyCode) {
           case KeyCode.ONE :
-            registerRoutine();
+            if (startscreenbuttons == true) {
+              registerRoutine();
+            }
             break;
           case KeyCode.TWO :
-            loginRoutine();
+            if (startscreenbuttons == true) {
+              loginRoutine();
+            }
             break;
           case KeyCode.THREE:
             withoutLoginRoutine();
             break;
           case KeyCode.FOUR:
             aboutRoutine();
+            break;
         }
+        return;
       }
     });
 
@@ -239,57 +249,71 @@ class KistenschiebenController {
 
   registerRoutine() {
     ksView.userdates("Register");
-    window.onKeyDown.listen((KeyboardEvent ke) {
-      switch (ke.keyCode) {
-        case KeyCode.ENTER:
-          String username = ksView.username;
-          String password = ksView.userPassword;
-          print("You are registered now");
-          checkRegister(username, password);
-          querySelector("#userinput").innerHtml = "";
-      }
-    });
+    setTyping(true);
+    if (onStartscreen == true) {
+      window.onKeyDown.listen((KeyboardEvent ev) {
+        switch (ev.keyCode) {
+          case KeyCode.ENTER:
+            String username = ksView.username;
+            String password = ksView.userPassword;
+            print("You are registered now");
+            checkRegister(username, password);
+            querySelector("#userinput").innerHtml = "";
+            setTyping(false);
+            break;
+        }
+      });
+    }
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String username = ksView.username;
       String password = ksView.userPassword;
       print("You are registered now");
       checkRegister(username, password);
       querySelector("#userinput").innerHtml = "";
+      setTyping(false);
     });
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       querySelector("#about").innerHtml = "";
       ksView.startScreen();
       startscreenListener();
+      setTyping(false);
     });
     hoverlistener();
   }
 
   loginRoutine() {
     ksView.userdates("Login");
-    window.onKeyDown.listen((KeyboardEvent ke) {
-      switch (ke.keyCode) {
-        case KeyCode.ENTER:
-          String username = ksView.username;
-          String password = ksView.userPassword;
-          this.user = username;
-          querySelector("#userinput").innerHtml = "";
-          checklogin(username, password);
-          print("You are logged in now");
-      }
-    });
+    setTyping(true);
+    if (onStartscreen == true) {
+      window.onKeyDown.listen((KeyboardEvent ev) {
+        switch (ev.keyCode) {
+          case KeyCode.ENTER:
+            print("drinne");
+
+            String username = ksView.username;
+            String password = ksView.userPassword;
+            this.user = username;
+            querySelector("#userinput").innerHtml = "";
+            checklogin(username, password);
+            setTyping(false);
+            break;
+        }
+      });
+    }
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String username = ksView.username;
       String password = ksView.userPassword;
       this.user = username;
       querySelector("#userinput").innerHtml = "";
       checklogin(username, password);
-      print("You are logged in now");
+      setTyping(false);
     });
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       ksView.startScreen();
       startscreenListener();
+      setTyping(false);
     });
     hoverlistener();
   }
@@ -339,12 +363,29 @@ class KistenschiebenController {
       querySelector("messagefield").className = "greetinganimation";
       querySelector("messagefield").innerHtml = "Login failed!";
     }
+    setTyping(false);
   }
 
   /*
   listener to the buttons on the "registered" layout
   */
   registeredListener() async {
+    setStartscreen(false);
+    setLoginscreen(true);
+    window.onKeyDown.listen((KeyboardEvent ev) {
+      if (gameRunning != true && typing != true && onLoginscreen == true) {
+        switch (ev.keyCode) {
+          case KeyCode.ONE :
+            newGameRoutine();
+            break;
+          case KeyCode.TWO :
+            editUserRoutine();
+            break;
+          case KeyCode.THREE:
+            aboutRoutine();
+        }
+      }
+    });
     //NEW GAME Listener
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGameRoutine();
@@ -374,6 +415,9 @@ class KistenschiebenController {
 
   editUserRoutine() {
     querySelector("#registered").innerHtml = "";
+    setLoginscreen(false);
+    setStartscreen(false);
+    setEditUserScreen(true);
     ksView.editUser();
     editUserListener();
   }
@@ -398,6 +442,7 @@ class KistenschiebenController {
    *    [CLOSE]
    */
   dynamic editUserListener() async {
+    setEditUserScreen(true);
     //CHANGE NAME
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       changeNameRoutine();
@@ -422,13 +467,39 @@ class KistenschiebenController {
   }
 
   changeNameRoutine() {
+    setTyping(true);
     querySelector("#edituser").style.visibility = "hidden";
     ksView.changeUserName();
+    if (onEditUserScreen == true) {
+      window.onKeyDown.listen((KeyboardEvent ev) {
+        switch (ev.keyCode) {
+          case KeyCode.ENTER:
+            String oldName = ksView.oldUsername;
+            String password = ksView.userPassword;
+            String username = ksView.username;
+            bool state;
+            if (
+            state =
+            (gamekey.changeUserName(oldName, password, username) != null)) {
+              querySelector("#edituser").style.visibility = "visible";
+              querySelector("messagefield").className = "messageanimation";
+              querySelector("messagefield").innerHtml = "Changename succeded";
+              querySelector("#userstatus").innerHtml =
+              "Userstaus: Registered as:$username";
+            } else {
+              querySelector("messagefield").className = "messageanimation";
+              querySelector("messagefield").innerHtml = "Changename failed";
+            }
+            querySelector("#userinput").innerHtml = "";
+            setTyping(false);
+            break;
+        }
+      });
+    }
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String oldName = ksView.oldUsername;
       String password = ksView.userPassword;
       String username = ksView.username;
-      print(username + " " + password);
       bool state;
       if (
       state = (gamekey.changeUserName(oldName, password, username) != null)) {
@@ -441,12 +512,14 @@ class KistenschiebenController {
         querySelector("messagefield").className = "messageanimation";
         querySelector("messagefield").innerHtml = "Changename failed";
       }
-      print(state);
+      querySelector("#userinput").innerHtml = "";
+      setTyping(false);
     });
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       querySelector("#registered").style.visibility = "visible";
       querySelector("#edituser").style.visibility = "visible";
+      setTyping(false);
     });
     hoverlistener();
   }
@@ -454,17 +527,21 @@ class KistenschiebenController {
   changePasswordRoutine() {
     querySelector("#edituser").style.visibility = "hidden";
     ksView.changeUserPassword();
-    window.onKeyDown.listen((KeyboardEvent ev) {
-      switch (ev.keyCode) {
-        case KeyCode.ENTER:
-          String username = ksView.username;
-          String oldpassword = ksView.oldUserpassword;
-          String password = ksView.userPassword;
-          print(username + " " + password);
-          gamekey.changeUserPassword(username, oldpassword, password);
-          querySelector("#edituser").style.visibility = "visible";
-      }
-    });
+    setTyping(true);
+    if (onEditUserScreen == true) {
+      window.onKeyDown.listen((KeyboardEvent ev) {
+        switch (ev.keyCode) {
+          case KeyCode.ENTER:
+            String username = ksView.username;
+            String oldpassword = ksView.oldUserpassword;
+            String password = ksView.userPassword;
+            print(username + " " + password);
+            gamekey.changeUserPassword(username, oldpassword, password);
+            querySelector("#edituser").style.visibility = "visible";
+            querySelector("#userinput").innerHtml = "";
+        }
+      });
+    }
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String username = ksView.username;
       String oldpassword = ksView.oldUserpassword;
@@ -472,10 +549,13 @@ class KistenschiebenController {
       print(username + " " + password);
       gamekey.changeUserPassword(username, oldpassword, password);
       querySelector("#edituser").style.visibility = "visible";
+      querySelector("#userinput").innerHtml = "";
+      setTyping(false);
     });
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       querySelector("#edituser").style.visibility = "visible";
+      setTyping(false);
     });
     hoverlistener();
   }
@@ -483,29 +563,38 @@ class KistenschiebenController {
   deleteUserRoutine() {
     querySelector("#edituser").style.visibility = "hidden";
     ksView.userdates("Delete");
-    window.onKeyDown.listen((KeyboardEvent ev) {
-      switch (ev.keyCode) {
-        case KeyCode.ENTER:
-          String username = ksView.username;
-          String password = ksView.userPassword;
-          gamekey.deleteUser(username, password);
-          querySelector("#edituser").style.visibility = "visible";
-      }
-    });
+    setTyping(true);
+    if (onEditUserScreen == true) {
+      window.onKeyDown.listen((KeyboardEvent ev) {
+        switch (ev.keyCode) {
+          case KeyCode.ENTER:
+            String username = ksView.username;
+            String password = ksView.userPassword;
+            gamekey.deleteUser(username, password);
+            querySelector("#edituser").style.visibility = "visible";
+            querySelector("#userinput").innerHtml = "";
+        }
+      });
+    }
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String username = ksView.username;
       String password = ksView.userPassword;
       gamekey.deleteUser(username, password);
       querySelector("#edituser").style.visibility = "visible";
+      querySelector("#userinput").innerHtml = "";
+      setTyping(false);
     });
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       querySelector("#edituser").style.visibility = "visible";
+      setTyping(false);
     });
     hoverlistener();
   }
 
   backToRegisteredListener() {
+    setLoginscreen(true);
+    setEditUserScreen(false);
     querySelector("#edituser").innerHtml = "";
     ksView.registeredScreen();
     registeredListener();
@@ -910,6 +999,26 @@ class KistenschiebenController {
 
   setTyping(bool value) {
     this.typing = value;
+  }
+
+  setStartscreen(bool value) {
+    onStartscreen = value;
+  }
+
+  setLoginscreen(bool value) {
+    onLoginscreen = value;
+  }
+
+  setStartscreenButtons(bool value) {
+    startscreenbuttons = value;
+  }
+
+  setAuthentication(bool value) {
+    authentication = value;
+  }
+
+  setEditUserScreen(bool value) {
+    onEditUserScreen = value;
   }
 
 //endregion
