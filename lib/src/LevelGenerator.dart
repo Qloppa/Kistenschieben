@@ -77,14 +77,23 @@ class LevelGenerator {
     levelList = levelFormatList;
   }
 
+  /**
+   * returns the number of columns
+   */
   int getColumn() {
     return this.column;
   }
 
+  /**
+   * returns the number of rows
+   */
   int getRow() {
     return this.row;
   }
 
+  /**
+   * returns the levelList
+   */
   List<Map> getLevelList() {
     return this.levelList;
   }

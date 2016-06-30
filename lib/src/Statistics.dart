@@ -318,5 +318,4 @@ class Statistics {
     //benoetigt keine roundTime
     return out;
   }
-
 }
