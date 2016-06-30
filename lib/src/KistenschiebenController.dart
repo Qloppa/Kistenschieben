@@ -402,6 +402,7 @@ class KistenschiebenController {
             editUserRoutine();
             break;
           case KeyCode.THREE:
+            levelCodeRoutine();
             break;
           case KeyCode.FOUR:
             aboutRoutine();

@@ -53,14 +53,14 @@ table, td {
 }
 
 #userstatus {
-    position: absolute;
+    position: fixed;
     left: 1%;
     color: red;
     font-size: 20px;
 }
 
 #gamekeystatus {
-    position: absolute;
+    position: fixed;
     right: 1%;
     color: red;
     font-size: 20px;
@@ -94,9 +94,11 @@ table, td {
 #overlay {
     position: absolute;
     width: 100%;
+    height: 60%;
     /*background-color: rgba(0, 10, 10, 0.5);*/
     background-color: white;
     text-align: center;
+    margin-top: 10%;
 
 }
 
@@ -147,6 +149,7 @@ h1 {
 }
 
 button {
+
     background-image: url(pictures/DefaultButton.png);
     border-spacing: 0;
     border: 0px;
