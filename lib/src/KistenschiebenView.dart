@@ -232,13 +232,20 @@ class KistenschiebenView {
    *Generates the win-overlay and the button to access the next level
    */
   showWin(var highscores) async {
-    final list = highscores.map((s) => "<dd>User ${s['name']}:"
-        " Level: ${s['level']},"
-        "Localpushes: ${s['LocalPushes']},"
-        "GlobalPushespushes: ${s['GlobalPushes']},"
-        "LocalMoves: ${s['LocalMoves']},"
-        "GlobalMoves: ${s['GlobalMoves']}</dd>").join("");
-    String ret = "<div id=\"highscore\"><dt>$list</dt><div>";
+    String str = "<table border = 1; width=\"60%\">" +
+        "<colgroup><col width=\"2*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
+        "<tr><th>Name</th><th>Pushes</th><th>Moves</th><th>Pushes Total</th><th>Moves Total</th></tr>";
+    for (Map m in highscores) {
+      String n = m['name'];
+      int lp = m['LocalPushes'];
+      int lm = m['LocalMoves'];
+      int gp = m['GlobalPushes'];
+      int gm = m['GlobalMoves'];
+      str +=
+      "<tr><td>$n</td><td>$lp</td><td>$lm</td><td>$gp</td><td>$gm</td></tr>";
+    }
+    str += "</table>";
+    String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#container").innerHtml =
     "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
@@ -246,7 +253,6 @@ class KistenschiebenView {
 
   setPullButton(int amount) {
     querySelector("#pullbutton").innerHtml = "pull gloves($amount)";
-
   }
 
   /*
@@ -270,7 +276,6 @@ class KistenschiebenView {
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
         //Zeilen
-        if (formatlevel.length < 1) {
           String firstChar = level.substring(0, 1);
           level = level.substring(1);
           switch (firstChar) {
@@ -296,10 +301,6 @@ class KistenschiebenView {
               "<td id=\"pos$i\_$j\" class=\"special\"></td>";
               break;
           }
-        }
-        else {
-          formatlevel += "<td class=\"ground\" ></td>";
-        }
       }
       formatlevel += "</tr>\n";
       print(formatlevel);
@@ -330,7 +331,6 @@ class KistenschiebenView {
       }
     }
     print(field);
-
 
 
     await scaling();
@@ -407,7 +407,16 @@ class KistenschiebenView {
     String localMoves = stats.remove("localMoves").toString();
     String globalMoves = stats.remove("globalMoves").toString();
     String resets = stats.remove("resets").toString();
+    String usedGloves = stats.remove("usedGloves").toString();
     querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp";
+    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp";
+  }
+
+  /**
+   * Displays the Code for the actual level
+   */
+  void showLvlCode(String code) {
+    querySelector("#header").innerHtml = code;
+    //TODO Noch implementieren
   }
 }

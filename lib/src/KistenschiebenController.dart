@@ -18,18 +18,40 @@ class KistenschiebenController {
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
-  LevelGenerator genLvl;          //The Levelgenerator
-  KistenschiebenModel ksModel;    //The Model
-  KistenschiebenView ksView;      //The View
+  LevelGenerator genLvl;
 
-  Timer gamekeyTrigger;           //Periodic trigger controlling availability of gamekey service.
-  bool gkAvailable = false;       //Shows if the gamekey is available or not
-  String username;                //The username of the actual user
-  String password;                //The password of the actual user
-  Map stats;                      //The actual statistics
-  String userid = "";             //The User-ID
-  String user = "";               //The User
-  bool logedIn = false;           //Shows if the user is logged in or not
+  //The Levelgenerator
+  KistenschiebenModel ksModel;
+
+  //The Model
+  KistenschiebenView ksView;
+
+  //The View
+
+  Timer gamekeyTrigger;
+
+  //Periodic trigger controlling availability of gamekey service.
+  bool gkAvailable = false;
+
+  //Shows if the gamekey is available or not
+  String username;
+
+  //The username of the actual user
+  String password;
+
+  //The password of the actual user
+  Map stats;
+
+  //The actual statistics
+  String userid = "";
+
+  //The User-ID
+  String user = "";
+
+  //The User
+  bool logedIn = false;
+
+  //Shows if the user is logged in or not
 
   int _pullAmount = 0;
 
@@ -74,12 +96,15 @@ class KistenschiebenController {
         // Check periodically if gamekey service is reachable. Display warning if not.
         this.gamekeyTrigger = new Timer.periodic(gamekeyCheck, (_) async {
           if (await this.gamekey.authenticate() == true) {
-            if (authentication != true && gameRunning == false) {
-              querySelector("#registerbutton").style.visibility = "visible";
-              querySelector("#loginbutton").style.visibility = "visible";
-              setStartscreenButtons(true);
-              setAuthentication(true);
-              gkAvailable = true;
+            if (onStartscreen == true) {
+              print("startscreenbug drinne");
+              if (authentication != true && gameRunning == false) {
+                querySelector("#registerbutton").style.visibility = "visible";
+                querySelector("#loginbutton").style.visibility = "visible";
+                setStartscreenButtons(true);
+                setAuthentication(true);
+                gkAvailable = true;
+              }
             }
             gkAvailable = true;
           } else {
@@ -218,14 +243,14 @@ class KistenschiebenController {
       querySelector("#container").innerHtml = "";
       querySelector("#resetbutton").style.position = "";
       ksView.setPullButton(0);
-      pullAmount = 0;
+      _pullAmount = 0;
       resetGame();
     });
 
     //Pull
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
-      int init = pullAmount + 1;
-      pullAmount++;
+      int init = _pullAmount + 1;
+      _pullAmount++;
       ksView.setPullButton(init);
     });
 
@@ -304,6 +329,7 @@ class KistenschiebenController {
   }
 
   withoutLoginRoutine() {
+    setStartscreen(false);
     querySelector('#start').innerHtml = "";
     querySelector("#resetbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
@@ -639,7 +665,7 @@ class KistenschiebenController {
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(_pullAmount);
-    if(_pullAmount > 0){
+    if (_pullAmount > 0) {
       _pullAmount--;
     }
     if (positions.isEmpty == false) {
@@ -657,7 +683,7 @@ class KistenschiebenController {
    */
   bool moveRight() {
     List<String> positions = ksModel.moveRight(_pullAmount);
-    if(_pullAmount > 0){
+    if (_pullAmount > 0) {
       _pullAmount--;
     }
     if (positions.isEmpty == false) {
@@ -675,7 +701,7 @@ class KistenschiebenController {
    */
   bool moveDown() {
     List<String> positions = ksModel.moveDown(_pullAmount);
-    if(_pullAmount > 0){
+    if (_pullAmount > 0) {
       _pullAmount--;
     }
     if (positions.isEmpty == false) {
@@ -693,7 +719,7 @@ class KistenschiebenController {
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(_pullAmount);
-    if(_pullAmount > 0){
+    if (_pullAmount > 0) {
       _pullAmount--;
     }
     if (positions.isEmpty == false) {
@@ -851,7 +877,7 @@ class KistenschiebenController {
   /**
    * Updates the code for the actual level in the view
    */
-  void updateLvlCode(){
+  void updateLvlCode() {
     String code = genLvl.getlvlcode();
     ksView.showLvlCode(code);
   }
@@ -916,8 +942,8 @@ class KistenschiebenController {
     return lvlOnly.take(amount);
   }
 
-  activatePull(){
-    if(ksModel.getGloves() > 0){
+  activatePull() {
+    if (ksModel.getGloves() > 0) {
       ksModel.pull();
     }
   }
@@ -1019,9 +1045,9 @@ class KistenschiebenController {
   /**
    * Starts the level and returns true if the secret code is correct, returns false if not
    */
-  bool _setLevelByCode(String code){
+  bool _setLevelByCode(String code) {
     int level = genLvl.getLevelByCode(code);
-    if(level != -1){
+    if (level != -1) {
       genLvl.setSelectlevel(level);
       ksModel.resetStatsTotal();
       genLvl.loadData().whenComplete(newGame);
@@ -1031,7 +1057,6 @@ class KistenschiebenController {
   }
 
 //endregion
-
 
 
   /**

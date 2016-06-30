@@ -225,21 +225,21 @@ class KistenschiebenModel {
   /**
    * returns the number of left gloves
    */
-  int getGloves(){
+  int getGloves() {
     return stats.getGloves();
   }
 
   /**
    * returns the number of used gloves
    */
-  int getUsedGloves(){
+  int getUsedGloves() {
     return stats.getUsedGloves();
   }
 
   /**
    * increments used gloves and decrements the left gloves
    */
-  pull(){
+  pull() {
     stats.decGloves();
     stats.incUsedGloves();
   }

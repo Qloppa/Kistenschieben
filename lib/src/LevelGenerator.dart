@@ -13,7 +13,7 @@ class LevelGenerator {
   int currentLvl = 0;
 
   //levelnumber
-  int lvlNumber = 3;
+  int lvlNumber = 0;
 
   int column = 0;
   int row = 0;
@@ -92,17 +92,17 @@ class LevelGenerator {
   /**
    * returns the secret code for the actual level
    */
-  String getlvlcode(){
+  String getlvlcode() {
     return this._code;
   }
 
   /**
    * Returns the level that matches the secret code. returns -1 if code not valid
    */
-  int getLevelByCode(String str){
+  int getLevelByCode(String str) {
     int lvlnr = -1;
-    for(int i = 0; i < lvls.length; i++){
-      if(str == lvls.elementAt(i)['code']){
+    for (int i = 0; i < lvls.length; i++) {
+      if (str == lvls.elementAt(i)['code']) {
         return lvls.elementAt(i)['level'];
       }
     }
