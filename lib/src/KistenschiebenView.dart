@@ -410,7 +410,20 @@ class KistenschiebenView {
     String usedGloves = stats.remove("usedGloves").toString();
     String gloves = stats.remove("gloves").toString();
     querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp" "Left Gloves:<em>$gloves</em>&nbsp&nbsp&nbsp&nbsp ";
+    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp"
+        "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp"
+        "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp"
+        "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp"
+        "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp"
+        "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp"
+        "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp"
+        "Left Gloves:<em>$gloves</em>&nbsp&nbsp&nbsp&nbsp ";
+
+  /*ySelector("#stat").innerHtml = "<table border = 1; width=\"60%\">" +
+        "<colgroup><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
+        "<tr align = center><td>Level: $actualLvl</td><td>Pushes: $localPushes</td><td>Moves: $localMoves</td><td>Left Gloves: $usedGloves</td></tr>" +
+        "<tr align = center><td>Resets: $resets</td><td>Pushes Total: $globalPushes</td><td>Moves Total: $globalMoves</td><td>Used Gloves: $gloves</tr>" +
+        "</table>";*/
   }
 
   /**
@@ -418,6 +431,5 @@ class KistenschiebenView {
    */
   void showLvlCode(String code) {
     querySelector("#header").innerHtml = code;
-    //TODO Noch implementieren
   }
 }
