@@ -1,15 +1,37 @@
 class Statistics {
-  static var _localMoves;       //moves this round, 0 after reset
-  static var _globalMoves;      //moves this round total
-  static var _localPushes;      //pushes this round, 0 after reset
-  static var _globalPushes;     //pushes this round total
-  DateTime _startTime;          //time when the user started the game, not used yet
-  static var _roundTime;        //used time in this round
-  static int _resets;           //number of resets
-  static int _actualLevel;      //the actual level
-  static Statistics _instance;  //an instance of the static Statistics
-  static int _gloves;           //number of sticky gloves, used to pull a crate
-  static int _usedGloves;       //number of used sticky gloves
+  static var _localMoves;
+
+  //moves this round, 0 after reset
+  static var _globalMoves;
+
+  //moves this round total
+  static var _localPushes;
+
+  //pushes this round, 0 after reset
+  static var _globalPushes;
+
+  //pushes this round total
+  DateTime _startTime;
+
+  //time when the user started the game, not used yet
+  static var _roundTime;
+
+  //used time in this round
+  static int _resets;
+
+  //number of resets
+  static int _actualLevel;
+
+  //the actual level
+  static Statistics _instance;
+
+  //an instance of the static Statistics
+  static int _gloves;
+
+  //number of sticky gloves, used to pull a crate
+  static int _usedGloves;
+
+  //number of used sticky gloves
 
   //not used yet
   static var _localTime;
@@ -49,7 +71,7 @@ class Statistics {
   /**
    * returns the number of resets
    */
-  int getResets(){
+  int getResets() {
     return _resets;
   }
 
@@ -101,14 +123,14 @@ class Statistics {
   /**
    * returns the number of used gloves
    */
-  int getUsedGloves(){
+  int getUsedGloves() {
     return _usedGloves;
   }
 
   /**
    * returns the number of gloves
    */
-  int getGloves(){
+  int getGloves() {
     return _gloves;
   }
 
@@ -140,21 +162,21 @@ class Statistics {
   /**
    * sets the resets to the value res
    */
-  setResets(int res){
+  setResets(int res) {
     _resets = res;
   }
 
   /**
    * sets the actual level
    */
-  setActualLevel(int lvl){
+  setActualLevel(int lvl) {
     _actualLevel = lvl;
   }
 
   /**
    * sets the number of gloves to the new value
    */
-  setGloves(int val){
+  setGloves(int val) {
     _gloves = val;
   }
 
@@ -165,7 +187,7 @@ class Statistics {
   /**
    * Increments the resets
    */
-  incResets(){
+  incResets() {
     _resets++;
   }
 
@@ -188,22 +210,22 @@ class Statistics {
   /**
    * increments the number of gloves
    */
-  incGloves(){
+  incGloves() {
     _gloves++;
   }
 
-  incUsedGloves(){
+  incUsedGloves() {
     _usedGloves++;
   }
 
   /**
    * decrements the number of gloves if possible and returns true. Returns false if not
    */
-  bool decGloves(){
-    if(_gloves > 0){
+  bool decGloves() {
+    if (_gloves > 0) {
       _gloves--;
       return true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -243,7 +265,7 @@ class Statistics {
   /**
    * sets the number of gloves to 0
    */
-  resetGloves(){
+  resetGloves() {
     _gloves = 0;
   }
 
