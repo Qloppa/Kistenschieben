@@ -269,7 +269,7 @@ class KistenschiebenView {
   showWin(var highscores) async {
     String str = "<table border = 1; width=\"60%\">" +
         "<colgroup><col width=\"2*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
-        "<tr><td>Name</td><td>Pushes</td><td>Moves</td><td>Pushes Total</td><td>Moves Total</td></tr>";
+        "<tr><th>Name</th><th>Pushes</th><th>Moves</th><th>Pushes Total</th><th>Moves Total</th></tr>";
     for (Map m in highscores) {
       String n = m['name'];
       String lp = m['LocalPushes'];
@@ -300,18 +300,13 @@ class KistenschiebenView {
     for (var map in tempList) {
       level += map["r"].toUpperCase();
     }
-    int testRow = 0;
-    int testColumn = 0;
-    int dummy = 0;
     print(level);
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
       //Spalten
-      testRow++;
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
         //Zeilen
-        dummy++;
         String firstChar = level.substring(0, 1);
         level = level.substring(1);
         switch (firstChar) {
@@ -338,14 +333,8 @@ class KistenschiebenView {
             break;
         }
       }
-      if(dummy >= testColumn){
-        testColumn = dummy;
-        dummy = 0;
-      }
+
       formatlevel += "</tr>\n";
-    }
-    if(testColumn != column && testRow != row){
-      print("AN ERROR OCCURED WHILE LOADING THE LEVEL");
     }
     formatlevel = "<table><tbody>\n$formatlevel</tbody></table>";
     String groundlayer = formatlevel.replaceAll(
