@@ -408,8 +408,9 @@ class KistenschiebenView {
     String globalMoves = stats.remove("globalMoves").toString();
     String resets = stats.remove("resets").toString();
     String usedGloves = stats.remove("usedGloves").toString();
+    String gloves = stats.remove("gloves").toString();
     querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp";
+    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp" "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp" "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp" "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp" "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp" "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp" "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp" "Left Gloves:<em>$gloves</em>&nbsp&nbsp&nbsp&nbsp ";
   }
 
   /**

@@ -950,6 +950,59 @@ class KistenschiebenController {
 
 //endregion
 
+//region SET GAMESTATUS
+
+//endregion
+
+  /**
+   * sets the status of the game to running or not
+   */
+  setGameRunning(bool value) {
+    gameRunning = value;
+  }
+
+  /**
+   * sets the status of typing true or false
+   */
+  setTyping(bool value) {
+    this.typing = value;
+  }
+
+  /**
+   * sets the status of startscreen true or false
+   */
+  setStartscreen(bool value) {
+    onStartscreen = value;
+  }
+
+  /**
+   * sets the status of login screen true or false
+   */
+  setLoginscreen(bool value) {
+    onLoginscreen = value;
+  }
+
+  /**
+   * sets the status of start screen buttons true or false
+   */
+  setStartscreenButtons(bool value) {
+    startscreenbuttons = value;
+  }
+
+  /**
+   * sets the status of authentification true or false
+   */
+  setAuthentication(bool value) {
+    authentication = value;
+  }
+
+  /**
+   * sets the status of the edit user screen
+   */
+  setEditUserScreen(bool value) {
+    onEditUserScreen = value;
+  }
+
 //region RESET AND NEW GAME
 
   /*
@@ -1012,37 +1065,6 @@ class KistenschiebenController {
   }
 
   /**
-   * sets the status of the game to running or not
-   */
-  setGameRunning(bool value) {
-    gameRunning = value;
-  }
-
-  setTyping(bool value) {
-    this.typing = value;
-  }
-
-  setStartscreen(bool value) {
-    onStartscreen = value;
-  }
-
-  setLoginscreen(bool value) {
-    onLoginscreen = value;
-  }
-
-  setStartscreenButtons(bool value) {
-    startscreenbuttons = value;
-  }
-
-  setAuthentication(bool value) {
-    authentication = value;
-  }
-
-  setEditUserScreen(bool value) {
-    onEditUserScreen = value;
-  }
-
-  /**
    * Starts the level and returns true if the secret code is correct, returns false if not
    */
   bool _setLevelByCode(String code) {
@@ -1057,7 +1079,6 @@ class KistenschiebenController {
   }
 
 //endregion
-
 
   /**
    * gets the username from the gamekey  //TODO entfernen
