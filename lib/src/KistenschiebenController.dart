@@ -18,41 +18,20 @@ class KistenschiebenController {
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
-  LevelGenerator genLvl;
+  LevelGenerator genLvl;          //The Levelgenerator
+  KistenschiebenModel ksModel;    //The Model
+  KistenschiebenView ksView;      //The View
 
-  //The Levelgenerator
-  KistenschiebenModel ksModel;
+  Timer gamekeyTrigger;           //Periodic trigger controlling availability of gamekey service.
+  bool gkAvailable = false;       //Shows if the gamekey is available or not
+  String username;                //The username of the actual user
+  String password;                //The password of the actual user
+  Map stats;                      //The actual statistics
+  String userid = "";             //The User-ID
+  String user = "";               //The User
+  bool logedIn = false;           //Shows if the user is logged in or not
 
-  //The Model
-  KistenschiebenView ksView;
-
-  //The View
-
-  Timer gamekeyTrigger;
-
-  //Periodic trigger controlling availability of gamekey service.
-  bool gkAvailable = false;
-
-  //Shows if the gamekey is available or not
-  String username;
-
-  //The username of the actual user
-  String password;
-
-  //The password of the actual user
-  Map stats;
-
-  //The actual statistics
-  String userid = "";
-
-  //The User-ID
-  String user = "";
-
-  //The User
-  bool logedIn = false;
-
-  //Shows if the user is logged in or not
-  int pullAmount = 0;
+  int _pullAmount = 0;
 
   //Shows if the user activated the pull-ability for the next round
   bool gameRunning = false;
@@ -157,7 +136,6 @@ class KistenschiebenController {
       }
       return "";
     });
-
   }
 
 //region LISTENER AND QUERYSELECTORS
@@ -211,6 +189,13 @@ class KistenschiebenController {
     //WITHOUT LOGIN
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       withoutLoginRoutine();
+
+      //PULL (STICKY GLOVES)    TODO anpassen in View
+      /*querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
+      activatePull();
+      //Anzahl von StickyGloves in View aendern beim Button, Methode schreiben sobald Button steht
+    });
+    */
     });
 
     //ABOUT
@@ -341,6 +326,7 @@ class KistenschiebenController {
     }
   }
 
+
   /**
    * Checks if user & password are valid and changes the userstatus
    */
@@ -430,6 +416,7 @@ class KistenschiebenController {
       registeredListener();
     });
   }
+
 
   /**
    * Listener for editing the user.
@@ -651,8 +638,10 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
-    List<String> positions = ksModel.moveUp(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveUp(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -667,8 +656,10 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    List<String> positions = ksModel.moveRight(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveRight(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -683,8 +674,10 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    List<String> positions = ksModel.moveDown(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveDown(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -699,8 +692,10 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    List<String> positions = ksModel.moveLeft(pullAmount);
-    pullAmount = 0;
+    List<String> positions = ksModel.moveLeft(_pullAmount);
+    if(_pullAmount > 0){
+      _pullAmount--;
+    }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -845,22 +840,20 @@ class KistenschiebenController {
     checkWin();
   }
 
-  /*//TODO vielleicht bearbeiten
-  takes the positions of the player and the crates
-   */
-  void updateViewPull(String playerPos_old, String playerPos_new,
-      List<String> crates_new) {
-    updateStats();
-    ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
-    checkWin();
-  }
-
   /**
    * Updates the stats in the view
    */
   void updateStats() {
     var actualLvl = genLvl.getLevelValue();
     ksView.updateStats(ksModel.getStats(), actualLvl.toString());
+  }
+
+  /**
+   * Updates the code for the actual level in the view
+   */
+  void updateLvlCode(){
+    String code = genLvl.getlvlcode();
+    ksView.showLvlCode(code);
   }
 
 //endregion
@@ -901,7 +894,8 @@ class KistenschiebenController {
         'LocalPushes': entry['state']['localPushes'],
         'GlobalPushes': entry['state']['globalPushes'],
         'LocalMoves': entry['state']['localMoves'],
-        'GlobalMoves': entry['state']['globalMoves']
+        'GlobalMoves': entry['state']['globalMoves'],
+        'UsedGloves': entry['state']['usedGloves']
       })
           .toList();
       for (int i = 0; i < scores.length; i++)
@@ -915,11 +909,17 @@ class KistenschiebenController {
     }
     List<Map<String, int>> lvlOnly = new List();
     for (Map m in scores) {
-      if (m['level'] == genLvl.currentLvl) {
+      if (m['level'] == genLvl.currentLvl + 1) {
         lvlOnly.add(m);
       }
     }
     return lvlOnly.take(amount);
+  }
+
+  activatePull(){
+    if(ksModel.getGloves() > 0){
+      ksModel.pull();
+    }
   }
 
 //endregion
@@ -950,9 +950,10 @@ class KistenschiebenController {
     window.onResize.listen((EventListener) {
       ksView.scaling();
     });
-    setActualLevel(genLvl.currentLvl + 1);
+    setActualLevel(genLvl.currentLvl + 1); //TODO Levelnummer anpassen
     querySelector("#resetbutton").style.visibility = "visible";
     updateStats();
+    ksView.showLvlCode(genLvl.getlvlcode());
   }
 
   /*
@@ -961,16 +962,10 @@ class KistenschiebenController {
   void resetGame() {
     setGameRunning(true);
     ksModel.stats.incResets();
-    Map<String, int> saveStats = ksModel.getStats();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView
-        .generateLevelFromString(
+    ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
-        .whenComplete(reactTouch); //.whenComplete(reactTouch)
-    //TODO objektorientierter Zugriff
-    ksModel.stats.setGlobalMoves(saveStats['globalMoves']);
-    ksModel.stats.setGlobalPushes(saveStats['globalPushes']);
-    ksModel.stats.setResets(saveStats['resets']);
+        .whenComplete(reactTouch);
     ksModel.resetStats();
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
@@ -1021,5 +1016,28 @@ class KistenschiebenController {
     onEditUserScreen = value;
   }
 
+  /**
+   * Starts the level and returns true if the secret code is correct, returns false if not
+   */
+  bool _setLevelByCode(String code){
+    int level = genLvl.getLevelByCode(code);
+    if(level != -1){
+      genLvl.setSelectlevel(level);
+      ksModel.resetStatsTotal();
+      genLvl.loadData().whenComplete(newGame);
+      return true;
+    }
+    return false;
+  }
+
 //endregion
+
+
+
+  /**
+   * gets the username from the gamekey  //TODO entfernen
+   */
+  getUserId(String user) async {
+    final username = await gamekey.getUserId(user);
+  }
 }
