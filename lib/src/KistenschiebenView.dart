@@ -25,16 +25,16 @@ class KistenschiebenView {
     querySelector('#start').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
-        "<button id=\"registerbutton\">Register(1)</button>"
+        "<button id=\"registerbutton\" class=\"option\">Register(1)</button>"
         "</div>"
         "<div>"
-        "<button id=\"loginbutton\">Login(2)</button>"
+        "<button id=\"loginbutton\" class=\"option\">Login(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"wOLogin\">Play without login(3)</button>"
+        "<button id=\"wOLogin\" class=\"option\">Play without login(3)</button>"
         "</div>"
         "<div>"
-        "<button id=\"aboutbutton\">About(4)</button>"
+        "<button id=\"aboutbutton\" class=\"option\">About(4)</button>"
         "</div>"
         "</div>";
   }
@@ -61,13 +61,16 @@ class KistenschiebenView {
     querySelector('#registered').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
-        "<button id=\"newgame\">New Game(1)</button>"
+        "<button id=\"newgame\" class=\"option\">New Game(1)</button>"
         "</div>"
         "<div>"
-        "<button id=\"edituserbutton\">Edit User(2)</button>"
+        "<button id=\"edituserbutton\" class=\"option\">Edit User(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"aboutbutton\">About(3)</button>"
+        "<button id=\"levelcodebutton\" class=\"option\">Enter Levelcode(3)</button>"
+        "</div>"
+        "<div>"
+        "<button id=\"aboutbutton\" class=\"option\">About(4)</button>"
         "</div>"
         "</div>";
   }
@@ -79,16 +82,16 @@ class KistenschiebenView {
     querySelector('#edituser').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
-        "<button id=\"changename\">Change Name</button>"
+        "<button id=\"changename\" class=\"option\">Change Name</button>"
         "</div>"
         "<div>"
-        "<button id=\"changepassword\">Change Password</button>"
+        "<button id=\"changepassword\" class=\"option\">Change Password</button>"
         "</div>"
         "<div>"
-        "<button id=\"delete\">Delete User</button>"
+        "<button id=\"delete\" class=\"option\">Delete User</button>"
         "</div>"
         "<div>"
-        "<button id=\"back\">Back</button>"
+        "<button id=\"back\" class=\"option\">Back</button>"
         "</div>"
         "</div>";
 
@@ -159,6 +162,17 @@ class KistenschiebenView {
         "</div>";
   }
 
+  enterLevelCode() {
+    querySelector('#userinput').innerHtml =
+    "<div id =\"overlay\" >"
+        "<form id=\"inputdates\">"
+        "<input type=\"text\" id=\"levelCode\" placeholder=\"Enter Code\">"
+        "<button type =\"button\" id=\"submit\">Submit</button>"
+        "<button type =\"button\" id=\"back\">Back</button>"
+        "</form>"
+        "</div>";
+  }
+
   /*
   Gets the Name from UserInput
   */
@@ -193,11 +207,18 @@ class KistenschiebenView {
    * is used for scaling the gamefield.
    */
 
+  String get levelCode =>
+      (document.querySelector('#levelCode') as InputElement).value;
+
+  getAbout() {
+    querySelector("#about").innerHtml = "<about id=\"overlay\"><about>";
+  }
+
 
   void scaling() {
     Window w = window;
     int resoWidth = w.innerWidth;
-    int resoHeight = w.innerHeight - 190;
+    int resoHeight = w.innerHeight - 200;
     String oS;
     bool hoch = tableH > tableW;
     int px;
@@ -303,7 +324,6 @@ class KistenschiebenView {
           }
       }
       formatlevel += "</tr>\n";
-      print(formatlevel);
     }
     formatlevel = "<table><tbody>\n$formatlevel</tbody></table>";
     String objectlayer = formatlevel;
@@ -330,8 +350,6 @@ class KistenschiebenView {
         field[rows].add(querySelector("#pos${col}_${rows}"));
       }
     }
-    print(field);
-
 
     await scaling();
     return formatlevel;

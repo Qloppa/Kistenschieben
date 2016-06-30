@@ -224,8 +224,8 @@ class KistenschiebenController {
     });
 
     //ABOUT
-    querySelector('#about').onMouseDown.listen((MouseEvent g) {
-      print("jmp1");
+    querySelector('#aboutbutton').onMouseDown.listen((MouseEvent g) {
+      ksView.getAbout();
       querySelector("#overlay").className = "instructions";
       querySelector("#back").onMouseDown.listen((MouseEvent e) {
         querySelector("#userinput").innerHtml = "";
@@ -252,6 +252,13 @@ class KistenschiebenController {
       int init = _pullAmount + 1;
       _pullAmount++;
       ksView.setPullButton(init);
+    });
+
+    querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
+      int pushpower = ksModel.player.getPushPower();
+      pushpower++;
+      ksModel.player.setPushPower(pushpower);
+      querySelector("#pushbutton").innerHtml = "PushPower($pushpower)";
     });
 
     hoverlistener();
@@ -332,6 +339,7 @@ class KistenschiebenController {
     setStartscreen(false);
     querySelector('#start').innerHtml = "";
     querySelector("#resetbutton").style.visibility = "visible";
+    querySelector("#pushbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
     newGame();
   }
@@ -394,6 +402,8 @@ class KistenschiebenController {
             editUserRoutine();
             break;
           case KeyCode.THREE:
+            break;
+          case KeyCode.FOUR:
             aboutRoutine();
         }
       }
@@ -408,8 +418,12 @@ class KistenschiebenController {
       editUserRoutine();
     });
 
+    querySelector("#levelcodebutton").onMouseDown.listen((MouseEvent e) {
+      levelCodeRoutine();
+    });
+
     //ABOUT Listener
-    querySelector('#about').onMouseDown.listen((MouseEvent g) {
+    querySelector('#aboutbutton').onMouseDown.listen((MouseEvent g) {
       aboutRoutine();
     });
 
@@ -422,6 +436,7 @@ class KistenschiebenController {
     querySelector("#registered").innerHtml = "";
     querySelector("#start").innerHtml = "";
     querySelector("#resetbutton").style.visibility = "visible";
+    querySelector("#pushbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
   }
 
@@ -434,6 +449,27 @@ class KistenschiebenController {
     editUserListener();
   }
 
+  levelCodeRoutine() async {
+    setTyping(true);
+    querySelector("#registered").innerHtml = "";
+    ksView.enterLevelCode();
+    querySelector("#submit").onMouseDown.listen((MouseEvent e) {
+      String code = ksView.levelCode;
+      if (_setLevelByCode(code) == true) {
+        querySelector("#userinput").innerHtml = "";
+      } else {
+
+
+      }
+    });
+
+    querySelector("#back").onMouseDown.listen((MouseEvent e) {
+      querySelector("#userinput").innerHtml = "";
+      ksView.registeredScreen();
+      registeredListener();
+    });
+  }
+
   aboutRoutine() {
     querySelector("#overlay").className = "instructions";
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
@@ -442,6 +478,7 @@ class KistenschiebenController {
       registeredListener();
     });
   }
+
 
 
   /**
@@ -673,6 +710,7 @@ class KistenschiebenController {
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.player.getPullAmount());
+      ksModel.player.setPushPower(1);
       return true;
     }
     return false;
@@ -691,6 +729,7 @@ class KistenschiebenController {
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.player.getPullAmount());
+      ksModel.player.setPushPower(1);
       return true;
     }
     return false;
@@ -709,6 +748,7 @@ class KistenschiebenController {
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.player.getPullAmount());
+      ksModel.player.setPushPower(1);
       return true;
     }
     return false;
@@ -727,6 +767,7 @@ class KistenschiebenController {
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.player.getPullAmount());
+      ksModel.player.setPushPower(1);
       return true;
     }
     return false;
@@ -1049,8 +1090,7 @@ class KistenschiebenController {
     int level = genLvl.getLevelByCode(code);
     if (level != -1) {
       genLvl.setSelectlevel(level);
-      ksModel.resetStatsTotal();
-      genLvl.loadData().whenComplete(newGame);
+      genLvl.loadData().whenComplete(newGameRoutine);
       return true;
     }
     return false;

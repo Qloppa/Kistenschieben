@@ -149,4 +149,12 @@ class Player {
   int getPosY() {
     return this.staysOn.position.getY();
   }
+
+  int getPushPower() {
+    return pushPower;
+  }
+
+  void setPushPower(int pushpower) {
+    this.pushPower = pushpower;
+  }
 }
