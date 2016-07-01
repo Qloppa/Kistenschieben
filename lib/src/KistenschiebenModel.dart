@@ -187,6 +187,27 @@ class KistenschiebenModel {
     this.stats.setActualLevel(i);
   }
 
+  /**
+   * sets the amount of crates that can be pushed with one move by the player to the value i
+   */
+  void setPushPower(int i){
+    player.setPushPower(i);
+  }
+
+  /**
+   * returns the amount of crates that can be pushed with one move by the player
+   */
+  int getPushPower(){
+    return player.getPushPower();
+  }
+
+  /**
+   * returns the pull amount
+   */
+  int getPullAmount(){
+    return player.getPullAmount();
+  }
+
 //endregion
 
 //region STATS
@@ -249,6 +270,13 @@ class KistenschiebenModel {
   pull() {
     stats.decGloves();
     stats.incUsedGloves();
+  }
+
+  /**
+   * increments the number of resets
+   */
+  incResets(){
+    this.stats.incResets();
   }
 
 //endregion

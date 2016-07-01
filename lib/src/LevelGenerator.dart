@@ -15,8 +15,8 @@ class LevelGenerator {
   //levelnumber
   int lvlNumber = 0;
 
-  int column = 0;
-  int row = 0;
+  int _column = 0;
+  int _row = 0;
   String _code = "";
   List<Map> lvls = new List<Map>();
 
@@ -70,8 +70,8 @@ class LevelGenerator {
 
   levelformatter(Map level) {
     this.currentLvl = level.values.elementAt(0);
-    this.row = level.values.elementAt(1);
-    this.column = level.values.elementAt(2);
+    this._row = level.values.elementAt(1);
+    this._column = level.values.elementAt(2);
     this._code = level.values.elementAt(3);
     List<Map> levelFormatList = level.values.elementAt(4);
     levelList = levelFormatList;
@@ -81,14 +81,14 @@ class LevelGenerator {
    * returns the number of columns
    */
   int getColumn() {
-    return this.column;
+    return this._column;
   }
 
   /**
    * returns the number of rows
    */
   int getRow() {
-    return this.row;
+    return this._row;
   }
 
   /**

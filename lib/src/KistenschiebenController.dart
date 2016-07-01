@@ -249,9 +249,9 @@ class KistenschiebenController {
 
     //PUSH
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      int pushpower = ksModel.player.getPushPower();
+      int pushpower = ksModel.getPushPower();
       pushpower++;
-      ksModel.player.setPushPower(pushpower);
+      ksModel.setPushPower(pushpower);
       querySelector("#pushbutton").innerHtml = "PushPower($pushpower)";
     });
 
@@ -709,6 +709,7 @@ class KistenschiebenController {
   nextListener() async {
     querySelector("#groundlayer").innerHtml = "";
     querySelector("#objectlayer").innerHtml = "";
+    querySelector("#pullbutton").style.visibility = "hidden";
     if (registered == true) {
       querySelector("#save").style.visibility = "visible";
     }
@@ -719,6 +720,7 @@ class KistenschiebenController {
       querySelector("#resetbutton").style.position = "";
       updateStats();
       nextLvl();
+      querySelector("#pullbutton").style.visibility = "visible";
     });
 
     //SAVE
@@ -746,8 +748,9 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.player.getPullAmount());
-      ksModel.player.setPushPower(1);
+      ksView.setPullButton(ksModel.getPullAmount());
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "PushPower(1)";
       return true;
     }
     return false;
@@ -765,8 +768,9 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.player.getPullAmount());
-      ksModel.player.setPushPower(1);
+      ksView.setPullButton(ksModel.getPullAmount());
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "PushPower(1)";
       return true;
     }
     return false;
@@ -784,8 +788,9 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.player.getPullAmount());
-      ksModel.player.setPushPower(1);
+      ksView.setPullButton(ksModel.getPullAmount());
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "PushPower(1)";
       return true;
     }
     return false;
@@ -803,8 +808,9 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.player.getPullAmount());
-      ksModel.player.setPushPower(1);
+      ksView.setPullButton(ksModel.getPullAmount());
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "PushPower(1)";
       return true;
     }
     return false;
@@ -1004,8 +1010,8 @@ class KistenschiebenController {
           .toList();
       for (int i = 0; i < scores.length; i++)
         scores.sort((a, b) =>
-        a['level']['LocalPushes'] -
-            b['level']['LocalPushes']); //die niedrigsten localPushes
+        a['LocalPushes'] -
+            b['LocalPushes']); //die niedrigsten localPushes
 
     } catch (error, stacktrace) {
       print(error);
@@ -1090,7 +1096,7 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       int save = ksModel.getGloves();
-      if(_newGlove == 3){
+      if(_newGlove == 3){   //adds a glove when the user has won 3 games
         save++;
         _newGlove = 0;
       }
@@ -1124,7 +1130,7 @@ class KistenschiebenController {
   */
   void resetGame() {
     setGameRunning(true);
-    ksModel.stats.incResets();
+    ksModel.incResets();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
     ksView.generateLevelFromString(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
@@ -1132,6 +1138,8 @@ class KistenschiebenController {
     ksModel.resetStats();
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
+    ksModel.setPushPower(1);
+    querySelector("#pushbutton").innerHtml = "PushPower(1)";
     updateStats();
   }
 

@@ -1,37 +1,15 @@
 class Statistics {
-  static var _localMoves;
-
-  //moves this round, 0 after reset
-  static var _globalMoves;
-
-  //moves this round total
-  static var _localPushes;
-
-  //pushes this round, 0 after reset
-  static var _globalPushes;
-
-  //pushes this round total
-  DateTime _startTime;
-
-  //time when the user started the game, not used yet
-  static var _roundTime;
-
-  //used time in this round
-  static int _resets;
-
-  //number of resets
-  static int _actualLevel;
-
-  //the actual level
-  static Statistics _instance;
-
-  //an instance of the static Statistics
-  static int _gloves;
-
-  //number of sticky gloves, used to pull a crate
-  static int _usedGloves;
-
-  //number of used sticky gloves
+  static var _localMoves;       //moves this round, 0 after reset
+  static var _globalMoves;      //moves this round total
+  static var _localPushes;      //pushes this round, 0 after reset
+  static var _globalPushes;     //pushes this round total
+  DateTime _startTime;          //time when the user started the game, not used yet
+  static var _roundTime;        //used time in this round
+  static int _resets;           //number of resets
+  static int _actualLevel;      //the actual level
+  static Statistics _instance;  //an instance of the static Statistics
+  static int _gloves;           //number of sticky gloves, used to pull a crate
+  static int _usedGloves;       //number of used sticky gloves
 
   //not used yet
   static var _localTime;
