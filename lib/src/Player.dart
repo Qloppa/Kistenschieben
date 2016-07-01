@@ -22,18 +22,24 @@ class Player {
   returns true if possible, false if not
    */
   List<String> moveUp(int pullAmount) {
+    List changedPositions = new List();
     pullPower = pullPower + pullAmount;
+    bool cratePulled = false;
     if (staysOn.upPointer != null) {
-      List changedPositions = staysOn.upPointer.isPassable(staysOn, pushPower);
+      if (pullPower > 0 && staysOn.downPointer.crate != null &&
+          staysOn.upPointer.crate == null) {
+        changedPositions.add(staysOn.downPointer.getPositionAsString());
+        staysOn.downPointer.crate.moveUp(pushPower);
+        pullPower--;
+        cratePulled = true;
+      }
+      changedPositions.addAll(staysOn.upPointer.isPassable(staysOn, pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
-        if (pullPower > 0 && staysOn.downPointer.crate != null) {
-          changedPositions.add(staysOn.downPointer.getPositionAsString());
-          staysOn.downPointer.crate.moveUp(pushPower);
+        if (cratePulled == true) {
           String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[1];
-          changedPositions[1] = temp;
-          pullPower--;
+          changedPositions[0] = changedPositions[2];
+          changedPositions[2] = temp;
         }
         staysOn = staysOn.upPointer;
         stats.incMoves();
@@ -51,19 +57,24 @@ class Player {
   returns true if possible, false if not
    */
   List<String> moveRight(int pullAmount) {
+    List changedPositions = new List();
     pullPower = pullPower + pullAmount;
+    bool cratePulled = false;
     if (staysOn.rightPointer != null) {
-      List changedPositions = staysOn.rightPointer.isPassable(
-          staysOn, pushPower);
+      if (pullPower > 0 && staysOn.leftPointer.crate != null &&
+          staysOn.rightPointer.crate == null) {
+        changedPositions.add(staysOn.leftPointer.getPositionAsString());
+        staysOn.leftPointer.crate.moveRight(pushPower);
+        pullPower--;
+        cratePulled = true;
+      }
+      changedPositions.addAll(staysOn.rightPointer.isPassable(staysOn, pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
-        if (pullPower > 0 && staysOn.leftPointer.crate != null) {
-          changedPositions.add(staysOn.leftPointer.getPositionAsString());
-          staysOn.leftPointer.crate.moveRight(pushPower);
+        if (cratePulled == true) {
           String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[1];
-          changedPositions[1] = temp;
-          pullPower--;
+          changedPositions[0] = changedPositions[2];
+          changedPositions[2] = temp;
         }
         staysOn = staysOn.rightPointer;
         stats.incMoves();
@@ -81,19 +92,24 @@ class Player {
   returns true if possible, false if not
    */
   List<String> moveDown(int pullAmount) {
+    List changedPositions = new List();
     pullPower = pullPower + pullAmount;
+    bool cratePulled = false;
     if (staysOn.downPointer != null) {
-      List changedPositions = staysOn.downPointer.isPassable(
-          staysOn, pushPower);
+      if (pullPower > 0 && staysOn.upPointer.crate != null &&
+          staysOn.downPointer.crate == null) {
+        changedPositions.add(staysOn.upPointer.getPositionAsString());
+        staysOn.upPointer.crate.moveDown(pushPower);
+        pullPower--;
+        cratePulled = true;
+      }
+      changedPositions.addAll(staysOn.downPointer.isPassable(staysOn, pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
-        if (pullPower > 0 && staysOn.upPointer.crate != null) {
-          changedPositions.add(staysOn.upPointer.getPositionAsString());
-          staysOn.upPointer.crate.moveDown(pushPower);
+        if (cratePulled == true) {
           String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[1];
-          changedPositions[1] = temp;
-          pullPower--;
+          changedPositions[0] = changedPositions[2];
+          changedPositions[2] = temp;
         }
         staysOn = staysOn.downPointer;
         stats.incMoves();
@@ -111,19 +127,24 @@ class Player {
   returns true if possible, false if not
    */
   List<String> moveLeft(int pullAmount) {
+    List changedPositions = new List();
     pullPower = pullPower + pullAmount;
+    bool cratePulled = false;
     if (staysOn.leftPointer != null) {
-      List changedPositions = staysOn.leftPointer.isPassable(
-          staysOn, pushPower);
+      if (pullPower > 0 && staysOn.rightPointer.crate != null &&
+          staysOn.leftPointer.crate == null) {
+        changedPositions.add(staysOn.rightPointer.getPositionAsString());
+        staysOn.rightPointer.crate.moveLeft(pushPower);
+        pullPower--;
+        cratePulled = true;
+      }
+      changedPositions.addAll(staysOn.leftPointer.isPassable(staysOn, pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this.staysOn.getPositionAsString());
-        if (pullPower > 0 && staysOn.rightPointer.crate != null) {
-          changedPositions.add(staysOn.rightPointer.getPositionAsString());
-          staysOn.rightPointer.crate.moveLeft(pushPower);
+        if (cratePulled == true) {
           String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[1];
-          changedPositions[1] = temp;
-          pullPower--;
+          changedPositions[0] = changedPositions[2];
+          changedPositions[2] = temp;
         }
         staysOn = staysOn.leftPointer;
         stats.incMoves();
