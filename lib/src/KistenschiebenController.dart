@@ -544,10 +544,7 @@ class KistenschiebenController {
             String oldName = ksView.oldUsername;
             String password = ksView.userPassword;
             String username = ksView.username;
-            bool state;
-            if (
-            state =
-            (gamekey.changeUserName(oldName, password, username) != null)) {
+            if (gamekey.changeUserName(oldName, password, username) != null) {
               querySelector("#edituser").style.visibility = "visible";
               querySelector("messagefield").className = "messageanimation";
               querySelector("messagefield").innerHtml = "Changename succeded";
@@ -569,9 +566,7 @@ class KistenschiebenController {
       String oldName = ksView.oldUsername;
       String password = ksView.userPassword;
       String username = ksView.username;
-      bool state;
-      if (
-      state = (gamekey.changeUserName(oldName, password, username) != null)) {
+      if (gamekey.changeUserName(oldName, password, username) != null) {
         querySelector("#edituser").style.visibility = "visible";
         querySelector("messagefield").className = "messageanimation";
         querySelector("messagefield").innerHtml = "Changename succeded";
@@ -1157,6 +1152,8 @@ class KistenschiebenController {
     }
   }
 
+//endregion
+
   /**
    * Starts the level and returns true if the secret code is correct, returns false if not
    */
@@ -1168,14 +1165,5 @@ class KistenschiebenController {
       return true;
     }
     return false;
-  }
-
-//endregion
-
-  /**
-   * gets the username from the gamekey  //TODO entfernen
-   */
-  getUserId(String user) async {
-    final username = await gamekey.getUserId(user);
   }
 }

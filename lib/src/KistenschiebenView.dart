@@ -217,7 +217,7 @@ class KistenschiebenView {
 
   void scaling() {
     Window w = window;
-    int resoWidth = w.innerWidth;
+    int resoWidth = w.innerWidth - 100;
     int resoHeight = w.innerHeight - 200;
     String oS;
     bool hoch = tableH > tableW;
@@ -235,9 +235,9 @@ class KistenschiebenView {
   }
 
 
-  /*
-  Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
-  */
+  /**
+   * Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
+   */
   setGameKeyAvailable(bool value) {
     if (value == true) {
       querySelector("#gamekeystatus").style.color = "green";
@@ -249,8 +249,8 @@ class KistenschiebenView {
     }
   }
 
-  /*
-   *Generates the win-overlay and the button to access the next level
+  /**
+   * Generates the win-overlay and the button to access the next level
    */
   showWin(var highscores) async {
     String str = "<table border = 1; width=\"60%\">" +
@@ -272,8 +272,11 @@ class KistenschiebenView {
     querySelector("#resetbutton").style.position = "absolute";
   }
 
+  /**
+   * Sets the Content of the Pull Button
+   */
   setPullButton(int amount) {
-    querySelector("#pullbutton").innerHtml = "pull gloves($amount)";
+    querySelector("#pullbutton").innerHtml = "Pull Gloves($amount)";
   }
 
   /*
