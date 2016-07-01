@@ -203,12 +203,11 @@ class KistenschiebenView {
   String get oldUserpassword =>
       (document.querySelector('#olduserpassword') as InputElement).value;
 
-  /**
-   * is used for scaling the gamefield.
-   */
+
 
   String get levelCode =>
       (document.querySelector('#levelCode') as InputElement).value;
+
 
   getAbout() {
     querySelector("#about").innerHtml = "<about id=\"overlay\"><about>";
@@ -281,8 +280,8 @@ class KistenschiebenView {
     querySelector("#pullbutton").innerHtml = "Pull Gloves($amount)";
   }
 
-  /*
-   *Creates the level in html from a String
+  /**
+   * Creates the level in html from a String
    */
   Future<String> generateLevelFromString(List<Map> levelList, int column,
       int row) async {
@@ -360,6 +359,9 @@ class KistenschiebenView {
     return formatlevel;
   }
 
+  /**
+   * returns the x- and y-position as interger-values in a list
+   */
   List<int> getPosition(String pos) {
     List<String> values = pos.split("_");
     List<int> positions = new List();
@@ -370,10 +372,10 @@ class KistenschiebenView {
   }
 
 
-  /*
-  Updates the position of the player and the crates
-  Receives old and new positions as Strings and updates the html
-  */
+  /**
+   * Updates the position of the player and the crates
+   * Receives old and new positions as Strings and updates the html
+   */
   void updateViewPush(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_new) {
     int pox = getPosition(playerPosition_old)[1];
@@ -395,10 +397,10 @@ class KistenschiebenView {
   }
 
 
-  /*
-  Updates the position of the player and the crates
-  Receives old and new positions as Strings and updates the html
-  */
+  /**
+   *Updates the position of the player and the crates
+   *Receives old and new positions as Strings and updates the html
+   */
   void updateViewPull(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_old) {
     int pnx = getPosition(playerPosition_new)[1];
