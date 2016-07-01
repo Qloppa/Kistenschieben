@@ -427,15 +427,15 @@ class KistenschiebenView {
     String resets = stats.remove("resets").toString();
     String usedGloves = stats.remove("usedGloves").toString();
     String gloves = stats.remove("gloves").toString();
+    String steroids = stats.remove("steroids").toString();
+    String usedSteroids = stats.remove("usedSteroids").toString();
     querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp"
-        "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp"
-        "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp"
-        "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp"
-        "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp"
-        "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp"
-        "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp"
-        "Left Gloves:<em>$gloves</em>&nbsp&nbsp&nbsp&nbsp ";
+    "Level:<em>$actualLvl</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Resets:<em>$resets</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Pushes:<em>$localPushes ($globalPushes)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Moves:<em>$localMoves ($globalMoves)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Gloves: <em>$gloves (Used: $usedGloves)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Steroids: <em>$steroids (Used: $usedSteroids)</em>";
 
   /*ySelector("#stat").innerHtml = "<table border = 1; width=\"60%\">" +
         "<colgroup><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
@@ -448,6 +448,6 @@ class KistenschiebenView {
    * Displays the Code for the actual level
    */
   void showLvlCode(String code) {
-    querySelector("#header").innerHtml = code;
+    querySelector("#header").innerHtml = "Levelcode: $code";
   }
 }

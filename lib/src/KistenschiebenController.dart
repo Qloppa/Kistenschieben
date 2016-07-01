@@ -42,8 +42,10 @@ class KistenschiebenController {
   bool logedIn = false;
   //Shows if the user activated the pull-ability for the next round
   int _pullAmount = 0;
-  //after 3 wins without using a glove the user gets a new glove
+  //after 3 wins the user gets 3 new gloves
   int _newGlove = 0;
+  //after 3 wins the user gets 3 new steroids
+  int _newSteroids = 0;
 
   bool gameRunning = false;
   bool finishedGame = false;
@@ -204,12 +206,6 @@ class KistenschiebenController {
     querySelector('#wOLogin').onMouseDown.listen((MouseEvent e) {
       withoutLoginRoutine();
 
-      //PULL (STICKY GLOVES)    TODO anpassen in View
-      /*querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
-      activatePull();
-      //Anzahl von StickyGloves in View aendern beim Button, Methode schreiben sobald Button steht
-    });
-    */
     });
 
     //ABOUT
@@ -244,15 +240,17 @@ class KistenschiebenController {
         _pullAmount++;
         ksView.setPullButton(init);
       }
-
     });
 
     //PUSH
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      int pushpower = ksModel.getPushPower();
-      pushpower++;
-      ksModel.setPushPower(pushpower);
-      querySelector("#pushbutton").innerHtml = "PushPower($pushpower)";
+      if(ksModel.getSteroids() > 0){
+        int pushpower = ksModel.getPushPower();
+        pushpower++;
+        ksModel.steroidPush();
+        ksModel.setPushPower(pushpower);
+        querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
+      }
     });
 
     hoverlistener();
@@ -750,7 +748,7 @@ class KistenschiebenController {
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.getPullAmount());
       ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(1)";
+      querySelector("#pushbutton").innerHtml = "Steroids(1)";
       return true;
     }
     return false;
@@ -770,7 +768,7 @@ class KistenschiebenController {
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.getPullAmount());
       ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(1)";
+      querySelector("#pushbutton").innerHtml = "Steroids(1)";
       return true;
     }
     return false;
@@ -790,7 +788,7 @@ class KistenschiebenController {
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.getPullAmount());
       ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(1)";
+      querySelector("#pushbutton").innerHtml = "Steroids(1)";
       return true;
     }
     return false;
@@ -810,7 +808,7 @@ class KistenschiebenController {
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.getPullAmount());
       ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(1)";
+      querySelector("#pushbutton").innerHtml = "Steroids(1)";
       return true;
     }
     return false;
@@ -1005,7 +1003,8 @@ class KistenschiebenController {
         'GlobalPushes': entry['state']['globalPushes'],
         'LocalMoves': entry['state']['localMoves'],
         'GlobalMoves': entry['state']['globalMoves'],
-        'UsedGloves': entry['state']['usedGloves']
+        'UsedGloves': entry['state']['usedGloves'],
+        'UsedSteroids': entry['state']['usedSteroids']
       })
           .toList();
       for (int i = 0; i < scores.length; i++)
@@ -1026,11 +1025,6 @@ class KistenschiebenController {
     return lvlOnly.take(amount);
   }
 
-  activatePull() {
-    if (ksModel.getGloves() > 0) {
-      ksModel.pull();
-    }
-  }
 
 //endregion
 
@@ -1095,13 +1089,19 @@ class KistenschiebenController {
   nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
-      int save = ksModel.getGloves();
+      int saveGloves = ksModel.getGloves();
       if(_newGlove == 3){   //adds a glove when the user has won 3 games
-        save++;
+        saveGloves++;
         _newGlove = 0;
       }
+      int saveSteroids = ksModel.getSteroids();
+      if(_newSteroids == 3){   //adds a glove when the user has won 3 games
+        saveSteroids++;
+        _newSteroids = 0;
+      }
       ksModel.resetStatsTotal();
-      ksModel.setGloves(save);
+      ksModel.setGloves(saveGloves);
+      ksModel.setSteroids(saveSteroids);
       genLvl.loadData().whenComplete(newGame);
     }
   }
@@ -1139,7 +1139,7 @@ class KistenschiebenController {
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     ksModel.setPushPower(1);
-    querySelector("#pushbutton").innerHtml = "PushPower(1)";
+    querySelector("#pushbutton").innerHtml = "Steroids(1)";
     updateStats();
   }
 
