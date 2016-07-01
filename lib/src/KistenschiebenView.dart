@@ -215,19 +215,21 @@ class KistenschiebenView {
   }
 
 
+  /**
+   * Scales the elements of the table and enables support for every resolution
+   */
   void scaling() {
     Window w = window;
-    int resoWidth = w.innerWidth - 100;
+    int resoWidth = w.innerWidth - 50;
     int resoHeight = w.innerHeight - 200;
     String oS;
-    bool hoch = tableH > tableW;
     int px;
-    if (hoch) {
-      double size = resoHeight / tableH;
-      px = size.toInt();
-    } else {
-      double size = resoHeight / tableW;
-      px = size.toInt();
+    double x = resoWidth / tableW;
+    double y = resoHeight/ tableH;
+    if(x <= y){
+      px = x.toInt();
+    }else{
+      px = y.toInt();
     }
     oS = px.toString() + "px";
     querySelectorAll("td").style.height = oS;
