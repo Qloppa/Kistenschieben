@@ -230,6 +230,13 @@ class KistenschiebenModel {
   }
 
   /**
+   * Sets the number of gloves in the statistics to the value n
+   */
+  int setGloves(int n){
+    stats.setGloves(n);
+  }
+
+  /**
    * returns the number of used gloves
    */
   int getUsedGloves() {

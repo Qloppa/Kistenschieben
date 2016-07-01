@@ -52,7 +52,7 @@ class Statistics {
     _resets = 0;
     _actualLevel = 0;
     _usedGloves = 0;
-    _gloves = 0;
+    _gloves = 2;
   }
 
 
