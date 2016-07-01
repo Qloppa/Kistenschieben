@@ -69,12 +69,19 @@ class LevelGenerator {
   }
 
   levelformatter(Map level) {
-    this.currentLvl = level.values.elementAt(0);
-    this._row = level.values.elementAt(1);
-    this._column = level.values.elementAt(2);
-    this._code = level.values.elementAt(3);
-    List<Map> levelFormatList = level.values.elementAt(4);
-    levelList = levelFormatList;
+    if (level.values.elementAt(0) != null &&
+        level.values.elementAt(1) != null &&
+        level.values.elementAt(2) != null &&
+        level.values.elementAt(3) != null && level.values.elementAt(4) != null) {
+      this.currentLvl = level.values.elementAt(0);
+      this._row = level.values.elementAt(1);
+      this._column = level.values.elementAt(2);
+      this._code = level.values.elementAt(3);
+      levelList = level.values.elementAt(4);
+    } else {
+      print("The game was unable to load the level");
+      //TODO fehlermeldung in View ausgeben (The game was unable to load the level)
+    }
   }
 
   /**
