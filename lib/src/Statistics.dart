@@ -147,7 +147,7 @@ class Statistics {
   /**
    * sets the actual level
    */
-  setActualLevel(int lvl) {
+  setCurrentLevel(int lvl) {
     _actualLevel = lvl;
   }
 

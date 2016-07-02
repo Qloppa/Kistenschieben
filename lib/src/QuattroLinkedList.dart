@@ -1,33 +1,29 @@
 import 'FieldObject.dart';
 
 class QuattroLinkedList {
-  FieldObject root = null;
-  FieldObject lastAdded = null;
-  FieldObject firstInRow = null;
-  FieldObject nextPrint = null;
-  FieldObject firstInRowPrint = null;
-  List crateList = null;
+  FieldObject _root = null;
+  FieldObject _lastAdded = null;
+  FieldObject _firstInRow = null;
 
   QuattroLinkedList() {
-    crateList = new List();
   }
 
   /**
    * Adds a new Fieldobject in the actual row
    */
-  addRight(FieldObject fieldObject) {
-    if (root == null) {
-      root = fieldObject;
-      root.position.x = 0;
-      root.position.y = 0;
-      firstInRow = root;
+  FieldObject addRight(FieldObject fieldObject) {
+    if (_root == null) {
+      _root = fieldObject;
+      _root.getPosition().setX(0);
+      _root.getPosition().setY(0);
+      _firstInRow = _root;
     } else {
-      fieldObject.leftPointer = lastAdded;
-      lastAdded.rightPointer = fieldObject;
+      fieldObject.leftPointer = _lastAdded;
+      _lastAdded.rightPointer = fieldObject;
 
-      //set position
-      fieldObject.position.x = fieldObject.leftPointer.position.x + 1;
-      fieldObject.position.y = fieldObject.leftPointer.position.y;
+      //set getPosition()
+      fieldObject.getPosition().setX(fieldObject.leftPointer.getPosition().getX() + 1);
+      fieldObject.getPosition().setY(fieldObject.leftPointer.getPosition().getY());
       if (fieldObject.leftPointer.upPointer != null &&
           fieldObject.leftPointer.upPointer.rightPointer != null) {
         fieldObject.upPointer = fieldObject.leftPointer.upPointer.rightPointer;
@@ -37,21 +33,22 @@ class QuattroLinkedList {
         fieldObject.upPointer = null;
       }
     }
-    lastAdded = fieldObject;
-    return lastAdded;
+    _lastAdded = fieldObject;
+    return _lastAdded;
   }
 
   /**
    * Adds a new Fieldobject at the first place in a new row
    */
-  addDown(FieldObject fieldObject) {
-    fieldObject.upPointer = firstInRow;
-    firstInRow.downPointer = fieldObject;
+  FieldObject addDown(FieldObject fieldObject) {
+    fieldObject.upPointer = _firstInRow;
+    _firstInRow.downPointer = fieldObject;
 
-    //set position
-    fieldObject.position.x = fieldObject.upPointer.position.x;
-    fieldObject.position.y = fieldObject.upPointer.position.y + 1;
-    firstInRow = fieldObject;
-    lastAdded = firstInRow;
+    //set getPosition()
+    fieldObject.getPosition().setX(fieldObject.upPointer.getPosition().getX());
+    fieldObject.getPosition().setY(fieldObject.upPointer.getPosition().getY() + 1);
+    _firstInRow = fieldObject;
+    _lastAdded = _firstInRow;
+    return _lastAdded;
   }
 }

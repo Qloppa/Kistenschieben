@@ -5,29 +5,34 @@ import 'Statistics.dart';
  * A Crate stays on a fieldObject of the type ground or target. The user has won if every crate stays on a target
  */
 class Crate {
-  Statistics stats = Statistics.getInstance();
-  var staysOn;//The FieldObject on which the crate stays
+  Statistics _stats = Statistics.getInstance();
+  var _staysOn = null;
+
+  //The FieldObject on which the crate stays
 
   /**
    * Constructor
    */
-  Crate(FieldObject staysOn) {
-    this.staysOn = staysOn;
-    staysOn.passable = false;
+  Crate(FieldObject _staysOn) {
+    this._staysOn = _staysOn;
+  }
+
+  FieldObject getStaysOn() {
+    return this._staysOn;
   }
 
   /**
    * moves the Crate and returns a list of changed positions
    */
-  List move(FieldObject whereActorStaysOn, pushPower) {
+  List move(FieldObject whereActorStaysOn, int pushPower) {
     List ret = new List();
-    if (whereActorStaysOn == staysOn.upPointer) {
+    if (whereActorStaysOn == _staysOn.upPointer) {
       ret = moveDown(pushPower);
-    } else if (whereActorStaysOn == staysOn.rightPointer) {
+    } else if (whereActorStaysOn == _staysOn.rightPointer) {
       ret = moveLeft(pushPower);
-    } else if (whereActorStaysOn == staysOn.downPointer) {
+    } else if (whereActorStaysOn == _staysOn.downPointer) {
       ret = moveUp(pushPower);
-    } else if (whereActorStaysOn == staysOn.leftPointer) {
+    } else if (whereActorStaysOn == _staysOn.leftPointer) {
       ret = moveRight(pushPower);
     }
     return ret;
@@ -35,20 +40,21 @@ class Crate {
 
   List moveUp(int pushPower) {
     pushPower--;
-    if (staysOn.upPointer != null) {
-      List changedPositions = staysOn.upPointer.isPassable(staysOn, pushPower);
+    if (_staysOn.upPointer != null) {
+      List changedPositions = _staysOn.upPointer.isPassable(
+          _staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
-        staysOn = staysOn.upPointer;
-        staysOn.downPointer.crate = null;
-        staysOn.crate = this;
-        if (staysOn.runtimeType.toString().contains("Target")) {
-          staysOn.checkOutNeighbours();
+        changedPositions.add(this._staysOn.getPositionAsString());
+        _staysOn = _staysOn.upPointer;
+        _staysOn.downPointer.crate = null;
+        _staysOn.crate = this;
+        if (_staysOn.runtimeType.toString().contains("Target")) {
+          _staysOn.checkOutNeighbours();
         }
-        if (staysOn.downPointer.runtimeType.toString().contains("Target")) {
-          staysOn.downPointer.checkOutNeighbours();
+        if (_staysOn.downPointer.runtimeType.toString().contains("Target")) {
+          _staysOn.downPointer.checkOutNeighbours();
         }
-        stats.incPushes();
+        _stats.incPushes();
         return changedPositions;
       } else {
         return new List();
@@ -60,21 +66,21 @@ class Crate {
 
   List moveRight(int pushPower) {
     pushPower--;
-    if (staysOn.rightPointer != null) {
-      List changedPositions = staysOn.rightPointer.isPassable(
-          staysOn, pushPower);
+    if (_staysOn.rightPointer != null) {
+      List changedPositions = _staysOn.rightPointer.isPassable(
+          _staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
-        staysOn = staysOn.rightPointer;
-        staysOn.leftPointer.crate = null;
-        staysOn.crate = this;
-        if (staysOn.runtimeType.toString().contains("Target")) {
-          staysOn.checkOutNeighbours();
+        changedPositions.add(this._staysOn.getPositionAsString());
+        _staysOn = _staysOn.rightPointer;
+        _staysOn.leftPointer.crate = null;
+        _staysOn.crate = this;
+        if (_staysOn.runtimeType.toString().contains("Target")) {
+          _staysOn.checkOutNeighbours();
         }
-        if (staysOn.leftPointer.runtimeType.toString().contains("Target")) {
-          staysOn.leftPointer.checkOutNeighbours();
+        if (_staysOn.leftPointer.runtimeType.toString().contains("Target")) {
+          _staysOn.leftPointer.checkOutNeighbours();
         }
-        stats.incPushes();
+        _stats.incPushes();
         return changedPositions;
       } else {
         return new List();
@@ -86,21 +92,21 @@ class Crate {
 
   List moveDown(int pushPower) {
     pushPower--;
-    if (staysOn.downPointer != null) {
-      List changedPositions = staysOn.downPointer.isPassable(
-          staysOn, pushPower);
+    if (_staysOn.downPointer != null) {
+      List changedPositions = _staysOn.downPointer.isPassable(
+          _staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
-        staysOn = staysOn.downPointer;
-        staysOn.upPointer.crate = null;
-        staysOn.crate = this;
-        if (staysOn.runtimeType.toString().contains("Target")) {
-          staysOn.checkOutNeighbours();
+        changedPositions.add(this._staysOn.getPositionAsString());
+        _staysOn = _staysOn.downPointer;
+        _staysOn.upPointer.crate = null;
+        _staysOn.crate = this;
+        if (_staysOn.runtimeType.toString().contains("Target")) {
+          _staysOn.checkOutNeighbours();
         }
-        if (staysOn.upPointer.runtimeType.toString().contains("Target")) {
-          staysOn.upPointer.checkOutNeighbours();
+        if (_staysOn.upPointer.runtimeType.toString().contains("Target")) {
+          _staysOn.upPointer.checkOutNeighbours();
         }
-        stats.incPushes();
+        _stats.incPushes();
         return changedPositions;
       } else {
         return new List();
@@ -112,21 +118,21 @@ class Crate {
 
   List moveLeft(int pushPower) {
     pushPower--;
-    if (staysOn.leftPointer != null) {
-      List changedPositions = staysOn.leftPointer.isPassable(
-          staysOn, pushPower);
+    if (_staysOn.leftPointer != null) {
+      List changedPositions = _staysOn.leftPointer.isPassable(
+          _staysOn, pushPower);
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
-        staysOn = staysOn.leftPointer;
-        staysOn.rightPointer.crate = null;
-        staysOn.crate = this;
-        if (staysOn.runtimeType.toString().contains("Target")) {
-          staysOn.checkOutNeighbours();
+        changedPositions.add(this._staysOn.getPositionAsString());
+        _staysOn = _staysOn.leftPointer;
+        _staysOn.rightPointer.crate = null;
+        _staysOn.crate = this;
+        if (_staysOn.runtimeType.toString().contains("Target")) {
+          _staysOn.checkOutNeighbours();
         }
-        if (staysOn.rightPointer.runtimeType.toString().contains("Target")) {
-          staysOn.rightPointer.checkOutNeighbours();
+        if (_staysOn.rightPointer.runtimeType.toString().contains("Target")) {
+          _staysOn.rightPointer.checkOutNeighbours();
         }
-        stats.incPushes();
+        _stats.incPushes();
         return changedPositions;
       } else {
         return new List();

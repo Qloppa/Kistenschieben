@@ -4,22 +4,17 @@ import 'FieldObject.dart';
  * A FieldObject of the type target. Each Crates must be on a target to win the game
  */
 class Target extends FieldObject {
-
-  Target prevTarget = null;
-  Target nextTarget = null;
+  Target _prevTarget = null;
+  Target _nextTarget = null;
   bool _won = false;
-
 
   /**
    * Constructor
    */
-  Target(Target prevTarget) : super() {
-    this.passable = true;
-    this.isTarget = true;
-    this.isWall = false;
-    this.prevTarget = prevTarget;
-    if (this.prevTarget != null) {
-      this.prevTarget.nextTarget = this;
+  Target(Target prevTarget) {
+    this._prevTarget = prevTarget;
+    if (this._prevTarget != null) {
+      this._prevTarget._nextTarget = this;
     }
   }
 
@@ -40,11 +35,13 @@ class Target extends FieldObject {
   }
 
   /**
-   * checks the previous neighbours
+   * checks the previous neighbours out
    */
   bool checkOutNeighboursPrev() {
     bool ret = false;
-    if((this.prevTarget == null || this.prevTarget.checkOutNeighboursPrev()==true) && this.crate != null) {
+    if ((this._prevTarget == null ||
+        this._prevTarget.checkOutNeighboursPrev() == true) &&
+        this.hasCrate()) {
       ret = true;
     } else {
       ret = false;
@@ -57,7 +54,9 @@ class Target extends FieldObject {
    */
   bool checkOutNeighboursNext() {
     bool ret = false;
-    if((this.nextTarget == null || this.nextTarget.checkOutNeighboursNext()==true) && this.crate != null) {
+    if ((this._nextTarget == null ||
+        this._nextTarget.checkOutNeighboursNext() == true) &&
+        this.hasCrate()) {
       ret = true;
     } else {
       ret = false;
@@ -68,20 +67,20 @@ class Target extends FieldObject {
   /**
    * sets the previous neighbour to "won"
    */
-  setPrevWon(bool won) {
+  void setPrevWon(bool won) {
     this._won = won;
-    if (this.prevTarget != null) {
-      this.prevTarget.setPrevWon(_won);
+    if (this._prevTarget != null) {
+      this._prevTarget.setPrevWon(_won);
     }
   }
 
   /**
    * sets the next neighbour to "won"
    */
-  setNextWon(bool won) {
+  void setNextWon(bool won) {
     this._won = won;
-    if (this.nextTarget != null) {
-      this.nextTarget.setNextWon(_won);
+    if (this._nextTarget != null) {
+      this._nextTarget.setNextWon(_won);
     }
   }
 }

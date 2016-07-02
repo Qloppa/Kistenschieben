@@ -2,23 +2,14 @@ import 'Crate.dart';
 import 'Position.dart';
 
 class FieldObject {
-  Crate crate;
-
+  Crate crate = null;
   //Position
-  Position position = new Position(0, 0);
-
-  //object Booleans
-  bool passable;
-  bool isTarget;
-  bool isWall;
-
+  Position _position = new Position(0, 0);
   //pointer
   FieldObject rightPointer;
   FieldObject leftPointer;
   FieldObject upPointer;
   FieldObject downPointer;
-  FieldObject prevTarget; //TODO verantwortlich? <- und V
-  FieldObject nextTarget;
 
   /**
    * Constructor
@@ -28,8 +19,29 @@ class FieldObject {
     this.rightPointer = null;
     this.downPointer = null;
     this.leftPointer = null;
-    this.prevTarget = null;//test
-    this.nextTarget = null;//test
+  }
+
+  Position getPosition() {
+   return _position;
+  }
+
+  Crate getCrate() {
+    return this.crate;
+  }
+
+  /**
+   * Sets the crate
+   */
+  void setCrate(Crate crate) {
+    this.crate = crate;
+  }
+
+  bool hasCrate() {
+    bool ret = false;
+    if (this.crate != null) {
+      ret = true;
+    }
+    return ret;
   }
 
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {
@@ -45,18 +57,11 @@ class FieldObject {
   }
 
   /**
-   * Sets the crate
-   */
-  setCrate(Crate crate) {
-    this.crate = crate;
-  }
-
-  /**
    * Returns the position as a String "#posX_Y"
    */
   String getPositionAsString() {
-    String str = this.position.x.toString() + "_" +
-        this.position.y.toString();
+    String str = this._position.getX().toString() + "_" +
+        this._position.getY().toString();
     return str;
   }
 }
