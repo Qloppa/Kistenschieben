@@ -34,10 +34,8 @@ class Target extends FieldObject {
   bool checkOutNeighbours() {
     bool ret = false;
     ret = checkOutNeighboursPrev() && checkOutNeighboursNext();
-    if (ret == true) {
-      setPrevWon();
-      setNextWon();
-    }
+    setPrevWon(ret);
+    setNextWon(ret);
     return ret;
   }
 
@@ -70,20 +68,20 @@ class Target extends FieldObject {
   /**
    * sets the previous neighbour to "won"
    */
-  setPrevWon() {
-    this._won = true;
+  setPrevWon(bool won) {
+    this._won = won;
     if (this.prevTarget != null) {
-      this.prevTarget.setPrevWon();
+      this.prevTarget.setPrevWon(_won);
     }
   }
 
   /**
    * sets the next neighbour to "won"
    */
-  setNextWon() {
-    this._won = true;
+  setNextWon(bool won) {
+    this._won = won;
     if (this.nextTarget != null) {
-      this.nextTarget.setNextWon();
+      this.nextTarget.setNextWon(_won);
     }
   }
 }

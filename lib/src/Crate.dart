@@ -45,6 +45,9 @@ class Crate {
         if (staysOn.runtimeType.toString().contains("Target")) {
           staysOn.checkOutNeighbours();
         }
+        if (staysOn.downPointer.runtimeType.toString().contains("Target")) {
+          staysOn.downPointer.checkOutNeighbours();
+        }
         stats.incPushes();
         return changedPositions;
       } else {
@@ -67,6 +70,9 @@ class Crate {
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
           staysOn.checkOutNeighbours();
+        }
+        if (staysOn.leftPointer.runtimeType.toString().contains("Target")) {
+          staysOn.leftPointer.checkOutNeighbours();
         }
         stats.incPushes();
         return changedPositions;
@@ -91,6 +97,9 @@ class Crate {
         if (staysOn.runtimeType.toString().contains("Target")) {
           staysOn.checkOutNeighbours();
         }
+        if (staysOn.upPointer.runtimeType.toString().contains("Target")) {
+          staysOn.upPointer.checkOutNeighbours();
+        }
         stats.incPushes();
         return changedPositions;
       } else {
@@ -113,6 +122,9 @@ class Crate {
         staysOn.crate = this;
         if (staysOn.runtimeType.toString().contains("Target")) {
           staysOn.checkOutNeighbours();
+        }
+        if (staysOn.rightPointer.runtimeType.toString().contains("Target")) {
+          staysOn.rightPointer.checkOutNeighbours();
         }
         stats.incPushes();
         return changedPositions;
