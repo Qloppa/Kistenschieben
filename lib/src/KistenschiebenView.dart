@@ -31,7 +31,7 @@ class KistenschiebenView {
         "<button id=\"loginbutton\" class=\"option\">Login(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"wOLogin\" class=\"option\">Play without login(3)</button>"
+        "<button id=\"demobutton\" class=\"option\">Play demo(3)</button>"
         "</div>"
         "<div>"
         "<button id=\"aboutbutton\" class=\"option\">About(4)</button>"
@@ -48,7 +48,7 @@ class KistenschiebenView {
         "<form id=\"inputdates\">"
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
-        "<button type =\"button\" id=\"submit\">$fromLayer</button>"
+        "<button type =\"button\" id=\"submit\">$fromLayer(&#x21b5)</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -82,16 +82,16 @@ class KistenschiebenView {
     querySelector('#edituser').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
-        "<button id=\"changename\" class=\"option\">Change Name</button>"
+        "<button id=\"changename\" class=\"option\">Change Name(1)</button>"
         "</div>"
         "<div>"
-        "<button id=\"changepassword\" class=\"option\">Change Password</button>"
+        "<button id=\"changepassword\" class=\"option\">Change Password(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"delete\" class=\"option\">Delete User</button>"
+        "<button id=\"delete\" class=\"option\">Delete User(3)</button>"
         "</div>"
         "<div>"
-        "<button id=\"back\" class=\"option\">Back</button>"
+        "<button id=\"back\" class=\"option\">Back(&#x2190)</button>"
         "</div>"
         "</div>";
 
@@ -111,7 +111,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"oldusername\" placeholder=\"old Username\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
         "<input type=\"text\" id=\"username\" placeholder=\"new Username\">"
-        "<button type =\"button\" id=\"submit\">Change Name</button>"
+        "<button type =\"button\" id=\"submit\">Change Name(&#x21b5)</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -127,36 +127,7 @@ class KistenschiebenView {
         "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
         "<input type=\"password\" id=\"olduserpassword\" placeholder=\"old Password\">"
         "<input type=\"password\" id=\"userpassword\" placeholder=\"new Password\">"
-        "<button type =\"button\" id=\"submit\">Change Password</button>"
-        "<button type =\"button\" id=\"back\">Back</button>"
-        "</form>"
-        "</div>";
-  }
-
-  /**
-   * Shows the options if the user selects "get User"
-   */
-  getUser() {
-    querySelector('#userinput').innerHtml =
-    "<div id =\"overlay\" >"
-        "<form id=\"inputdates\">"
-        "<input type=\"text\" id=\"userid\" placeholder=\"UserID\">"
-        "<input type=\"password\" id=\"userpassword\" placeholder=\"Password\">"
-        "<button type =\"button\" id=\"submit\">Submit</button>"
-        "<button type =\"button\" id=\"back\">Back</button>"
-        "</form>"
-        "</div>";
-  }
-
-  /**
-   * Shows the options to get the User-ID by entering the Username
-   */
-  getUserId() {
-    querySelector('#userinput').innerHtml =
-    "<div id =\"overlay\" >"
-        "<form id=\"inputdates\">"
-        "<input type=\"text\" id=\"username\" placeholder=\"Username\">"
-        "<button type =\"button\" id=\"submit\">Submit</button>"
+        "<button type =\"button\" id=\"submit\">Change Password(&#x21b5)</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -167,7 +138,7 @@ class KistenschiebenView {
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
         "<input type=\"text\" id=\"levelCode\" placeholder=\"Enter Code\">"
-        "<button type =\"button\" id=\"submit\">Submit</button>"
+        "<button type =\"button\" id=\"submit\">Enter(&#x21b5)</button>"
         "<button type =\"button\" id=\"back\">Back</button>"
         "</form>"
         "</div>";
@@ -211,14 +182,14 @@ class KistenschiebenView {
       (document.querySelector('#levelCode') as InputElement).value;
 
   getAbout() {
-    querySelector("#about").innerHtml = "<about id=\"overlay\"><about>";
+    querySelector("#about").innerHtml =
+    "<div><aboutcontent id=\"overlay\ class=\"instructions\"></aboutcontent><span id=\"aboutbuttonposition\"><button id=\"aboutprev\">(&#x21d0)Previous</button><button id=\"aboutback\">Back(&#x2190)</button><button id=\"aboutnext\">Next(&#x21d2)</button></span></div>";
   }
 
 
   void scaling() {
-    Window w = window;
-    int resoWidth = w.innerWidth;
-    int resoHeight = w.innerHeight - 200;
+    int resoWidth = window.innerWidth;
+    int resoHeight = window.innerHeight - 200;
     String oS;
     bool hoch = tableH > tableW;
     int px;
@@ -230,8 +201,16 @@ class KistenschiebenView {
       px = size.toInt();
     }
     oS = px.toString() + "px";
-    querySelectorAll("td").style.height = oS;
-    querySelectorAll("td").style.width = oS;
+    querySelectorAll(".player").style.height = oS;
+    querySelectorAll(".player").style.width = oS;
+    querySelectorAll(".crate").style.height = oS;
+    querySelectorAll(".crate").style.width = oS;
+    querySelectorAll(".ground").style.height = oS;
+    querySelectorAll(".ground").style.width = oS;
+    querySelectorAll(".target").style.height = oS;
+    querySelectorAll(".target").style.width = oS;
+    querySelectorAll(".wall").style.height = oS;
+    querySelectorAll(".wall").style.width = oS;
   }
 
 
@@ -268,12 +247,12 @@ class KistenschiebenView {
     str += "</table>";
     String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"winoverlay\"><div><div><button id=\"next\">Next Level</button>$ret<button id=\"save\">Save Statistics</button></div></div></div>";
+    "<div id=\"winoverlay\"><div id=\"stattable\">$ret</div><div id=\"next\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
 
   setPullButton(int amount) {
-    querySelector("#pullbutton").innerHtml = "pull gloves($amount)";
+    querySelector("#pullbutton").innerHtml = "Sticky gloves($amount)";
   }
 
   /*
@@ -286,17 +265,17 @@ class KistenschiebenView {
     List<Map>tempList = new List<Map>();
     tempList = levelList;
     String level = "";
-
+    bool onePlayer = false;
     for (var map in tempList) {
       level += map["r"].toUpperCase();
     }
-    print(level);
     String formatlevel = "";
     for (int j = 0; j < row; j++) {
       //Spalten
       formatlevel += "<tr>";
       for (int i = 0; i < column; i++) {
         //Zeilen
+        if (level.length > 0) {
           String firstChar = level.substring(0, 1);
           level = level.substring(1);
           switch (firstChar) {
@@ -307,8 +286,13 @@ class KistenschiebenView {
               formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
               break;
             case 'P' :
+              if (onePlayer == false) {
               formatlevel +=
               "<td id=\"pos$i\_$j\" class=\"player\"></td>";
+              onePlayer = true;
+              } else {
+                formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
+              }
               break;
             case 'C' :
               formatlevel +=
@@ -322,6 +306,9 @@ class KistenschiebenView {
               "<td id=\"pos$i\_$j\" class=\"special\"></td>";
               break;
           }
+        } else {
+          formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
+        }
       }
       formatlevel += "</tr>\n";
     }
