@@ -2,28 +2,36 @@
  * The position of a fieldObject. Contains the values x and y
  */
 class Position {
-  int x;
-  int y;
+  int _x = 0;
+  int _y = 0;
 
   /**
    * Constructor
    */
-  Position(x, y) {
-    this.x = x;
-    this.y = y;
+  Position(int x, int y) {
+    this._x = x;
+    this._y = y;
   }
 
   /**
    * returns the x-value
    */
   int getX() {
-    return this.x;
+    return this._x;
   }
 
   /**
    * returns the y-value
    */
   int getY() {
-    return this.y;
+    return this._y;
+  }
+
+  void setX(int x) {
+    this._x = x;
+  }
+
+  void setY(int y) {
+    this._y = y;
   }
 }

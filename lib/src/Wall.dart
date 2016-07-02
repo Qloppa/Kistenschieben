@@ -1,19 +1,15 @@
 import 'FieldObject.dart';
+import 'Crate.dart';
 
 class Wall extends FieldObject {
 
-  //Wall benötigt eigentlich keine Pointer...möglicherweise super konstruktor entfernen
-  Wall() : super() {
-    this.passable = false;
-    this.isTarget = false;
-    this.isWall = true;
+  Wall() {
   }
 
-  List isPassable(FieldObject player, pushPower) {
+  List isPassable(FieldObject player, int pushPower) {
     return new List();
   }
 
-  setCrate(crate) {
-    return false;
+  void setCrate(Crate crate) {
   }
 }
