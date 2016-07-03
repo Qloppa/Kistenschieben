@@ -22,7 +22,7 @@ class FieldObject {
   }
 
   Position getPosition() {
-   return _position;
+    return _position;
   }
 
   Crate getCrate() {

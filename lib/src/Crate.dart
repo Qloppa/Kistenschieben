@@ -6,6 +6,7 @@ import 'Statistics.dart';
  */
 class Crate {
   Statistics _stats = Statistics.getInstance();
+
   //The FieldObject on which the crate stays on
   var _staysOn = null;
 

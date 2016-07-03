@@ -34,7 +34,8 @@ class Player {
         _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(_staysOn.upPointer.isPassable(_staysOn, _pushPower));
+      changedPositions.addAll(
+          _staysOn.upPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
@@ -67,7 +68,8 @@ class Player {
         _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(_staysOn.rightPointer.isPassable(_staysOn, _pushPower));
+      changedPositions.addAll(
+          _staysOn.rightPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
@@ -100,7 +102,8 @@ class Player {
         _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(_staysOn.downPointer.isPassable(_staysOn, _pushPower));
+      changedPositions.addAll(
+          _staysOn.downPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
@@ -133,7 +136,8 @@ class Player {
         _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(_staysOn.leftPointer.isPassable(_staysOn, _pushPower));
+      changedPositions.addAll(
+          _staysOn.leftPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
@@ -159,7 +163,7 @@ class Player {
     changedPositions[0] = changedPositions[2];
     changedPositions[2] = temp;
     return changedPositions;
-}
+  }
 
   /*
 		Returns the x value of the position
