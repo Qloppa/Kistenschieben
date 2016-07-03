@@ -4,17 +4,18 @@ import 'FieldObject.dart';
 import 'Statistics.dart';
 
 class Player {
-  FieldObject staysOn;
-  int pushPower = 1;
-  int pullPower = 0;
-  Statistics stats = Statistics.getInstance();
+  FieldObject _staysOn = null;
+  int _pushPower = 1;
+  int _pullPower = 0;
+  Statistics _stats = Statistics.getInstance();
+  List<String> _noPositionChanges = new List();
 
   Player(FieldObject staysOn) {
-    this.staysOn = staysOn;
+    this._staysOn = staysOn;
   }
 
   int getPullAmount() {
-    return pullPower;
+    return _pullPower;
   }
 
   /*
@@ -23,32 +24,30 @@ class Player {
    */
   List<String> moveUp(int pullAmount) {
     List changedPositions = new List();
-    pullPower = pullPower + pullAmount;
+    _pullPower = _pullPower + pullAmount;
     bool cratePulled = false;
-    if (staysOn.upPointer != null) {
-      if (pullPower > 0 && staysOn.downPointer.crate != null &&
-          staysOn.upPointer.crate == null) {
-        changedPositions.add(staysOn.downPointer.getPositionAsString());
-        staysOn.downPointer.crate.moveUp(pushPower);
-        pullPower--;
+    if (_staysOn.upPointer != null) {
+      if (_pullPower > 0 && _staysOn.downPointer.hasCrate() &&
+          _staysOn.upPointer.hasCrate() == false) {
+        changedPositions.add(_staysOn.downPointer.getPositionAsString());
+        _staysOn.downPointer.crate.moveUp(_pushPower);
+        _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(staysOn.upPointer.isPassable(staysOn, pushPower));
+      changedPositions.addAll(_staysOn.upPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
+        changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
-        staysOn = staysOn.upPointer;
-        stats.incMoves();
+        _staysOn = _staysOn.upPointer;
+        _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
 
@@ -58,32 +57,30 @@ class Player {
    */
   List<String> moveRight(int pullAmount) {
     List changedPositions = new List();
-    pullPower = pullPower + pullAmount;
+    _pullPower = _pullPower + pullAmount;
     bool cratePulled = false;
-    if (staysOn.rightPointer != null) {
-      if (pullPower > 0 && staysOn.leftPointer.crate != null &&
-          staysOn.rightPointer.crate == null) {
-        changedPositions.add(staysOn.leftPointer.getPositionAsString());
-        staysOn.leftPointer.crate.moveRight(pushPower);
-        pullPower--;
+    if (_staysOn.rightPointer != null) {
+      if (_pullPower > 0 && _staysOn.leftPointer.hasCrate() &&
+          _staysOn.rightPointer.hasCrate() == false) {
+        changedPositions.add(_staysOn.leftPointer.getPositionAsString());
+        _staysOn.leftPointer.crate.moveRight(_pushPower);
+        _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(staysOn.rightPointer.isPassable(staysOn, pushPower));
+      changedPositions.addAll(_staysOn.rightPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
+        changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
-        staysOn = staysOn.rightPointer;
-        stats.incMoves();
+        _staysOn = _staysOn.rightPointer;
+        _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
 
@@ -93,32 +90,30 @@ class Player {
    */
   List<String> moveDown(int pullAmount) {
     List changedPositions = new List();
-    pullPower = pullPower + pullAmount;
+    _pullPower = _pullPower + pullAmount;
     bool cratePulled = false;
-    if (staysOn.downPointer != null) {
-      if (pullPower > 0 && staysOn.upPointer.crate != null &&
-          staysOn.downPointer.crate == null) {
-        changedPositions.add(staysOn.upPointer.getPositionAsString());
-        staysOn.upPointer.crate.moveDown(pushPower);
-        pullPower--;
+    if (_staysOn.downPointer != null) {
+      if (_pullPower > 0 && _staysOn.upPointer.hasCrate() &&
+          _staysOn.downPointer.hasCrate() == false) {
+        changedPositions.add(_staysOn.upPointer.getPositionAsString());
+        _staysOn.upPointer.crate.moveDown(_pushPower);
+        _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(staysOn.downPointer.isPassable(staysOn, pushPower));
+      changedPositions.addAll(_staysOn.downPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
+        changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
-        staysOn = staysOn.downPointer;
-        stats.incMoves();
+        _staysOn = _staysOn.downPointer;
+        _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
 
@@ -128,54 +123,63 @@ class Player {
    */
   List<String> moveLeft(int pullAmount) {
     List changedPositions = new List();
-    pullPower = pullPower + pullAmount;
+    _pullPower = _pullPower + pullAmount;
     bool cratePulled = false;
-    if (staysOn.leftPointer != null) {
-      if (pullPower > 0 && staysOn.rightPointer.crate != null &&
-          staysOn.leftPointer.crate == null) {
-        changedPositions.add(staysOn.rightPointer.getPositionAsString());
-        staysOn.rightPointer.crate.moveLeft(pushPower);
-        pullPower--;
+    if (_staysOn.leftPointer != null) {
+      if (_pullPower > 0 && _staysOn.rightPointer.hasCrate() &&
+          _staysOn.leftPointer.hasCrate() == false) {
+        changedPositions.add(_staysOn.rightPointer.getPositionAsString());
+        _staysOn.rightPointer.crate.moveLeft(_pushPower);
+        _pullPower--;
         cratePulled = true;
       }
-      changedPositions.addAll(staysOn.leftPointer.isPassable(staysOn, pushPower));
+      changedPositions.addAll(_staysOn.leftPointer.isPassable(_staysOn, _pushPower));
       if (changedPositions.isEmpty == false) {
-        changedPositions.add(this.staysOn.getPositionAsString());
+        changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
-        staysOn = staysOn.leftPointer;
-        stats.incMoves();
+        _staysOn = _staysOn.leftPointer;
+        _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
+
+  /*
+  sorts the List for the view,
+  because the order after pull is different to the order after push
+   */
+  List<String> sortList(List<String> changedPositions) {
+    String temp = changedPositions[0];
+    changedPositions[0] = changedPositions[2];
+    changedPositions[2] = temp;
+    return changedPositions;
+}
 
   /*
 		Returns the x value of the position
 	*/
   int getPosX() {
-    return this.staysOn.position.getX();
+    return this._staysOn.getPosition().getX();
   }
 
   /*
 		Returns the y value of the position
 	*/
   int getPosY() {
-    return this.staysOn.position.getY();
+    return this._staysOn.getPosition().getY();
   }
 
   int getPushPower() {
-    return pushPower;
+    return _pushPower;
   }
 
-  void setPushPower(int pushpower) {
-    this.pushPower = pushpower;
+  void setPushPower(int pushPower) {
+    this._pushPower = pushPower;
   }
 }
