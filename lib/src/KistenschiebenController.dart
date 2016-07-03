@@ -79,6 +79,8 @@ class KistenschiebenController {
   //The user is on about layout
   bool onAboutScreen = false;
 
+  bool isSaved = false;
+
   /*
   CONSTRUCTOR
    */
@@ -170,10 +172,7 @@ class KistenschiebenController {
           break;
         case KeyCode.S:
           if (finishedGame && logedIn) {
-            print("saved");
-            gamekey
-                .storeState(userid, ksModel.getStats())
-                .whenComplete(getHighscores);
+            saveRoutine();
           }
           break;
       }
@@ -376,6 +375,7 @@ class KistenschiebenController {
     ksView.setPullButton(0);
     _pullAmount = 0;
     resetGame();
+    setSaved(false);
   }
 
 
@@ -931,9 +931,7 @@ class KistenschiebenController {
 
     //SAVE
     querySelector("#savebutton").onMouseDown.listen((MouseEvent e) {
-      print("saved");
-      gamekey.storeState(userid, ksModel.getStats());
-      updateStats();
+      saveRoutine();
     });
     hoverlistener();
   }
@@ -946,8 +944,24 @@ class KistenschiebenController {
     querySelector("#resetbutton").style.position = "";
     updateStats();
     nextLvl();
+    setSaved(false);
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
+  }
+
+  saveRoutine() async {
+    if (isSaved == false) {
+      print("saved");
+      gamekey.storeState(userid, ksModel.getStats());
+      updateStats();
+      querySelector("#winoverlay").innerHtml = "";
+      final highscores = await getHighscores();
+      ksView.showWin(highscores);
+      nextListener();
+      setSaved(true);
+    } else {
+      //Is already saved
+    }
   }
 
 //endregion
@@ -1306,6 +1320,10 @@ class KistenschiebenController {
     onAboutScreen = value;
   }
 
+  setSaved(bool value) {
+    isSaved = value;
+  }
+
 //endregion
 
 //region RESET AND NEW GAME
@@ -1346,6 +1364,7 @@ class KistenschiebenController {
         .whenComplete(reactTouch);
     window.onResize.listen((EventListener) {
       ksView.scaling();
+      print("Ich hab groeße verändert");
     });
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
