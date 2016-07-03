@@ -194,10 +194,10 @@ class KistenschiebenView {
     String oS;
     int px;
     double x = resoWidth / tableW;
-    double y = resoHeight/ tableH;
-    if(x <= y){
+    double y = resoHeight / tableH;
+    if (x <= y) {
       px = x.toInt();
-    }else{
+    } else {
       px = y.toInt();
     }
     oS = px.toString() + "px";
@@ -247,7 +247,7 @@ class KistenschiebenView {
     str += "</table>";
     String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"winoverlay\"><div id=\"stattable\">$ret</div><div id=\"next\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
+    "<div id=\"winoverlay\"><div id=\"stattablebuttons\">$ret</div><div id=\"next\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
 

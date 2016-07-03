@@ -291,7 +291,7 @@ class KistenschiebenModel {
   /**
    * Sets the number of gloves in the statistics to the value n
    */
-  setGloves(int n){
+  setGloves(int n) {
     stats.setGloves(n);
   }
 
@@ -312,7 +312,7 @@ class KistenschiebenModel {
   /**
    * Sets the number of steroids in the statistics to the value n
    */
-  setSteroids(int n){
+  setSteroids(int n) {
     stats.setSteroids(n);
   }
 
@@ -334,7 +334,7 @@ class KistenschiebenModel {
   /**
    * increments used steroids and decrements the left steroids
    */
-  steroidPush(){
+  steroidPush() {
     stats.decSteroids();
     stats.incUsedSteroids();
   }

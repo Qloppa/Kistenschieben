@@ -42,8 +42,10 @@ class KistenschiebenController {
   bool logedIn = false;
   //Shows if the user activated the pull-ability for the next round
   int _pullAmount = 0;
+
   //after 3 wins the user gets 3 new gloves
   int _newGlove = 0;
+
   //after 3 wins the user gets 3 new steroids
   int _newSteroids = 0;
 
@@ -988,7 +990,7 @@ class KistenschiebenController {
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.getPullAmount());
       ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(0)";
+      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1008,7 +1010,7 @@ class KistenschiebenController {
       updateViewPush(playerPos_old, playerPos_new, positions);
       ksView.setPullButton(ksModel.getPullAmount());
       ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(0)";
+      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1299,7 +1301,8 @@ class KistenschiebenController {
         _newGlove = 0;
       }
       int saveSteroids = ksModel.getSteroids();
-      if(_newSteroids == 3){   //adds a glove when the user has won 3 games
+      if (_newSteroids == 3) {
+        //adds a glove when the user has won 3 games
         saveSteroids++;
         _newSteroids = 0;
       }

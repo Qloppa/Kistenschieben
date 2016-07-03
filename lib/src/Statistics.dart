@@ -10,8 +10,12 @@ class Statistics {
   static Statistics _instance;  //an instance of the static Statistics
   static int _gloves;           //number of sticky gloves, used to pull a crate
   static int _usedGloves;       //number of used sticky gloves
-  static int _steroids;         //number of steroids, used to improve PushPower
-  static int _usedSteroids;     //number of used steroids
+  static int _steroids;
+
+  //number of steroids, used to improve PushPower
+  static int _usedSteroids;
+
+  //number of used steroids
 
   //not used yet
   static var _localTime;
@@ -119,14 +123,14 @@ class Statistics {
   /**
    * returns the number of steroids
    */
-  int getSteroids(){
+  int getSteroids() {
     return _steroids;
   }
 
   /**
    * returns the number of used Steroids
    */
-  int getUsedSteroids(){
+  int getUsedSteroids() {
     return _usedSteroids;
   }
 
@@ -179,7 +183,7 @@ class Statistics {
   /**
    * sets the number of steroids to the new value
    */
-  setSteroids(int val){
+  setSteroids(int val) {
     _steroids = val;
   }
 
@@ -227,25 +231,25 @@ class Statistics {
   /**
    * increments the number of steroids by 1
    */
-  incSteroids(){
+  incSteroids() {
     _steroids++;
   }
 
   /**
    * increments the number of used steroids by 1
    */
-  incUsedSteroids(){
+  incUsedSteroids() {
     _usedSteroids++;
   }
 
   /**
    * decrements the number of steroids if possible and returns true. Returns false if not
    */
-  bool decSteroids(){
-    if(_steroids > 0){
+  bool decSteroids() {
+    if (_steroids > 0) {
       _steroids--;
       return true;
-    }else{
+    } else {
       return false;
     }
   }
