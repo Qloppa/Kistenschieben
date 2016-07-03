@@ -10,6 +10,8 @@ class Statistics {
   static Statistics _instance;  //an instance of the static Statistics
   static int _gloves;           //number of sticky gloves, used to pull a crate
   static int _usedGloves;       //number of used sticky gloves
+  static int _steroids;         //number of steroids, used to improve PushPower
+  static int _usedSteroids;     //number of used steroids
 
   //not used yet
   static var _localTime;
@@ -30,7 +32,9 @@ class Statistics {
     _resets = 0;
     _actualLevel = 0;
     _usedGloves = 0;
-    _gloves = 2;
+    _gloves = 3;
+    _steroids = 3;
+    _usedSteroids = 0;
   }
 
 
@@ -112,6 +116,20 @@ class Statistics {
     return _gloves;
   }
 
+  /**
+   * returns the number of steroids
+   */
+  int getSteroids(){
+    return _steroids;
+  }
+
+  /**
+   * returns the number of used Steroids
+   */
+  int getUsedSteroids(){
+    return _usedSteroids;
+  }
+
   //endregion
 
   //region SETTER
@@ -158,6 +176,13 @@ class Statistics {
     _gloves = val;
   }
 
+  /**
+   * sets the number of steroids to the new value
+   */
+  setSteroids(int val){
+    _steroids = val;
+  }
+
   //endregion
 
   //region INC & DEC
@@ -192,8 +217,37 @@ class Statistics {
     _gloves++;
   }
 
+  /**
+   * increments the number of used Gloves by 1
+   */
   incUsedGloves() {
     _usedGloves++;
+  }
+
+  /**
+   * increments the number of steroids by 1
+   */
+  incSteroids(){
+    _steroids++;
+  }
+
+  /**
+   * increments the number of used steroids by 1
+   */
+  incUsedSteroids(){
+    _usedSteroids++;
+  }
+
+  /**
+   * decrements the number of steroids if possible and returns true. Returns false if not
+   */
+  bool decSteroids(){
+    if(_steroids > 0){
+      _steroids--;
+      return true;
+    }else{
+      return false;
+    }
   }
 
   /**
@@ -238,14 +292,9 @@ class Statistics {
     _globalTime = 0;
     _resets = 0;
     _usedGloves = 0;
+    _usedSteroids = 0;
   }
 
-  /**
-   * sets the number of gloves to 0
-   */
-  resetGloves() {
-    _gloves = 0;
-  }
 
   //endregion
 
@@ -262,6 +311,9 @@ class Statistics {
     _globalTime = stats.remove("globalTime");
     _gloves = stats.remove("gloves");
     _usedGloves = stats.remove("usedGloves");
+    _steroids = stats.remove("steroids");
+    _usedSteroids = stats.remove("usedSteroids");
+
     _startTime = new DateTime.now();
     if (stats.containsKey("roundTime")) {
       _roundTime = stats.remove("roundTime");
@@ -293,6 +345,8 @@ class Statistics {
     out['actualLevel'] = _actualLevel;
     out['gloves'] = _gloves;
     out['usedGloves'] = _usedGloves;
+    out['steroids'] = _steroids;
+    out['usedSteroids'] = _usedSteroids;
     //benoetigt keine roundTime
     return out;
   }

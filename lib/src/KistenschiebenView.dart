@@ -174,9 +174,7 @@ class KistenschiebenView {
   String get oldUserpassword =>
       (document.querySelector('#olduserpassword') as InputElement).value;
 
-  /**
-   * is used for scaling the gamefield.
-   */
+
 
   String get levelCode =>
       (document.querySelector('#levelCode') as InputElement).value;
@@ -187,18 +185,20 @@ class KistenschiebenView {
   }
 
 
+  /**
+   * Scales the elements of the table and enables support for every resolution
+   */
   void scaling() {
-    int resoWidth = window.innerWidth;
+    int resoWidth = window.innerWidth - 50;
     int resoHeight = window.innerHeight - 200;
     String oS;
-    bool hoch = tableH > tableW;
     int px;
-    if (hoch) {
-      double size = resoHeight / tableH;
-      px = size.toInt();
-    } else {
-      double size = resoHeight / tableW;
-      px = size.toInt();
+    double x = resoWidth / tableW;
+    double y = resoHeight/ tableH;
+    if(x <= y){
+      px = x.toInt();
+    }else{
+      px = y.toInt();
     }
     oS = px.toString() + "px";
     querySelectorAll(".player").style.height = oS;
@@ -214,9 +214,9 @@ class KistenschiebenView {
   }
 
 
-  /*
-  Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
-  */
+  /**
+   * Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
+   */
   setGameKeyAvailable(bool value) {
     if (value == true) {
       querySelector("#gamekeystatus").style.color = "green";
@@ -228,8 +228,8 @@ class KistenschiebenView {
     }
   }
 
-  /*
-   *Generates the win-overlay and the button to access the next level
+  /**
+   * Generates the win-overlay and the button to access the next level
    */
   showWin(var highscores) async {
     String str = "<table border = 1; width=\"60%\">" +
@@ -251,12 +251,15 @@ class KistenschiebenView {
     querySelector("#resetbutton").style.position = "absolute";
   }
 
+  /**
+   * Sets the Content of the Pull Button
+   */
   setPullButton(int amount) {
     querySelector("#pullbutton").innerHtml = "Sticky gloves($amount)";
   }
 
-  /*
-   *Creates the level in html from a String
+  /**
+   * Creates the level in html from a String
    */
   Future<String> generateLevelFromString(List<Map> levelList, int column,
       int row) async {
@@ -342,6 +345,9 @@ class KistenschiebenView {
     return formatlevel;
   }
 
+  /**
+   * returns the x- and y-position as interger-values in a list
+   */
   List<int> getPosition(String pos) {
     List<String> values = pos.split("_");
     List<int> positions = new List();
@@ -352,10 +358,10 @@ class KistenschiebenView {
   }
 
 
-  /*
-  Updates the position of the player and the crates
-  Receives old and new positions as Strings and updates the html
-  */
+  /**
+   * Updates the position of the player and the crates
+   * Receives old and new positions as Strings and updates the html
+   */
   void updateViewPush(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_new) {
     int pox = getPosition(playerPosition_old)[1];
@@ -377,10 +383,10 @@ class KistenschiebenView {
   }
 
 
-  /*
-  Updates the position of the player and the crates
-  Receives old and new positions as Strings and updates the html
-  */
+  /**
+   *Updates the position of the player and the crates
+   *Receives old and new positions as Strings and updates the html
+   */
   void updateViewPull(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_old) {
     int pnx = getPosition(playerPosition_new)[1];
@@ -414,15 +420,15 @@ class KistenschiebenView {
     String resets = stats.remove("resets").toString();
     String usedGloves = stats.remove("usedGloves").toString();
     String gloves = stats.remove("gloves").toString();
+    String steroids = stats.remove("steroids").toString();
+    String usedSteroids = stats.remove("usedSteroids").toString();
     querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp&nbsp&nbsp"
-        "Resets:<em>$resets</em>&nbsp&nbsp&nbsp&nbsp"
-        "Local Pushes:<em>$localPushes</em>&nbsp&nbsp&nbsp&nbsp"
-        "Global Pushes:<em>$globalPushes</em>&nbsp&nbsp&nbsp&nbsp"
-        "Local Moves:<em>$localMoves</em>&nbsp&nbsp&nbsp&nbsp"
-        "Global Moves:<em>$globalMoves</em>&nbsp&nbsp&nbsp&nbsp"
-        "Used Gloves: <em>$usedGloves</em>&nbsp&nbsp&nbsp&nbsp"
-        "Left Gloves:<em>$gloves</em>&nbsp&nbsp&nbsp&nbsp ";
+    "Level:<em>$actualLvl</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Resets:<em>$resets</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Pushes:<em>$localPushes ($globalPushes)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Moves:<em>$localMoves ($globalMoves)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Gloves: <em>$gloves (Used: $usedGloves)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Steroids: <em>$steroids (Used: $usedSteroids)</em>";
 
   /*ySelector("#stat").innerHtml = "<table border = 1; width=\"60%\">" +
         "<colgroup><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
@@ -435,6 +441,6 @@ class KistenschiebenView {
    * Displays the Code for the actual level
    */
   void showLvlCode(String code) {
-    querySelector("#header").innerHtml = code;
+    querySelector("#header").innerHtml = "Levelcode: $code";
   }
 }
