@@ -2,13 +2,12 @@ import 'FieldObject.dart';
 import 'Statistics.dart';
 
 /**
- * A Crate stays on a fieldObject of the type ground or target. The user has won if every crate stays on a target
+ * A Crate stays on a fieldObject of the type ground or target.
  */
 class Crate {
   Statistics _stats = Statistics.getInstance();
+  //The FieldObject on which the crate stays on
   var _staysOn = null;
-
-  //The FieldObject on which the crate stays
 
   /**
    * Constructor
@@ -21,8 +20,8 @@ class Crate {
     return this._staysOn;
   }
 
-  /**
-   * moves the Crate and returns a list of changed positions
+  /*
+   *
    */
   List move(FieldObject whereActorStaysOn, int pushPower) {
     List ret = new List();

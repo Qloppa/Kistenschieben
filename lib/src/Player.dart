@@ -8,6 +8,7 @@ class Player {
   int _pushPower = 1;
   int _pullPower = 0;
   Statistics _stats = Statistics.getInstance();
+  List<String> _noPositionChanges = new List();
 
   Player(FieldObject staysOn) {
     this._staysOn = staysOn;
@@ -37,18 +38,16 @@ class Player {
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
         _staysOn = _staysOn.upPointer;
         _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
 
@@ -72,18 +71,16 @@ class Player {
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
         _staysOn = _staysOn.rightPointer;
         _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
 
@@ -107,18 +104,16 @@ class Player {
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
         _staysOn = _staysOn.downPointer;
         _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
 
@@ -142,20 +137,29 @@ class Player {
       if (changedPositions.isEmpty == false) {
         changedPositions.add(this._staysOn.getPositionAsString());
         if (cratePulled == true) {
-          String temp = changedPositions[0];
-          changedPositions[0] = changedPositions[2];
-          changedPositions[2] = temp;
+          sortList(changedPositions);
         }
         _staysOn = _staysOn.leftPointer;
         _stats.incMoves();
         return changedPositions;
       } else {
-        return new List();
+        return _noPositionChanges;
       }
     } else {
-      return new List();
+      return _noPositionChanges;
     }
   }
+
+  /*
+  sorts the List for the view,
+  because the order after pull is different to the order after push
+   */
+  List<String> sortList(List<String> changedPositions) {
+    String temp = changedPositions[0];
+    changedPositions[0] = changedPositions[2];
+    changedPositions[2] = temp;
+    return changedPositions;
+}
 
   /*
 		Returns the x value of the position
