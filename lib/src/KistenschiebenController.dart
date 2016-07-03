@@ -209,7 +209,7 @@ class KistenschiebenController {
             }
             break;
           case KeyCode.THREE:
-            demoRoutine();
+            withoutLoginRoutine();
             break;
           case KeyCode.FOUR:
             aboutRoutine();
@@ -229,8 +229,8 @@ class KistenschiebenController {
     });
 
     //Demobutton listener
-    querySelector('#demobutton').onMouseDown.listen((MouseEvent e) {
-      demoRoutine();
+    querySelector('#wObutton').onMouseDown.listen((MouseEvent e) {
+      withoutLoginRoutine();
 
     });
 
@@ -353,9 +353,9 @@ class KistenschiebenController {
   }
 
   /**
-   * Without Login
+   * Allows the user to play the game without functions to store the states
    */
-  demoRoutine() {
+  withoutLoginRoutine() {
     setStartscreen(false);
     querySelector('#start').innerHtml = "";
     querySelector("#resetbutton").style.visibility = "visible";
@@ -481,6 +481,9 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  /**
+   *
+   */
   newGameRoutine() {
     newGame();
     querySelector("#registered").innerHtml = "";
@@ -490,6 +493,9 @@ class KistenschiebenController {
     querySelector("#pullbutton").style.visibility = "visible";
   }
 
+  /**
+   * allows the user to edit the own setting
+   */
   editUserRoutine() {
     querySelector("#registered").innerHtml = "";
     setLoginscreen(false);
@@ -499,6 +505,9 @@ class KistenschiebenController {
     editUserListener();
   }
 
+  /**
+   * allows the user to enter the levelcode
+   */
   levelCodeRoutine() async {
     setTyping(true);
     querySelector("#registered").innerHtml = "";
@@ -532,6 +541,9 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  /**
+   * allows the user to navigate through the instructions with buttons or Keyboard
+   */
   aboutRoutine() {
     setAboutScreen(true);
     int instructionNumber = 1;
@@ -644,6 +656,9 @@ class KistenschiebenController {
 
   }
 
+  /**
+   * Displays the name of the about instructions
+   */
   instructionSet(int instructionNumber) {
     switch (instructionNumber) {
       case 1:
@@ -709,22 +724,22 @@ class KistenschiebenController {
       }
     });
 
-    //CHANGE NAME
+    //Change name listener
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       changeNameRoutine();
     });
 
-    //CHANGE PASSWORD
+    //Change password listener
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
       changePasswordRoutine();
     });
 
-    //DELETE
+    //Delete listener
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
       deleteUserRoutine();
     });
 
-    //Back
+    //Back to registerlayout listener
     querySelector('#back').onMouseDown.listen((MouseEvent g) {
       backToRegisteredListener();
     });
@@ -923,6 +938,9 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  /**
+   * Routine to close the displayed winlayout,buttons and call the nxtlevel logic
+   */
   nextRoutine() {
     querySelector("#container").innerHtml = "";
     querySelector("#resetbutton").style.position = "";
@@ -1281,6 +1299,9 @@ class KistenschiebenController {
     onEditUserScreen = value;
   }
 
+  /**
+   * sets the status of the about screen
+   */
   setAboutScreen(bool value) {
     onAboutScreen = value;
   }
@@ -1320,7 +1341,7 @@ class KistenschiebenController {
     setGameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevelFromString(
+    ksView.generateLevel(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     window.onResize.listen((EventListener) {
@@ -1341,7 +1362,7 @@ class KistenschiebenController {
     setGameRunning(true);
     ksModel.incResets();
     ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevelFromString(
+    ksView.generateLevel(
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     ksModel.resetStats();

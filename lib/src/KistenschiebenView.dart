@@ -31,7 +31,7 @@ class KistenschiebenView {
         "<button id=\"loginbutton\" class=\"option\">Login(2)</button>"
         "</div>"
         "<div>"
-        "<button id=\"demobutton\" class=\"option\">Play demo(3)</button>"
+        "<button id=\"wObutton\" class=\"option\">Without login(3)</button>"
         "</div>"
         "<div>"
         "<button id=\"aboutbutton\" class=\"option\">About(4)</button>"
@@ -175,10 +175,15 @@ class KistenschiebenView {
       (document.querySelector('#olduserpassword') as InputElement).value;
 
 
-
+  /**
+   * gets the levelcode from userinput
+   */
   String get levelCode =>
       (document.querySelector('#levelCode') as InputElement).value;
 
+  /**
+   * geneartes the aboutcontent and the buttons tho navigate
+   */
   getAbout() {
     querySelector("#about").innerHtml =
     "<div><aboutcontent id=\"overlay\ class=\"instructions\"></aboutcontent><span id=\"aboutbuttonposition\"><button id=\"aboutprev\">(&#x21d0)Previous</button><button id=\"aboutback\">Back(&#x2190)</button><button id=\"aboutnext\">Next(&#x21d2)</button></span></div>";
@@ -261,7 +266,7 @@ class KistenschiebenView {
   /**
    * Creates the level in html from a String
    */
-  Future<String> generateLevelFromString(List<Map> levelList, int column,
+  Future<String> generateLevel(List<Map> levelList, int column,
       int row) async {
     this.tableH = row;
     this.tableW = column;
@@ -429,12 +434,6 @@ class KistenschiebenView {
         "Moves:<em>$localMoves ($globalMoves)</em>&nbsp&nbsp|&nbsp&nbsp"
         "Gloves: <em>$gloves (Used: $usedGloves)</em>&nbsp&nbsp|&nbsp&nbsp"
         "Steroids: <em>$steroids (Used: $usedSteroids)</em>";
-
-  /*ySelector("#stat").innerHtml = "<table border = 1; width=\"60%\">" +
-        "<colgroup><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
-        "<tr align = center><td>Level: $actualLvl</td><td>Pushes: $localPushes</td><td>Moves: $localMoves</td><td>Left Gloves: $usedGloves</td></tr>" +
-        "<tr align = center><td>Resets: $resets</td><td>Pushes Total: $globalPushes</td><td>Moves Total: $globalMoves</td><td>Used Gloves: $gloves</tr>" +
-        "</table>";*/
   }
 
   /**
