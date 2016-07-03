@@ -973,16 +973,18 @@ class KistenschiebenController {
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    if(positions.length > 2){
+      if (_pullAmount > 0) {
+        _pullAmount--;
+        ksView.setPullButton(ksModel.getPullAmount());
+      }
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -993,16 +995,18 @@ class KistenschiebenController {
    */
   bool moveRight() {
     List<String> positions = ksModel.moveRight(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    if(positions.length > 2){
+      if (_pullAmount > 0) {
+        _pullAmount--;
+        ksView.setPullButton(ksModel.getPullAmount());
+      }
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1013,16 +1017,18 @@ class KistenschiebenController {
    */
   bool moveDown() {
     List<String> positions = ksModel.moveDown(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    if(positions.length > 2){
+      if (_pullAmount > 0) {
+        _pullAmount--;
+        ksView.setPullButton(ksModel.getPullAmount());
+      }
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1033,16 +1039,18 @@ class KistenschiebenController {
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    if(positions.length > 2){
+      if (_pullAmount > 0) {
+        _pullAmount--;
+        ksView.setPullButton(ksModel.getPullAmount());
+      }
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
