@@ -182,10 +182,12 @@ table, td {
 
 }
 
-#next {
+#stattablebuttons {
+    position: fixed;
     width: 99%;
+    height: 99%;
     text-align: center;
-    bottom: 20%;
+    top: 85%;
 }
 
 #savebutton {

@@ -247,7 +247,7 @@ class KistenschiebenView {
     str += "</table>";
     String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#container").innerHtml =
-    "<div id=\"winoverlay\"><div id=\"stattablebuttons\">$ret</div><div id=\"next\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
+    "<div id=\"winoverlay\"><div>$ret</div><div id=\"stattablebuttons\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
 
