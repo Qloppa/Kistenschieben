@@ -602,7 +602,6 @@ class KistenschiebenController {
 
       hoverlistener();
     } else {
-
     }
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
@@ -696,8 +695,7 @@ class KistenschiebenController {
           }
           break;
         case KeyCode.TWO:
-          if (onEditUserScreen == true && onLoginscreen == false &&
-              gameRunning == true) {
+          if (onEditUserScreen == true && onLoginscreen == false) {
             changePasswordRoutine();
           }
           break;
