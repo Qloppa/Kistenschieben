@@ -309,6 +309,13 @@ class KistenschiebenView {
     querySelector("#pullbutton").innerHtml = "Sticky gloves($amount)";
   }
 
+  /**
+   * Sets the Content of the Push Button
+   */
+  setPushButton(int amount) {
+    querySelector("#pushbutton").innerHtml = "Steroids($amount)";
+  }
+
   //endregion
 
   //region SCALING

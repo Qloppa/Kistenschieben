@@ -403,9 +403,10 @@ class KistenschiebenController {
     querySelector("#resetbutton").style.position = "";
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
-    ksView.setPullButton(0);
     _stickyGloveAmount = 0;
     _steroidAmount = 0;
+    ksView.setPullButton(0);
+    ksView.setPushButton(0);
     resetGame();
     setSaved(false);
   }
@@ -1020,8 +1021,9 @@ class KistenschiebenController {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());
       _steroidAmount = 0;
-      int temp = ksModel.getSteroidAmount();
-      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
+      ksView.setPushButton(ksModel.getSteroidAmount());
+    } else {
+      _steroidAmount = 0;
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1042,8 +1044,9 @@ class KistenschiebenController {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());
       _steroidAmount = 0;
-      int temp = ksModel.getSteroidAmount();
-      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
+      ksView.setPushButton(ksModel.getSteroidAmount());
+    } else {
+      _steroidAmount = 0;
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1064,8 +1067,9 @@ class KistenschiebenController {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());
       _steroidAmount = 0;
-      int temp = ksModel.getSteroidAmount();
-      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
+      ksView.setPushButton(ksModel.getSteroidAmount());
+    } else {
+      _steroidAmount = 0;
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1086,8 +1090,9 @@ class KistenschiebenController {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());
       _steroidAmount = 0;
-      int temp = ksModel.getSteroidAmount();
-      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
+      ksView.setPushButton(ksModel.getSteroidAmount());
+    } else {
+      _steroidAmount = 0;
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1439,7 +1444,8 @@ class KistenschiebenController {
     querySelector("#resetbutton").style.visibility = "visible";
     _steroidAmount = 0;
     _stickyGloveAmount = 0;
-    querySelector("#pushbutton").innerHtml = "PushPower(0)";
+    ksView.setPullButton(0);
+    ksView.setPushButton(0);
     updateStats();
   }
 
