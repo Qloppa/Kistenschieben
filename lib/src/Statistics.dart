@@ -1,13 +1,31 @@
 class Statistics {
-  static var _localMoves;       //moves this round, 0 after reset //TODO warum stehen diese Variablen auf var?
-  static var _globalMoves;      //moves this round total
-  static var _localPushes;      //pushes this round, 0 after reset
-  static var _globalPushes;     //pushes this round total
-  static int _resets;           //number of resets
-  static int _actualLevel;      //the actual level
-  static Statistics _instance;  //an instance of the static Statistics
-  static int _gloves;           //number of sticky gloves, used to pull a crate
-  static int _usedGloves;       //number of used sticky gloves
+  static var _localMoves;
+
+  //moves this round, 0 after reset //TODO warum stehen diese Variablen auf var?
+  static var _globalMoves;
+
+  //moves this round total
+  static var _localPushes;
+
+  //pushes this round, 0 after reset
+  static var _globalPushes;
+
+  //pushes this round total
+  static int _resets;
+
+  //number of resets
+  static int _actualLevel;
+
+  //the actual level
+  static Statistics _instance;
+
+  //an instance of the static Statistics
+  static int _gloves;
+
+  //number of sticky gloves, used to pull a crate
+  static int _usedGloves;
+
+  //number of used sticky gloves
   static int _steroids;
 
   //number of steroids, used to improve PushPower
@@ -37,7 +55,7 @@ class Statistics {
    * returns an instance of the statistics
    */
   static Statistics getInstance() {
-    if(_instance == null){
+    if (_instance == null) {
       _instance = new Statistics();
     }
     return _instance;
@@ -113,14 +131,14 @@ class Statistics {
   /**
    * Sets the value of the total Moves used in this round
    */
-  void setGlobalMoves(int moves){
+  void setGlobalMoves(int moves) {
     _globalMoves = moves;
   }
 
   /**
    * Sets the value of the total Pushes used in this round
    */
-  void setGlobalPushes(int pushes){
+  void setGlobalPushes(int pushes) {
     _globalPushes = pushes;
   }
 
@@ -203,41 +221,23 @@ class Statistics {
   /**
    * increments the number of used steroids by 1
    */
-  incUsedSteroids() {
-    _usedSteroids++;
-  }
-
-  /**
-   * decrements the number of used gloves if possible
-   */
-  decUsedGloves(){
-    if(_usedGloves > 0){
-      _usedGloves--;
-    }
+  incUsedSteroids(int usedSteroids) {
+    _usedSteroids = usedSteroids;
   }
 
   /**
    * decrements the number of steroids if possible and returns true. Returns false if not
    */
-  decSteroids() {
-    if (_steroids > 0) {
-      _steroids--;
-    }
-  }
-
-  /**
-   * decrements the number of used steroids if possible
-   */
-  decUsedSteroids(){
-    if(_usedSteroids > 0){
-      _usedSteroids--;
+  decSteroids(int usedSteroids) {
+    if (_steroids > 0 && _steroids - usedSteroids > 0) {
+      _steroids = _steroids - usedSteroids;
     }
   }
 
   /**
    * decrements the number of gloves if possible and returns true. Returns false if not
    */
-    decGloves() {
+  decGloves() {
     if (_gloves > 0) {
       _gloves--;
     }
@@ -297,6 +297,7 @@ class Statistics {
     _steroids = stats.remove("steroids");
     _usedSteroids = stats.remove("usedSteroids");
   }
+
   /*
     Returns a Map with all stats
     1. local moves

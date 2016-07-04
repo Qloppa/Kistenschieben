@@ -278,27 +278,6 @@ class KistenschiebenModel {
   }
 
   /**
-   * increments the number of gloves
-   */
-  void incGloves(){
-    _stats.incGloves();
-  }
-
-  /**
-   * decrements the number of used gloves
-   */
-  void decUsedGloves(){
-    _stats.decUsedGloves();
-  }
-
-  /**
-   * returns the number of used gloves
-   */
-  int getUsedGloves() {
-    return _stats.getUsedGloves();
-  }
-
-  /**
    * returns the number of left steroids
    */
   int getSteroids() {
@@ -306,47 +285,10 @@ class KistenschiebenModel {
   }
 
   /**
-   * increments the number of steroids
-   */
-  incSteroids(){
-    _stats.incSteroids();
-  }
-
-  /**
    * Sets the number of steroids in the statistics to the value n
    */
-  setSteroids(int n) {
-    _stats.setSteroids(n);
-  }
-
-  /**
-   * returns the number of used steroids
-   */
-  int getUsedSteroids() {
-    return _stats.getUsedSteroids();
-  }
-
-  /**
-   * decrements the number of used steroids
-   */
-  decUsedSteroids(){
-    _stats.decUsedSteroids();
-  }
-
-  /**
-   * increments used gloves and decrements the left gloves
-   */
-  void pull() {
-    _stats.decGloves();
-    _stats.incUsedGloves();
-  }
-
-  /**
-   * increments used steroids and decrements the left steroids
-   */
-  steroidPush() {
-    this._stats.decSteroids();
-    this._stats.incUsedSteroids();
+  void setSteroids(int steroids) {
+    _stats.setSteroids(steroids);
   }
 
   /**

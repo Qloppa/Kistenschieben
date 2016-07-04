@@ -269,7 +269,6 @@ class KistenschiebenController {
     //Pullbutton listener
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
       if (ksModel.getGloves() > 0) {
-        ksModel.pull(); //increment used gloves, decrement gloves
         _stickyGloveAmount++;
         ksView.setPullButton(_stickyGloveAmount);
       }
@@ -405,13 +404,8 @@ class KistenschiebenController {
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     ksView.setPullButton(0);
-    if (_stickyGloveAmount > 0) {
-      for (int i = 0; i < _stickyGloveAmount; i++) {
-        ksModel.incGloves();
-        ksModel.decUsedGloves();
-      }
-      _stickyGloveAmount = 0;
-    }
+    _stickyGloveAmount = 0;
+    _steroidAmount = 0;
     resetGame();
     setSaved(false);
   }

@@ -5,8 +5,11 @@ import 'Statistics.dart';
 
 class Player {
   FieldObject _staysOn = null;
-  int _pushPower = 1;
-  int _pullPower = 0;
+  static const _stdPushPower = 1;
+  int _pushPower = _stdPushPower;
+  int _stickyGloveAmount = 0;
+  int _steroidAmount = 0;
+
   Statistics _stats = Statistics.getInstance();
   List<String> _noPositionChanges = new List();
 
@@ -15,11 +18,11 @@ class Player {
   }
 
   int getStickyGloveAmount() {
-    return _pullPower;
+    return _stickyGloveAmount;
   }
 
   int getSteroidAmount() {
-    return _pushPower;
+    return _steroidAmount;
   }
 
   /*
@@ -40,17 +43,20 @@ class Player {
   Moves the player to the upper position
   returns true if possible, false if not
    */
-  List<String> moveUp(int pullAmount, int pushAmount) {
+  List<String> moveUp(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();
-    _pullPower = _pullPower + pullAmount;
-    _pushPower = _pushPower + pushAmount;
+    _stickyGloveAmount = _stickyGloveAmount + stickyGloveAmount;
+    _steroidAmount = steroidAmount;
+    _pushPower = _pushPower + _steroidAmount;
     bool cratePulled = false;
     if (_staysOn.upPointer != null) {
-      if (_pullPower > 0 && _staysOn.downPointer.hasCrate() &&
+      if (_stickyGloveAmount > 0 && _staysOn.downPointer.hasCrate() &&
           _staysOn.upPointer.hasCrate() == false) {
         changedPositions.add(_staysOn.downPointer.getPositionAsString());
         _staysOn.downPointer.crate.moveUp(_pushPower);
-        _pullPower--;
+        _stickyGloveAmount--;
+        _stats.decGloves();
+        _stats.incUsedGloves();
         cratePulled = true;
       }
       changedPositions.addAll(
@@ -62,6 +68,12 @@ class Player {
         }
         _staysOn = _staysOn.upPointer;
         _stats.incMoves();
+        if (steroidAmount > 0) {
+          _stats.decSteroids(steroidAmount);
+          _stats.incUsedSteroids(_stats.getUsedSteroids() + steroidAmount);
+        }
+        _pushPower = _stdPushPower;
+        _steroidAmount = 0;
         return changedPositions;
       } else {
         return _noPositionChanges;
@@ -75,17 +87,20 @@ class Player {
   Moves the player to the right position
   returns true if possible, false if not
    */
-  List<String> moveRight(int pullAmount, int pushAmount) {
+  List<String> moveRight(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();
-    _pullPower = _pullPower + pullAmount;
-    _pushPower = _pushPower + pushAmount;
+    _stickyGloveAmount = _stickyGloveAmount + stickyGloveAmount;
+    _steroidAmount = steroidAmount;
+    _pushPower = _pushPower + _steroidAmount;
     bool cratePulled = false;
     if (_staysOn.rightPointer != null) {
-      if (_pullPower > 0 && _staysOn.leftPointer.hasCrate() &&
+      if (_stickyGloveAmount > 0 && _staysOn.leftPointer.hasCrate() &&
           _staysOn.rightPointer.hasCrate() == false) {
         changedPositions.add(_staysOn.leftPointer.getPositionAsString());
         _staysOn.leftPointer.crate.moveRight(_pushPower);
-        _pullPower--;
+        _stickyGloveAmount--;
+        _stats.decGloves();
+        _stats.incUsedGloves();
         cratePulled = true;
       }
       changedPositions.addAll(
@@ -97,6 +112,12 @@ class Player {
         }
         _staysOn = _staysOn.rightPointer;
         _stats.incMoves();
+        if (steroidAmount > 0) {
+          _stats.decSteroids(steroidAmount);
+          _stats.incUsedSteroids(_stats.getUsedSteroids() + steroidAmount);
+        }
+        _pushPower = _stdPushPower;
+        _steroidAmount = 0;
         return changedPositions;
       } else {
         return _noPositionChanges;
@@ -110,17 +131,20 @@ class Player {
   Moves the player to the position below
   returns true if possible, false if not
    */
-  List<String> moveDown(int pullAmount, int pushAmount) {
+  List<String> moveDown(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();
-    _pullPower = _pullPower + pullAmount;
-    _pushPower = _pushPower + pushAmount;
+    _stickyGloveAmount = _stickyGloveAmount + stickyGloveAmount;
+    _steroidAmount = steroidAmount;
+    _pushPower = _pushPower + _steroidAmount;
     bool cratePulled = false;
     if (_staysOn.downPointer != null) {
-      if (_pullPower > 0 && _staysOn.upPointer.hasCrate() &&
+      if (_stickyGloveAmount > 0 && _staysOn.upPointer.hasCrate() &&
           _staysOn.downPointer.hasCrate() == false) {
         changedPositions.add(_staysOn.upPointer.getPositionAsString());
         _staysOn.upPointer.crate.moveDown(_pushPower);
-        _pullPower--;
+        _stickyGloveAmount--;
+        _stats.decGloves();
+        _stats.incUsedGloves();
         cratePulled = true;
       }
       changedPositions.addAll(
@@ -132,6 +156,12 @@ class Player {
         }
         _staysOn = _staysOn.downPointer;
         _stats.incMoves();
+        if (steroidAmount > 0) {
+          _stats.decSteroids(steroidAmount);
+          _stats.incUsedSteroids(_stats.getUsedSteroids() + steroidAmount);
+        }
+        _pushPower = _stdPushPower;
+        _steroidAmount = 0;
         return changedPositions;
       } else {
         return _noPositionChanges;
@@ -145,17 +175,20 @@ class Player {
   Moves the player to the left position
   returns true if possible, false if not
    */
-  List<String> moveLeft(int pullAmount, int pushAmount) {
+  List<String> moveLeft(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();
-    _pullPower = _pullPower + pullAmount;
-    _pushPower = _pushPower + pushAmount;
+    _stickyGloveAmount = _stickyGloveAmount + stickyGloveAmount;
+    _steroidAmount = steroidAmount;
+    _pushPower = _pushPower + _steroidAmount;
     bool cratePulled = false;
     if (_staysOn.leftPointer != null) {
-      if (_pullPower > 0 && _staysOn.rightPointer.hasCrate() &&
+      if (_stickyGloveAmount > 0 && _staysOn.rightPointer.hasCrate() &&
           _staysOn.leftPointer.hasCrate() == false) {
         changedPositions.add(_staysOn.rightPointer.getPositionAsString());
         _staysOn.rightPointer.crate.moveLeft(_pushPower);
-        _pullPower--;
+        _stickyGloveAmount--;
+        _stats.decGloves();
+        _stats.incUsedGloves();
         cratePulled = true;
       }
       changedPositions.addAll(
@@ -167,6 +200,12 @@ class Player {
         }
         _staysOn = _staysOn.leftPointer;
         _stats.incMoves();
+        if (steroidAmount > 0) {
+          _stats.decSteroids(steroidAmount);
+          _stats.incUsedSteroids(_stats.getUsedSteroids() + steroidAmount);
+        }
+        _pushPower = _stdPushPower;
+        _steroidAmount = 0;
         return changedPositions;
       } else {
         return _noPositionChanges;
