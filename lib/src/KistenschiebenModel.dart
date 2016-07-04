@@ -31,7 +31,7 @@ class KistenschiebenModel {
   /**
    * loads the level from a list
    */
-  loadLvl(List<Map> levelList, int row, int column) {
+  void loadLvl(List<Map> levelList, int row, int column) {
     bool firstLine = true;
     _target = null;
     _qlList = null;
@@ -66,7 +66,7 @@ class KistenschiebenModel {
   /**
    * Adds a new fieldobject right to the last one
    */
-  addRight(String line) {
+  void addRight(String line) {
     Crate crate = null;
     int length = line.length;
     for (int i = 0; i < length; i++) {
@@ -118,7 +118,7 @@ class KistenschiebenModel {
   /**
    * Adds a new fieldObject below another
    */
-  addDown(String firstChar) {
+  void addDown(String firstChar) {
     Crate crate = null;
     switch (firstChar) {
       case 'W' :
@@ -164,29 +164,29 @@ class KistenschiebenModel {
   /*
    * tells the player to go up. Returns true if possible, false if not
    */
-  List<String> moveUp(int pullAmount) {
-    return _player.moveUp(pullAmount);
+  List<String> moveUp(int pullAmount, int pushAmount) {
+    return _player.moveUp(pullAmount, pushAmount);
   }
 
   /*
    * tells the player to go right. Returns true if possible, false if not
    */
-  List<String> moveRight(int pullAmount) {
-    return _player.moveRight(pullAmount);
+  List<String> moveRight(int pullAmount, int pushAmount) {
+    return _player.moveRight(pullAmount, pushAmount);
   }
 
   /*
    *tells the player to go down. Returns true if possible, false if not
    */
-  List<String> moveDown(int pullAmount) {
-    return _player.moveDown(pullAmount);
+  List<String> moveDown(int pullAmount, int pushAmount) {
+    return _player.moveDown(pullAmount, pushAmount);
   }
 
   /*
    * tells the player to go left. Returns true if possible, false if not
    */
-  List<String> moveLeft(int pullAmount) {
-    return _player.moveLeft(pullAmount);
+  List<String> moveLeft(int pullAmount, int pushAmount) {
+    return _player.moveLeft(pullAmount, pushAmount);
   }
 
 //endregion
@@ -210,29 +210,22 @@ class KistenschiebenModel {
   /**
    * sets the actual level in the statistics to the new value
    */
-  void setLevel(int lvlNr) {
-    this._stats.setCurrentLevel(lvlNr);
-  }
-
-  /**
-   * sets the amount of crates that can be pushed with one move by the player to the value i
-   */
-  void setPushPower(int pushPower) {
-    _player.setPushPower(pushPower);
+  void setLvl(int lvlNr) {
+    this._stats.setCurrentLvl(lvlNr);
   }
 
   /**
    * returns the amount of crates that can be pushed with one move by the player
    */
-  int getPushPower() {
-    return _player.getPushPower();
+  int getSteroidAmount() {
+    return _player.getSteroidAmount();
   }
 
   /**
    * returns the pull amount
    */
-  int getPullAmount() {
-    return _player.getPullAmount();
+  int getStickyGloveAmount() {
+    return _player.getStickyGloveAmount();
   }
 
 //endregion
@@ -251,7 +244,6 @@ class KistenschiebenModel {
    * resets all stats and the game
    */
   void resetStatsTotal() {
-    //TODO sieht nach Notlösung aus, muss das so???
     int gloves = _stats.getGloves();
     _stats.resetAll();
     _stats.setGloves(gloves);
@@ -281,15 +273,8 @@ class KistenschiebenModel {
   /**
    * Sets the number of gloves in the statistics to the value n
    */
-  void setGloves(int n) {
-    _stats.setGloves(n);
-  }
-
-  /**
-   * returns the number of used gloves
-   */
-  int getUsedGloves() {
-    return _stats.getUsedGloves();
+  void setGloves(int gloves) {
+    _stats.setGloves(gloves);
   }
 
   /**
@@ -302,31 +287,8 @@ class KistenschiebenModel {
   /**
    * Sets the number of steroids in the statistics to the value n
    */
-  setSteroids(int n) {
-    _stats.setSteroids(n);
-  }
-
-  /**
-   * returns the number of used steroids
-   */
-  int getUsedSteroids() {
-    return _stats.getUsedSteroids();
-  }
-
-  /**
-   * increments used gloves and decrements the left gloves
-   */
-  void pull() {
-    _stats.decGloves();
-    _stats.incUsedGloves();
-  }
-
-  /**
-   * increments used steroids and decrements the left steroids
-   */
-  steroidPush() {
-    this._stats.decSteroids();
-    this._stats.incUsedSteroids();
+  void setSteroids(int steroids) {
+    _stats.setSteroids(steroids);
   }
 
   /**
@@ -338,9 +300,9 @@ class KistenschiebenModel {
 
 //endregion
 
-  /*
-	*checks if the player has already won
-	*/
+  /**
+	 * checks if the player has already won
+	 */
   bool checkWin() {
     bool ret = false;
     if (_countCrates < _countTargets) {

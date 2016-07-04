@@ -6,7 +6,7 @@ class Wall extends FieldObject {
   Wall() {
   }
 
-  List isPassable(FieldObject player, int pushPower) {
+  List<String> isPassable(FieldObject player, int pushPower) {
     return new List();
   }
 

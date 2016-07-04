@@ -15,39 +15,57 @@ const gamekeySettings = 'gamekey.json';
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.
  */
 class KistenschiebenController {
+  //Periodic trigger controlling availability of gamekey service.
+  Timer gamekeyTrigger;
+
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
 
+  //Shows if the gamekey is available or not
+  bool gamekeyAvailable = false;
+
   //The Levelgenerator
   LevelGenerator genLvl;
+
   //The Model
   KistenschiebenModel ksModel;
+
   //The View
   KistenschiebenView ksView;
-  //Periodic trigger controlling availability of gamekey service.
-  Timer gamekeyTrigger;
-  //Shows if the gamekey is available or not
-  bool gkAvailable = false;
+
   //The username of the actual user
   String username;
+
   //The password of the actual user
   String password;
+
   //The actual statistics
   Map stats;
+
   //The User-ID
   String userid = "";
+
   //The User
   String user = "";
+
   //Shows if the user is logged in or not
   bool logedIn = false;
+
   //Shows if the user activated the pull-ability for the next round
-  int _pullAmount = 0;
+  int _stickyGloveAmount = 0;
+
+  int _steroidAmount = 0;
 
   //after 3 wins the user gets 3 new gloves
   int _newGlove = 0;
 
   //after 3 wins the user gets 3 new steroids
   int _newSteroids = 0;
+
+  //shows if statistics are saved or not
+  bool isSaved = false;
+
+//region GAMESTATE BOOLS
 
   //Shows the running state of the game
   bool gameRunning = false;
@@ -79,7 +97,9 @@ class KistenschiebenController {
   //The user is on about layout
   bool onAboutScreen = false;
 
-  bool isSaved = false;
+  //endregion
+
+//region CONSTRUCTOR
 
   /*
   CONSTRUCTOR
@@ -118,15 +138,15 @@ class KistenschiebenController {
                 querySelector("#loginbutton").style.visibility = "visible";
                 setStartscreenButtons(true);
                 setAuthentication(true);
-                gkAvailable = true;
+                gamekeyAvailable = true;
               }
             }
-            gkAvailable = true;
+            gamekeyAvailable = true;
           } else {
             print("Authentification failed!");
-            gkAvailable = false;
+            gamekeyAvailable = false;
           }
-          ksView.setGameKeyAvailable(gkAvailable);
+          ksView.setGameKeyAvailable(gamekeyAvailable);
         });
       });
     } catch (error, stacktrace) {
@@ -180,8 +200,11 @@ class KistenschiebenController {
     });
   }
 
+//endregion
+
 //region LISTENER
 
+  //region STARTSCREEN
 
   /**
    * Listener for the Startscreen.
@@ -230,7 +253,6 @@ class KistenschiebenController {
     //Demobutton listener
     querySelector('#wObutton').onMouseDown.listen((MouseEvent e) {
       withoutLoginRoutine();
-
     });
 
     //Aboutbutton listener
@@ -246,31 +268,40 @@ class KistenschiebenController {
 
     //Pullbutton listener
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
-      if(ksModel.getGloves() > 0){
-        ksModel.pull();   //increment used gloves, decrement gloves
-        int init = _pullAmount + 1;
-        _pullAmount++;
-        ksView.setPullButton(init);
+      if (ksModel.getGloves() > 0) {
+        _stickyGloveAmount++;
+        ksView.setPullButton(_stickyGloveAmount);
       }
     });
 
     //Pushbutton listener
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      int pushpower = ksModel.getPushPower();
-      querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
-      pushpower++;
-      ksModel.setPushPower(pushpower);
+      if (ksModel.getSteroids() > 0) {
+        _steroidAmount++;
+        querySelector("#pushbutton").innerHtml = "Steroids($_steroidAmount)";
+      }
+    });
+    hoverlistener();
+  }
 
+  /**
+   * Listener for the hoverevent of the buttons
+   */
+  hoverlistener() async {
+    querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "buttonhover";
     });
 
-    hoverlistener();
+    querySelectorAll("button").onMouseLeave.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "";
+    });
   }
 
   /**
    * When Register
    */
   registerRoutine() {
-    ksView.userdates("Register");
+    ksView.userDates("Register");
     setTyping(true);
     if (onStartscreen == true && onLoginscreen == false &&
         onEditUserScreen == false) {
@@ -313,7 +344,7 @@ class KistenschiebenController {
    * When Login
    */
   loginRoutine() {
-    ksView.userdates("Login");
+    ksView.userDates("Login");
     setTyping(true);
     if (onStartscreen == true && onLoginscreen == false &&
         onEditUserScreen == false) {
@@ -373,11 +404,15 @@ class KistenschiebenController {
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     ksView.setPullButton(0);
-    _pullAmount = 0;
+    _stickyGloveAmount = 0;
+    _steroidAmount = 0;
     resetGame();
     setSaved(false);
   }
 
+  //endregion
+
+  //region REGISTER & LOGIN
 
   /**
    * Tests if registration was succesfull and gives the user feedback about it
@@ -430,32 +465,31 @@ class KistenschiebenController {
     setStartscreen(false);
     setLoginscreen(true);
     window.onKeyDown.listen((KeyboardEvent ev) {
-        switch (ev.keyCode) {
-          case KeyCode.ONE :
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              newGameRoutine();
-            }
-            break;
-          case KeyCode.TWO :
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              editUserRoutine();
-            }
-            break;
-          case KeyCode.THREE:
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              levelCodeRoutine();
-            }
-            break;
-          case KeyCode.FOUR:
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              aboutRoutine();
-            }
-        }
-
+      switch (ev.keyCode) {
+        case KeyCode.ONE :
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            newGameRoutine();
+          }
+          break;
+        case KeyCode.TWO :
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            editUserRoutine();
+          }
+          break;
+        case KeyCode.THREE:
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            levelCodeRoutine();
+          }
+          break;
+        case KeyCode.FOUR:
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            aboutRoutine();
+          }
+      }
     });
 
     //NEW GAME Listener
@@ -481,8 +515,12 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  //endregion
+
+  //region REGISTERED SCREEN
+
   /**
-   *
+   * changes the view when a new game starts
    */
   newGameRoutine() {
     newGame();
@@ -511,10 +549,10 @@ class KistenschiebenController {
   levelCodeRoutine() async {
     setTyping(true);
     querySelector("#registered").innerHtml = "";
-    ksView.enterLevelCode();
+    ksView.enterLvlCode();
     window.onKeyDown.listen((KeyboardEvent ev) {
       if (ev.keyCode == KeyCode.ENTER && onLoginscreen == true) {
-        String code = ksView.levelCode;
+        String code = ksView.lvlCode;
         if (_setLevelByCode(code) == true) {
           querySelector("#userinput").innerHtml = "";
         } else {
@@ -523,8 +561,10 @@ class KistenschiebenController {
         }
       }
     });
+
+    //SUBMIT
     querySelector("#submit").onMouseDown.listen((MouseEvent e) {
-      String code = ksView.levelCode;
+      String code = ksView.lvlCode;
       if (_setLevelByCode(code) == true) {
         querySelector("#userinput").innerHtml = "";
       } else {
@@ -533,6 +573,7 @@ class KistenschiebenController {
       }
     });
 
+    //BACK
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       ksView.registeredScreen();
@@ -540,6 +581,10 @@ class KistenschiebenController {
     });
     hoverlistener();
   }
+
+//endregion
+
+  //region ABOUT
 
   /**
    * allows the user to navigate through the instructions with buttons or Keyboard
@@ -561,6 +606,7 @@ class KistenschiebenController {
         querySelector("#header").innerHtml = "Kistenschieben";
       });
 
+      //PREVIOUS
       querySelector("#aboutprev").onMouseDown.listen((MouseEvent e) {
         instructionNumber--;
         if (instructionNumber >= 1) {
@@ -569,6 +615,7 @@ class KistenschiebenController {
         } else instructionNumber++;
       });
 
+      //NEXT
       querySelector("#aboutnext").onMouseDown.listen((MouseEvent e) {
         instructionNumber++;
         if (instructionNumber <= 6) {
@@ -576,8 +623,6 @@ class KistenschiebenController {
           instructionSet(instructionNumber);
         } else instructionNumber--;
       });
-
-
       hoverlistener();
     } else if (onLoginscreen == true && gameRunning == false) {
       querySelector("#overlay").innerHtml = "";
@@ -592,7 +637,7 @@ class KistenschiebenController {
         setAboutScreen(false);
         querySelector("#header").innerHtml = "Kistenschieben";
       });
-
+      //PREVIOUS
       querySelector("#aboutprev").onMouseDown.listen((MouseEvent e) {
         instructionNumber--;
         if (instructionNumber >= 1) {
@@ -600,7 +645,7 @@ class KistenschiebenController {
           instructionSet(instructionNumber);
         } else instructionNumber++;
       });
-
+      //NEXT
       querySelector("#aboutnext").onMouseDown.listen((MouseEvent e) {
         instructionNumber++;
         if (instructionNumber <= 6) {
@@ -610,8 +655,7 @@ class KistenschiebenController {
       });
 
       hoverlistener();
-    } else {
-    }
+    } else {}
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.LEFT:
@@ -653,7 +697,6 @@ class KistenschiebenController {
             break;
       }
     });
-
   }
 
   /**
@@ -685,7 +728,9 @@ class KistenschiebenController {
     }
   }
 
+  //endregion
 
+  //region EDIT USER
 
   /**
    * Listener for editing the user.
@@ -758,7 +803,7 @@ class KistenschiebenController {
       window.onKeyDown.listen((KeyboardEvent ev) {
         switch (ev.keyCode) {
           case KeyCode.ENTER:
-            String oldName = ksView.oldUsername;
+            String oldName = ksView.oldUserName;
             String password = ksView.userPassword;
             String username = ksView.username;
             if (gamekey.changeUserName(oldName, password, username) != null) {
@@ -780,7 +825,7 @@ class KistenschiebenController {
 
     //SUBMIT
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-      String oldName = ksView.oldUsername;
+      String oldName = ksView.oldUserName;
       String password = ksView.userPassword;
       String username = ksView.username;
       if (gamekey.changeUserName(oldName, password, username) != null) {
@@ -819,7 +864,7 @@ class KistenschiebenController {
         switch (ev.keyCode) {
           case KeyCode.ENTER:
             String username = ksView.username;
-            String oldpassword = ksView.oldUserpassword;
+            String oldpassword = ksView.oldUserPassword;
             String password = ksView.userPassword;
             print(username + " " + password);
             gamekey.changeUserPassword(username, oldpassword, password);
@@ -832,7 +877,7 @@ class KistenschiebenController {
     //SUBMIT
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String username = ksView.username;
-      String oldpassword = ksView.oldUserpassword;
+      String oldpassword = ksView.oldUserPassword;
       String password = ksView.userPassword;
       print(username + " " + password);
       gamekey.changeUserPassword(username, oldpassword, password);
@@ -855,7 +900,7 @@ class KistenschiebenController {
    */
   deleteUserRoutine() {
     querySelector("#edituser").style.visibility = "hidden";
-    ksView.userdates("Delete");
+    ksView.userDates("Delete");
     setTyping(true);
     if (onEditUserScreen == true) {
       window.onKeyDown.listen((KeyboardEvent ev) {
@@ -889,6 +934,9 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  /**
+   * Brings the user back to the Screen for registered Users
+   */
   backToRegisteredListener() {
     querySelector("#edituser").innerHtml = "";
     setLoginscreen(true);
@@ -897,19 +945,9 @@ class KistenschiebenController {
     registeredListener();
   }
 
-  /**
-   * Listener for the hoverevent of the buttons
-   */
-  hoverlistener() async {
-    querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
-      (e.target as HtmlElement).className = "buttonhover";
-    });
+  //endregion
 
-    querySelectorAll("button").onMouseLeave.listen((MouseEvent e) {
-      (e.target as HtmlElement).className = "";
-    });
-  }
-
+  //region AFTER GAME
 
   /**
    * Listener for the Buttons which appear when the user has finished the level
@@ -924,12 +962,12 @@ class KistenschiebenController {
       querySelector("#savebutton").style.visibility = "visible";
     }
 
-    //Next listener
+    //NEXT
     querySelector("#nextbutton").onMouseDown.listen((MouseEvent e) {
       nextRoutine();
     });
 
-    //Save listener
+    //SAVE
     querySelector("#savebutton").onMouseDown.listen((MouseEvent e) {
       saveRoutine();
     });
@@ -950,7 +988,7 @@ class KistenschiebenController {
   }
 
   /**
-   * Routine saves the statistics ones
+   * Allows the user to save the current statistics
    */
   saveRoutine() async {
     if (isSaved == false) {
@@ -969,23 +1007,26 @@ class KistenschiebenController {
 
 //endregion
 
+//endregion
+
 //region MOVES
 
   /*
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
-    List<String> positions = ksModel.moveUp(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    List<String> positions = ksModel.moveUp(_stickyGloveAmount, _steroidAmount);
+    if (positions.length > 2) {
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -995,17 +1036,18 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    List<String> positions = ksModel.moveRight(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    List<String> positions = ksModel.moveRight(_stickyGloveAmount, _steroidAmount);
+    if (positions.length > 2) {
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1015,17 +1057,18 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    List<String> positions = ksModel.moveDown(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    List<String> positions = ksModel.moveDown(_stickyGloveAmount, _steroidAmount);
+    if (positions.length > 2) {
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1035,17 +1078,18 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    List<String> positions = ksModel.moveLeft(_pullAmount);
-    if (_pullAmount > 0) {
-      _pullAmount--;
+    List<String> positions = ksModel.moveLeft(_stickyGloveAmount, _steroidAmount);
+    if (positions.length > 2) {
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
       return true;
     }
     return false;
@@ -1181,7 +1225,7 @@ class KistenschiebenController {
   void updateViewPush(String playerPos_old, String playerPos_new,
       List<String> crates_new) {
     updateStats();
-    ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
+    ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
 
@@ -1197,7 +1241,7 @@ class KistenschiebenController {
    * Updates the code for the actual level in the view
    */
   void updateLvlCode() {
-    String code = genLvl.getlvlcode();
+    String code = genLvl.getLvlCode();
     ksView.showLvlCode(code);
   }
 
@@ -1218,7 +1262,7 @@ class KistenschiebenController {
    * Sets the actual level in the statistics to the value i
    */
   void setActualLevel(int i) {
-    this.ksModel.setLevel(i);
+    this.ksModel.setLvl(i);
   }
 
   /**
@@ -1255,7 +1299,7 @@ class KistenschiebenController {
     }
     List<Map<String, int>> lvlOnly = new List();
     for (Map m in scores) {
-      if (m['level'] == genLvl.currentLvl + 1) {
+      if (m['level'] == genLvl.getCurrentLevel() + 1) {
         lvlOnly.add(m);
       }
     }
@@ -1338,7 +1382,8 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       int saveGloves = ksModel.getGloves();
-      if(_newGlove == 3){   //adds a glove when the user has won 3 games
+      if (_newGlove == 3) {
+        //adds a glove when the user has won 3 games
         saveGloves++;
         _newGlove = 0;
       }
@@ -1361,20 +1406,19 @@ class KistenschiebenController {
   void newGame() {
     setGameRunning(true);
     ksModel = new KistenschiebenModel();
-    ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevel(
-        genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
+    ksModel.loadLvl(genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow());
+    ksView.generateLvl(
+        genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     window.onResize.listen((EventListener) {
       ksView.scaling();
-      print("Ich hab groeße verändert");
     });
-    setActualLevel(genLvl.currentLvl + 1);
+    setActualLevel(genLvl.getCurrentLevel() + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
     updateStats();
-    ksView.showLvlCode(genLvl.getlvlcode());
+    ksView.showLvlCode(genLvl.getLvlCode());
   }
 
   /*
@@ -1383,14 +1427,15 @@ class KistenschiebenController {
   void resetGame() {
     setGameRunning(true);
     ksModel.incResets();
-    ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevel(
-        genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
+    ksModel.loadLvl(genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow());
+    ksView.generateLvl(
+        genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     ksModel.resetStats();
-    setActualLevel(genLvl.currentLvl + 1);
+    setActualLevel(genLvl.getCurrentLevel() + 1);
     querySelector("#resetbutton").style.visibility = "visible";
-    ksModel.setPushPower(1);
+    _steroidAmount = 0;
+    _stickyGloveAmount = 0;
     querySelector("#pushbutton").innerHtml = "PushPower(0)";
     updateStats();
   }
@@ -1401,6 +1446,7 @@ class KistenschiebenController {
   checkWin() async {
     if (ksModel.checkWin() == true) {
       _newGlove++;
+      _newSteroids++;
       finishedGame = true;
       final highscores = await getHighscores();
       ksView.showWin(highscores);
@@ -1423,6 +1469,4 @@ class KistenschiebenController {
     }
     return false;
   }
-
-//endregion
 }
