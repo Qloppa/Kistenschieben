@@ -6,7 +6,7 @@ import 'dart:html';
  */
 class KistenschiebenView {
 
-  List<List<HtmlElement>> field;
+  List<List<HtmlElement>> _field;
 
   int _tableH = 0;   //amount of fieldobjects vertical
   int _tableW = 0;   //amount of fieldobjects horizontal
@@ -133,7 +133,7 @@ class KistenschiebenView {
    */
 
 
-  void enterLevelCode() {
+  void enterLvlCode() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
@@ -217,10 +217,6 @@ class KistenschiebenView {
 
   String get lvlCode =>
       (document.querySelector('#levelCode') as InputElement).value;
-
-  void getAbout() {
-    querySelector("#about").innerHtml = "<about id=\"overlay\"><about>";
-  }
 
   //endregion
 
@@ -350,7 +346,7 @@ class KistenschiebenView {
   /**
    * Creates the level in html from a List
    */
-  Future<String> generateLevel(List<Map> levelList, int column,
+  Future<String> generateLvl(List<Map> levelList, int column,
       int row) async {
     this._tableH = row;
     this._tableW = column;

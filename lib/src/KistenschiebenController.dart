@@ -26,28 +26,40 @@ class KistenschiebenController {
 
   //The Levelgenerator
   LevelGenerator genLvl;
+
   //The Model
   KistenschiebenModel ksModel;
+
   //The View
   KistenschiebenView ksView;
+
   //The username of the actual user
   String username;
+
   //The password of the actual user
   String password;
+
   //The actual statistics
   Map stats;
+
   //The User-ID
   String userid = "";
+
   //The User
   String user = "";
+
   //Shows if the user is logged in or not
   bool logedIn = false;
+
   //Shows if the user activated the pull-ability for the next round
   int _pullAmount = 0;
+
   //after 3 wins the user gets 3 new gloves
   int _newGlove = 0;
+
   //after 3 wins the user gets 3 new steroids
   int _newSteroids = 0;
+
   //shows if statistics are saved or not
   bool isSaved = false;
 
@@ -239,7 +251,6 @@ class KistenschiebenController {
     //Demobutton listener
     querySelector('#wObutton').onMouseDown.listen((MouseEvent e) {
       withoutLoginRoutine();
-
     });
 
     //Aboutbutton listener
@@ -255,8 +266,8 @@ class KistenschiebenController {
 
     //Pullbutton listener
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
-      if(ksModel.getGloves() > 0){
-        ksModel.pull();   //increment used gloves, decrement gloves
+      if (ksModel.getGloves() > 0) {
+        ksModel.pull(); //increment used gloves, decrement gloves
         _pullAmount++;
         ksView.setPullButton(_pullAmount);
       }
@@ -264,7 +275,7 @@ class KistenschiebenController {
 
     //Pushbutton listener
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      if(ksModel.getSteroids() > 0){
+      if (ksModel.getSteroids() > 0) {
         int pushpower = ksModel.getPushPower();
         querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
         pushpower++;
@@ -394,8 +405,8 @@ class KistenschiebenController {
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     ksView.setPullButton(0);
-    if(_pullAmount > 0){
-      for(int i = 0; i < _pullAmount; i++){
+    if (_pullAmount > 0) {
+      for (int i = 0; i < _pullAmount; i++) {
         ksModel.incGloves();
         ksModel.decUsedGloves();
       }
@@ -460,32 +471,31 @@ class KistenschiebenController {
     setStartscreen(false);
     setLoginscreen(true);
     window.onKeyDown.listen((KeyboardEvent ev) {
-        switch (ev.keyCode) {
-          case KeyCode.ONE :
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              newGameRoutine();
-            }
-            break;
-          case KeyCode.TWO :
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              editUserRoutine();
-            }
-            break;
-          case KeyCode.THREE:
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              levelCodeRoutine();
-            }
-            break;
-          case KeyCode.FOUR:
-            if (gameRunning != true && typing != true &&
-                onLoginscreen == true) {
-              aboutRoutine();
-            }
-        }
-
+      switch (ev.keyCode) {
+        case KeyCode.ONE :
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            newGameRoutine();
+          }
+          break;
+        case KeyCode.TWO :
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            editUserRoutine();
+          }
+          break;
+        case KeyCode.THREE:
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            levelCodeRoutine();
+          }
+          break;
+        case KeyCode.FOUR:
+          if (gameRunning != true && typing != true &&
+              onLoginscreen == true) {
+            aboutRoutine();
+          }
+      }
     });
 
     //NEW GAME Listener
@@ -548,7 +558,7 @@ class KistenschiebenController {
     ksView.enterLvlCode();
     window.onKeyDown.listen((KeyboardEvent ev) {
       if (ev.keyCode == KeyCode.ENTER && onLoginscreen == true) {
-        String code = ksView.levelCode;
+        String code = ksView.lvlCode;
         if (_setLevelByCode(code) == true) {
           querySelector("#userinput").innerHtml = "";
         } else {
@@ -620,9 +630,7 @@ class KistenschiebenController {
         } else instructionNumber--;
       });
       hoverlistener();
-
     } else if (onLoginscreen == true && gameRunning == false) {
-
       querySelector("#overlay").innerHtml = "";
       ksView.getAbout();
       querySelector("#overlay").className = "instruction1";
@@ -653,8 +661,7 @@ class KistenschiebenController {
       });
 
       hoverlistener();
-    } else {
-    }
+    } else {}
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.LEFT:
@@ -1015,12 +1022,10 @@ class KistenschiebenController {
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(_pullAmount);
-    if(positions.length > 2){
-      if (_pullAmount > 0) {
-        _pullAmount--;
-        ksView.setPullButton(_pullAmount);
-      }
-      if(ksModel.getPushPower() > 1){
+    if (positions.length > 2) {
+      _pullAmount = 0;
+      ksView.setPullButton(ksModel.getPullAmount());
+      if (ksModel.getPushPower() > 1) {
         ksModel.steroidPush();
         ksModel.setPushPower(1);
       }
@@ -1040,12 +1045,10 @@ class KistenschiebenController {
    */
   bool moveRight() {
     List<String> positions = ksModel.moveRight(_pullAmount);
-    if(positions.length > 2){
-      if (_pullAmount > 0) {
-        _pullAmount--;
-        ksView.setPullButton(_pullAmount);
-      }
-      if(ksModel.getPushPower() > 1){
+    if (positions.length > 2) {
+      _pullAmount = 0;
+      ksView.setPullButton(ksModel.getPullAmount());
+      if (ksModel.getPushPower() > 1) {
         ksModel.steroidPush();
         ksModel.setPushPower(1);
       }
@@ -1065,12 +1068,10 @@ class KistenschiebenController {
    */
   bool moveDown() {
     List<String> positions = ksModel.moveDown(_pullAmount);
-    if(positions.length > 2){
-      if (_pullAmount > 0) {
-        _pullAmount--;
-        ksView.setPullButton(_pullAmount);
-      }
-      if(ksModel.getPushPower() > 1){
+    if (positions.length > 2) {
+      _pullAmount = 0;
+      ksView.setPullButton(ksModel.getPullAmount());
+      if (ksModel.getPushPower() > 1) {
         ksModel.steroidPush();
         ksModel.setPushPower(1);
       }
@@ -1090,12 +1091,10 @@ class KistenschiebenController {
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(_pullAmount);
-    if(positions.length > 2){
-      if (_pullAmount > 0) {
-        _pullAmount--;
-        ksView.setPullButton(_pullAmount);
-      }
-      if(ksModel.getPushPower() > 1){
+    if (positions.length > 2) {
+      _pullAmount = 0;
+      ksView.setPullButton(ksModel.getPullAmount());
+      if (ksModel.getPushPower() > 1) {
         ksModel.steroidPush();
         ksModel.setPushPower(1);
       }
@@ -1105,9 +1104,6 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
-      ksView.setPullButton(ksModel.getPullAmount());
-      ksModel.setPushPower(1);
-      querySelector("#pushbutton").innerHtml = "PushPower(1)";
       return true;
     }
     return false;
@@ -1400,7 +1396,8 @@ class KistenschiebenController {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       int saveGloves = ksModel.getGloves();
-      if(_newGlove == 3){   //adds a glove when the user has won 3 games
+      if (_newGlove == 3) {
+        //adds a glove when the user has won 3 games
         saveGloves++;
         _newGlove = 0;
       }
@@ -1424,7 +1421,7 @@ class KistenschiebenController {
     setGameRunning(true);
     ksModel = new KistenschiebenModel();
     ksModel.loadLvl(genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevelFromString(
+    ksView.generateLvl(
         genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     window.onResize.listen((EventListener) {
@@ -1445,7 +1442,7 @@ class KistenschiebenController {
     setGameRunning(true);
     ksModel.incResets();
     ksModel.loadLvl(genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevelFromString(
+    ksView.generateLvl(
         genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     ksModel.resetStats();

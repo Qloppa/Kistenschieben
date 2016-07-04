@@ -231,9 +231,9 @@ class KistenschiebenModel {
   /**
    * returns the pull amount
    */
-  /*int getPullAmount() {
+  int getPullAmount() {
     return _player.getPullAmount();
-  }*/
+  }
 
 //endregion
 
