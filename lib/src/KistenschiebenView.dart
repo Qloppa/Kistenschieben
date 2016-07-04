@@ -8,8 +8,12 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> _field;
 
-  int _tableH = 0;   //amount of fieldobjects vertical
-  int _tableW = 0;   //amount of fieldobjects horizontal
+  int _tableH = 0;
+
+  //amount of fieldobjects vertical
+  int _tableW = 0;
+
+  //amount of fieldobjects horizontal
 
   /*
   Constructor

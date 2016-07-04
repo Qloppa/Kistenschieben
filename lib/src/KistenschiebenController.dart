@@ -1036,7 +1036,8 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    List<String> positions = ksModel.moveRight(_stickyGloveAmount, _steroidAmount);
+    List<String> positions = ksModel.moveRight(
+        _stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());
@@ -1057,7 +1058,8 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    List<String> positions = ksModel.moveDown(_stickyGloveAmount, _steroidAmount);
+    List<String> positions = ksModel.moveDown(
+        _stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());
@@ -1078,7 +1080,8 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    List<String> positions = ksModel.moveLeft(_stickyGloveAmount, _steroidAmount);
+    List<String> positions = ksModel.moveLeft(
+        _stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
       _stickyGloveAmount = 0;
       ksView.setPullButton(ksModel.getStickyGloveAmount());

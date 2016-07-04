@@ -12,14 +12,19 @@ class LevelGenerator {
   int _currentLvl = 0;
   //levelnumber
   int _lvlNumber = 0;
+
   //number of columns
   int _column = 0;
+
   //number of rows
   int _row = 0;
+
   //used for the code
   String _code = "";
+
   //list of levels
   List<Map> _lvls = new List<Map>();
+
   //list of available levels
   List<Map> _lvlList = new List<Map>();
 
@@ -80,7 +85,7 @@ class LevelGenerator {
   /**
    * sets the current level to the value i
    */
-  setCurrentLevel(int i){
+  setCurrentLevel(int i) {
     this._currentLvl = i;
   }
 
@@ -126,7 +131,7 @@ class LevelGenerator {
   /**
    * returns the current level
    */
-  int getCurrentLevel(){
+  int getCurrentLevel() {
     return this._currentLvl;
   }
 
