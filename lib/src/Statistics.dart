@@ -222,7 +222,7 @@ class Statistics {
    * increments the number of used steroids by 1
    */
   incUsedSteroids(int usedSteroids) {
-    _usedSteroids = usedSteroids;
+    _usedSteroids = _usedSteroids + usedSteroids;
   }
 
   /**
