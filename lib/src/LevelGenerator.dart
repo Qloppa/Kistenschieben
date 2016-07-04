@@ -24,9 +24,11 @@ class LevelGenerator {
   //list of available levels
   List<Map> _levelList = new List<Map>();
 
-  //Reading Level from Json
+  /**
+   * Constructor
+   */
   LevelGenerator() {
-    loadData();
+    loadData(); //Reading Level from Json
   }
 
   //region LOAD JSON

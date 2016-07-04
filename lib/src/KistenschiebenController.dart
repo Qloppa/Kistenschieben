@@ -1008,8 +1008,8 @@ class KistenschiebenController {
 
 //region MOVES
 
-  /*
-  tells the Player to move up. updates the view if the model returns true
+  /**
+   * tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
     print(_pullAmount);
@@ -1034,8 +1034,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move right. updates the view if the model returns true
+  /**
+   * Tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
     print(_pullAmount);
@@ -1060,8 +1060,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move down. updates the view if the model returns true
+  /**
+   * tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
     print(_pullAmount);
@@ -1086,8 +1086,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move left. updates the view if the model returns true
+  /**
+   * Tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
     print(_pullAmount);
