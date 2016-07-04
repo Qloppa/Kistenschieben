@@ -1233,7 +1233,7 @@ class KistenschiebenController {
    * Updates the stats in the view
    */
   void updateStats() {
-    var actualLvl = genLvl.getLevelValue();
+    var actualLvl = genLvl.getLevelValue() + 1;
     ksView.updateStats(ksModel.getStats(), actualLvl.toString());
   }
 

@@ -344,7 +344,6 @@ class KistenschiebenView {
       String bw = bWidth.toInt().toString() + "px";
       double bHeight = bWidth/4;
       String bh = bHeight.toInt().toString() + "px";
-      String fontSize = (bWidth/8).toInt().toString();
       querySelectorAll("#resetbutton").style.maxWidth = bw;
       querySelectorAll("#pullbutton").style.maxWidth = bw;
       querySelectorAll("#pushbutton").style.maxWidth = bw;
