@@ -27,10 +27,16 @@ class Position {
     return this._y;
   }
 
+  /**
+   * sets the x-value of the position
+   */
   void setX(int x) {
     this._x = x;
   }
 
+  /**
+   * sets the y-value of the position
+   */
   void setY(int y) {
     this._y = y;
   }

@@ -165,24 +165,30 @@ class Player {
     return changedPositions;
   }
 
-  /*
-		Returns the x value of the position
-	*/
+  /**
+	 * Returns the x value of the position
+	 */
   int getPosX() {
     return this._staysOn.getPosition().getX();
   }
 
-  /*
-		Returns the y value of the position
-	*/
+  /**
+   * Returns the y value of the position
+	 */
   int getPosY() {
     return this._staysOn.getPosition().getY();
   }
 
+  /**
+   * returns the Push Power
+   */
   int getPushPower() {
     return _pushPower;
   }
 
+  /**
+   * sets the PushPower to the new value
+   */
   void setPushPower(int pushPower) {
     this._pushPower = pushPower;
   }

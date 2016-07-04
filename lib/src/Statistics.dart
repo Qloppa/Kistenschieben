@@ -363,7 +363,6 @@ class Statistics {
     out['usedGloves'] = _usedGloves;
     out['steroids'] = _steroids;
     out['usedSteroids'] = _usedSteroids;
-    //benoetigt keine roundTime
     return out;
   }
 }

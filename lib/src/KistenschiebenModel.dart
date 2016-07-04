@@ -365,9 +365,9 @@ class KistenschiebenModel {
 
 //endregion
 
-  /*
-	*checks if the player has already won
-	*/
+  /**
+	 * checks if the player has already won
+	 */
   bool checkWin() {
     bool ret = false;
     if (_countCrates < _countTargets) {

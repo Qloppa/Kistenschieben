@@ -44,6 +44,9 @@ class FieldObject {
     return ret;
   }
 
+  /**
+   *
+   */
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {
     if (this.crate == null) {
       List changedPositions = new List();

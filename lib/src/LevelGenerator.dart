@@ -164,13 +164,4 @@ class LevelGenerator {
   void nextLvl() {
     this._lvlNumber++;
   }
-
-
-
-
-
-
-
-
-
 }
