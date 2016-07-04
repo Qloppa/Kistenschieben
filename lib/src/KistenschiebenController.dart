@@ -15,9 +15,9 @@ const gamekeySettings = 'gamekey.json';
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.
  */
 class KistenschiebenController {
+
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
-
   //The Levelgenerator
   LevelGenerator genLvl;
   //The Model
@@ -42,12 +42,14 @@ class KistenschiebenController {
   bool logedIn = false;
   //Shows if the user activated the pull-ability for the next round
   int _pullAmount = 0;
-
   //after 3 wins the user gets 3 new gloves
   int _newGlove = 0;
-
   //after 3 wins the user gets 3 new steroids
   int _newSteroids = 0;
+  //shows if statistics are saved or not
+  bool isSaved = false;
+
+//region GAMESTATE BOOLS
 
   //Shows the running state of the game
   bool gameRunning = false;
@@ -79,7 +81,9 @@ class KistenschiebenController {
   //The user is on about layout
   bool onAboutScreen = false;
 
-  bool isSaved = false;
+  //endregion
+
+//region CONSTRUCTOR
 
   /*
   CONSTRUCTOR
@@ -180,8 +184,11 @@ class KistenschiebenController {
     });
   }
 
+//endregion
+
 //region LISTENER
 
+  //region STARTSCREEN
 
   /**
    * Listener for the Startscreen.
@@ -263,6 +270,19 @@ class KistenschiebenController {
       }
     });
     hoverlistener();
+  }
+
+  /**
+   * Listener for the hoverevent of the buttons
+   */
+  hoverlistener() async {
+    querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "buttonhover";
+    });
+
+    querySelectorAll("button").onMouseLeave.listen((MouseEvent e) {
+      (e.target as HtmlElement).className = "";
+    });
   }
 
   /**
@@ -383,6 +403,9 @@ class KistenschiebenController {
     setSaved(false);
   }
 
+  //endregion
+
+  //region REGISTER & LOGIN
 
   /**
    * Tests if registration was succesfull and gives the user feedback about it
@@ -486,8 +509,12 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  //endregion
+
+  //region REGISTERED SCREEN
+
   /**
-   *
+   * changes the view when a new game starts
    */
   newGameRoutine() {
     newGame();
@@ -528,6 +555,8 @@ class KistenschiebenController {
         }
       }
     });
+
+    //SUBMIT
     querySelector("#submit").onMouseDown.listen((MouseEvent e) {
       String code = ksView.levelCode;
       if (_setLevelByCode(code) == true) {
@@ -538,6 +567,7 @@ class KistenschiebenController {
       }
     });
 
+    //BACK
     querySelector("#back").onMouseDown.listen((MouseEvent e) {
       querySelector("#userinput").innerHtml = "";
       ksView.registeredScreen();
@@ -545,6 +575,10 @@ class KistenschiebenController {
     });
     hoverlistener();
   }
+
+//endregion
+
+  //region ABOUT
 
   /**
    * allows the user to navigate through the instructions with buttons or Keyboard
@@ -566,6 +600,7 @@ class KistenschiebenController {
         querySelector("#header").innerHtml = "Kistenschieben";
       });
 
+      //PREVIOUS
       querySelector("#aboutprev").onMouseDown.listen((MouseEvent e) {
         instructionNumber--;
         if (instructionNumber >= 1) {
@@ -574,6 +609,7 @@ class KistenschiebenController {
         } else instructionNumber++;
       });
 
+      //NEXT
       querySelector("#aboutnext").onMouseDown.listen((MouseEvent e) {
         instructionNumber++;
         if (instructionNumber <= 6) {
@@ -581,10 +617,10 @@ class KistenschiebenController {
           instructionSet(instructionNumber);
         } else instructionNumber--;
       });
-
-
       hoverlistener();
+
     } else if (onLoginscreen == true && gameRunning == false) {
+
       querySelector("#overlay").innerHtml = "";
       ksView.getAbout();
       querySelector("#overlay").className = "instruction1";
@@ -597,7 +633,7 @@ class KistenschiebenController {
         setAboutScreen(false);
         querySelector("#header").innerHtml = "Kistenschieben";
       });
-
+      //PREVIOUS
       querySelector("#aboutprev").onMouseDown.listen((MouseEvent e) {
         instructionNumber--;
         if (instructionNumber >= 1) {
@@ -605,7 +641,7 @@ class KistenschiebenController {
           instructionSet(instructionNumber);
         } else instructionNumber++;
       });
-
+      //NEXT
       querySelector("#aboutnext").onMouseDown.listen((MouseEvent e) {
         instructionNumber++;
         if (instructionNumber <= 6) {
@@ -658,7 +694,6 @@ class KistenschiebenController {
             break;
       }
     });
-
   }
 
   /**
@@ -690,7 +725,9 @@ class KistenschiebenController {
     }
   }
 
+  //endregion
 
+  //region EDIT USER
 
   /**
    * Listener for editing the user.
@@ -894,6 +931,9 @@ class KistenschiebenController {
     hoverlistener();
   }
 
+  /**
+   * Brings the user back to the Screen for registered Users
+   */
   backToRegisteredListener() {
     querySelector("#edituser").innerHtml = "";
     setLoginscreen(true);
@@ -902,19 +942,9 @@ class KistenschiebenController {
     registeredListener();
   }
 
-  /**
-   * Listener for the hoverevent of the buttons
-   */
-  hoverlistener() async {
-    querySelectorAll("button").onMouseEnter.listen((MouseEvent e) {
-      (e.target as HtmlElement).className = "buttonhover";
-    });
+  //endregion
 
-    querySelectorAll("button").onMouseLeave.listen((MouseEvent e) {
-      (e.target as HtmlElement).className = "";
-    });
-  }
-
+  //region AFTER GAME
 
   /**
    * Listener for the Buttons which appear when the user has finished the level
@@ -954,6 +984,9 @@ class KistenschiebenController {
     querySelector("#pushbutton").style.visibility = "visible";
   }
 
+  /**
+   * Allows the user to save the current statistics
+   */
   saveRoutine() async {
     if (isSaved == false) {
       print("saved");
@@ -968,6 +1001,8 @@ class KistenschiebenController {
       //Is already saved
     }
   }
+
+//endregion
 
 //endregion
 
@@ -1449,6 +1484,4 @@ class KistenschiebenController {
     }
     return false;
   }
-
-//endregion
 }

@@ -6,6 +6,7 @@ import 'dart:html';
  * A levelgenerator, used to generate the level from a json
  */
 class LevelGenerator {
+
   //Anzahl der Gesamtlevel
   int _lvlNumberSum = 0;
   //Aktuelles Level
