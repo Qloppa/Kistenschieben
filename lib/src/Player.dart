@@ -14,8 +14,12 @@ class Player {
     this._staysOn = staysOn;
   }
 
-  int getPullAmount() {
+  int getStickyGloveAmount() {
     return _pullPower;
+  }
+
+  int getSteroidAmount() {
+    return _pushPower;
   }
 
   /*
@@ -32,21 +36,14 @@ class Player {
     return this._staysOn.getPosition().getY();
   }
 
-  int getPushPower() {
-    return _pushPower;
-  }
-
-  void setPushPower(int pushPower) {
-    this._pushPower = pushPower;
-  }
-
   /*
   Moves the player to the upper position
   returns true if possible, false if not
    */
-  List<String> moveUp(int pullAmount) {
+  List<String> moveUp(int pullAmount, int pushAmount) {
     List changedPositions = new List();
     _pullPower = _pullPower + pullAmount;
+    _pushPower = _pushPower + pushAmount;
     bool cratePulled = false;
     if (_staysOn.upPointer != null) {
       if (_pullPower > 0 && _staysOn.downPointer.hasCrate() &&
@@ -78,9 +75,10 @@ class Player {
   Moves the player to the right position
   returns true if possible, false if not
    */
-  List<String> moveRight(int pullAmount) {
+  List<String> moveRight(int pullAmount, int pushAmount) {
     List changedPositions = new List();
     _pullPower = _pullPower + pullAmount;
+    _pushPower = _pushPower + pushAmount;
     bool cratePulled = false;
     if (_staysOn.rightPointer != null) {
       if (_pullPower > 0 && _staysOn.leftPointer.hasCrate() &&
@@ -112,9 +110,10 @@ class Player {
   Moves the player to the position below
   returns true if possible, false if not
    */
-  List<String> moveDown(int pullAmount) {
+  List<String> moveDown(int pullAmount, int pushAmount) {
     List changedPositions = new List();
     _pullPower = _pullPower + pullAmount;
+    _pushPower = _pushPower + pushAmount;
     bool cratePulled = false;
     if (_staysOn.downPointer != null) {
       if (_pullPower > 0 && _staysOn.upPointer.hasCrate() &&
@@ -146,9 +145,10 @@ class Player {
   Moves the player to the left position
   returns true if possible, false if not
    */
-  List<String> moveLeft(int pullAmount) {
+  List<String> moveLeft(int pullAmount, int pushAmount) {
     List changedPositions = new List();
     _pullPower = _pullPower + pullAmount;
+    _pushPower = _pushPower + pushAmount;
     bool cratePulled = false;
     if (_staysOn.leftPointer != null) {
       if (_pullPower > 0 && _staysOn.rightPointer.hasCrate() &&

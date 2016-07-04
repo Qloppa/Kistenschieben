@@ -164,29 +164,29 @@ class KistenschiebenModel {
   /*
    * tells the player to go up. Returns true if possible, false if not
    */
-  List<String> moveUp(int pullAmount) {
-    return _player.moveUp(pullAmount);
+  List<String> moveUp(int pullAmount, int pushAmount) {
+    return _player.moveUp(pullAmount, pushAmount);
   }
 
   /*
    * tells the player to go right. Returns true if possible, false if not
    */
-  List<String> moveRight(int pullAmount) {
-    return _player.moveRight(pullAmount);
+  List<String> moveRight(int pullAmount, int pushAmount) {
+    return _player.moveRight(pullAmount, pushAmount);
   }
 
   /*
    *tells the player to go down. Returns true if possible, false if not
    */
-  List<String> moveDown(int pullAmount) {
-    return _player.moveDown(pullAmount);
+  List<String> moveDown(int pullAmount, int pushAmount) {
+    return _player.moveDown(pullAmount, pushAmount);
   }
 
   /*
    * tells the player to go left. Returns true if possible, false if not
    */
-  List<String> moveLeft(int pullAmount) {
-    return _player.moveLeft(pullAmount);
+  List<String> moveLeft(int pullAmount, int pushAmount) {
+    return _player.moveLeft(pullAmount, pushAmount);
   }
 
 //endregion
@@ -217,22 +217,15 @@ class KistenschiebenModel {
   /**
    * returns the amount of crates that can be pushed with one move by the player
    */
-  int getPushPower() {
-    return _player.getPushPower();
-  }
-
-  /**
-   * sets the amount of crates that can be pushed with one move by the player to the value i
-   */
-  void setPushPower(int pushPower) {
-    _player.setPushPower(pushPower);
+  int getSteroidAmount() {
+    return _player.getSteroidAmount();
   }
 
   /**
    * returns the pull amount
    */
-  int getPullAmount() {
-    return _player.getPullAmount();
+  int getStickyGloveAmount() {
+    return _player.getStickyGloveAmount();
   }
 
 //endregion

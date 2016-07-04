@@ -52,7 +52,9 @@ class KistenschiebenController {
   bool logedIn = false;
 
   //Shows if the user activated the pull-ability for the next round
-  int _pullAmount = 0;
+  int _stickyGloveAmount = 0;
+
+  int _steroidAmount = 0;
 
   //after 3 wins the user gets 3 new gloves
   int _newGlove = 0;
@@ -268,18 +270,16 @@ class KistenschiebenController {
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
       if (ksModel.getGloves() > 0) {
         ksModel.pull(); //increment used gloves, decrement gloves
-        _pullAmount++;
-        ksView.setPullButton(_pullAmount);
+        _stickyGloveAmount++;
+        ksView.setPullButton(_stickyGloveAmount);
       }
     });
 
     //Pushbutton listener
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
       if (ksModel.getSteroids() > 0) {
-        int pushpower = ksModel.getPushPower();
-        querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
-        pushpower++;
-        ksModel.setPushPower(pushpower);
+        _steroidAmount++;
+        querySelector("#pushbutton").innerHtml = "Steroids($_steroidAmount)";
       }
     });
     hoverlistener();
@@ -405,12 +405,12 @@ class KistenschiebenController {
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     ksView.setPullButton(0);
-    if (_pullAmount > 0) {
-      for (int i = 0; i < _pullAmount; i++) {
+    if (_stickyGloveAmount > 0) {
+      for (int i = 0; i < _stickyGloveAmount; i++) {
         ksModel.incGloves();
         ksModel.decUsedGloves();
       }
-      _pullAmount = 0;
+      _stickyGloveAmount = 0;
     }
     resetGame();
     setSaved(false);
@@ -1021,15 +1021,13 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
-    List<String> positions = ksModel.moveUp(_pullAmount);
+    List<String> positions = ksModel.moveUp(_stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
-      _pullAmount = 0;
-      ksView.setPullButton(ksModel.getPullAmount());
-      if (ksModel.getPushPower() > 1) {
-        ksModel.steroidPush();
-        ksModel.setPushPower(1);
-      }
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1044,15 +1042,13 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    List<String> positions = ksModel.moveRight(_pullAmount);
+    List<String> positions = ksModel.moveRight(_stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
-      _pullAmount = 0;
-      ksView.setPullButton(ksModel.getPullAmount());
-      if (ksModel.getPushPower() > 1) {
-        ksModel.steroidPush();
-        ksModel.setPushPower(1);
-      }
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1067,15 +1063,13 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    List<String> positions = ksModel.moveDown(_pullAmount);
+    List<String> positions = ksModel.moveDown(_stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
-      _pullAmount = 0;
-      ksView.setPullButton(ksModel.getPullAmount());
-      if (ksModel.getPushPower() > 1) {
-        ksModel.steroidPush();
-        ksModel.setPushPower(1);
-      }
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1090,15 +1084,13 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    List<String> positions = ksModel.moveLeft(_pullAmount);
+    List<String> positions = ksModel.moveLeft(_stickyGloveAmount, _steroidAmount);
     if (positions.length > 2) {
-      _pullAmount = 0;
-      ksView.setPullButton(ksModel.getPullAmount());
-      if (ksModel.getPushPower() > 1) {
-        ksModel.steroidPush();
-        ksModel.setPushPower(1);
-      }
-      querySelector("#pushbutton").innerHtml = "Steroids(0)";
+      _stickyGloveAmount = 0;
+      ksView.setPullButton(ksModel.getStickyGloveAmount());
+      _steroidAmount = 0;
+      int temp = ksModel.getSteroidAmount();
+      querySelector("#pushbutton").innerHtml = "Steroids($temp)";
     }
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
@@ -1448,7 +1440,8 @@ class KistenschiebenController {
     ksModel.resetStats();
     setActualLevel(genLvl.getCurrentLevel() + 1);
     querySelector("#resetbutton").style.visibility = "visible";
-    ksModel.setPushPower(1);
+    _steroidAmount = 0;
+    _stickyGloveAmount = 0;
     querySelector("#pushbutton").innerHtml = "PushPower(0)";
     updateStats();
   }

@@ -3,8 +3,6 @@ class Statistics {
   static var _globalMoves;      //moves this round total
   static var _localPushes;      //pushes this round, 0 after reset
   static var _globalPushes;     //pushes this round total
-  //DateTime _startTime;          //time when the user started the game, not used yet //TODO die Time wollten wir doch rausschmeißen
-  //static var _roundTime;        //used time in this round
   static int _resets;           //number of resets
   static int _actualLevel;      //the actual level
   static Statistics _instance;  //an instance of the static Statistics
@@ -16,11 +14,6 @@ class Statistics {
   static int _usedSteroids;
 
   //number of used steroids
-
-  //not used yet
-  //static var _localTime;
-  //static var _globalTime;
-
   /**
    * Constructor
    */
@@ -29,12 +22,6 @@ class Statistics {
     _globalMoves = 0;
     _localPushes = 0;
     _globalPushes = 0;
-    /*
-    _localTime = 0;
-    _globalTime = 0;
-    _startTime = new DateTime.now();
-    _roundTime = 0;
-    */
     _resets = 0;
     _actualLevel = 0;
     _usedGloves = 0;
@@ -91,27 +78,6 @@ class Statistics {
     return _globalPushes;
   }
 
-  /*
-  /*
-   * returns the used time of the actual game since start or last reset
-   */
-  int getLocalTime() {
-    return _localTime;
-  }
-  */
-
-  /*
-  /*
-   * returns the used time of the actual game since start
-   */
-  int getGlobalTime() {
-    DateTime dt = new DateTime.now();
-    Duration out = dt.difference(_startTime);
-    int diff = out.inSeconds;
-    return _roundTime + diff;
-  }
-  */
-
   /**
    * returns the number of used gloves
    */
@@ -143,15 +109,6 @@ class Statistics {
   //endregion
 
   //region SETTER
-
-  /*
-  /**
-   * Sets the roundTime which is the used time in the last savegame
-   */
-  setRoundTime(int time){
-    _roundTime = time;
-  }
-  */
 
   /**
    * Sets the value of the total Moves used in this round
@@ -304,7 +261,6 @@ class Statistics {
   void resetLocal() {
     _localMoves = 0;
     _localPushes = 0;
-    //_localTime = 0;
   }
 
   /*
@@ -313,7 +269,6 @@ class Statistics {
   void resetGlobal() {
     _globalMoves = 0;
     _globalPushes = 0;
-    //_globalTime = 0;
     _resets = 0;
     _usedGloves = 0;
     _usedSteroids = 0;
@@ -337,20 +292,10 @@ class Statistics {
     _globalMoves = stats.remove("globalMoves");
     _localPushes = stats.remove("localPushes");
     _globalPushes = stats.remove("globalPushes");
-    //_localTime = stats.remove("localTime");
-    //_globalTime = stats.remove("globalTime");
     _gloves = stats.remove("gloves");
     _usedGloves = stats.remove("usedGloves");
     _steroids = stats.remove("steroids");
     _usedSteroids = stats.remove("usedSteroids");
-    /*
-    _startTime = new DateTime.now();
-    if (stats.containsKey("roundTime")) {
-      _roundTime = stats.remove("roundTime");
-    } else {
-      _roundTime = 0;
-    }
-    */
   }
   /*
     Returns a Map with all stats
@@ -370,8 +315,6 @@ class Statistics {
     out['globalMoves'] = _globalMoves;
     out['localPushes'] = _localPushes;
     out['globalPushes'] = _globalPushes;
-    //out['localTime'] = _localTime;
-    //out['globalTime'] = _globalTime;
     out['resets'] = _resets;
     out['actualLevel'] = _actualLevel;
     out['gloves'] = _gloves;
