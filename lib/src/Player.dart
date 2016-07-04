@@ -14,9 +14,9 @@ class Player {
     this._staysOn = staysOn;
   }
 
-  int getPullAmount() {
+  /*int getPullAmount() {
     return _pullPower;
-  }
+  }*/
 
   /*
   Moves the player to the upper position

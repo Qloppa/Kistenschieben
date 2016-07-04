@@ -248,21 +248,21 @@ class KistenschiebenController {
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
       if(ksModel.getGloves() > 0){
         ksModel.pull();   //increment used gloves, decrement gloves
-        int init = _pullAmount + 1;
         _pullAmount++;
-        ksView.setPullButton(init);
+        ksView.setPullButton(_pullAmount);
       }
     });
 
     //Pushbutton listener
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      int pushpower = ksModel.getPushPower();
-      querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
-      pushpower++;
-      ksModel.setPushPower(pushpower);
-
+      if(ksModel.getSteroids() > 0){
+        int pushpower = ksModel.getPushPower();
+        querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
+        pushpower++;
+        ksModel.setPushPower(pushpower);
+        ksModel.steroidPush();
+      }
     });
-
     hoverlistener();
   }
 
@@ -976,7 +976,7 @@ class KistenschiebenController {
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
-        ksView.setPullButton(ksModel.getPullAmount());
+        ksView.setPullButton(_pullAmount);
       }
       ksModel.setPushPower(1);
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
@@ -998,7 +998,7 @@ class KistenschiebenController {
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
-        ksView.setPullButton(ksModel.getPullAmount());
+        ksView.setPullButton(_pullAmount);
       }
       ksModel.setPushPower(1);
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
@@ -1020,7 +1020,7 @@ class KistenschiebenController {
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
-        ksView.setPullButton(ksModel.getPullAmount());
+        ksView.setPullButton(_pullAmount);
       }
       ksModel.setPushPower(1);
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
@@ -1042,7 +1042,7 @@ class KistenschiebenController {
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
-        ksView.setPullButton(ksModel.getPullAmount());
+        ksView.setPullButton(_pullAmount);
       }
       ksModel.setPushPower(1);
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
@@ -1372,7 +1372,6 @@ class KistenschiebenController {
         .whenComplete(reactTouch);
     window.onResize.listen((EventListener) {
       ksView.scaling();
-      print("Ich hab groeße verändert");
     });
     setActualLevel(genLvl.currentLvl + 1);
     querySelector("#resetbutton").style.visibility = "visible";
@@ -1406,6 +1405,7 @@ class KistenschiebenController {
   checkWin() async {
     if (ksModel.checkWin() == true) {
       _newGlove++;
+      _newSteroids++;
       finishedGame = true;
       final highscores = await getHighscores();
       ksView.showWin(highscores);

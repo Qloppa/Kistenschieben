@@ -231,9 +231,9 @@ class KistenschiebenModel {
   /**
    * returns the pull amount
    */
-  int getPullAmount() {
+  /*int getPullAmount() {
     return _player.getPullAmount();
-  }
+  }*/
 
 //endregion
 
@@ -251,7 +251,6 @@ class KistenschiebenModel {
    * resets all stats and the game
    */
   void resetStatsTotal() {
-    //TODO sieht nach Notlösung aus, muss das so???
     int gloves = _stats.getGloves();
     _stats.resetAll();
     _stats.setGloves(gloves);
