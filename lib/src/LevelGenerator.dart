@@ -8,9 +8,9 @@ import 'dart:html';
 class LevelGenerator {
   //Anzahl der Gesamtlevel
   int _lvlNumberSum = 0;
-  //Aktuelles Level
+  //the current levelnumber
   int _currentLvl = 0;
-  //levelnumber
+  //levelnumber, value of the first level to load
   int _lvlNumber = 0;
   //number of columns
   int _column = 0;
