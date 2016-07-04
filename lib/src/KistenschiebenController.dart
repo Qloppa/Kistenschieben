@@ -1011,8 +1011,8 @@ class KistenschiebenController {
 
 //region MOVES
 
-  /*
-  tells the Player to move up. updates the view if the model returns true
+  /**
+   * tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(_stickyGloveAmount, _steroidAmount);
@@ -1032,8 +1032,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move right. updates the view if the model returns true
+  /**
+   * Tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
     List<String> positions = ksModel.moveRight(_stickyGloveAmount, _steroidAmount);
@@ -1053,8 +1053,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move down. updates the view if the model returns true
+  /**
+   * tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
     List<String> positions = ksModel.moveDown(_stickyGloveAmount, _steroidAmount);
@@ -1074,8 +1074,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move left. updates the view if the model returns true
+  /**
+   * Tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(_stickyGloveAmount, _steroidAmount);
