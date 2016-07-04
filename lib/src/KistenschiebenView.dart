@@ -367,7 +367,7 @@ class KistenschiebenView {
    * Updates the position of the player and the crates
    * Receives old and new positions as Strings and updates the html
    */
-  void updateViewPush(String playerPosition_old, String playerPosition_new,
+  void updateView(String playerPosition_old, String playerPosition_new,
       List<String>cratePosition_new) {
     int pox = getPosition(playerPosition_old)[1];
     int poy = getPosition(playerPosition_old)[0];
@@ -383,33 +383,6 @@ class KistenschiebenView {
         int pcy = cratepos[0];
         field[pcx][pcy].className = "crate";
       } while (dummy < cratePosition_new.length);
-    }
-    scaling();
-  }
-
-
-  /**
-   *Updates the position of the player and the crates
-   *Receives old and new positions as Strings and updates the html
-   */
-  void updateViewPull(String playerPosition_old, String playerPosition_new,
-      List<String>cratePosition_old) {
-    int pnx = getPosition(playerPosition_new)[1];
-    int pny = getPosition(playerPosition_new)[0];
-    field[pnx][pny].className = "player"; //set new position of player
-    if (!cratePosition_old.isEmpty) {
-      int dummy = 0;
-      do {
-        List<int> newCratePos = getPosition(playerPosition_old);
-        int pcx = newCratePos[1];
-        int pcy = newCratePos[0];
-        field[pcx][pcy].className = "crate"; //crate on old playerposition
-
-        List<int> oldCratePos = getPosition(cratePosition_old.removeLast());
-        int ocx = oldCratePos[1];
-        int ocy = oldCratePos[0];
-        field[ocx][ocy].className = ""; //old crateposition to only ground
-      } while (dummy < cratePosition_old.length);
     }
     scaling();
   }

@@ -1207,7 +1207,7 @@ class KistenschiebenController {
   void updateViewPush(String playerPos_old, String playerPos_new,
       List<String> crates_new) {
     updateStats();
-    ksView.updateViewPush(playerPos_old, playerPos_new, crates_new);
+    ksView.updateView(playerPos_old, playerPos_new, crates_new);
     checkWin();
   }
 
