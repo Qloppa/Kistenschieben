@@ -2,25 +2,27 @@ import 'dart:async';
 import 'dart:html';
 
 /**
- * The View of Kistenschieben. Is used to display the game
+ * The View of the game Kistenschieben. Is used to display the game
  */
 class KistenschiebenView {
 
-  List<List<HtmlElement>> field;
+  List<List<HtmlElement>> _field; //The gamefield
 
-  int tableH = 0;
-  int tableW = 0;
+  int _tableH = 0;   //amount of fieldobjects vertical
+  int _tableW = 0;   //amount of fieldobjects horizontal
 
-  /*
-  Constructor
-  */
+  /**
+   * Constructor
+   */
   KistenschiebenView() {
     print("running view...");
   }
 
-  /*
-  Generetes the Overlay with Startbuttons
-  */
+  //region SCREENS
+
+  /**
+   * Generates the Overlay with Startbuttons
+   */
   startScreen() {
     querySelector('#start').innerHtml =
     "<div id=\"overlay\">"
@@ -39,9 +41,9 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /*
-  Generates the Inputelements
-  */
+  /**
+   * Generates the Inputelements
+   */
   userdates(String fromLayer) {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
@@ -54,9 +56,9 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /*
-  Generates the buttons to access the Game
-  */
+  /**
+   * Generates the buttons to access the Game
+   */
   registeredScreen() async {
     querySelector('#registered').innerHtml =
     "<div id=\"overlay\">"
@@ -75,9 +77,9 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /*
-  Generates the button to edit the user data
-  */
+  /**
+   * Generates the button to edit the user data
+   */
   editUser() {
     querySelector('#edituser').innerHtml =
     "<div id=\"overlay\">"
@@ -94,11 +96,6 @@ class KistenschiebenView {
         "<button id=\"back\" class=\"option\">Back(&#x2190)</button>"
         "</div>"
         "</div>";
-
-    //Future<List<Map>> listUsers()
-    //Future<List<Map>> getStates()
-    //Future<bool> storeState(String uid, Map state)
-
   }
 
   /**
@@ -133,6 +130,9 @@ class KistenschiebenView {
         "</div>";
   }
 
+  /**
+   * Shows the options to enter the levelcode
+   */
   enterLevelCode() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
@@ -144,93 +144,12 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /*
-  Gets the Name from UserInput
-  */
-  String get username =>
-      (document.querySelector('#username') as InputElement).value;
-
-  /*
-  Gets the userPassword from UserInput
-  */
-  String get userPassword =>
-      (document.querySelector('#userpassword') as InputElement).value;
-
-  /*
-  Gets the "ID" from UserInput
-  */
-  String get userId =>
-      (document.querySelector('#userid') as InputElement).value;
-
-  /*
-  Gets the "oldname" from UserInput
-  */
-  String get oldUsername =>
-      (document.querySelector('#oldusername') as InputElement).value;
-
   /**
-   * gets the user's old password from userinput
-   */
-  String get oldUserpassword =>
-      (document.querySelector('#olduserpassword') as InputElement).value;
-
-
-  /**
-   * gets the levelcode from userinput
-   */
-  String get levelCode =>
-      (document.querySelector('#levelCode') as InputElement).value;
-
-  /**
-   * geneartes the aboutcontent and the buttons tho navigate
+   * generates the aboutcontent and the buttons to navigate
    */
   getAbout() {
     querySelector("#about").innerHtml =
     "<div><aboutcontent id=\"overlay\ class=\"instructions\"></aboutcontent><span id=\"aboutbuttonposition\"><button id=\"aboutprev\">(&#x21d0)Previous</button><button id=\"aboutback\">Back(&#x2190)</button><button id=\"aboutnext\">Next(&#x21d2)</button></span></div>";
-  }
-
-
-  /**
-   * Scales the elements of the table and enables support for every resolution
-   */
-  void scaling() {
-    int resoWidth = window.innerWidth - 50;
-    int resoHeight = window.innerHeight - 200;
-    String oS;
-    int px;
-    double x = resoWidth / tableW;
-    double y = resoHeight / tableH;
-    if (x <= y) {
-      px = x.toInt();
-    } else {
-      px = y.toInt();
-    }
-    oS = px.toString() + "px";
-    querySelectorAll(".player").style.height = oS;
-    querySelectorAll(".player").style.width = oS;
-    querySelectorAll(".crate").style.height = oS;
-    querySelectorAll(".crate").style.width = oS;
-    querySelectorAll(".ground").style.height = oS;
-    querySelectorAll(".ground").style.width = oS;
-    querySelectorAll(".target").style.height = oS;
-    querySelectorAll(".target").style.width = oS;
-    querySelectorAll(".wall").style.height = oS;
-    querySelectorAll(".wall").style.width = oS;
-  }
-
-
-  /**
-   * Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
-   */
-  setGameKeyAvailable(bool value) {
-    if (value == true) {
-      querySelector("#gamekeystatus").style.color = "green";
-      querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Connected";
-    } else {
-      querySelector("#gamekeystatus").style.color = "red";
-      querySelector("#gamekeystatus").innerHtml =
-      "Gamekeystatus: Not connected";
-    }
   }
 
   /**
@@ -256,6 +175,129 @@ class KistenschiebenView {
     querySelector("#resetbutton").style.position = "absolute";
   }
 
+
+  //endregion
+
+  //region INPUT
+
+  /**
+   * Gets the Name from UserInput
+   */
+  String get username =>
+      (document.querySelector('#username') as InputElement).value;
+
+  /**
+   * Gets the userPassword from UserInput
+   */
+  String get userPassword =>
+      (document.querySelector('#userpassword') as InputElement).value;
+
+  /**
+   * Gets the "ID" from UserInput
+   */
+  String get userId =>
+      (document.querySelector('#userid') as InputElement).value;
+
+  /**
+   * Gets the "oldname" from UserInput
+   */
+  String get oldUsername =>
+      (document.querySelector('#oldusername') as InputElement).value;
+
+  /**
+   * gets the user's old password from userinput
+   */
+  String get oldUserpassword =>
+      (document.querySelector('#olduserpassword') as InputElement).value;
+
+
+  /**
+   * gets the levelcode from userinput
+   */
+  String get levelCode =>
+      (document.querySelector('#levelCode') as InputElement).value;
+
+
+  //endregion
+
+  //region UPDATE
+
+  /**
+   * Updates the position of the player and the crates
+   * Receives old and new positions as Strings and updates the html
+   */
+  void updateView(String playerPosition_old, String playerPosition_new,
+      List<String>cratePosition_new) {
+    int pox = getPosition(playerPosition_old)[1];
+    int poy = getPosition(playerPosition_old)[0];
+    _field[pox][poy].className = "";
+    int pnx = getPosition(playerPosition_new)[1];
+    int pny = getPosition(playerPosition_new)[0];
+    _field[pnx][pny].className = "player";
+    if (!cratePosition_new.isEmpty) {
+      int dummy = 0;
+      do {
+        List<int> cratepos = getPosition(cratePosition_new.removeLast());
+        int pcx = cratepos[1];
+        int pcy = cratepos[0];
+        _field[pcx][pcy].className = "crate";
+      } while (dummy < cratePosition_new.length);
+    }
+    scaling();
+  }
+
+  /**
+   * used to update the stats
+   */
+  void updateStats(Map<String, int> stats, var actualLvl) {
+    String localPushes = stats.remove("localPushes").toString();
+    String globalPushes = stats.remove("globalPushes").toString();
+    String localMoves = stats.remove("localMoves").toString();
+    String globalMoves = stats.remove("globalMoves").toString();
+    String resets = stats.remove("resets").toString();
+    String usedGloves = stats.remove("usedGloves").toString();
+    String gloves = stats.remove("gloves").toString();
+    String steroids = stats.remove("steroids").toString();
+    String usedSteroids = stats.remove("usedSteroids").toString();
+    querySelector("#stat").innerHtml =
+    "Level:<em>$actualLvl</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Resets:<em>$resets</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Pushes:<em>$localPushes ($globalPushes)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Moves:<em>$localMoves ($globalMoves)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Gloves: <em>$gloves (Used: $usedGloves)</em>&nbsp&nbsp|&nbsp&nbsp"
+        "Steroids: <em>$steroids (Used: $usedSteroids)</em>";
+  }
+
+  /**
+   * returns the x- and y-position as interger-values in a list
+   */
+  List<int> getPosition(String pos) {
+    List<String> values = pos.split("_");
+    List<int> positions = new List();
+    positions.clear();
+    positions.add(int.parse(values[0]));
+    positions.add(int.parse(values[1]));
+    return positions;
+  }
+
+  //endregion
+
+  //region SETTER
+
+  /**
+   * Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
+   */
+  setGameKeyAvailable(bool value) {
+    if (value == true) {
+      querySelector("#gamekeystatus").style.color = "green";
+      querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Connected";
+    } else {
+      querySelector("#gamekeystatus").style.color = "red";
+      querySelector("#gamekeystatus").innerHtml =
+      "Gamekeystatus: Not connected";
+    }
+  }
+
   /**
    * Sets the Content of the Pull Button
    */
@@ -263,13 +305,51 @@ class KistenschiebenView {
     querySelector("#pullbutton").innerHtml = "Sticky gloves($amount)";
   }
 
+  //endregion
+
+  //region SCALING
+
   /**
-   * Creates the level in html from a String
+   * Scales the elements of the table and enables support for every resolution
+   */
+  void scaling() {
+    int resoWidth = window.innerWidth - 50;
+    int resoHeight = window.innerHeight - 200;
+    String oS;
+    int px;
+    double x = resoWidth / _tableW;
+    double y = resoHeight / _tableH;
+    if (x <= y) {
+      px = x.toInt();
+    } else {
+      px = y.toInt();
+    }
+    oS = px.toString() + "px";
+    querySelectorAll(".player").style.height = oS;
+    querySelectorAll(".player").style.width = oS;
+    querySelectorAll(".crate").style.height = oS;
+    querySelectorAll(".crate").style.width = oS;
+    querySelectorAll(".ground").style.height = oS;
+    querySelectorAll(".ground").style.width = oS;
+    querySelectorAll(".target").style.height = oS;
+    querySelectorAll(".target").style.width = oS;
+    querySelectorAll(".wall").style.height = oS;
+    querySelectorAll(".wall").style.width = oS;
+  }
+
+  //TODO Buttons und Statistiken noch skalieren
+
+  //endregion
+
+  //region GENERATE LEVEL
+
+  /**
+   * Creates the level in html from a List
    */
   Future<String> generateLevel(List<Map> levelList, int column,
       int row) async {
-    this.tableH = row;
-    this.tableW = column;
+    this._tableH = row;
+    this._tableW = column;
     List<Map>tempList = new List<Map>();
     tempList = levelList;
     String level = "";
@@ -295,9 +375,9 @@ class KistenschiebenView {
               break;
             case 'P' :
               if (onePlayer == false) {
-              formatlevel +=
-              "<td id=\"pos$i\_$j\" class=\"player\"></td>";
-              onePlayer = true;
+                formatlevel +=
+                "<td id=\"pos$i\_$j\" class=\"player\"></td>";
+                onePlayer = true;
               } else {
                 formatlevel += "<td id=\"pos$i\_$j\" class=\"ground\" ></td>";
               }
@@ -338,76 +418,18 @@ class KistenschiebenView {
 
     querySelector("#groundlayer").innerHtml = groundlayer;
     querySelector("#objectlayer").innerHtml = objectlayer;
-    field = new List<List<HtmlElement>>(row);
+    _field = new List<List<HtmlElement>>(row);
     for (int rows = 0; rows < row; rows++) {
-      field[rows] = [];
+      _field[rows] = [];
       for (int col = 0; col < column; col++) {
-        field[rows].add(querySelector("#pos${col}_${rows}"));
+        _field[rows].add(querySelector("#pos${col}_${rows}"));
       }
     }
-
     await scaling();
     return formatlevel;
   }
 
-  /**
-   * returns the x- and y-position as interger-values in a list
-   */
-  List<int> getPosition(String pos) {
-    List<String> values = pos.split("_");
-    List<int> positions = new List();
-    positions.clear();
-    positions.add(int.parse(values[0]));
-    positions.add(int.parse(values[1]));
-    return positions;
-  }
-
-
-  /**
-   * Updates the position of the player and the crates
-   * Receives old and new positions as Strings and updates the html
-   */
-  void updateView(String playerPosition_old, String playerPosition_new,
-      List<String>cratePosition_new) {
-    int pox = getPosition(playerPosition_old)[1];
-    int poy = getPosition(playerPosition_old)[0];
-    field[pox][poy].className = "";
-    int pnx = getPosition(playerPosition_new)[1];
-    int pny = getPosition(playerPosition_new)[0];
-    field[pnx][pny].className = "player";
-    if (!cratePosition_new.isEmpty) {
-      int dummy = 0;
-      do {
-        List<int> cratepos = getPosition(cratePosition_new.removeLast());
-        int pcx = cratepos[1];
-        int pcy = cratepos[0];
-        field[pcx][pcy].className = "crate";
-      } while (dummy < cratePosition_new.length);
-    }
-    scaling();
-  }
-
-  /**
-   * used to update the stats
-   */
-  void updateStats(Map<String, int> stats, var actualLvl) {
-    String localPushes = stats.remove("localPushes").toString();
-    String globalPushes = stats.remove("globalPushes").toString();
-    String localMoves = stats.remove("localMoves").toString();
-    String globalMoves = stats.remove("globalMoves").toString();
-    String resets = stats.remove("resets").toString();
-    String usedGloves = stats.remove("usedGloves").toString();
-    String gloves = stats.remove("gloves").toString();
-    String steroids = stats.remove("steroids").toString();
-    String usedSteroids = stats.remove("usedSteroids").toString();
-    querySelector("#stat").innerHtml =
-    "Level:<em>$actualLvl</em>&nbsp&nbsp|&nbsp&nbsp"
-        "Resets:<em>$resets</em>&nbsp&nbsp|&nbsp&nbsp"
-        "Pushes:<em>$localPushes ($globalPushes)</em>&nbsp&nbsp|&nbsp&nbsp"
-        "Moves:<em>$localMoves ($globalMoves)</em>&nbsp&nbsp|&nbsp&nbsp"
-        "Gloves: <em>$gloves (Used: $usedGloves)</em>&nbsp&nbsp|&nbsp&nbsp"
-        "Steroids: <em>$steroids (Used: $usedSteroids)</em>";
-  }
+  //endregion
 
   /**
    * Displays the Code for the actual level
