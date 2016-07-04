@@ -6,24 +6,22 @@ import 'dart:html';
  */
 class KistenschiebenView {
 
-  List<List<HtmlElement>> _field; //The gamefield
+  List<List<HtmlElement>> field;
 
   int _tableH = 0;   //amount of fieldobjects vertical
   int _tableW = 0;   //amount of fieldobjects horizontal
 
-  /**
-   * Constructor
-   */
+  /*
+  Constructor
+  */
   KistenschiebenView() {
     print("running view...");
   }
 
-  //region SCREENS
-
-  /**
-   * Generates the Overlay with Startbuttons
-   */
-  startScreen() {
+  /*
+  Generetes the Overlay with Startbuttons
+  */
+  void startScreen() {
     querySelector('#start').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
@@ -41,10 +39,10 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /**
-   * Generates the Inputelements
-   */
-  userdates(String fromLayer) {
+  /*
+  Generates the Inputelements
+  */
+  void userDates(String fromLayer) {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
@@ -56,10 +54,10 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /**
-   * Generates the buttons to access the Game
-   */
-  registeredScreen() async {
+  /*
+  Generates the buttons to access the Game
+  */
+  Future registeredScreen() async {
     querySelector('#registered').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
@@ -77,10 +75,10 @@ class KistenschiebenView {
         "</div>";
   }
 
-  /**
-   * Generates the button to edit the user data
-   */
-  editUser() {
+  /*
+  Generates the button to edit the user data
+  */
+  void editUser() {
     querySelector('#edituser').innerHtml =
     "<div id=\"overlay\">"
         "<div>"
@@ -101,7 +99,7 @@ class KistenschiebenView {
   /**
    * Shows the options to change the username
    */
-  changeUserName() {
+  void changeUserName() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
@@ -117,7 +115,7 @@ class KistenschiebenView {
   /**
    * Shows the options to change the password
    */
-  changeUserPassword() {
+  void changeUserPassword() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
@@ -133,7 +131,9 @@ class KistenschiebenView {
   /**
    * Shows the options to enter the levelcode
    */
-  enterLevelCode() {
+
+
+  void enterLevelCode() {
     querySelector('#userinput').innerHtml =
     "<div id =\"overlay\" >"
         "<form id=\"inputdates\">"
@@ -155,7 +155,7 @@ class KistenschiebenView {
   /**
    * Generates the win-overlay and the button to access the next level
    */
-  showWin(var highscores) async {
+  Future showWin(var highscores) async {
     String str = "<table border = 1; width=\"60%\">" +
         "<colgroup><col width=\"2*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"><col width=\"1*\"></colgroup>" +
         "<tr><th>Name</th><th>Pushes</th><th>Moves</th><th>Pushes Total</th><th>Moves Total</th></tr>";
@@ -186,37 +186,41 @@ class KistenschiebenView {
   String get username =>
       (document.querySelector('#username') as InputElement).value;
 
-  /**
-   * Gets the userPassword from UserInput
-   */
+  /*
+  Gets the userPassword from UserInput
+  */
   String get userPassword =>
       (document.querySelector('#userpassword') as InputElement).value;
 
-  /**
-   * Gets the "ID" from UserInput
-   */
+  /*
+  Gets the "ID" from UserInput
+  */
   String get userId =>
       (document.querySelector('#userid') as InputElement).value;
 
-  /**
-   * Gets the "oldname" from UserInput
-   */
-  String get oldUsername =>
+  /*
+  Gets the "oldname" from UserInput
+  */
+  String get oldUserName =>
       (document.querySelector('#oldusername') as InputElement).value;
 
   /**
    * gets the user's old password from userinput
    */
-  String get oldUserpassword =>
+  String get oldUserPassword =>
       (document.querySelector('#olduserpassword') as InputElement).value;
 
 
   /**
    * gets the levelcode from userinput
    */
-  String get levelCode =>
+
+  String get lvlCode =>
       (document.querySelector('#levelCode') as InputElement).value;
 
+  void getAbout() {
+    querySelector("#about").innerHtml = "<about id=\"overlay\"><about>";
+  }
 
   //endregion
 
@@ -287,7 +291,7 @@ class KistenschiebenView {
   /**
    * Changes the status of the Gamekey to "Verbunden" in green if true or "nicht verbunden" in red if false
    */
-  setGameKeyAvailable(bool value) {
+  void setGameKeyAvailable(bool value) {
     if (value == true) {
       querySelector("#gamekeystatus").style.color = "green";
       querySelector("#gamekeystatus").innerHtml = "Gamekeystatus: Connected";

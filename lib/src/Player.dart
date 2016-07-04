@@ -14,9 +14,31 @@ class Player {
     this._staysOn = staysOn;
   }
 
-  /*int getPullAmount() {
+  int getPullAmount() {
     return _pullPower;
-  }*/
+  }
+
+  /*
+		Returns the x value of the position
+	*/
+  int getPosX() {
+    return this._staysOn.getPosition().getX();
+  }
+
+  /*
+		Returns the y value of the position
+	*/
+  int getPosY() {
+    return this._staysOn.getPosition().getY();
+  }
+
+  int getPushPower() {
+    return _pushPower;
+  }
+
+  void setPushPower(int pushPower) {
+    this._pushPower = pushPower;
+  }
 
   /*
   Moves the player to the upper position
@@ -163,33 +185,5 @@ class Player {
     changedPositions[0] = changedPositions[2];
     changedPositions[2] = temp;
     return changedPositions;
-  }
-
-  /**
-	 * Returns the x value of the position
-	 */
-  int getPosX() {
-    return this._staysOn.getPosition().getX();
-  }
-
-  /**
-   * Returns the y value of the position
-	 */
-  int getPosY() {
-    return this._staysOn.getPosition().getY();
-  }
-
-  /**
-   * returns the Push Power
-   */
-  int getPushPower() {
-    return _pushPower;
-  }
-
-  /**
-   * sets the PushPower to the new value
-   */
-  void setPushPower(int pushPower) {
-    this._pushPower = pushPower;
   }
 }

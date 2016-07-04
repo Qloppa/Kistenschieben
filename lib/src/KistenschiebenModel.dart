@@ -31,7 +31,7 @@ class KistenschiebenModel {
   /**
    * loads the level from a list
    */
-  loadLvl(List<Map> levelList, int row, int column) {
+  void loadLvl(List<Map> levelList, int row, int column) {
     bool firstLine = true;
     _target = null;
     _qlList = null;
@@ -66,7 +66,7 @@ class KistenschiebenModel {
   /**
    * Adds a new fieldobject right to the last one
    */
-  addRight(String line) {
+  void addRight(String line) {
     Crate crate = null;
     int length = line.length;
     for (int i = 0; i < length; i++) {
@@ -118,7 +118,7 @@ class KistenschiebenModel {
   /**
    * Adds a new fieldObject below another
    */
-  addDown(String firstChar) {
+  void addDown(String firstChar) {
     Crate crate = null;
     switch (firstChar) {
       case 'W' :
@@ -210,15 +210,8 @@ class KistenschiebenModel {
   /**
    * sets the actual level in the statistics to the new value
    */
-  void setLevel(int lvlNr) {
-    this._stats.setCurrentLevel(lvlNr);
-  }
-
-  /**
-   * sets the amount of crates that can be pushed with one move by the player to the value i
-   */
-  void setPushPower(int pushPower) {
-    _player.setPushPower(pushPower);
+  void setLvl(int lvlNr) {
+    this._stats.setCurrentLvl(lvlNr);
   }
 
   /**
@@ -226,6 +219,13 @@ class KistenschiebenModel {
    */
   int getPushPower() {
     return _player.getPushPower();
+  }
+
+  /**
+   * sets the amount of crates that can be pushed with one move by the player to the value i
+   */
+  void setPushPower(int pushPower) {
+    _player.setPushPower(pushPower);
   }
 
   /**
@@ -280,8 +280,8 @@ class KistenschiebenModel {
   /**
    * Sets the number of gloves in the statistics to the value n
    */
-  void setGloves(int n) {
-    _stats.setGloves(n);
+  void setGloves(int gloves) {
+    _stats.setGloves(gloves);
   }
 
   /**

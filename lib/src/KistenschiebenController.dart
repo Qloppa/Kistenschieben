@@ -15,19 +15,21 @@ const gamekeySettings = 'gamekey.json';
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.
  */
 class KistenschiebenController {
+  //Periodic trigger controlling availability of gamekey service.
+  Timer gamekeyTrigger;
 
   //var gamekey = new GameKey('127.0.0.1', 8080, 'dac62aa0-9408-4b7d-abca-7104dd701230','2819b92f78114417');
   var gamekey = new GameKey('undefined', 8080, 'undefined', 'undefined');
+
+  //Shows if the gamekey is available or not
+  bool gamekeyAvailable = false;
+
   //The Levelgenerator
   LevelGenerator genLvl;
   //The Model
   KistenschiebenModel ksModel;
   //The View
   KistenschiebenView ksView;
-  //Periodic trigger controlling availability of gamekey service.
-  Timer gamekeyTrigger;
-  //Shows if the gamekey is available or not
-  bool gkAvailable = false;
   //The username of the actual user
   String username;
   //The password of the actual user
@@ -122,15 +124,15 @@ class KistenschiebenController {
                 querySelector("#loginbutton").style.visibility = "visible";
                 setStartscreenButtons(true);
                 setAuthentication(true);
-                gkAvailable = true;
+                gamekeyAvailable = true;
               }
             }
-            gkAvailable = true;
+            gamekeyAvailable = true;
           } else {
             print("Authentification failed!");
-            gkAvailable = false;
+            gamekeyAvailable = false;
           }
-          ksView.setGameKeyAvailable(gkAvailable);
+          ksView.setGameKeyAvailable(gamekeyAvailable);
         });
       });
     } catch (error, stacktrace) {
@@ -289,7 +291,7 @@ class KistenschiebenController {
    * When Register
    */
   registerRoutine() {
-    ksView.userdates("Register");
+    ksView.userDates("Register");
     setTyping(true);
     if (onStartscreen == true && onLoginscreen == false &&
         onEditUserScreen == false) {
@@ -332,7 +334,7 @@ class KistenschiebenController {
    * When Login
    */
   loginRoutine() {
-    ksView.userdates("Login");
+    ksView.userDates("Login");
     setTyping(true);
     if (onStartscreen == true && onLoginscreen == false &&
         onEditUserScreen == false) {
@@ -543,7 +545,7 @@ class KistenschiebenController {
   levelCodeRoutine() async {
     setTyping(true);
     querySelector("#registered").innerHtml = "";
-    ksView.enterLevelCode();
+    ksView.enterLvlCode();
     window.onKeyDown.listen((KeyboardEvent ev) {
       if (ev.keyCode == KeyCode.ENTER && onLoginscreen == true) {
         String code = ksView.levelCode;
@@ -558,7 +560,7 @@ class KistenschiebenController {
 
     //SUBMIT
     querySelector("#submit").onMouseDown.listen((MouseEvent e) {
-      String code = ksView.levelCode;
+      String code = ksView.lvlCode;
       if (_setLevelByCode(code) == true) {
         querySelector("#userinput").innerHtml = "";
       } else {
@@ -800,7 +802,7 @@ class KistenschiebenController {
       window.onKeyDown.listen((KeyboardEvent ev) {
         switch (ev.keyCode) {
           case KeyCode.ENTER:
-            String oldName = ksView.oldUsername;
+            String oldName = ksView.oldUserName;
             String password = ksView.userPassword;
             String username = ksView.username;
             if (gamekey.changeUserName(oldName, password, username) != null) {
@@ -822,7 +824,7 @@ class KistenschiebenController {
 
     //SUBMIT
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
-      String oldName = ksView.oldUsername;
+      String oldName = ksView.oldUserName;
       String password = ksView.userPassword;
       String username = ksView.username;
       if (gamekey.changeUserName(oldName, password, username) != null) {
@@ -861,7 +863,7 @@ class KistenschiebenController {
         switch (ev.keyCode) {
           case KeyCode.ENTER:
             String username = ksView.username;
-            String oldpassword = ksView.oldUserpassword;
+            String oldpassword = ksView.oldUserPassword;
             String password = ksView.userPassword;
             print(username + " " + password);
             gamekey.changeUserPassword(username, oldpassword, password);
@@ -874,7 +876,7 @@ class KistenschiebenController {
     //SUBMIT
     querySelector('#submit').onMouseDown.listen((MouseEvent ev) {
       String username = ksView.username;
-      String oldpassword = ksView.oldUserpassword;
+      String oldpassword = ksView.oldUserPassword;
       String password = ksView.userPassword;
       print(username + " " + password);
       gamekey.changeUserPassword(username, oldpassword, password);
@@ -897,7 +899,7 @@ class KistenschiebenController {
    */
   deleteUserRoutine() {
     querySelector("#edituser").style.visibility = "hidden";
-    ksView.userdates("Delete");
+    ksView.userDates("Delete");
     setTyping(true);
     if (onEditUserScreen == true) {
       window.onKeyDown.listen((KeyboardEvent ev) {
@@ -1012,7 +1014,6 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
-    print(_pullAmount);
     List<String> positions = ksModel.moveUp(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
@@ -1038,7 +1039,6 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
-    print(_pullAmount);
     List<String> positions = ksModel.moveRight(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
@@ -1064,7 +1064,6 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
-    print(_pullAmount);
     List<String> positions = ksModel.moveDown(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
@@ -1090,7 +1089,6 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
-    print(_pullAmount);
     List<String> positions = ksModel.moveLeft(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
@@ -1107,6 +1105,9 @@ class KistenschiebenController {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
       updateViewPush(playerPos_old, playerPos_new, positions);
+      ksView.setPullButton(ksModel.getPullAmount());
+      ksModel.setPushPower(1);
+      querySelector("#pushbutton").innerHtml = "PushPower(1)";
       return true;
     }
     return false;
@@ -1258,7 +1259,7 @@ class KistenschiebenController {
    * Updates the code for the actual level in the view
    */
   void updateLvlCode() {
-    String code = genLvl.getlvlcode();
+    String code = genLvl.getLvlCode();
     ksView.showLvlCode(code);
   }
 
@@ -1279,7 +1280,7 @@ class KistenschiebenController {
    * Sets the actual level in the statistics to the value i
    */
   void setActualLevel(int i) {
-    this.ksModel.setLevel(i);
+    this.ksModel.setLvl(i);
   }
 
   /**
@@ -1422,9 +1423,9 @@ class KistenschiebenController {
   void newGame() {
     setGameRunning(true);
     ksModel = new KistenschiebenModel();
-    ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevel(
-        genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
+    ksModel.loadLvl(genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow());
+    ksView.generateLevelFromString(
+        genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     window.onResize.listen((EventListener) {
       ksView.scaling();
@@ -1434,7 +1435,7 @@ class KistenschiebenController {
     querySelector("#pushbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
     updateStats();
-    ksView.showLvlCode(genLvl.getlvlcode());
+    ksView.showLvlCode(genLvl.getLvlCode());
   }
 
   /*
@@ -1443,9 +1444,9 @@ class KistenschiebenController {
   void resetGame() {
     setGameRunning(true);
     ksModel.incResets();
-    ksModel.loadLvl(genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow());
-    ksView.generateLevel(
-        genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
+    ksModel.loadLvl(genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow());
+    ksView.generateLevelFromString(
+        genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     ksModel.resetStats();
     setActualLevel(genLvl.getCurrentLevel() + 1);

@@ -6,7 +6,6 @@ import 'dart:html';
  * A levelgenerator, used to generate the level from a json
  */
 class LevelGenerator {
-
   //Anzahl der Gesamtlevel
   int _lvlNumberSum = 0;
   //Aktuelles Level
@@ -22,7 +21,7 @@ class LevelGenerator {
   //list of levels
   List<Map> _lvls = new List<Map>();
   //list of available levels
-  List<Map> _levelList = new List<Map>();
+  List<Map> _lvlList = new List<Map>();
 
   //Reading Level from Json
   LevelGenerator() {
@@ -64,7 +63,7 @@ class LevelGenerator {
       this._row = level.values.elementAt(1);
       this._column = level.values.elementAt(2);
       this._code = level.values.elementAt(3);
-      _levelList = level.values.elementAt(4);
+      _lvlList = level.values.elementAt(4);
     } else {
       print("The game was unable to load the level");
     }
@@ -106,8 +105,8 @@ class LevelGenerator {
   /**
    * returns the levelList
    */
-  List<Map> getLevelList() {
-    return this._levelList;
+  List<Map> getLvlList() {
+    return this._lvlList;
   }
 
   /**
@@ -139,7 +138,7 @@ class LevelGenerator {
   /**
    * returns the secret code for the actual level
    */
-  String getlvlcode() {
+  String getLvlCode() {
     return this._code;
   }
 
