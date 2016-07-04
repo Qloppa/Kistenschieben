@@ -924,12 +924,12 @@ class KistenschiebenController {
       querySelector("#savebutton").style.visibility = "visible";
     }
 
-    //NEXT
+    //Next listener
     querySelector("#nextbutton").onMouseDown.listen((MouseEvent e) {
       nextRoutine();
     });
 
-    //SAVE
+    //Save listener
     querySelector("#savebutton").onMouseDown.listen((MouseEvent e) {
       saveRoutine();
     });
@@ -949,6 +949,9 @@ class KistenschiebenController {
     querySelector("#pushbutton").style.visibility = "visible";
   }
 
+  /**
+   * Routine saves the statistics ones
+   */
   saveRoutine() async {
     if (isSaved == false) {
       print("saved");
