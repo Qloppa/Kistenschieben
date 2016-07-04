@@ -245,12 +245,12 @@ class KistenschiebenController {
       registerRoutine();
     });
 
-    //LOGIN ButtonListener
+    //Login ButtonListener
     querySelector('#loginbutton').onMouseDown.listen((MouseEvent e) {
       loginRoutine();
     });
 
-    //Demobutton listener
+    //Without login button listener
     querySelector('#wObutton').onMouseDown.listen((MouseEvent e) {
       withoutLoginRoutine();
     });
