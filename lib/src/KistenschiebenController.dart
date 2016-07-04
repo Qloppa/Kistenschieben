@@ -1281,7 +1281,7 @@ class KistenschiebenController {
     }
     List<Map<String, int>> lvlOnly = new List();
     for (Map m in scores) {
-      if (m['level'] == genLvl.currentLvl + 1) {
+      if (m['level'] == genLvl.getCurrentLevel() + 1) {
         lvlOnly.add(m);
       }
     }
@@ -1394,7 +1394,7 @@ class KistenschiebenController {
     window.onResize.listen((EventListener) {
       ksView.scaling();
     });
-    setActualLevel(genLvl.currentLvl + 1);
+    setActualLevel(genLvl.getCurrentLevel() + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
@@ -1413,7 +1413,7 @@ class KistenschiebenController {
         genLvl.getLevelList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     ksModel.resetStats();
-    setActualLevel(genLvl.currentLvl + 1);
+    setActualLevel(genLvl.getCurrentLevel() + 1);
     querySelector("#resetbutton").style.visibility = "visible";
     ksModel.setPushPower(1);
     querySelector("#pushbutton").innerHtml = "PushPower(0)";
