@@ -1116,8 +1116,8 @@ class KistenschiebenController {
 
 //region TOUCH
 
-  /*
-  enables movement by clicking on the Field. Takes the coordinates and hands them over to the moveTouch
+  /**
+   * enables movement by clicking on the Field. Takes the coordinates and hands them over to the moveTouch
    */
   void reactTouch() {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
@@ -1133,8 +1133,8 @@ class KistenschiebenController {
     });
   }
 
-  /*
-  moves the player to a given position when the touchscreen is used.
+  /**
+   * moves the player to a given position when the touchscreen is used.
    */
   void moveTouch(int targetX, int targetY) {
     int px = ksModel.getPlayerPosX();
@@ -1163,8 +1163,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player up for a given number of fields.
+  /**
+   * moves the player up for a given number of fields.
    */
   void touchUp(int count) {
     while (count > 0) {
@@ -1173,8 +1173,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player to the right for a given number of fields.
+  /**
+   * moves the player to the right for a given number of fields.
    */
   void touchRight(int count) {
     while (count > 0) {
@@ -1183,8 +1183,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player down for a given number of fields.
+  /**
+   * moves the player down for a given number of fields.
    */
   void touchDown(int count) {
     while (count > 0) {
@@ -1193,8 +1193,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player to the left for a given number of fields.
+  /**
+   * moves the player to the left for a given number of fields.
    */
   void touchLeft(int count) {
     while (count > 0) {
