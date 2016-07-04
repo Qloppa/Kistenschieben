@@ -20,7 +20,7 @@ class LevelGenerator {
   String _code = "";
   List<Map> lvls = new List<Map>();
 
-  List<Map> levelList = new List<Map>();
+  List<Map> lvlList = new List<Map>();
 
   //Reading Level from Json
   LevelGenerator() {
@@ -77,7 +77,7 @@ class LevelGenerator {
       this._row = level.values.elementAt(1);
       this._column = level.values.elementAt(2);
       this._code = level.values.elementAt(3);
-      levelList = level.values.elementAt(4);
+      lvlList = level.values.elementAt(4);
     } else {
       print("The game was unable to load the level");
       //TODO fehlermeldung in View ausgeben (The game was unable to load the level)
@@ -101,14 +101,14 @@ class LevelGenerator {
   /**
    * returns the levelList
    */
-  List<Map> getLevelList() {
-    return this.levelList;
+  List<Map> getLvlList() {
+    return this.lvlList;
   }
 
   /**
    * returns the secret code for the actual level
    */
-  String getlvlcode() {
+  String getLvlCode() {
     return this._code;
   }
 

@@ -19,6 +19,28 @@ class Player {
   }
 
   /*
+		Returns the x value of the position
+	*/
+  int getPosX() {
+    return this._staysOn.getPosition().getX();
+  }
+
+  /*
+		Returns the y value of the position
+	*/
+  int getPosY() {
+    return this._staysOn.getPosition().getY();
+  }
+
+  int getPushPower() {
+    return _pushPower;
+  }
+
+  void setPushPower(int pushPower) {
+    this._pushPower = pushPower;
+  }
+
+  /*
   Moves the player to the upper position
   returns true if possible, false if not
    */
@@ -159,27 +181,5 @@ class Player {
     changedPositions[0] = changedPositions[2];
     changedPositions[2] = temp;
     return changedPositions;
-}
-
-  /*
-		Returns the x value of the position
-	*/
-  int getPosX() {
-    return this._staysOn.getPosition().getX();
-  }
-
-  /*
-		Returns the y value of the position
-	*/
-  int getPosY() {
-    return this._staysOn.getPosition().getY();
-  }
-
-  int getPushPower() {
-    return _pushPower;
-  }
-
-  void setPushPower(int pushPower) {
-    this._pushPower = pushPower;
   }
 }
