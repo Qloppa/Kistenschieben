@@ -243,26 +243,38 @@ class Statistics {
   }
 
   /**
+   * decrements the number of used gloves if possible
+   */
+  decUsedGloves(){
+    if(_usedGloves > 0){
+      _usedGloves--;
+    }
+  }
+
+  /**
    * decrements the number of steroids if possible and returns true. Returns false if not
    */
-  bool decSteroids() {
+  decSteroids() {
     if (_steroids > 0) {
       _steroids--;
-      return true;
-    } else {
-      return false;
+    }
+  }
+
+  /**
+   * decrements the number of used steroids if possible
+   */
+  decUsedSteroids(){
+    if(_usedSteroids > 0){
+      _usedSteroids--;
     }
   }
 
   /**
    * decrements the number of gloves if possible and returns true. Returns false if not
    */
-  bool decGloves() {
+  decGloves() {
     if (_gloves > 0) {
       _gloves--;
-      return true;
-    } else {
-      return false;
     }
   }
 

@@ -260,7 +260,6 @@ class KistenschiebenController {
         querySelector("#pushbutton").innerHtml = "Steroids($pushpower)";
         pushpower++;
         ksModel.setPushPower(pushpower);
-        ksModel.steroidPush();
       }
     });
     hoverlistener();
@@ -373,7 +372,13 @@ class KistenschiebenController {
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     ksView.setPullButton(0);
-    _pullAmount = 0;
+    if(_pullAmount > 0){
+      for(int i = 0; i < _pullAmount; i++){
+        ksModel.incGloves();
+        ksModel.decUsedGloves();
+      }
+      _pullAmount = 0;
+    }
     resetGame();
     setSaved(false);
   }
@@ -972,13 +977,17 @@ class KistenschiebenController {
   tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
+    print(_pullAmount);
     List<String> positions = ksModel.moveUp(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
         ksView.setPullButton(_pullAmount);
       }
-      ksModel.setPushPower(1);
+      if(ksModel.getPushPower() > 1){
+        ksModel.steroidPush();
+        ksModel.setPushPower(1);
+      }
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
@@ -994,13 +1003,17 @@ class KistenschiebenController {
   tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
+    print(_pullAmount);
     List<String> positions = ksModel.moveRight(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
         ksView.setPullButton(_pullAmount);
       }
-      ksModel.setPushPower(1);
+      if(ksModel.getPushPower() > 1){
+        ksModel.steroidPush();
+        ksModel.setPushPower(1);
+      }
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
@@ -1016,13 +1029,17 @@ class KistenschiebenController {
   tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
+    print(_pullAmount);
     List<String> positions = ksModel.moveDown(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
         ksView.setPullButton(_pullAmount);
       }
-      ksModel.setPushPower(1);
+      if(ksModel.getPushPower() > 1){
+        ksModel.steroidPush();
+        ksModel.setPushPower(1);
+      }
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {
@@ -1038,13 +1055,17 @@ class KistenschiebenController {
   tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
+    print(_pullAmount);
     List<String> positions = ksModel.moveLeft(_pullAmount);
     if(positions.length > 2){
       if (_pullAmount > 0) {
         _pullAmount--;
         ksView.setPullButton(_pullAmount);
       }
-      ksModel.setPushPower(1);
+      if(ksModel.getPushPower() > 1){
+        ksModel.steroidPush();
+        ksModel.setPushPower(1);
+      }
       querySelector("#pushbutton").innerHtml = "Steroids(0)";
     }
     if (positions.isEmpty == false) {

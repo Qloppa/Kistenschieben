@@ -285,6 +285,20 @@ class KistenschiebenModel {
   }
 
   /**
+   * increments the number of gloves
+   */
+  void incGloves(){
+    _stats.incGloves();
+  }
+
+  /**
+   * decrements the number of used gloves
+   */
+  void decUsedGloves(){
+    _stats.decUsedGloves();
+  }
+
+  /**
    * returns the number of used gloves
    */
   int getUsedGloves() {
@@ -299,6 +313,13 @@ class KistenschiebenModel {
   }
 
   /**
+   * increments the number of steroids
+   */
+  incSteroids(){
+    _stats.incSteroids();
+  }
+
+  /**
    * Sets the number of steroids in the statistics to the value n
    */
   setSteroids(int n) {
@@ -310,6 +331,13 @@ class KistenschiebenModel {
    */
   int getUsedSteroids() {
     return _stats.getUsedSteroids();
+  }
+
+  /**
+   * decrements the number of used steroids
+   */
+  decUsedSteroids(){
+    _stats.decUsedSteroids();
   }
 
   /**
