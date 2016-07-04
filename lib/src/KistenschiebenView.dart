@@ -8,8 +8,9 @@ class KistenschiebenView {
 
   List<List<HtmlElement>> _field;
 
-  int _tableH = 0;   //amount of fieldobjects vertical
-  int _tableW = 0;   //amount of fieldobjects horizontal
+  int _tableH = 0;        //amount of fieldobjects vertical
+  int _tableW = 0;        //amount of fieldobjects horizontal
+  bool _changed = false;  //needed if a mobile device is used to enable widescreen after portrait mode
 
   /*
   Constructor
@@ -313,8 +314,8 @@ class KistenschiebenView {
    * Scales the elements of the table and enables support for every resolution
    */
   void scaling() {
-    int resoWidth = window.innerWidth - 50;
-    int resoHeight = window.innerHeight - 200;
+    int resoWidth = (window.innerWidth * 0.9).toInt();
+    int resoHeight = (window.innerHeight * 0.75).toInt();
     String oS;
     int px;
     double x = resoWidth / _tableW;
@@ -335,9 +336,40 @@ class KistenschiebenView {
     querySelectorAll(".target").style.width = oS;
     querySelectorAll(".wall").style.height = oS;
     querySelectorAll(".wall").style.width = oS;
-  }
 
-  //TODO Buttons und Statistiken noch skalieren
+    //for mobile devices
+    if(resoWidth < resoHeight){
+      _changed = true;
+      double bWidth = resoWidth / 3;
+      String bw = bWidth.toInt().toString() + "px";
+      double bHeight = bWidth/4;
+      String bh = bHeight.toInt().toString() + "px";
+      String fontSize = (bWidth/8).toInt().toString();
+      querySelectorAll("#resetbutton").style.maxWidth = bw;
+      querySelectorAll("#pullbutton").style.maxWidth = bw;
+      querySelectorAll("#pushbutton").style.maxWidth = bw;
+      querySelectorAll("#resetbutton").style.maxHeight = bh;
+      querySelectorAll("#pullbutton").style.maxHeight = bh;
+      querySelectorAll("#pushbutton").style.maxHeight = bh;
+      querySelectorAll("#resetbutton").style.fontSize = "1em";
+      querySelectorAll("#pullbutton").style.fontSize = "1em";
+      querySelectorAll("#pushbutton").style.fontSize = "1em";
+      querySelectorAll("#userstatus").style.visibility = "hidden";
+      querySelectorAll("#gamekeystatus").style.visibility = "hidden";
+      querySelector("#stat").style.fontSize = "2em";
+    }else{
+      //if the mobile device is turned to widescreen
+      if(_changed){
+        _changed = false;
+        querySelector("#stat").style.fontSize = "1em";
+        querySelectorAll("#resetbutton").style.fontSize = "1em";
+        querySelectorAll("#pullbutton").style.fontSize = "1em";
+        querySelectorAll("#pushbutton").style.fontSize = "1em";
+        querySelectorAll("#userstatus").style.visibility = "visible";
+        querySelectorAll("#gamekeystatus").style.visibility = "visible";
+      }
+    }
+  }
 
   //endregion
 
