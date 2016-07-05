@@ -173,7 +173,7 @@ class KistenschiebenView {
     String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#win").innerHtml =
     "<div id=\"winoverlay\"><div>$ret</div><div id=\"stattablebuttons\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
-    querySelector("#resetbutton").style.position = "absolute";
+    querySelector("#resetbutton").style.position = "relative";
   }
 
 
@@ -351,12 +351,8 @@ class KistenschiebenView {
       String bw = bWidth.toInt().toString() + "px";
       double bHeight = bWidth/4;
       String bh = bHeight.toInt().toString() + "px";
-      querySelectorAll("#resetbutton").style.maxWidth = bw;
-      querySelectorAll("#pullbutton").style.maxWidth = bw;
-      querySelectorAll("#pushbutton").style.maxWidth = bw;
-      querySelectorAll("#resetbutton").style.maxHeight = bh;
-      querySelectorAll("#pullbutton").style.maxHeight = bh;
-      querySelectorAll("#pushbutton").style.maxHeight = bh;
+      querySelectorAll("button").style.maxWidth = bw;
+      querySelectorAll("button").style.maxHeight = bh;
       querySelectorAll("#resetbutton").style.fontSize = "0.8em";
       querySelectorAll("#pullbutton").style.fontSize = "0.8em";
       querySelectorAll("#pushbutton").style.fontSize = "0.8em";

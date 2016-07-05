@@ -466,6 +466,7 @@ class KistenschiebenController {
   registeredListener() async {
     setStartscreen(false);
     setLoginscreen(true);
+    setRegistered(true);
     window.onKeyDown.listen((KeyboardEvent ev) {
       switch (ev.keyCode) {
         case KeyCode.ONE :
@@ -958,21 +959,23 @@ class KistenschiebenController {
    * [NEXT]
    */
   nextListener() async {
+    querySelector("#pullbutton").style.visibility = "hidden";
+    querySelector("#pushbutton").style.visibility = "hidden";
     querySelector("#groundlayer").innerHtml = "";
     querySelector("#objectlayer").innerHtml = "";
-    querySelector("#pullbutton").style.visibility = "hidden";
     if (registered == true) {
       querySelector("#savebutton").style.visibility = "visible";
-    }
 
-    //NEXT
-    querySelector("#nextbutton").onMouseDown.listen((MouseEvent e) {
-      nextRoutine();
-    });
 
     //SAVE
     querySelector("#savebutton").onMouseDown.listen((MouseEvent e) {
       saveRoutine();
+    });
+    }
+
+    //NEXT
+    await querySelector("#nextbutton").onMouseDown.listen((MouseEvent e) {
+      nextRoutine();
     });
     hoverlistener();
   }
@@ -1368,6 +1371,10 @@ class KistenschiebenController {
     isSaved = value;
   }
 
+  setRegistered(bool value) {
+    this.registered = value;
+  }
+
 //endregion
 
 //region RESET AND NEW GAME
@@ -1447,7 +1454,7 @@ class KistenschiebenController {
       _newSteroids++;
       finishedGame = true;
       final highscores = await getHighscores();
-      ksView.showWin(highscores);
+      await ksView.showWin(highscores);
       setGameRunning(false);
       nextListener();
     }
