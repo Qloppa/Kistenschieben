@@ -174,7 +174,7 @@ class KistenschiebenView {
     }
     str += "</table>";
     String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
-    querySelector("#container").innerHtml =
+    querySelector("#win").innerHtml =
     "<div id=\"winoverlay\"><div>$ret</div><div id=\"stattablebuttons\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
     querySelector("#resetbutton").style.position = "absolute";
   }
@@ -263,7 +263,7 @@ class KistenschiebenView {
     String gloves = stats.remove("gloves").toString();
     String steroids = stats.remove("steroids").toString();
     String usedSteroids = stats.remove("usedSteroids").toString();
-    querySelector("#stat").innerHtml =
+    querySelector("#statistics").innerHtml =
     "Level:<em>$actualLvl</em>&nbsp&nbsp|&nbsp&nbsp"
         "Resets:<em>$resets</em>&nbsp&nbsp|&nbsp&nbsp"
         "Pushes:<em>$localPushes ($globalPushes)</em>&nbsp&nbsp|&nbsp&nbsp"

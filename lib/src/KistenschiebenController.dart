@@ -54,6 +54,7 @@ class KistenschiebenController {
   //Shows if the user activated the pull-ability for the next round
   int _stickyGloveAmount = 0;
 
+  //Shows if the user increases the push power for the next round
   int _steroidAmount = 0;
 
   //after 3 wins the user gets 3 new gloves
@@ -240,17 +241,17 @@ class KistenschiebenController {
         return;
       }
     });
-    //REGISTER ButtonListener
+    //Registerbutton Listener
     querySelector('#registerbutton').onMouseDown.listen((MouseEvent e) {
       registerRoutine();
     });
 
-    //Login ButtonListener
+    //Loginbutton listener
     querySelector('#loginbutton').onMouseDown.listen((MouseEvent e) {
       loginRoutine();
     });
 
-    //Without login button listener
+    //Without-loginbutton listener
     querySelector('#wObutton').onMouseDown.listen((MouseEvent e) {
       withoutLoginRoutine();
     });
@@ -298,7 +299,7 @@ class KistenschiebenController {
   }
 
   /**
-   * When Register
+   * Execute the register routine when startscreen is enabled
    */
   registerRoutine() {
     ksView.userDates("Register");
@@ -341,7 +342,7 @@ class KistenschiebenController {
   }
 
   /**
-   * When Login
+   * Execute the login routine when startscreen is enabled
    */
   loginRoutine() {
     ksView.userDates("Login");
@@ -383,7 +384,7 @@ class KistenschiebenController {
   }
 
   /**
-   * Allows the user to play the game without functions to store the states
+   * Allows the user to play the game without functions to store the states if the startscreen is enabled
    */
   withoutLoginRoutine() {
     setStartscreen(false);
@@ -399,7 +400,7 @@ class KistenschiebenController {
    */
   resetRoutine() {
     querySelector("#registered").innerHtml = "";
-    querySelector("#container").innerHtml = "";
+    querySelector("#win").innerHtml = "";
     querySelector("#resetbutton").style.position = "";
     querySelector("#pullbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
@@ -416,7 +417,7 @@ class KistenschiebenController {
   //region REGISTER & LOGIN
 
   /**
-   * Tests if registration was succesfull and gives the user feedback about it
+   * Checks if registration was succesfull and gives the user feedback about it
    */
   checkRegister(String name, String pw) async {
     Map answer = await gamekey.registerUser(name, pw);
@@ -493,22 +494,22 @@ class KistenschiebenController {
       }
     });
 
-    //NEW GAME Listener
+    //New game listener
     querySelector("#newgame").onMouseDown.listen((MouseEvent f) {
       newGameRoutine();
     });
 
-    //EDIT USER Listener
+    //Edit user listener
     querySelector("#edituserbutton").onMouseDown.listen((MouseEvent g) {
       editUserRoutine();
     });
 
-    //LEVELCODE Listener
+    //Levelcode listener
     querySelector("#levelcodebutton").onMouseDown.listen((MouseEvent e) {
       levelCodeRoutine();
     });
 
-    //ABOUT Listener
+    //About listener
     querySelector('#aboutbutton').onMouseDown.listen((MouseEvent g) {
       aboutRoutine();
     });
@@ -533,7 +534,7 @@ class KistenschiebenController {
   }
 
   /**
-   * allows the user to edit the own setting
+   * allows the user to edit the own setting when the edit user screen is enabled
    */
   editUserRoutine() {
     querySelector("#registered").innerHtml = "";
@@ -545,7 +546,7 @@ class KistenschiebenController {
   }
 
   /**
-   * allows the user to enter the levelcode
+   * allows the user to enter the levelcode when the registered screen is enabled
    */
   levelCodeRoutine() async {
     setTyping(true);
@@ -589,6 +590,7 @@ class KistenschiebenController {
 
   /**
    * allows the user to navigate through the instructions with buttons or Keyboard
+   * depends on the enabled screen(on login screen or on registered screen ) chooses the about routine
    */
   aboutRoutine() {
     setAboutScreen(true);
@@ -770,17 +772,17 @@ class KistenschiebenController {
       }
     });
 
-    //Change name listener
+    //Change-name button listener
     querySelector("#changename").onMouseDown.listen((MouseEvent f) {
       changeNameRoutine();
     });
 
-    //Change password listener
+    //Change-password button listener
     querySelector("#changepassword").onMouseDown.listen((MouseEvent f) {
       changePasswordRoutine();
     });
 
-    //Delete listener
+    //Deletebutton listener
     querySelector("#delete").onMouseDown.listen((MouseEvent f) {
       deleteUserRoutine();
     });
@@ -936,7 +938,7 @@ class KistenschiebenController {
   }
 
   /**
-   * Brings the user back to the Screen for registered Users
+   * Brings the user back to the screen for registered users
    */
   backToRegisteredListener() {
     querySelector("#edituser").innerHtml = "";
@@ -979,7 +981,7 @@ class KistenschiebenController {
    * Routine to close the displayed winlayout,buttons and call the nxtlevel logic
    */
   nextRoutine() {
-    querySelector("#container").innerHtml = "";
+    querySelector("#win").innerHtml = "";
     querySelector("#resetbutton").style.position = "";
     updateStats();
     nextLvl();
@@ -1327,35 +1329,35 @@ class KistenschiebenController {
   }
 
   /**
-   * sets the status of typing true or false
+   * sets the status of typing
    */
   setTyping(bool value) {
     this.typing = value;
   }
 
   /**
-   * sets the status of startscreen true or false
+   * sets the status of startscreen
    */
   setStartscreen(bool value) {
     onStartscreen = value;
   }
 
   /**
-   * sets the status of login screen true or false
+   * sets the status of login screen
    */
   setLoginscreen(bool value) {
     onLoginscreen = value;
   }
 
   /**
-   * sets the status of start screen buttons true or false
+   * sets the status of start screen buttons
    */
   setStartscreenButtons(bool value) {
     startscreenbuttons = value;
   }
 
   /**
-   * sets the status of authentification true or false
+   * sets the status of authentification
    */
   setAuthentication(bool value) {
     authentication = value;
@@ -1375,6 +1377,9 @@ class KistenschiebenController {
     onAboutScreen = value;
   }
 
+  /**
+   * sets the status of saved
+   */
   setSaved(bool value) {
     isSaved = value;
   }
