@@ -176,7 +176,6 @@ class KistenschiebenView {
     querySelector("#resetbutton").style.position = "relative";
   }
 
-
   //endregion
 
   //region INPUT
