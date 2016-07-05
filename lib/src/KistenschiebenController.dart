@@ -7,9 +7,9 @@ import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
-const gamekeyCheck = const Duration(seconds: 10);
-const gameSecret = "ad97258677ce8c26";
-const gamekeySettings = 'gamekey.json';
+const gamekeyCheck = const Duration(seconds: 10);   //checks the gamekeyconenction every 10 seconds
+const gameSecret = "ad97258677ce8c26";              //the secret code for the gamekey-server
+const gamekeySettings = 'gamekey.json';             //path to the gamekey.json
 
 /**
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.

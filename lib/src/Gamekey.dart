@@ -75,6 +75,9 @@ class GameKey {
   }
 
 
+  /**
+   * handles the log in for a user. Requires the name and the correct password
+   */
   Future<Map> loginUser(String name, String pwd) async {
     Map map = new Map();
     if (!_available) return new Future.value(false);

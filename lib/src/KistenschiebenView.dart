@@ -357,12 +357,12 @@ class KistenschiebenView {
       querySelectorAll("#resetbutton").style.maxHeight = bh;
       querySelectorAll("#pullbutton").style.maxHeight = bh;
       querySelectorAll("#pushbutton").style.maxHeight = bh;
-      querySelectorAll("#resetbutton").style.fontSize = "1em";
-      querySelectorAll("#pullbutton").style.fontSize = "1em";
-      querySelectorAll("#pushbutton").style.fontSize = "1em";
+      querySelectorAll("#resetbutton").style.fontSize = "0.8em";
+      querySelectorAll("#pullbutton").style.fontSize = "0.8em";
+      querySelectorAll("#pushbutton").style.fontSize = "0.8em";
       querySelectorAll("#userstatus").style.visibility = "hidden";
       querySelectorAll("#gamekeystatus").style.visibility = "hidden";
-      querySelector("#statistics").style.fontSize = "2em";
+      querySelector("#statistics").style.fontSize = "1em";
     }else{
       //if the mobile device is turned to widescreen
       if(_changed){

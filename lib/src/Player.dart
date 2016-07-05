@@ -4,23 +4,32 @@ import 'FieldObject.dart';
 import 'Statistics.dart';
 
 class Player {
-  FieldObject _staysOn = null;
-  static const _stdPushPower = 1;
-  int _pushPower = _stdPushPower;
-  int _stickyGloveAmount = 0;
-  int _steroidAmount = 0;
+  FieldObject _staysOn = null;                  //the fieldObject on which the player stays on
+  static const _stdPushPower = 1;               //standard Pushpower
+  int _pushPower = _stdPushPower;               //sets the PushPower to the standard Pushpower
+  int _stickyGloveAmount = 0;                   //number of left sticky gloves
+  int _steroidAmount = 0;                       //number of left steroids
 
-  Statistics _stats = Statistics.getInstance();
-  List<String> _noPositionChanges = new List();
+  Statistics _stats = Statistics.getInstance(); //An instance of the statistics
+  List<String> _noPositionChanges = new List(); //an empty list
 
+  /**
+   * Constructor
+   */
   Player(FieldObject staysOn) {
     this._staysOn = staysOn;
   }
 
+  /**
+   * the number of left sticky gloves
+   */
   int getStickyGloveAmount() {
     return _stickyGloveAmount;
   }
 
+  /**
+   * the number of left steroids
+   */
   int getSteroidAmount() {
     return _steroidAmount;
   }
