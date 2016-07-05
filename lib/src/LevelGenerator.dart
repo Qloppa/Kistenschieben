@@ -8,9 +8,9 @@ import 'dart:html';
 class LevelGenerator {
   //Anzahl der Gesamtlevel
   int _lvlNumberSum = 0;
-  //Aktuelles Level
+  //the current levelnumber
   int _currentLvl = 0;
-  //levelnumber
+  //levelnumber, value of the first level to load
   int _lvlNumber = 0;
 
   //number of columns
@@ -28,9 +28,11 @@ class LevelGenerator {
   //list of available levels
   List<Map> _lvlList = new List<Map>();
 
-  //Reading Level from Json
+  /**
+   * Constructor
+   */
   LevelGenerator() {
-    loadData();
+    loadData(); //Reading Level from Json
   }
 
   //region LOAD JSON

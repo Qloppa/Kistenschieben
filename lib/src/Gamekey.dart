@@ -74,7 +74,10 @@ class GameKey {
     }
   }
 
-  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  /**
+   * handles the log in for a user. Requires the name and the correct password
+   */
   Future<Map> loginUser(String name, String pwd) async {
     Map map = new Map();
     if (!_available) return new Future.value(false);
@@ -96,6 +99,10 @@ class GameKey {
     }
   }
 
+  /**
+   * changes the name of a user and returns true if possible.
+   * Requires the old username, the password and a new name
+   */
   Future<bool> changeUserName(String oldName, String pwd,
       String newName) async {
     if (!_available) return new Future.value(false);
@@ -128,6 +135,10 @@ class GameKey {
     }
   }
 
+  /**
+   * Changes the password of the user to a new one and returns true if possible.
+   * Requires the username, the old password and the new password
+   */
   Future<bool> changeUserPassword(String name, String oldPW,
       String newPW) async {
     if (!_available) return new Future.value(false);
@@ -160,6 +171,10 @@ class GameKey {
     }
   }
 
+  /**
+   * Deletes a user and returns true if succesful.
+   * Needs the username and his password to authenticate.
+   */
   Future<bool> deleteUser(String name, String pwd) async {
     if (!_available) return new Future.value(false);
     try {

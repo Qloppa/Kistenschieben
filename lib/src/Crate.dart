@@ -17,12 +17,15 @@ class Crate {
     this._staysOn = _staysOn;
   }
 
+  /**
+   * returns the FieldObject on which the crate stays on
+   */
   FieldObject getStaysOn() {
     return this._staysOn;
   }
 
   /*
-   *
+   *  move method
    */
   List move(FieldObject whereActorStaysOn, int pushPower) {
     List ret = new List();
@@ -38,6 +41,9 @@ class Crate {
     return ret;
   }
 
+  /**
+   * a move to the upper position
+   */
   List moveUp(int pushPower) {
     pushPower--;
     if (_staysOn.upPointer != null) {
@@ -64,6 +70,9 @@ class Crate {
     }
   }
 
+  /**
+   * a move to the right position
+   */
   List moveRight(int pushPower) {
     pushPower--;
     if (_staysOn.rightPointer != null) {
@@ -90,6 +99,9 @@ class Crate {
     }
   }
 
+  /**
+   * a move to the position below
+   */
   List moveDown(int pushPower) {
     pushPower--;
     if (_staysOn.downPointer != null) {
@@ -116,6 +128,9 @@ class Crate {
     }
   }
 
+  /**
+   * a move to the left position
+   */
   List moveLeft(int pushPower) {
     pushPower--;
     if (_staysOn.leftPointer != null) {

@@ -1,37 +1,28 @@
 class Statistics {
+
+  //moves this round, 0 after reset
   static var _localMoves;
-
-  //moves this round, 0 after reset //TODO warum stehen diese Variablen auf var?
-  static var _globalMoves;
-
   //moves this round total
-  static var _localPushes;
-
+  static int _globalMoves;
   //pushes this round, 0 after reset
-  static var _globalPushes;
-
+  static int _localPushes;
   //pushes this round total
-  static int _resets;
-
+  static int _globalPushes;
   //number of resets
-  static int _actualLevel;
-
+  static int _resets;
   //the actual level
-  static Statistics _instance;
-
+  static int _actualLevel;
   //an instance of the static Statistics
-  static int _gloves;
-
+  static Statistics _instance;
   //number of sticky gloves, used to pull a crate
-  static int _usedGloves;
-
+  static int _gloves;
   //number of used sticky gloves
-  static int _steroids;
-
+  static int _usedGloves;
   //number of steroids, used to improve PushPower
+  static int _steroids;
+  //number of used steroids
   static int _usedSteroids;
 
-  //number of used steroids
   /**
    * Constructor
    */

@@ -7,9 +7,9 @@ import 'KistenschiebenModel.dart';
 import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
-const gamekeyCheck = const Duration(seconds: 10);
-const gameSecret = "ad97258677ce8c26";
-const gamekeySettings = 'gamekey.json';
+const gamekeyCheck = const Duration(seconds: 10);   //checks the gamekeyconenction every 10 seconds
+const gameSecret = "ad97258677ce8c26";              //the secret code for the gamekey-server
+const gamekeySettings = 'gamekey.json';             //path to the gamekey.json
 
 /**
  * The Controller of the Game. Accepts input and converts it to commands for the model or view.
@@ -1014,8 +1014,8 @@ class KistenschiebenController {
 
 //region MOVES
 
-  /*
-  tells the Player to move up. updates the view if the model returns true
+  /**
+   * tells the Player to move up. updates the view if the model returns true
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(_stickyGloveAmount, _steroidAmount);
@@ -1032,8 +1032,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move right. updates the view if the model returns true
+  /**
+   * Tells the Player to move right. updates the view if the model returns true
    */
   bool moveRight() {
     List<String> positions = ksModel.moveRight(
@@ -1051,8 +1051,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move down. updates the view if the model returns true
+  /**
+   * tells the Player to move down. updates the view if the model returns true
    */
   bool moveDown() {
     List<String> positions = ksModel.moveDown(
@@ -1070,8 +1070,8 @@ class KistenschiebenController {
     return false;
   }
 
-  /*
-  tells the Player to move left. updates the view if the model returns true
+  /**
+   * Tells the Player to move left. updates the view if the model returns true
    */
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(
@@ -1093,8 +1093,8 @@ class KistenschiebenController {
 
 //region TOUCH
 
-  /*
-  enables movement by clicking on the Field. Takes the coordinates and hands them over to the moveTouch
+  /**
+   * enables movement by clicking on the Field. Takes the coordinates and hands them over to the moveTouch
    */
   void reactTouch() {
     querySelectorAll("td").onMouseDown.listen((MouseEvent ev) {
@@ -1110,8 +1110,8 @@ class KistenschiebenController {
     });
   }
 
-  /*
-  moves the player to a given position when the touchscreen is used.
+  /**
+   * moves the player to a given position when the touchscreen is used.
    */
   void moveTouch(int targetX, int targetY) {
     int px = ksModel.getPlayerPosX();
@@ -1140,8 +1140,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player up for a given number of fields.
+  /**
+   * moves the player up for a given number of fields.
    */
   void touchUp(int count) {
     while (count > 0) {
@@ -1150,8 +1150,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player to the right for a given number of fields.
+  /**
+   * moves the player to the right for a given number of fields.
    */
   void touchRight(int count) {
     while (count > 0) {
@@ -1160,8 +1160,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player down for a given number of fields.
+  /**
+   * moves the player down for a given number of fields.
    */
   void touchDown(int count) {
     while (count > 0) {
@@ -1170,8 +1170,8 @@ class KistenschiebenController {
     }
   }
 
-  /*
-  moves the player to the left for a given number of fields.
+  /**
+   * moves the player to the left for a given number of fields.
    */
   void touchLeft(int count) {
     while (count > 0) {
@@ -1227,7 +1227,7 @@ class KistenschiebenController {
    * Updates the stats in the view
    */
   void updateStats() {
-    var actualLvl = genLvl.getLevelValue();
+    var actualLvl = genLvl.getLevelValue() + 1;
     ksView.updateStats(ksModel.getStats(), actualLvl.toString());
   }
 

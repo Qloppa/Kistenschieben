@@ -13,3 +13,4 @@ class Wall extends FieldObject {
   void setCrate(Crate crate) {
   }
 }
+

@@ -21,10 +21,16 @@ class FieldObject {
     this.leftPointer = null;
   }
 
+  /**
+   * returns the position
+   */
   Position getPosition() {
     return _position;
   }
 
+  /**
+   * returns the crate
+   */
   Crate getCrate() {
     return this.crate;
   }
@@ -36,6 +42,9 @@ class FieldObject {
     this.crate = crate;
   }
 
+  /**
+   * checks if the fieldobject has a crate
+   */
   bool hasCrate() {
     bool ret = false;
     if (this.crate != null) {
@@ -45,7 +54,7 @@ class FieldObject {
   }
 
   /**
-   *
+   * checks if passable
    */
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {
     if (this.crate == null) {
