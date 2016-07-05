@@ -1,7 +1,9 @@
 import 'FieldObject.dart';
 
 /**
- * The main part of the gamefield, a passable fieldobject
+ * /**
+ * Inherit from fieldObject, can be passed, can contain crates
+    */
  */
 class Ground extends FieldObject {
 

@@ -1,18 +1,20 @@
 import 'Crate.dart';
 import 'Position.dart';
-
+/**
+ * the level persist of fieldObjects
+ */
 class FieldObject {
   Crate crate = null;
   //Position
   Position _position = new Position(0, 0);
   //pointer
-  FieldObject rightPointer;
+  FieldObject rightPointer;     //every fieldObject knows its neighbours
   FieldObject leftPointer;
   FieldObject upPointer;
   FieldObject downPointer;
 
   /**
-   * Constructor
+   * Constructor, sets all pointer null, QuattroLinkedList will manage them
    */
   FieldObject() {
     this.upPointer = null;
@@ -43,7 +45,7 @@ class FieldObject {
   }
 
   /**
-   * checks if the fieldobject has a crate
+   * checks if the fieldObject has a crate
    */
   bool hasCrate() {
     bool ret = false;
@@ -54,14 +56,15 @@ class FieldObject {
   }
 
   /**
-   * checks if passable
+   * determents if the fieldObject is passeble
+   * returns the list of changed Positions
    */
   List isPassable(FieldObject whereActorStaysOn, int pushPower) {
-    if (this.crate == null) {
+    if (this.crate == null) {     //if the fieldObject is empty the field is passeble
       List changedPositions = new List();
       changedPositions.add(this.getPositionAsString());
       return changedPositions;
-    } else if (pushPower > 0) {
+    } else if (pushPower > 0) {   //if the field contains a crate, the crate has to go. Crate will can only be moved if there is enough pushPower left
       return crate.move(whereActorStaysOn, pushPower);
     } else {
       return new List();

@@ -14,21 +14,21 @@ class Player {
   List<String> _noPositionChanges = new List(); //an empty list
 
   /**
-   * Constructor
+   * Constructor, sets the player on the given Ground
    */
   Player(FieldObject staysOn) {
     this._staysOn = staysOn;
   }
 
   /**
-   * the number of left sticky gloves
+   * returns the left Sticky Gloves
    */
   int getStickyGloveAmount() {
     return _stickyGloveAmount;
   }
 
   /**
-   * the number of left steroids
+   * returns the number of left steroids
    */
   int getSteroidAmount() {
     return _steroidAmount;
@@ -49,55 +49,54 @@ class Player {
   }
 
   /*
-  Moves the player to the upper position
-  returns true if possible, false if not
+  Tries to move the player up,
+  returns a list of changed positions
    */
   List<String> moveUp(int stickyGloveAmount, int steroidAmount) {
-    List changedPositions = new List();
-    _stickyGloveAmount = _stickyGloveAmount + stickyGloveAmount;
-    _steroidAmount = steroidAmount;
-    _pushPower = _pushPower + _steroidAmount;
-    bool cratePulled = false;
-    if (_staysOn.upPointer != null) {
+    List changedPositions = new List();                           //empty default list, in case the player cant move it doesnt has to be created. -> ok because there is only one player.
+    _stickyGloveAmount = _stickyGloveAmount + stickyGloveAmount;  //store the given sticky gloves until they are used
+    _steroidAmount = steroidAmount;                               //set the Amount of steroids the player was given
+    _pushPower = _pushPower + _steroidAmount;                     //convert the steroids to pushpower
+    bool cratePulled = false;                                     //escape var, the player cant pull and push at the same time
+    if (_staysOn.upPointer != null) {                             //you cant move on something that doesnt exist
       if (_stickyGloveAmount > 0 && _staysOn.downPointer.hasCrate() &&
           _staysOn.upPointer.hasCrate() == false && _staysOn.upPointer
           .isPassable(_staysOn, _pushPower)
-          .isEmpty == false) {
+          .isEmpty == false) {                                    //Check if the player can pull a crate
         changedPositions.add(_staysOn.downPointer.getPositionAsString());
-        _staysOn.downPointer.crate.moveUp(_pushPower);
-        _stickyGloveAmount--;
-        _stats.decGloves();
+        _staysOn.downPointer.crate.moveUp(_pushPower);            //move the crate
+        _stickyGloveAmount--;                                     //one of the stick gloves is used
+        _stats.decGloves();                                       //for the stats
         _stats.incUsedGloves();
-        cratePulled = true;
+        cratePulled = true;                                       //player cant push anymore in this move
       }
       changedPositions.addAll(
           _staysOn.upPointer.isPassable(_staysOn, _pushPower));
-      if (changedPositions.isEmpty == false) {
+      if (changedPositions.isEmpty == false) {                    //if the list is not empty it means the crate got pulled
         changedPositions.add(this._staysOn.getPositionAsString());
-        if (cratePulled == true) {
+        if (cratePulled == true) {                                //the List has to be sortet because the view doesnt know the difference between push and pull, the list has to be in the right order
           sortList(changedPositions);
         }
-        _staysOn = _staysOn.upPointer;
+        _staysOn = _staysOn.upPointer;                            //move the player
         _stats.incMoves();
-        if (steroidAmount > 0) {
+        if (steroidAmount > 0) {                                  //take care of the stats
           _stats.decSteroids(steroidAmount);
           _stats.incUsedSteroids(steroidAmount);
         }
         _pushPower = _stdPushPower;
         _steroidAmount = 0;
-        print(changedPositions);
-        return changedPositions;
+        return changedPositions;                                  //the player was able to move
       } else {
-        return _noPositionChanges;
+        return _noPositionChanges;                                //the player wasn´t able to move
       }
     } else {
-      return _noPositionChanges;
+      return _noPositionChanges;                                  //the player wasn´t able to move
     }
   }
 
   /*
-  Moves the player to the right position
-  returns true if possible, false if not
+  Tries to move the player to the right,
+  returns a list of changed positions
    */
   List<String> moveRight(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();
@@ -142,8 +141,8 @@ class Player {
   }
 
   /*
-  Moves the player to the position below
-  returns true if possible, false if not
+  Tries to move the player down,
+  returns a list of changed positions
    */
   List<String> moveDown(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();
@@ -188,8 +187,8 @@ class Player {
   }
 
   /*
-  Moves the player to the left position
-  returns true if possible, false if not
+Tries to move the player to the left,
+  returns a list of changed positions
    */
   List<String> moveLeft(int stickyGloveAmount, int steroidAmount) {
     List changedPositions = new List();

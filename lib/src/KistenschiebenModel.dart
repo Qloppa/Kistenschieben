@@ -7,20 +7,21 @@ import 'Target.dart';
 import 'Wall.dart';
 
 /**
- * The model of the Game. Manages the data, logic and rules of the application
+ * This class is the interface for the Controller.
+ *  It Provides all necessary informations and model-methods.
  */
 class KistenschiebenModel {
 
-  QuattroLinkedList _qlList = null;
-  Player _player = null;
-  Target _target = null;
-  Statistics _stats = null;
-  bool _playerExists = false;
-  int _countCrates = 0;
+  QuattroLinkedList _qlList = null;   //this will bne the level after loadLvl() // List of FieldObjecks
+  Player _player = null;              //The player that stands on a FieldObjeck in the _qlList
+  Target _target = null;              //The last created Target, it can be asked if the game is won, it´ll know
+  Statistics _stats = null;           //Will be an instance of Statistiks, Statistics aer the players inventory and the players stats for this level
+  bool _playerExists = false;         //only one player is allowed on in the level, if the imput is wrong and there is more than one player, the others have to be sortet out
+  int _countCrates = 0;               //The amount of the crates have to be at least bigger than the amout of targets, so we have to count them both
   int _countTargets = 0;
 
   /*
-  constructor
+    Konstructor, gets an instance of statistics
    */
   KistenschiebenModel() {
     _stats = Statistics.getInstance();
@@ -29,7 +30,8 @@ class KistenschiebenModel {
 //region LOAD AND BUILD LEVEL
 
   /**
-   * loads the level from a list
+   * Manages the constuction of the level
+   * uses the List of maps from the JSON
    */
   void loadLvl(List<Map> levelList, int row, int column) {
     bool firstLine = true;
@@ -38,15 +40,15 @@ class KistenschiebenModel {
     _qlList = new QuattroLinkedList();
     _playerExists = false;
     for (var map in levelList) {
-      firstLine = addNewLine(firstLine, map["r"].toUpperCase());
+      firstLine = addNewLine(firstLine, map["r"].toUpperCase()); // first in line is the Fieldobject where the next line will be connected to
     }
   }
 
   /**
-   * adds a new line of fieldobjects to the gamefield
+   * disassembles the line and adds uses other methods to add the right Fieldobject to the _qlList
    */
   bool addNewLine(bool firstLine, String line) {
-    if (firstLine == true) {
+    if (firstLine == true) {                    //if the first line is to be added there is nothing to add down to
       addRight(line);
       firstLine = false;
     } else {
@@ -64,7 +66,7 @@ class KistenschiebenModel {
   }
 
   /**
-   * Adds a new fieldobject right to the last one
+   * Adds a Fieldobject to the right
    */
   void addRight(String line) {
     Crate crate = null;
@@ -75,33 +77,33 @@ class KistenschiebenModel {
         firstChar = line.substring(0, 1);
         line = line.substring(1);
       } else {
-        firstChar = "G";
+        firstChar = "G";          //just in case the Line String is to short we add grounds, therefore the level will be at least loadable
       }
       switch (firstChar) {
         case 'W' :
-          _qlList.addRight(new Wall());
+          _qlList.addRight(new Wall());   //Adds a wall to the right
           break;
         case 'G' :
-          _qlList.addRight(new Ground());
+          _qlList.addRight(new Ground()); //Adds a ground to the right
           break;
         case 'P' :
           if (_playerExists == false) {
-            _player = new Player(_qlList.addRight(new Ground()));
+            _player = new Player(_qlList.addRight(new Ground())); //Adds a Ground to the right, creates the player and sets the player on the ground
             _playerExists = true;
-          } else {
+          } else {                                                //In case a player already exists, just add a groundobject
             _qlList.addRight(new Ground());
           }
           break;
         case 'C' :
-          crate = new Crate(_qlList.addRight(new Ground()));
+          crate = new Crate(_qlList.addRight(new Ground()));      //Adds a Ground and creates a Crate, puts the crate on the Ground
           crate.getStaysOn().setCrate(crate);
           _countCrates++;
           break;
         case 'T' :
-          _target = _qlList.addRight(new Target(_target));
+          _target = _qlList.addRight(new Target(_target));        //Adds a target to the right
           _countTargets++;
           break;
-        case 'S' :
+        case 'S' :                                                //Adds a target to the right, creates a crate and puts the crate on the target
           _target = new Target(_target);
           crate = new Crate(_qlList.addRight(_target));
           crate.getStaysOn().setCrate(crate);
@@ -116,7 +118,7 @@ class KistenschiebenModel {
   }
 
   /**
-   * Adds a new fieldObject below another
+   * First Fieldobjekt in the Line, has to be added under the first Fieldobject of the last line
    */
   void addDown(String firstChar) {
     Crate crate = null;
@@ -162,28 +164,28 @@ class KistenschiebenModel {
 //region MOVE
 
   /*
-   * tells the player to go up. Returns true if possible, false if not
+   * tells the player to go up. Returns a List of changed positions, if it is not possible to move the list will be empty
    */
   List<String> moveUp(int pullAmount, int pushAmount) {
     return _player.moveUp(pullAmount, pushAmount);
   }
 
   /*
-   * tells the player to go right. Returns true if possible, false if not
+   * tells the player to go right. Returns a List of changed positions, if it is not possible to move the list will be empty
    */
   List<String> moveRight(int pullAmount, int pushAmount) {
     return _player.moveRight(pullAmount, pushAmount);
   }
 
   /*
-   *tells the player to go down. Returns true if possible, false if not
+   * tells the player to go down. Returns a List of changed positions, if it is not possible to move the list will be empty
    */
   List<String> moveDown(int pullAmount, int pushAmount) {
     return _player.moveDown(pullAmount, pushAmount);
   }
 
   /*
-   * tells the player to go left. Returns true if possible, false if not
+   * tells the player to go Left. Returns a List of changed positions, if it is not possible to move the list will be empty
    */
   List<String> moveLeft(int pullAmount, int pushAmount) {
     return _player.moveLeft(pullAmount, pushAmount);
@@ -194,14 +196,14 @@ class KistenschiebenModel {
 //region GETTER & SETTER
 
   /**
-   * returns the X value of the position of the player
+   * returns the X value of the position of the player, needed for the moveTouch method
    */
   int getPlayerPosX() {
     return this._player.getPosX();
   }
 
   /**
-   * returns the Y value of the position of the player
+   * returns the Y value of the position of the player, needed for the moveTouch method
    */
   int getPlayerPosY() {
     return this._player.getPosY();
@@ -215,14 +217,14 @@ class KistenschiebenModel {
   }
 
   /**
-   * returns the amount of crates that can be pushed with one move by the player
+   * returns the amount of steroids the player has at the moment
    */
   int getSteroidAmount() {
     return _player.getSteroidAmount();
   }
 
   /**
-   * returns the pull amount
+   * returns the the amount of Stikygloves the play has at the moment
    */
   int getStickyGloveAmount() {
     return _player.getStickyGloveAmount();
@@ -301,11 +303,11 @@ class KistenschiebenModel {
 //endregion
 
   /**
-   * checks if the player has already won
+   * asks the target if the game is won.
    */
   bool checkWin() {
     bool ret = false;
-    if (_countCrates < _countTargets) {
+    if (_countCrates < _countTargets) { //if tehere are more targets than crates for whatever reason, win the game, so the game can go on
       ret = true;
     } else {
       ret = _target.getWon();

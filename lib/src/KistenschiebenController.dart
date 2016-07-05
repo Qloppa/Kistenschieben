@@ -8,7 +8,7 @@ import 'KistenschiebenView.dart';
 import 'LevelGenerator.dart';
 
 const gamekeyCheck = const Duration(seconds: 10);   //checks the gamekeyconenction every 10 seconds
-const gameSecret = "ad97258677ce8c26";              //the secret code for the gamekey-server
+const gameSecret = "9afb3645f1c82b92";              //the secret code for the gamekey-server
 const gamekeySettings = 'gamekey.json';             //path to the gamekey.json
 
 /**
