@@ -269,7 +269,7 @@ class KistenschiebenController {
 
     //Pullbutton listener
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
-      if (ksModel.getGloves() > 0) {
+      if (_stickyGloveAmount < ksModel.getGloves()) {
         _stickyGloveAmount++;
         ksView.setPullButton(_stickyGloveAmount);
       }
@@ -277,9 +277,9 @@ class KistenschiebenController {
 
     //Pushbutton listener
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      if (ksModel.getSteroids() > 0) {
+      if (_steroidAmount < ksModel.getSteroids()) {
         _steroidAmount++;
-        querySelector("#pushbutton").innerHtml = "Steroids($_steroidAmount)";
+        ksView.setPushButton(_steroidAmount);
       }
     });
     hoverlistener();
@@ -1019,14 +1019,10 @@ class KistenschiebenController {
    */
   bool moveUp() {
     List<String> positions = ksModel.moveUp(_stickyGloveAmount, _steroidAmount);
-    if (positions.length > 2) {
-      _stickyGloveAmount = 0;
-      ksView.setPullButton(ksModel.getStickyGloveAmount());
-      _steroidAmount = 0;
-      ksView.setPushButton(ksModel.getSteroidAmount());
-    } else {
-      _steroidAmount = 0;
-    }
+    _stickyGloveAmount = 0;
+    ksView.setPullButton(ksModel.getStickyGloveAmount());
+    _steroidAmount = 0;
+    ksView.setPushButton(ksModel.getSteroidAmount());
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -1042,14 +1038,10 @@ class KistenschiebenController {
   bool moveRight() {
     List<String> positions = ksModel.moveRight(
         _stickyGloveAmount, _steroidAmount);
-    if (positions.length > 2) {
-      _stickyGloveAmount = 0;
-      ksView.setPullButton(ksModel.getStickyGloveAmount());
-      _steroidAmount = 0;
-      ksView.setPushButton(ksModel.getSteroidAmount());
-    } else {
-      _steroidAmount = 0;
-    }
+    _stickyGloveAmount = 0;
+    ksView.setPullButton(ksModel.getStickyGloveAmount());
+    _steroidAmount = 0;
+    ksView.setPushButton(ksModel.getSteroidAmount());
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -1065,14 +1057,10 @@ class KistenschiebenController {
   bool moveDown() {
     List<String> positions = ksModel.moveDown(
         _stickyGloveAmount, _steroidAmount);
-    if (positions.length > 2) {
-      _stickyGloveAmount = 0;
-      ksView.setPullButton(ksModel.getStickyGloveAmount());
-      _steroidAmount = 0;
-      ksView.setPushButton(ksModel.getSteroidAmount());
-    } else {
-      _steroidAmount = 0;
-    }
+    _stickyGloveAmount = 0;
+    ksView.setPullButton(ksModel.getStickyGloveAmount());
+    _steroidAmount = 0;
+    ksView.setPushButton(ksModel.getSteroidAmount());
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();
@@ -1088,14 +1076,10 @@ class KistenschiebenController {
   bool moveLeft() {
     List<String> positions = ksModel.moveLeft(
         _stickyGloveAmount, _steroidAmount);
-    if (positions.length > 2) {
-      _stickyGloveAmount = 0;
-      ksView.setPullButton(ksModel.getStickyGloveAmount());
-      _steroidAmount = 0;
-      ksView.setPushButton(ksModel.getSteroidAmount());
-    } else {
-      _steroidAmount = 0;
-    }
+    _stickyGloveAmount = 0;
+    ksView.setPullButton(ksModel.getStickyGloveAmount());
+    _steroidAmount = 0;
+    ksView.setPushButton(ksModel.getSteroidAmount());
     if (positions.isEmpty == false) {
       String playerPos_old = positions.removeLast();
       String playerPos_new = positions.removeLast();

@@ -229,8 +229,10 @@ class Statistics {
    * decrements the number of steroids if possible and returns true. Returns false if not
    */
   decSteroids(int usedSteroids) {
-    if (_steroids > 0 && _steroids - usedSteroids >= 0) {
-      _steroids = _steroids - usedSteroids;
+    for (int i = 0; i<usedSteroids; i++) {
+      if (_steroids >= 0 && _steroids - usedSteroids >= 0) {
+        _steroids = _steroids - usedSteroids;
+      }
     }
   }
 
