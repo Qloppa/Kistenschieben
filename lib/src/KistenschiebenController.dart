@@ -1402,14 +1402,14 @@ class KistenschiebenController {
       genLvl.nextLvl();
       int saveGloves = ksModel.getGloves();
       if (_newGlove == 3) {
-        //adds a glove when the user has won 3 games
-        saveGloves++;
+        //adds 3 gloves when the user has won 3 games
+        saveGloves = saveGloves+3;
         _newGlove = 0;
       }
       int saveSteroids = ksModel.getSteroids();
       if (_newSteroids == 3) {
-        //adds a glove when the user has won 3 games
-        saveSteroids++;
+        //adds 3 gloves when the user has won 3 games
+        saveSteroids = saveSteroids+3;
         _newSteroids = 0;
       }
       ksModel.resetStatsTotal();
@@ -1432,7 +1432,7 @@ class KistenschiebenController {
     window.onResize.listen((EventListener) {
       ksView.scaling();
     });
-    setActualLevel(genLvl.getCurrentLevel() + 1);
+    setActualLevel(genLvl.getCurrentLevel()+1);
     querySelector("#resetbutton").style.visibility = "visible";
     querySelector("#pushbutton").style.visibility = "visible";
     querySelector("#pullbutton").style.visibility = "visible";
@@ -1451,7 +1451,7 @@ class KistenschiebenController {
         genLvl.getLvlList(), genLvl.getColumn(), genLvl.getRow())
         .whenComplete(reactTouch);
     ksModel.resetStats();
-    setActualLevel(genLvl.getCurrentLevel() + 1);
+    setActualLevel(genLvl.getCurrentLevel()+1);
     querySelector("#resetbutton").style.visibility = "visible";
     _steroidAmount = 0;
     _stickyGloveAmount = 0;
@@ -1483,7 +1483,7 @@ class KistenschiebenController {
   bool _setLevelByCode(String code) {
     int level = genLvl.getLevelByCode(code);
     if (level != -1) {
-      genLvl.setSelectlevel(level);
+      genLvl.setSelectlevel(level+1);
       genLvl.loadData().whenComplete(newGameRoutine);
       return true;
     }
