@@ -319,7 +319,7 @@ class KistenschiebenController {
   /**
    * Execute the register routine when startscreen is enabled
    */
-  registerRoutine() {
+  void registerRoutine() {
     ksView.userDates("Register");
     setTyping(true);
     if (onStartscreen == true && onLoginscreen == false &&
@@ -368,7 +368,7 @@ class KistenschiebenController {
   /**
    * Execute the login routine when startscreen is enabled
    */
-  loginRoutine() {
+  void loginRoutine() {
     ksView.userDates("Login");
     setTyping(true);
     if (onStartscreen == true && onLoginscreen == false &&
@@ -415,7 +415,7 @@ class KistenschiebenController {
   /**
    * Allows the user to play the game without functions to store the states if the startscreen is enabled
    */
-  withoutLoginRoutine() {
+  void withoutLoginRoutine() {
     setStartscreen(false);
     querySelector('#start').innerHtml = "";
     querySelector("#resetbutton").style.visibility = "visible";
@@ -427,7 +427,7 @@ class KistenschiebenController {
   /**
    * Reset
    */
-  resetRoutine() {
+  void resetRoutine() {
     querySelector("#registered").innerHtml = "";
     querySelector("#win").innerHtml = "";
     querySelector("#resetbutton").style.position = "";
@@ -555,7 +555,7 @@ class KistenschiebenController {
   /**
    * changes the view when a new game starts
    */
-  newGameRoutine() {
+  void newGameRoutine() {
     newGame();
     querySelector("#registered").innerHtml = "";
     querySelector("#start").innerHtml = "";
@@ -567,7 +567,7 @@ class KistenschiebenController {
   /**
    * allows the user to edit the own setting when the edit user screen is enabled
    */
-  editUserRoutine() {
+  void editUserRoutine() {
     querySelector("#registered").innerHtml = "";
     setLoginscreen(false);
     setStartscreen(false);
@@ -627,7 +627,7 @@ class KistenschiebenController {
    * allows the user to navigate through the instructions with buttons or Keyboard
    * depends on the enabled screen(on login screen or on registered screen ) chooses the about routine
    */
-  aboutRoutine() {
+  void aboutRoutine() {
     setTyping(true);
     setAboutScreen(true);
     int instructionNumber = 1;
@@ -743,7 +743,7 @@ class KistenschiebenController {
   /**
    * Displays the name of the about instructions
    */
-  instructionSet(int instructionNumber) {
+  void instructionSet(int instructionNumber) {
     switch (instructionNumber) {
       case 1:
         querySelector("#header").innerHtml = "Game objects";
@@ -831,7 +831,7 @@ class KistenschiebenController {
   /**
    * Enables changing the username
    */
-  changeNameRoutine() {
+  void changeNameRoutine() {
     setTyping(true);
     querySelector("#edituser").style.visibility = "hidden";
     ksView.changeUserName();
@@ -891,7 +891,7 @@ class KistenschiebenController {
   /**
    * Allows the user to change his password
    */
-  changePasswordRoutine() {
+  void changePasswordRoutine() {
     querySelector("#edituser").style.visibility = "hidden";
     ksView.changeUserPassword();
     setTyping(true);
@@ -934,7 +934,7 @@ class KistenschiebenController {
   /**
    * Allows the user to delete his own account
    */
-  deleteUserRoutine() {
+  void deleteUserRoutine() {
     querySelector("#edituser").style.visibility = "hidden";
     ksView.userDates("Delete");
     setTyping(true);
@@ -973,7 +973,7 @@ class KistenschiebenController {
   /**
    * Brings the user back to the screen for registered users
    */
-  backToRegisteredListener() {
+  void backToRegisteredListener() {
     querySelector("#edituser").innerHtml = "";
     setLoginscreen(true);
     setEditUserScreen(false);
@@ -1015,7 +1015,7 @@ class KistenschiebenController {
   /**
    * Routine to close the displayed winlayout,buttons and call the nxtlevel logic
    */
-  nextRoutine() {
+  void nextRoutine() {
     querySelector("#win").innerHtml = "";
     querySelector("#resetbutton").style.position = "";
     updateStats();
@@ -1251,10 +1251,10 @@ class KistenschiebenController {
   /*
   takes the positions of the player and the crates
    */
-  void updateViewPush(String playerPos_old, String playerPos_new,
-      List<String> crates_new) {
+  void updateViewPush(String playerPosOld, String playerPosNew,
+      List<String> cratesNew) {
     updateStats();
-    ksView.updateView(playerPos_old, playerPos_new, crates_new);
+    ksView.updateView(playerPosOld, playerPosNew, cratesNew);
     checkWin();
   }
 
@@ -1343,67 +1343,67 @@ class KistenschiebenController {
   /**
    * sets the status of the game to running or not
    */
-  setGameRunning(bool value) {
+  void setGameRunning(bool value) {
     gameRunning = value;
   }
 
   /**
    * sets the status of typing
    */
-  setTyping(bool value) {
+  void setTyping(bool value) {
     this.typing = value;
   }
 
   /**
    * sets the status of startscreen
    */
-  setStartscreen(bool value) {
+  void setStartscreen(bool value) {
     onStartscreen = value;
   }
 
   /**
    * sets the status of login screen
    */
-  setLoginscreen(bool value) {
+  void setLoginscreen(bool value) {
     onLoginscreen = value;
   }
 
   /**
    * sets the status of start screen buttons
    */
-  setStartscreenButtons(bool value) {
+  void setStartscreenButtons(bool value) {
     startscreenbuttons = value;
   }
 
   /**
    * sets the status of authentification
    */
-  setAuthentication(bool value) {
+  void setAuthentication(bool value) {
     authentication = value;
   }
 
   /**
    * sets the status of the edit user screen
    */
-  setEditUserScreen(bool value) {
+  void setEditUserScreen(bool value) {
     onEditUserScreen = value;
   }
 
   /**
    * sets the status of the about screen
    */
-  setAboutScreen(bool value) {
+  void setAboutScreen(bool value) {
     onAboutScreen = value;
   }
 
   /**
    * sets the status of saved
    */
-  setSaved(bool value) {
+  void setSaved(bool value) {
     isSaved = value;
   }
 
-  setRegistered(bool value) {
+  void setRegistered(bool value) {
     this.registered = value;
   }
 
@@ -1414,7 +1414,7 @@ class KistenschiebenController {
   /*
   Starts the next Level
   */
-  nextLvl() {
+  void nextLvl() {
     if (genLvl.getLevelValue() <= genLvl.getLevelAmount()) {
       genLvl.nextLvl();
       int saveGloves = ksModel.getGloves();
