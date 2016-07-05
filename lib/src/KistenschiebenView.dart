@@ -172,7 +172,7 @@ class KistenschiebenView {
     str += "</table>";
     String ret = "<div id=\"highscore\"><dt>$str</dt><div>";
     querySelector("#win").innerHtml =
-    "<div id=\"winoverlay\"><div>$ret</div><div id=\"stattablebuttons\"><button id=\"nextbutton\">Next Level</button><button id=\"savebutton\">Save Statistics</button></div></div>";
+    "<div id=\"winoverlay\"><div>$ret</div><div id=\"stattablebuttons\"><button id=\"nextbutton\">Next Level(&#x21b5)</button><button id=\"savebutton\">Save Statistics(S)</button></div></div>";
     querySelector("#resetbutton").style.position = "relative";
   }
 
@@ -302,14 +302,14 @@ class KistenschiebenView {
    * Sets the Content of the Pull Button
    */
   setPullButton(int amount) {
-    querySelector("#pullbutton").innerHtml = "Sticky gloves($amount)";
+    querySelector("#pullbutton").innerHtml = "Sticky gloves($amount)(G)";
   }
 
   /**
    * Sets the Content of the Push Button
    */
   setPushButton(int amount) {
-    querySelector("#pushbutton").innerHtml = "Steroids($amount)";
+    querySelector("#pushbutton").innerHtml = "Steroids($amount)(P)";
   }
 
   //endregion

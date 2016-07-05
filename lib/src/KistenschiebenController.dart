@@ -192,15 +192,39 @@ class KistenschiebenController {
           }
           break;
         case KeyCode.S:
-          if (finishedGame && logedIn) {
+          if (finishedGame && registered) {
             saveRoutine();
           }
           break;
+        case KeyCode.P:
+          if (!finishedGame) {
+            pushRoutine();
+          }
+          break;
+        case KeyCode.G:
+          if (!finishedGame) {
+            pullRoutine();
+          }
+          break;
+
       }
       return "";
     });
   }
 
+  pushRoutine() {
+    if (_steroidAmount < ksModel.getSteroids()) {
+      _steroidAmount++;
+      ksView.setPushButton(_steroidAmount);
+    }
+  }
+
+  pullRoutine() {
+    if (_stickyGloveAmount < ksModel.getGloves()) {
+      _stickyGloveAmount++;
+      ksView.setPullButton(_stickyGloveAmount);
+    }
+  }
 //endregion
 
 //region LISTENER
@@ -269,18 +293,12 @@ class KistenschiebenController {
 
     //Pullbutton listener
     querySelector("#pullbutton").onMouseDown.listen((MouseEvent e) {
-      if (_stickyGloveAmount < ksModel.getGloves()) {
-        _stickyGloveAmount++;
-        ksView.setPullButton(_stickyGloveAmount);
-      }
+      pullRoutine();
     });
 
     //Pushbutton listener
     querySelector("#pushbutton").onMouseDown.listen((MouseEvent e) {
-      if (_steroidAmount < ksModel.getSteroids()) {
-        _steroidAmount++;
-        ksView.setPushButton(_steroidAmount);
-      }
+      pushRoutine();
     });
     hoverlistener();
   }
@@ -422,6 +440,7 @@ class KistenschiebenController {
     resetGame();
     setSaved(false);
   }
+
 
   //endregion
 
@@ -609,6 +628,7 @@ class KistenschiebenController {
    * depends on the enabled screen(on login screen or on registered screen ) chooses the about routine
    */
   aboutRoutine() {
+    setTyping(true);
     setAboutScreen(true);
     int instructionNumber = 1;
     if (onStartscreen == true && gameRunning == false) {
@@ -698,19 +718,21 @@ class KistenschiebenController {
           }
           break;
         case KeyCode.BACKSPACE:
-          if (onStartscreen == true) {
+          if (onStartscreen == true && typing == true) {
             querySelector("#userinput").innerHtml = "";
             querySelector("#about").innerHtml = "";
             ksView.startScreen();
             startscreenListener();
             setAboutScreen(false);
+            setTyping(false);
             querySelector("#header").innerHtml = "Kistenschieben";
-          } else if (onLoginscreen == true) {
+          } else if (onLoginscreen == true && typing == true) {
             querySelector("#userinput").innerHtml = "";
             querySelector("#about").innerHtml = "";
             ksView.registeredScreen();
             registeredListener();
             setAboutScreen(false);
+            setTyping(false);
             querySelector("#header").innerHtml = "Kistenschieben";
           } else
             break;
@@ -778,11 +800,6 @@ class KistenschiebenController {
         case KeyCode.THREE:
           if (onEditUserScreen == true && onLoginscreen == false) {
             deleteUserRoutine();
-          }
-          break;
-        case KeyCode.BACKSPACE:
-          if (onEditUserScreen == true && onLoginscreen == false) {
-            backToRegisteredListener();
           }
           break;
       }
