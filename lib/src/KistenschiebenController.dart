@@ -316,6 +316,12 @@ class KistenschiebenController {
             querySelector("#userinput").innerHtml = "";
             setTyping(false);
             break;
+          case KeyCode.ESC:
+            querySelector("#userinput").innerHtml = "";
+            querySelector("#about").innerHtml = "";
+            ksView.startScreen();
+            startscreenListener();
+            setTyping(false);
         }
       });
     }
@@ -359,6 +365,11 @@ class KistenschiebenController {
             checklogin(username, password);
             setTyping(false);
             break;
+          case KeyCode.ESC:
+            querySelector("#userinput").innerHtml = "";
+            ksView.startScreen();
+            startscreenListener();
+            setTyping(false);
         }
       });
     }
@@ -554,14 +565,18 @@ class KistenschiebenController {
     querySelector("#registered").innerHtml = "";
     ksView.enterLvlCode();
     window.onKeyDown.listen((KeyboardEvent ev) {
-      if (ev.keyCode == KeyCode.ENTER && onLoginscreen == true) {
-        String code = ksView.lvlCode;
-        if (_setLevelByCode(code) == true) {
-          querySelector("#userinput").innerHtml = "";
+      switch (ev.keyCode) {
+        case KeyCode.ENTER:
+          if (onLoginscreen == true) {
+            String code = ksView.lvlCode;
+            if (_setLevelByCode(code) == true) {
+              querySelector("#userinput").innerHtml = "";
         } else {
           //Errorcode
 
         }
+
+      }
       }
     });
 
